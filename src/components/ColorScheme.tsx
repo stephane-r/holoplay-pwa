@@ -1,0 +1,28 @@
+import { ActionIcon, ColorScheme as ColorSchemeTypes } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+import { IconMoonStars, IconSun } from "@tabler/icons-react";
+import { memo } from "react";
+
+export const ColorScheme = memo(() => {
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorSchemeTypes>({
+    key: "mantine-color-scheme",
+    defaultValue: "light",
+    getInitialValueInEffect: true,
+  });
+  const dark = colorScheme === "dark";
+
+  const toggleColorScheme = (value?: ColorSchemeTypes) =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+
+  return (
+    <ActionIcon
+      variant="filled"
+      radius="md"
+      style={{ height: 36, width: 36 }}
+      onClick={() => toggleColorScheme()}
+      title="Toggle color scheme"
+    >
+      {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
+    </ActionIcon>
+  );
+});
