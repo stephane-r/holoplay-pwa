@@ -10,11 +10,18 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { IconCheck, IconClearAll, IconPlus } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconClearAll,
+  IconPlayerPlay,
+  IconPlus,
+} from "@tabler/icons-react";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
+import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
+import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
@@ -120,9 +127,14 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
           <Text size="xs" weight={600}>
             {playlist.videoCount} videos
           </Text>
-          {!isLocalPlaylist ? (
-            <ButtonSaveToPlaylist playlist={playlist} />
-          ) : null}
+          <Flex ml="auto" gap="xs">
+            {playlist.videos.length ? (
+              <ButtonPlay playlistId={playlist.playlistId as string} />
+            ) : null}
+            {!isLocalPlaylist ? (
+              <ButtonSaveToPlaylist playlist={playlist} />
+            ) : null}
+          </Flex>
         </Flex>
       </Card>
     );
@@ -143,8 +155,12 @@ const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
 
     return (
       <>
-        {displayVideos.map((video) => (
-          <Tooltip label={video.title} position="right">
+        {displayVideos.map((video, index) => (
+          <Tooltip
+            key={`playlist-videos-thumbnail—${video.title}-${index}`}
+            label={video.title}
+            position="right"
+          >
             <Box
               key={video.videoId}
               className={cx(classes.video)}
@@ -223,8 +239,24 @@ const ButtonSaveToPlaylist = memo(({ playlist }: { playlist: Playlist }) => {
       position="left"
       onClick={handleClick}
     >
-      <ActionIcon variant={isSavedPlaylist ? "default" : "filled"}>
+      <ActionIcon variant={isSavedPlaylist ? "default" : "filled"} radius="md">
         {isSavedPlaylist ? <IconCheck size={16} /> : <IconPlus size={16} />}
+      </ActionIcon>
+    </Tooltip>
+  );
+});
+
+const ButtonPlay = memo(({ playlistId }: { playlistId: string }) => {
+  const { handlePlay } = usePlayPlaylist();
+
+  return (
+    <Tooltip
+      label="Run playlist"
+      position="left"
+      onClick={() => handlePlay(playlistId)}
+    >
+      <ActionIcon variant="filled" radius="md">
+        <IconPlayerPlay size={16} />
       </ActionIcon>
     </Tooltip>
   );

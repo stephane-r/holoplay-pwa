@@ -8,61 +8,89 @@ import {
   Slider,
   Space,
   Text,
+  useMantineTheme,
 } from "@mantine/core";
-import {
-  IconPlaylist,
-  IconRepeat,
-  IconRepeatOnce,
-  IconVolume,
-} from "@tabler/icons-react";
+import { IconPlaylist, IconVolume } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import {
   usePlayerAudio,
   usePlayerState,
   usePlayerUrl,
   usePlayerVideo,
-  useSetPlayerState,
 } from "../providers/Player";
-import { PlayerAudio } from "./PlayerAudio";
 import { useMediaQuery } from "@mantine/hooks";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
 import { VideoList } from "./VideoList";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerProgress } from "./PlayerProgress";
 import { PlayerBackground } from "./PlayerBackground";
+import { ButtonRepeat } from "./ButtonRepeat";
+import { ButtonFavorite } from "./ButtonFavorite";
+import { ButtonDownload } from "./ButtonDownload";
 
 const useStyles = createStyles((theme) => ({
   container: {
     position: "absolute",
-    zIndex: 2,
+    zIndex: 3,
     right: 0,
     bottom: 0,
     left: 0,
     boxShadow: "10px 0 10px rgb(0 0 0 / 20%)",
   },
+  content: {
+    padding: theme.spacing.sm,
+
+    [`@media (min-width: ${theme.breakpoints.lg}px)`]: {
+      padding: theme.spacing.xl,
+    },
+  },
+  videoInformationsContainer: {
+    maxWidth: 100,
+
+    [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+      maxWidth: 320,
+      overflow: "hidden",
+    },
+
+    [`@media (min-width: ${theme.breakpoints.md}px)`]: {
+      maxWidth: 280,
+    },
+
+    [`@media (min-width: ${theme.breakpoints.lg}px)`]: {
+      maxWidth: 320,
+    },
+
+    [`@media (min-width: 2100px)`]: {
+      maxWidth: 440,
+    },
+  },
+  volume: {},
   thumbnail: {
     flex: "0 0 50px",
     height: 50,
     borderRadius: theme.radius.md,
+
+    [`@media (max-width: ${theme.breakpoints.lg}px)`]: {
+      display: "none",
+    },
   },
 }));
 
 export const Player = memo(() => {
   const { classes } = useStyles();
-  const playerUrl = usePlayerUrl();
   const matches = useMediaQuery("(max-width: 2140px)");
-
-  if (!playerUrl) {
-    return null;
-  }
+  const theme = useMantineTheme();
+  const showProgressBar = useMediaQuery(
+    `(min-width: ${theme.breakpoints.md}px)`
+  );
+  const showVolumeBar = useMediaQuery(`(min-width: ${theme.breakpoints.xl}px)`);
 
   return (
     <Box
       className={classes.container}
       style={{ display: matches ? "block" : "none" }}
     >
-      <Flex align="center" p="xl">
-        <PlayerAudio />
+      <Flex align="center" className={classes.content}>
         {matches ? (
           <>
             <PlayerBackground />
@@ -71,12 +99,24 @@ export const Player = memo(() => {
             <Flex align="center" style={{ flex: 1 }}>
               <PlayerActions />
               <Space w={60} />
-              <PlayerProgress />
-              <Space w={60} />
-              <PlayerRepeat />
-              <Space w={20} />
-              <PlayerVolume />
-              <Space w={60} />
+              {showProgressBar ? (
+                <>
+                  <PlayerProgress />
+                  <Space w={60} />
+                </>
+              ) : null}
+              <ButtonRepeat iconSize={20} />
+              <Space w="lg" />
+              <ButtonDownload iconSize={20} />
+              <Space w="lg" />
+              <ButtonFavorite iconSize={20} variant="transparent" />
+              {showVolumeBar ? (
+                <>
+                  <Space w={20} />
+                  <PlayerVolume />
+                </>
+              ) : null}
+              <Space w={40} />
               <PlayerPlaylist />
             </Flex>
           </>
@@ -91,14 +131,18 @@ const VideoInformations = memo(() => {
   const { video, thumbnailUrl } = usePlayerVideo();
 
   return (
-    <Flex align="center" style={{ maxWidth: 400 }} gap="lg">
+    <Flex
+      align="center"
+      className={classes.videoInformationsContainer}
+      gap="lg"
+    >
       <Box
         style={{
           background: `url(${thumbnailUrl}) center center / cover grey`,
         }}
         className={classes.thumbnail}
       />
-      <Box>
+      <Box maw="100%">
         <Text color="white" lineClamp={1}>
           {video?.title}
         </Text>
@@ -110,30 +154,8 @@ const VideoInformations = memo(() => {
   );
 });
 
-const PlayerRepeat = memo(() => {
-  const playerState = usePlayerState();
-  const playerAudio = usePlayerAudio();
-  const setPlayerState = useSetPlayerState();
-
-  const handleClick = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    audio.loop = !playerState.repeat;
-
-    setPlayerState((previousState) => ({
-      ...previousState,
-      repeat: !previousState.repeat,
-    }));
-  };
-
-  return (
-    <ActionIcon onClick={handleClick}>
-      {playerState.repeat ? <IconRepeatOnce /> : <IconRepeat />}
-    </ActionIcon>
-  );
-});
-
 const PlayerVolume = memo(() => {
+  const { classes } = useStyles();
   const playerState = usePlayerState();
   const playerAudio = usePlayerAudio();
 
@@ -144,9 +166,9 @@ const PlayerVolume = memo(() => {
   };
 
   return (
-    <Flex align="center" gap="sm" w={200}>
+    <Flex align="center" gap="sm" w={140} className={classes.volume}>
       <ActionIcon>
-        <IconVolume />
+        <IconVolume size={20} />
       </ActionIcon>
       <Box style={{ flex: 1 }}>
         <Slider
@@ -182,7 +204,7 @@ const PlayerPlaylist = memo(() => {
         </ScrollArea>
       </Drawer>
       <ActionIcon onClick={() => setOpened(true)}>
-        <IconPlaylist />
+        <IconPlaylist size={20} />
       </ActionIcon>
     </>
   );

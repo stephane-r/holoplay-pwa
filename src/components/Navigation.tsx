@@ -86,7 +86,53 @@ const NavbarLink = memo(
   }
 );
 
-export const Navigation = () => {
+export const navigationItems = [
+  {
+    icon: IconHome2,
+    label: "Home",
+    route: "/",
+  },
+  {
+    icon: IconSearch,
+    label: "Search",
+    route: "/search",
+  },
+  {
+    icon: IconGauge,
+    label: "Trending",
+    route: "/trending",
+  },
+  {
+    icon: IconDeviceDesktopAnalytics,
+    label: "Most popular",
+    route: "/most-popular",
+  },
+  {
+    icon: IconHeart,
+    label: "Favorites",
+    route: "/favorites",
+  },
+  {
+    icon: IconMusic,
+    label: "Playlists",
+    route: "/playlists",
+  },
+];
+
+export const navigationItemsSecondary = [
+  {
+    icon: IconSettings,
+    label: "Settings",
+    route: "/settings",
+  },
+  {
+    icon: IconInfoCircle,
+    label: "About",
+    route: "/about",
+  },
+];
+
+export const Navigation = memo(() => {
   const navigate = useNavigate();
   const location = useLocation();
   const { cx, classes } = useStyles();
@@ -149,7 +195,7 @@ export const Navigation = () => {
       </Navbar.Section>
     </Navbar>
   );
-};
+});
 
 const SearchLink = memo(() => {
   const navigate = useNavigate();

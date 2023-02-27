@@ -1,4 +1,12 @@
-import { Box, createStyles, Flex, Kbd, Select, TextInput } from "@mantine/core";
+import {
+  Box,
+  createStyles,
+  Flex,
+  Kbd,
+  Select,
+  TextInput,
+  useMantineTheme,
+} from "@mantine/core";
 import { memo, useState } from "react";
 import { IconAdjustmentsAlt, IconSearch } from "@tabler/icons-react";
 import {
@@ -9,6 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Search, SearchTypes } from "../types/interfaces/Search";
 import { Form } from "./Form";
+import { useMediaQuery } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -38,10 +47,12 @@ export const SearchBar = memo(() => {
   const navigate = useNavigate();
   const [query, setQuery] = useState(searchValues);
   const { classes } = useStyles();
+  const theme = useMantineTheme();
+  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.md}px)`);
 
   const handleSubmit = () => {
     setSearchValues(query);
-    search();
+    search(query);
     navigate(`/search?query=${query.query}&type=${query.type}`);
   };
 
@@ -57,15 +68,16 @@ export const SearchBar = memo(() => {
       <Form className={classes.form} onSubmit={handleSubmit}>
         <TextInput
           icon={<IconSearch size={15} />}
-          placeholder="Search"
+          placeholder="What do you want hear today ?"
           onChange={(event) => handleChange(event.target.value, "query")}
           radius="md"
           value={query.query}
-          rightSectionWidth={185}
+          rightSectionWidth={matches ? 185 : 132}
           rightSection={
             <TextInputRight
               value={query.type}
               onChange={(type: SearchTypes) => handleChange(type, "type")}
+              matches={matches}
             />
           }
         />
@@ -79,15 +91,17 @@ const TextInputRight = memo(
   ({
     value,
     onChange,
+    matches,
   }: {
     value: SearchTypes;
     onChange: (searchType: SearchTypes) => void;
+    matches: boolean;
   }) => {
     const { classes } = useStyles();
 
     return (
       <>
-        <Kbd className={classes.kbd}>⌘ + K</Kbd>
+        {matches ? <Kbd className={classes.kbd}>⌘ + K</Kbd> : null}
         <Box w={125} ml={6}>
           <Select
             placeholder="Type"

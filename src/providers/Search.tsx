@@ -1,3 +1,4 @@
+import { showNotification } from "@mantine/notifications";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useQueryClient } from "react-query";
 import { useUrlParams } from "../hooks/useUrlParams";
@@ -122,7 +123,12 @@ export const useSearchData = () => {
       );
       setSearchResult(result);
     } catch (error) {
-      console.log(error);
+      showNotification({
+        title: "Error",
+        // @ts-ignore
+        message: error.message,
+        color: "red",
+      });
     } finally {
       setLoading(false);
     }

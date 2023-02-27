@@ -1,9 +1,9 @@
 import { memo } from "react";
-import { PlaylistList } from "../components/PlaylistList";
 import { PageHeader } from "../components/PageHeader";
 import { ModalCreatePlaylist } from "../components/ModalCreatePlaylist";
 import { usePlaylists } from "../providers/Playlist";
 import { CardList } from "../components/CardList";
+import { Alert } from "@mantine/core";
 
 export const PlaylistsPage = memo(() => {
   return (
@@ -17,6 +17,14 @@ export const PlaylistsPage = memo(() => {
 
 const PlaylistListContainer = memo(() => {
   const playlists = usePlaylists();
+
+  if (!playlists.length) {
+    return (
+      <Alert title="But, why?" color="blue" radius="md">
+        You have no playlists
+      </Alert>
+    );
+  }
 
   return <CardList data={playlists as any} />;
 });

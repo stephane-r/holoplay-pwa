@@ -1,4 +1,4 @@
-import { IconPlayerPlay } from "@tabler/icons-react";
+import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
 import {
   Card as MCard,
   Text,
@@ -6,12 +6,22 @@ import {
   ActionIcon,
   createStyles,
   LoadingOverlay,
+  Badge,
+  Flex,
+  UnstyledButton,
+  Box,
 } from "@mantine/core";
-import { memo } from "react";
+import React, { memo } from "react";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { CardMenu } from "./CardMenu";
 import { ButtonFavorite } from "./ButtonFavorite";
 import { usePlayVideo } from "../hooks/usePlayVideo";
+import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
+import {
+  usePlayerAudio,
+  usePlayerState,
+  usePlayerVideo,
+} from "../providers/Player";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -26,6 +36,7 @@ const useStyles = createStyles((theme) => ({
   },
   imageContainer: {
     overflow: "hidden",
+    padding: theme.spacing.sm,
     position: "relative",
     background: "grey",
     minHeight: 152,
@@ -53,27 +64,53 @@ export const Card: React.FC<CardProps> = memo(({ video }) => {
     (thumbnail) => thumbnail.quality === "maxresdefault"
   ) as VideoThumbnail;
 
+  const videoDuration = displayTimeBySeconds(video.lengthSeconds);
+
   return (
     <MCard withBorder radius="md" p="sm" className={classes.card}>
+      <HackedCardPress videoId={video.videoId} />
       <LoadingOverlay visible={loading} overlayBlur={2} />
-      <CardImage image={image} title={video.title} />
-      <MCard.Section className={classes.section} mt="sm">
-        <Group position="apart">
-          <Text lineClamp={2} style={{ height: 50 }} title={video.title}>
-            {video.title}
-          </Text>
-        </Group>
-      </MCard.Section>
-      <Group mt="xs" style={{ marginTop: 14, justifyContent: "flex-end" }}>
-        <ActionIcon
-          variant="default"
-          radius="md"
-          size={36}
-          style={{ marginRight: "auto" }}
+      <UnstyledButton
+        style={{ width: "100%" }}
+        onClick={() => handlePlay(video.videoId)}
+      >
+        <CardImage image={image} title={video.title}>
+          <Flex
+            align="center"
+            gap="xs"
+            style={{ zIndex: 2, position: "relative" }}
+          >
+            <Badge variant="filled" size="xs">
+              {videoDuration}
+            </Badge>
+            {video.liveNow || videoDuration === "00:00" ? (
+              <Badge variant="filled" size="xs" color="red">
+                Live
+              </Badge>
+            ) : null}
+          </Flex>
+        </CardImage>
+        <MCard.Section className={classes.section} mt="sm">
+          <Group position="apart">
+            <Text lineClamp={2} style={{ height: 50 }} title={video.title}>
+              {video.title}
+            </Text>
+          </Group>
+        </MCard.Section>
+      </UnstyledButton>
+      <Group
+        mt="xs"
+        style={{
+          marginTop: 14,
+          justifyContent: "flex-end",
+          position: "relative",
+          zIndex: 3,
+        }}
+      >
+        <ButtonPlayPause
           onClick={() => handlePlay(video.videoId)}
-        >
-          <IconPlayerPlay size={18} stroke={1.5} />
-        </ActionIcon>
+          videoId={video.videoId}
+        />
         <ButtonFavorite video={video} />
         <CardMenu video={video} />
       </Group>
@@ -81,22 +118,105 @@ export const Card: React.FC<CardProps> = memo(({ video }) => {
   );
 });
 
+const HackedCardPress = memo(({ videoId }: { videoId: string }) => {
+  const { video } = usePlayerVideo();
+
+  if (video?.videoId !== videoId) {
+    return null;
+  }
+
+  return (
+    <Box
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 2,
+      }}
+    />
+  );
+});
+
 interface CardImageProps {
   image: VideoThumbnail;
   title: string;
+  children: React.ReactNode;
 }
 
-const CardImage: React.FC<CardImageProps> = memo(({ image, title }) => {
+const CardImage: React.FC<CardImageProps> = ({ image, title, children }) => {
   const { classes } = useStyles();
 
   return (
-    <div className={classes.imageContainer}>
+    <Flex
+      className={classes.imageContainer}
+      align="flex-end"
+      justify="flex-end"
+    >
       <img
         src={image?.url as string}
         alt={title}
         className={classes.image}
         loading="lazy"
       />
-    </div>
+      {children}
+    </Flex>
+  );
+};
+
+const ButtonPlayPause = memo(
+  ({ onClick, videoId }: { onClick: () => void; videoId: string }) => {
+    const { video } = usePlayerVideo();
+
+    if (video?.videoId === videoId) {
+      return <ButtonAudioPlayPause />;
+    }
+
+    return <ButtonPlay onClick={onClick} />;
+  }
+);
+
+const ButtonPlay = memo(({ onClick }: { onClick: () => void }) => {
+  return (
+    <ActionIcon
+      variant="default"
+      radius="md"
+      size={36}
+      style={{ marginRight: "auto" }}
+      onClick={() => onClick()}
+      title="Play"
+    >
+      <IconPlayerPlay size={18} stroke={1.5} />
+    </ActionIcon>
+  );
+});
+
+const ButtonAudioPlayPause = memo(() => {
+  const playerAudio = usePlayerAudio();
+  const playerState = usePlayerState();
+
+  const handlePlayPause = () => {
+    // @ts-ignore
+    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  };
+
+  return (
+    <ActionIcon
+      variant="default"
+      radius="md"
+      size={36}
+      style={{ marginRight: "auto" }}
+      title={playerState.paused ? "Play" : "Pause"}
+      onClick={handlePlayPause}
+    >
+      {playerState.paused ? <IconPlayerPlay /> : <IconPlayerPause />}
+    </ActionIcon>
   );
 });

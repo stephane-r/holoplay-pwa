@@ -14,7 +14,7 @@ export const PlayerProgress = memo(() => {
 
   return (
     <Flex align="center" gap="xl" style={{ flex: 1 }}>
-      <Text size="sm" color="white">
+      <Text size="xs" color="white">
         {String(playerState.currentTime)}
       </Text>
       <Box style={{ flex: 1 }}>
@@ -25,7 +25,7 @@ export const PlayerProgress = memo(() => {
           size="xs"
         />
       </Box>
-      <Text size="sm" color="white">
+      <Text size="xs" color="white">
         {String(playerState.duration)}
       </Text>
     </Flex>

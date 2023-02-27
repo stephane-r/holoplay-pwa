@@ -1,4 +1,4 @@
-import { Box, Space } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { memo } from "react";
 import { Video as VideoType } from "../types/interfaces/Video";
 import { Video } from "./Video";

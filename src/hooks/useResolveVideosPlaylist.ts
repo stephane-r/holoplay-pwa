@@ -1,5 +1,8 @@
 import { useLocation } from "react-router-dom";
-import { getFavoritePlaylist, getPlaylist } from "../database/utils";
+import {
+  getFavoritePlaylist,
+  getPlaylist as getLocalPlaylist,
+} from "../database/utils";
 import { queryClient } from "../queryClient";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
@@ -15,7 +18,7 @@ export const useResolveVideosPlaylist = () => {
       const isLocalPlaylist = Number(playlistId);
 
       if (isLocalPlaylist) {
-        videos = getPlaylist(Number(playlistId)).videos;
+        videos = getLocalPlaylist(Number(playlistId)).videos;
       } else {
         const remotePlaylist = queryClient.getQueriesData(
           `playlist-${playlistId}`

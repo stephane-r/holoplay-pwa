@@ -1,4 +1,4 @@
-import { LoadingOverlay, Text } from "@mantine/core";
+import { Alert, LoadingOverlay, Text } from "@mantine/core";
 import { memo } from "react";
 import { PageHeader } from "../components/PageHeader";
 import { SearchResult } from "../components/SearchResult";
@@ -27,8 +27,12 @@ const SearchResultContainer = memo(() => {
   const { loading } = useSearchLoading();
   const searchResult = useSearchResult();
 
-  if (searchResult.length === 0) {
-    return <Text>No data</Text>;
+  if (searchResult.length === 0 && !loading) {
+    return (
+      <Alert title="Oh, wait" color="blue" radius="md">
+        For show result, you need to add keys in search bar
+      </Alert>
+    );
   }
 
   return (

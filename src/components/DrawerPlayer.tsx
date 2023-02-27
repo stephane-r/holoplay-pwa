@@ -13,11 +13,15 @@ import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
 import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
-import { VideoThumbnail } from "../types/interfaces/Video";
+import { Video, VideoThumbnail } from "../types/interfaces/Video";
+import { ButtonFavorite } from "./ButtonFavorite";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
+import { ButtonRepeat } from "./ButtonRepeat";
 import { PlayerProgress } from "./PlayerProgress";
 import { VideoList } from "./VideoList";
+import { ButtonDownload } from "./ButtonDownload";
+import { ButtonShare } from "./ButtonShare";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -30,21 +34,28 @@ const useStyles = createStyles((theme) => ({
     height: "calc(100vh - 500px)",
   },
   thumbnail: {
-    maxWidth: 320,
+    maxWidth: "100%",
     borderRadius: theme.radius.md,
     marginBottom: theme.spacing.xl,
+
+    [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+      maxWidth: 320,
+    },
+  },
+  progressContainer: {
+    width: "100%",
+
+    [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+      paddingLeft: theme.spacing.xl,
+      paddingRight: theme.spacing.xl,
+    },
   },
 }));
 
 export const DrawerPlayer = memo(() => {
   const { classes } = useStyles();
-  const matches = useMediaQuery("(min-width: 2140px)");
   const playerUrl = usePlayerUrl();
   const playerPlaylist = usePlayerPlaylist();
-
-  if (!matches) {
-    return null;
-  }
 
   const cardStyles = {
     width: playerUrl ? 500 : 0,
@@ -59,15 +70,7 @@ export const DrawerPlayer = memo(() => {
         <Box p="xl">
           <Title order={3}>Now playing</Title>
           <Space h={36} />
-          <Flex justify="center" align="center" direction="column">
-            <VideoInformations />
-            <Space h="xl" />
-            <Box style={{ width: "100%", paddingLeft: 40, paddingRight: 40 }}>
-              <PlayerProgress />
-            </Box>
-            <Space h="xl" />
-            <PlayerActions />
-          </Flex>
+          <DrawerPlayerVideo />
         </Box>
         <Space h="md" />
         <Divider />
@@ -82,6 +85,34 @@ export const DrawerPlayer = memo(() => {
         </Box>
       </Box>
     </Card>
+  );
+});
+
+export const DrawerPlayerVideo = memo(() => {
+  const { classes } = useStyles();
+  const { video } = usePlayerVideo();
+
+  return (
+    <>
+      <Flex justify="center" align="center" direction="column">
+        <VideoInformations />
+        <Space h="xl" />
+        <Flex gap="md">
+          <ButtonDownload iconSize={16} />
+          <ButtonShare iconSize={16} />
+        </Flex>
+        <Space h="xl" />
+        <Flex className={classes.progressContainer}>
+          <PlayerProgress />
+        </Flex>
+        <Space h="xl" />
+        <Flex align="center" gap="xl">
+          <ButtonRepeat iconSize={16} />
+          <PlayerActions />
+          <ButtonFavorite video={video as Video} variant="transparent" />
+        </Flex>
+      </Flex>
+    </>
   );
 });
 
@@ -100,12 +131,14 @@ const VideoInformations = memo(() => {
   return (
     <Box style={{ textAlign: "center", maxWidth: 400 }}>
       <img src={image.url} alt={video.title} className={classes.thumbnail} />
-      <Text color="white" weight={600} lineClamp={1}>
-        {video.title}
-      </Text>
-      <Text lineClamp={1} size="sm">
-        {video.description}
-      </Text>
+      <div>
+        <Text color="white" weight={600} lineClamp={1}>
+          {video.title}
+        </Text>
+        <Text lineClamp={1} size="sm">
+          {video.description}
+        </Text>
+      </div>
     </Box>
   );
 });

@@ -47,11 +47,13 @@ export const CardList: React.FC<CardListProps> = memo(({ data }) => {
   const currentPath = location.pathname.replace("/", "");
   const { cx, classes } = useStyles();
 
+  if (!data.length) return null;
+
   return (
     <Box className={cx(classes.grid)}>
-      {data.map((item) => (
+      {data.map((item, index) => (
         <Box
-          key={`${currentPath}—${item.videoId}-${item.authorId}`}
+          key={`${currentPath}—${item.title}-${index}`}
           className={cx(classes.column)}
         >
           {item.type === "playlist" ? (

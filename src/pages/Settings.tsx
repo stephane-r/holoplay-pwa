@@ -1,15 +1,14 @@
-import { Text } from "@mantine/core";
+import { Alert, Text } from "@mantine/core";
 import { memo } from "react";
 import { PageHeader } from "../components/PageHeader";
-import { useSettings } from "../providers/Settings";
 
 export const SettingsPage = memo(() => {
-  const settings = useSettings();
-
   return (
     <div>
       <PageHeader title="Settings" />
-      <Text>{settings.currentInstance?.domain}</Text>
+      <Alert title="Oops">
+        <Text>This page is in working progress</Text>
+      </Alert>
     </div>
   );
 });

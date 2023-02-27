@@ -29,6 +29,10 @@ const useStyles = createStyles((theme) => ({
   image: {
     maxWidth: 100,
     borderRadius: theme.radius.md,
+
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      display: "none",
+    },
   },
 }));
 

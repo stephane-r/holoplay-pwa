@@ -1,4 +1,4 @@
-import { ActionIcon } from "@mantine/core";
+import { ActionIcon, ActionIconProps } from "@mantine/core";
 import { IconHeart } from "@tabler/icons-react";
 import { memo } from "react";
 import { showNotification } from "@mantine/notifications";
@@ -7,15 +7,20 @@ import { getFavoritePlaylist } from "../database/utils";
 import { useFavorite, useSetFavorite } from "../providers/Favorite";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
+import { usePlayerVideo } from "../providers/Player";
 
-interface ButtonFavoriteProps {
-  video: Video;
+interface ButtonFavoriteProps extends ActionIconProps {
+  video?: Video;
+  iconSize?: number;
 }
 
 export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
-  ({ video }) => {
+  ({ video: parentVideo, iconSize = 18, variant = "default" }) => {
     const favorite = useFavorite();
     const setFavorite = useSetFavorite();
+    const { video: currentVideo } = usePlayerVideo();
+
+    const video = parentVideo ?? (currentVideo as Video);
 
     const isFavorite = favorite.videos.find(
       (favVideo) => favVideo.videoId === video.videoId
@@ -66,13 +71,13 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
 
     return (
       <ActionIcon
-        variant={isFavorite ? "filled" : "default"}
+        variant={isFavorite ? "filled" : variant}
         color={isFavorite ? "pink" : "gray"}
         radius="md"
         size={36}
         onClick={onClick}
       >
-        <IconHeart color="pink" size={18} stroke={1.5} />
+        <IconHeart color="pink" size={iconSize} stroke={1.5} />
       </ActionIcon>
     );
   }

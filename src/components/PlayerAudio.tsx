@@ -1,17 +1,21 @@
 import { Box } from "@mantine/core";
 import { memo } from "react";
 import ReactAudioPlayer from "react-audio-player";
+import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
   usePlayerAudio,
   usePlayerUrl,
   useSetPlayerState,
 } from "../providers/Player";
+import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 
 export const PlayerAudio = memo(() => {
   const playerAudio = usePlayerAudio();
   const playerUrl = usePlayerUrl();
   const setPlayerState = useSetPlayerState();
+  const { handlePlay: play } = usePlayVideo();
+  const { videosIds } = usePreviousNextVideos();
 
   const handlePause = () => {
     setPlayerState((previousState) => ({
@@ -27,7 +31,13 @@ export const PlayerAudio = memo(() => {
     }));
   };
 
-  const handleEnd = () => {};
+  const handleEnd = () => {
+    // @ts-ignore
+    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+    if (!audio.loop && videosIds.nextVideoId) {
+      play(videosIds.nextVideoId);
+    }
+  };
 
   const handleListen = (currentTime: number) => {
     // @ts-ignore
@@ -52,7 +62,6 @@ export const PlayerAudio = memo(() => {
       <ReactAudioPlayer
         ref={playerAudio}
         src={playerUrl as string}
-        // src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
         autoPlay
         controls
         listenInterval={100}
