@@ -7,7 +7,7 @@ import {
   TextInput,
   useMantineTheme,
 } from "@mantine/core";
-import { memo, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { IconAdjustmentsAlt, IconSearch } from "@tabler/icons-react";
 import {
   useSearchData,
@@ -49,8 +49,10 @@ export const SearchBar = memo(() => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(min-width: ${theme.breakpoints.md}px)`);
+  const inputRef = useRef<null | HTMLInputElement>(null);
 
   const handleSubmit = () => {
+    inputRef.current?.blur();
     setSearchValues(query);
     search(query);
     navigate(`/search?query=${query.query}&type=${query.type}`);
@@ -67,6 +69,7 @@ export const SearchBar = memo(() => {
     <Flex align="center" gap={16} className={classes.container}>
       <Form className={classes.form} onSubmit={handleSubmit}>
         <TextInput
+          ref={inputRef}
           icon={<IconSearch size={15} />}
           placeholder="What do you want hear today ?"
           onChange={(event) => handleChange(event.target.value, "query")}

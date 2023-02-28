@@ -35,34 +35,46 @@ const useStyles = createStyles((theme) => ({
       gridTemplateColumns: "repeat(7, 1fr)",
     },
   },
+  flexGrid: {
+    display: "flex",
+    flexDirection: "row",
+    gap: theme.spacing.lg,
+    overflow: "auto",
+  },
   column: {},
+  flexColumn: {
+    flex: "0 0 277px",
+  },
 }));
 
 interface CardListProps {
   data: Video[];
+  scrollable?: boolean;
 }
 
-export const CardList: React.FC<CardListProps> = memo(({ data }) => {
-  const location = useLocation();
-  const currentPath = location.pathname.replace("/", "");
-  const { cx, classes } = useStyles();
+export const CardList: React.FC<CardListProps> = memo(
+  ({ data, scrollable = false }) => {
+    const location = useLocation();
+    const currentPath = location.pathname.replace("/", "");
+    const { classes } = useStyles();
 
-  if (!data.length) return null;
+    if (!data.length) return null;
 
-  return (
-    <Box className={cx(classes.grid)}>
-      {data.map((item, index) => (
-        <Box
-          key={`${currentPath}—${item.title}-${index}`}
-          className={cx(classes.column)}
-        >
-          {item.type === "playlist" ? (
-            <PlaylistCard playlist={item as any} />
-          ) : (
-            <Card video={item} />
-          )}
-        </Box>
-      ))}
-    </Box>
-  );
-});
+    return (
+      <Box className={scrollable ? classes.flexGrid : classes.grid}>
+        {data.map((item, index) => (
+          <Box
+            key={`${currentPath}—${item.title}-${index}`}
+            className={scrollable ? classes.flexColumn : classes.column}
+          >
+            {item.type === "playlist" ? (
+              <PlaylistCard playlist={item as any} />
+            ) : (
+              <Card video={item} />
+            )}
+          </Box>
+        ))}
+      </Box>
+    );
+  }
+);

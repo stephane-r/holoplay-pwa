@@ -29,7 +29,7 @@ export const getPlaylist = (playlistId: number): Playlist => {
 
 export const getVideosHistory = (): Video[] => {
   return db.queryAll("history", {
-    sort: [["ID", "ASC"]],
+    sort: [["ID", "DESC"]],
   });
 };
 
