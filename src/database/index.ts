@@ -28,6 +28,19 @@ const initDb = () => {
     db.commit();
   }
 
+  if (!db.tableExists("history")) {
+    db.createTable("history", [
+      "videoThumbnails",
+      "description",
+      "formatStreams",
+      "lengthSeconds",
+      "title",
+      "type",
+      "videoId",
+      "videoThumbnails",
+    ]);
+  }
+
   return db;
 };
 

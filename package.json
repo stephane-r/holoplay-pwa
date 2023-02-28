@@ -1,6 +1,6 @@
 {
-  "name": "holoplay",
-  "version": "0.1.0",
+  "name": "holoplay-pwa",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@codemotion/color-thief": "^2.0.5",
@@ -12,9 +12,6 @@
     "@mantine/notifications": "^5.10.4",
     "@tabler/icons": "^2.4.0",
     "@tabler/icons-react": "^2.4.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.12",
     "@types/react": "^18.0.28",
@@ -25,6 +22,7 @@
     "react": "^18.2.0",
     "react-audio-player": "^0.17.0",
     "react-dom": "^18.2.0",
+    "react-horizontal-scroll-grid": "^0.1.4",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
@@ -33,9 +31,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [

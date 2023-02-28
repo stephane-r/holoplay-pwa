@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { getSettings } from "../database/utils";
+import { getLastVideoPlayed, getSettings } from "../database/utils";
+import { useSetHistory } from "../providers/History";
 import { useSetPlayerUrl, useSetPlayerVideo } from "../providers/Player";
 import { useSetPlayerPlaylist } from "../providers/PlayerPlaylist";
 import { useSetPreviousNextVideos } from "../providers/PreviousNextTrack";
@@ -35,6 +36,7 @@ export const usePlayVideo = () => {
   const getVideosPlaylist = useResolveVideosPlaylist();
   const setPlayerPlaylist = useSetPlayerPlaylist();
   const setPreviousNextVideos = useSetPreviousNextVideos();
+  const setHistory = useSetHistory();
 
   const handlePlay = async (
     videoId: string,
@@ -59,6 +61,10 @@ export const usePlayVideo = () => {
       const colors = await colorExtractor
         .extractColor(videoThumbnailUrl)
         .catch(console.log);
+
+      if (getLastVideoPlayed()?.videoId !== videoId) {
+        setHistory(data.video);
+      }
 
       setPlayerUrl(data.url);
       setPlayerVideo({

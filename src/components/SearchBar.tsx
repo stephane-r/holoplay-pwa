@@ -24,7 +24,7 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
 
     [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
-      maxWidth: 420,
+      maxWidth: 460,
     },
 
     [`@media (min-width: 1900px)`]: {

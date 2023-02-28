@@ -8,6 +8,7 @@ import { FavoritesPage } from "../pages/Favorites";
 import { PlaylistDetailPage } from "../pages/PlaylistDetail";
 import { PlaylistsPage } from "../pages/Playlists";
 import { PopularPage } from "../pages/Popular";
+import { RootPage } from "../pages/Root";
 import { SearchPage } from "../pages/Search";
 import { SettingsPage } from "../pages/Settings";
 import { TrendingPage } from "../pages/Trending";
@@ -15,8 +16,12 @@ import { TrendingPage } from "../pages/Trending";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <DashboardPage />,
+    element: <RootPage />,
     children: [
+      {
+        element: <DashboardPage />,
+        index: true,
+      },
       {
         path: "search",
         element: <SearchPage />,

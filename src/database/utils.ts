@@ -1,6 +1,7 @@
 import { db } from ".";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Settings } from "../types/interfaces/Settings";
+import { Video } from "../types/interfaces/Video";
 
 export const getSettings = (): Settings => {
   return db.queryAll("settings", { query: { ID: 1 } })[0];
@@ -24,4 +25,14 @@ export const getLocalPlaylists = (): Playlist[] => {
 
 export const getPlaylist = (playlistId: number): Playlist => {
   return db.queryAll("playlists", { query: { ID: playlistId } })[0];
+};
+
+export const getVideosHistory = (): Video[] => {
+  return db.queryAll("history", {
+    sort: [["ID", "ASC"]],
+  });
+};
+
+export const getLastVideoPlayed = (): Video => {
+  return getVideosHistory()[0];
 };

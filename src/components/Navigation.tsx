@@ -154,7 +154,7 @@ export const Navigation = memo(() => {
       </Center>
       <Navbar.Section grow mt={32}>
         <Stack justify="center" spacing={0}>
-          <NavbarLink icon={IconHome2} label="Home" {...isActive("/")} />
+          <NavbarLink icon={IconHome2} label="Dashboard" {...isActive("/")} />
           <SearchLink />
           <NavbarLink
             icon={IconGauge}

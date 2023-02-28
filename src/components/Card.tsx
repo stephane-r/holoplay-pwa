@@ -54,69 +54,78 @@ const useStyles = createStyles((theme) => ({
 
 interface CardProps {
   video: Video;
+  component?: "div" | "li";
 }
 
-export const Card: React.FC<CardProps> = memo(({ video }) => {
-  const { handlePlay, loading } = usePlayVideo();
-  const { classes } = useStyles();
+export const Card: React.FC<CardProps> = memo(
+  ({ video, component = "div" }) => {
+    const { handlePlay, loading } = usePlayVideo();
+    const { classes } = useStyles();
 
-  const image = video.videoThumbnails.find(
-    (thumbnail) => thumbnail.quality === "maxresdefault"
-  ) as VideoThumbnail;
+    const image = video.videoThumbnails.find(
+      (thumbnail) => thumbnail.quality === "maxresdefault"
+    ) as VideoThumbnail;
 
-  const videoDuration = displayTimeBySeconds(video.lengthSeconds);
+    const videoDuration = displayTimeBySeconds(video.lengthSeconds);
 
-  return (
-    <MCard withBorder radius="md" p="sm" className={classes.card}>
-      <HackedCardPress videoId={video.videoId} />
-      <LoadingOverlay visible={loading} overlayBlur={2} />
-      <UnstyledButton
-        style={{ width: "100%" }}
-        onClick={() => handlePlay(video.videoId)}
+    return (
+      <MCard
+        withBorder
+        component={component}
+        radius="md"
+        p="sm"
+        className={classes.card}
       >
-        <CardImage image={image} title={video.title}>
-          <Flex
-            align="center"
-            gap="xs"
-            style={{ zIndex: 2, position: "relative" }}
-          >
-            <Badge variant="filled" size="xs">
-              {videoDuration}
-            </Badge>
-            {video.liveNow || videoDuration === "00:00" ? (
-              <Badge variant="filled" size="xs" color="red">
-                Live
-              </Badge>
-            ) : null}
-          </Flex>
-        </CardImage>
-        <MCard.Section className={classes.section} mt="sm">
-          <Group position="apart">
-            <Text lineClamp={2} style={{ height: 50 }} title={video.title}>
-              {video.title}
-            </Text>
-          </Group>
-        </MCard.Section>
-      </UnstyledButton>
-      <Group
-        mt="xs"
-        style={{
-          marginTop: 14,
-          justifyContent: "flex-end",
-          position: "relative",
-          zIndex: 3,
-        }}
-      >
-        <ButtonPlayPause
+        <HackedCardPress videoId={video.videoId} />
+        <LoadingOverlay visible={loading} overlayBlur={2} />
+        <UnstyledButton
+          style={{ width: "100%" }}
           onClick={() => handlePlay(video.videoId)}
-          videoId={video.videoId}
-        />
-        <ButtonFavorite video={video} />
-        <CardMenu video={video} />
-      </Group>
-    </MCard>
-  );
-});
+        >
+          <CardImage image={image} title={video.title}>
+            <Flex
+              align="center"
+              gap="xs"
+              style={{ zIndex: 2, position: "relative" }}
+            >
+              <Badge variant="filled" size="xs">
+                {videoDuration}
+              </Badge>
+              {video.liveNow || videoDuration === "00:00" ? (
+                <Badge variant="filled" size="xs" color="red">
+                  Live
+                </Badge>
+              ) : null}
+            </Flex>
+          </CardImage>
+          <MCard.Section className={classes.section} mt="sm">
+            <Group position="apart">
+              <Text lineClamp={2} style={{ height: 50 }} title={video.title}>
+                {video.title}
+              </Text>
+            </Group>
+          </MCard.Section>
+        </UnstyledButton>
+        <Group
+          mt="xs"
+          style={{
+            marginTop: 14,
+            justifyContent: "flex-end",
+            position: "relative",
+            zIndex: 3,
+          }}
+        >
+          <ButtonPlayPause
+            onClick={() => handlePlay(video.videoId)}
+            videoId={video.videoId}
+          />
+          <ButtonFavorite video={video} />
+          <CardMenu video={video} />
+        </Group>
+      </MCard>
+    );
+  }
+);
 
 const HackedCardPress = memo(({ videoId }: { videoId: string }) => {
   const { video } = usePlayerVideo();
