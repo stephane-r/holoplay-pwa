@@ -5,6 +5,7 @@ import {
 import { AboutPage } from "../pages/About";
 import { DashboardPage } from "../pages/Dashboard";
 import { FavoritesPage } from "../pages/Favorites";
+import { HistoryPage } from "../pages/History";
 import { PlaylistDetailPage } from "../pages/PlaylistDetail";
 import { PlaylistsPage } from "../pages/Playlists";
 import { PopularPage } from "../pages/Popular";
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <AboutPage />,
+      },
+      {
+        path: "history",
+        element: <HistoryPage />,
       },
       {
         path: "playlists/:playlistId",

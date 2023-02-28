@@ -16,6 +16,9 @@ import {
   IconHeart,
   IconSearch,
   IconMusic,
+  IconHistory,
+  IconUsers,
+  IconTrendingUp,
 } from "@tabler/icons-react";
 import { Logo } from "./Logo";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -158,12 +161,12 @@ export const Navigation = memo(() => {
           <NavbarLink icon={IconHome2} label="Dashboard" {...isActive("/")} />
           <SearchLink />
           <NavbarLink
-            icon={IconGauge}
+            icon={IconTrendingUp}
             label="Trending"
             {...isActive("/trending")}
           />
           <NavbarLink
-            icon={IconDeviceDesktopAnalytics}
+            icon={IconUsers}
             label="Most popular"
             {...isActive("/most-popular")}
           />
@@ -176,6 +179,11 @@ export const Navigation = memo(() => {
             icon={IconMusic}
             label="Playlists"
             {...isActive("/playlists")}
+          />
+          <NavbarLink
+            icon={IconHistory}
+            label="History"
+            {...isActive("/history")}
           />
         </Stack>
       </Navbar.Section>

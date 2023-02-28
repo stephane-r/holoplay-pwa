@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import {
   getFavoritePlaylist,
   getPlaylist as getLocalPlaylist,
+  getVideosHistory,
 } from "../database/utils";
 import { queryClient } from "../queryClient";
 import { Playlist } from "../types/interfaces/Playlist";
@@ -38,6 +39,9 @@ export const useResolveVideosPlaylist = () => {
     // if (location.pathname === "/search") {
     //   videos = queryClient.getQueriesData("search")[0][1] as Video[];
     // }
+    if (location.pathname === "/history") {
+      videos = getVideosHistory();
+    }
 
     return videos;
   };
