@@ -3,6 +3,7 @@ import { memo } from "react";
 import { Box, NavLink } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { navigationItems, navigationItemsSecondary } from "./Navigation";
+import { AppVersion } from "./AppVersion";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -59,6 +60,9 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = memo(
             {...isActive(navItem.route)}
           />
         ))}
+        <Box pl="sm">
+          <AppVersion />
+        </Box>
       </Box>
     );
   }

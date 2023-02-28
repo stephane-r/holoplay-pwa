@@ -21,6 +21,7 @@ import { Logo } from "./Logo";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSearchUrl } from "../hooks/useSearchUrl";
 import { PlayerSpace } from "./Player";
+import { AppVersion } from "./AppVersion";
 
 export const NAVIGATION_WIDTH = 88;
 
@@ -190,6 +191,7 @@ export const Navigation = memo(() => {
             label="Settings"
             {...isActive("/settings")}
           />
+          <AppVersion align="center" />
         </Stack>
         <PlayerSpace />
       </Navbar.Section>
