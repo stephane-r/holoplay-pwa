@@ -1,23 +1,6 @@
-import {
-  Burger,
-  createStyles,
-  Divider,
-  Space,
-  useMantineTheme,
-} from "@mantine/core";
-import { useMediaQuery, useToggle } from "@mantine/hooks";
+import { createStyles, Divider, Space } from "@mantine/core";
 import { memo } from "react";
-import { Badge, Box, NavLink } from "@mantine/core";
-import {
-  IconHome2,
-  IconGauge,
-  IconChevronRight,
-  IconActivity,
-  IconCircleOff,
-  IconDeviceDesktopAnalytics,
-  IconHeart,
-  IconMusic,
-} from "@tabler/icons-react";
+import { Box, NavLink } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { navigationItems, navigationItemsSecondary } from "./Navigation";
 

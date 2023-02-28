@@ -1,4 +1,4 @@
-import { Alert, LoadingOverlay, Text } from "@mantine/core";
+import { Alert, LoadingOverlay } from "@mantine/core";
 import { memo } from "react";
 import { PageHeader } from "../components/PageHeader";
 import { SearchResult } from "../components/SearchResult";

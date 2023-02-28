@@ -1,4 +1,4 @@
-import { ActionIcon, Box } from "@mantine/core";
+import { ActionIcon } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
 import { memo } from "react";
 import { usePlayerUrl } from "../providers/Player";

@@ -97,6 +97,7 @@ const useSearchUrlQuery = () => {
       setSearchValues(params);
       search(params);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

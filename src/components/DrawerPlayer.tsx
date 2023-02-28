@@ -9,7 +9,6 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
 import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";

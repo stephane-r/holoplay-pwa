@@ -1,5 +1,3 @@
-// @ts-ignore
-import HScrollGrid from "react-horizontal-scroll-grid";
 import { memo } from "react";
 import { useHistory } from "../providers/History";
 import { HorizontalGridList } from "./HorizontalGridList";

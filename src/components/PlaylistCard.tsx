@@ -10,18 +10,12 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import {
-  IconCheck,
-  IconClearAll,
-  IconPlayerPlay,
-  IconPlus,
-} from "@tabler/icons-react";
+import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
-import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
