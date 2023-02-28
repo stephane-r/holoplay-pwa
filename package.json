@@ -7,6 +7,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mantine/core": "^5.10.4",
+    "@mantine/form": "^5.10.5",
     "@mantine/hooks": "^5.10.4",
     "@mantine/modals": "^5.10.4",
     "@mantine/notifications": "^5.10.4",

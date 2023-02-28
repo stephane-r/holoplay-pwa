@@ -7,8 +7,9 @@ import {
   TextInput,
   useMantineTheme,
 } from "@mantine/core";
-import { memo, useRef, useState } from "react";
+import { memo, useRef } from "react";
 import { IconAdjustmentsAlt, IconSearch } from "@tabler/icons-react";
+import { useForm } from "@mantine/form";
 import {
   useSearchData,
   useSearchValues,
@@ -43,45 +44,42 @@ const useStyles = createStyles((theme) => ({
 export const SearchBar = memo(() => {
   const setSearchValues = useSetSearchValues();
   const { search } = useSearchData();
-  const searchValues = useSearchValues() as Search;
+  const searchValues = useSearchValues();
   const navigate = useNavigate();
-  const [query, setQuery] = useState(searchValues);
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(min-width: ${theme.breakpoints.md}px)`);
   const inputRef = useRef<null | HTMLInputElement>(null);
 
-  const handleSubmit = () => {
-    inputRef.current?.blur();
-    setSearchValues(query);
-    search(query);
-    navigate(`/search?query=${query.query}&type=${query.type}`);
-  };
+  const form = useForm({
+    initialValues: searchValues,
+    validate: {
+      query: (value) => value.length === 0,
+    },
+  });
 
-  const handleChange = (value: string, key: "query" | "type") => {
-    setQuery((previousState) => ({
-      ...previousState,
-      [key]: value,
-    }));
+  const handleSubmit = (values: Search) => {
+    inputRef.current?.blur();
+    setSearchValues(values);
+    search(values);
+    navigate(`/search?query=${values.query}&type=${values.type}`);
   };
 
   return (
     <Flex align="center" gap={16} className={classes.container}>
-      <Form className={classes.form} onSubmit={handleSubmit}>
+      <Form
+        className={classes.form}
+        onSubmit={form.onSubmit((values) => handleSubmit(values))}
+      >
         <TextInput
           ref={inputRef}
           icon={<IconSearch size={15} />}
           placeholder="What do you want hear today ?"
-          onChange={(event) => handleChange(event.target.value, "query")}
           radius="md"
-          value={query.query}
+          {...form.getInputProps("query")}
           rightSectionWidth={matches ? 185 : 132}
           rightSection={
-            <TextInputRight
-              value={query.type}
-              onChange={(type: SearchTypes) => handleChange(type, "type")}
-              matches={matches}
-            />
+            <TextInputRight {...form.getInputProps("type")} matches={matches} />
           }
         />
         <button type="submit" style={{ display: "none" }} />
@@ -117,7 +115,7 @@ const TextInputRight = memo(
               { value: "playlist", label: "Playlists" },
             ]}
             onChange={onChange}
-            styles={(theme) => ({
+            styles={() => ({
               input: {
                 minHeight: 20,
                 height: 20,

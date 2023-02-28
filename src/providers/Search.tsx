@@ -1,7 +1,6 @@
 import { showNotification } from "@mantine/notifications";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useQueryClient } from "react-query";
-import { useUrlParams } from "../hooks/useUrlParams";
 import { search } from "../services/search";
 import { Search, SearchTypes } from "../types/interfaces/Search";
 import { Video } from "../types/interfaces/Video";
@@ -26,13 +25,18 @@ interface SearchProviderrProps {
   children: React.ReactNode;
 }
 
+const getSearchParams = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    query: (urlParams.get("query") as string) ?? "",
+    type: (urlParams.get("type") as SearchTypes) ?? "video",
+  };
+};
+
 export const SearchProvider: React.FC<SearchProviderrProps> = ({
   children,
 }) => {
-  const [value, setValue] = useState<Search>({
-    query: "",
-    type: "video",
-  });
+  const [value, setValue] = useState<Search>(getSearchParams());
   const [result, setResult] = useState<Video[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -82,23 +86,15 @@ const SearchUrlQuery = () => {
 };
 
 const useSearchUrlQuery = () => {
-  // Can not use react-router-dom useUrlParams hook
-  // because it create a few re-render in this case
-  const searchParams = useUrlParams();
-  const setSearchValues = useSetSearchValues();
+  const searchValues = useSearchValues();
+  const searchResult = useSearchResult();
   const { search } = useSearchData();
 
   useEffect(() => {
-    if (searchParams.get("query") && searchParams.get("type")) {
-      const params = {
-        query: searchParams.get("query") as string,
-        type: searchParams.get("type") as SearchTypes,
-      };
-      setSearchValues(params);
-      search(params);
+    if (searchValues.query.length > 0 && searchResult.length === 0) {
+      search(searchValues);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [search, searchValues, searchResult]);
 };
 
 export const useSearchValues = () => useContext(SearchValueContext);

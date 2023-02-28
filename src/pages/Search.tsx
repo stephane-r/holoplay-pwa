@@ -20,7 +20,13 @@ export const SearchPage = memo(() => {
 const PageHeaderContainer = memo(() => {
   const searchValues = useSearchValues();
 
-  return <PageHeader title={`Search results : ${searchValues.query}`} />;
+  return (
+    <PageHeader
+      title={`Search results ${
+        searchValues.query.length > 0 ? `: ${searchValues.query}` : ""
+      }`}
+    />
+  );
 });
 
 const SearchResultContainer = memo(() => {
