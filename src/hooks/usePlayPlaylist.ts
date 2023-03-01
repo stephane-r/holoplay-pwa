@@ -1,18 +1,23 @@
 import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
-import { getPlaylist } from "../services/playlist";
+import { getPlaylist as getRemotePlaylist } from "../services/playlist";
+import { getPlaylist as getLocalPlaylist } from "../database/utils";
 import { usePlayVideo } from "./usePlayVideo";
 
 export const usePlayPlaylist = () => {
   const [loading, setLoading] = useState(false);
   const { handlePlay: play } = usePlayVideo();
 
-  const handlePlay = async (playlistId: string) => {
+  const handlePlay = async (playlistId: string | number) => {
     setLoading(true);
 
     try {
-      const data = await getPlaylist(playlistId);
+      const isLocalPlaylist = Number(playlistId);
+      const data = isLocalPlaylist
+        ? getLocalPlaylist(playlistId as number)
+        : await getRemotePlaylist(playlistId as string);
       const [firstVideo] = data.videos;
+
       play(firstVideo.videoId, data.videos);
     } catch (error) {
       showNotification({

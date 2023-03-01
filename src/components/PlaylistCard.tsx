@@ -73,7 +73,7 @@ interface PlaylistCardProps {
 
 export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
   ({ playlist }) => {
-    const { classes, cx } = useStyles();
+    const { classes } = useStyles();
     const navigate = useNavigate();
 
     const goToPlaylist = () => {
@@ -84,7 +84,7 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
     const isLocalPlaylist = Boolean(playlist.ID);
 
     return (
-      <Card withBorder radius="md" p="xl" className={cx(classes.card)}>
+      <Card withBorder radius="md" p="xl" className={classes.card}>
         <Flex gap={8}>
           <VideosThumbnail
             videos={playlist.videos}
@@ -123,7 +123,11 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
           </Text>
           <Flex ml="auto" gap="xs">
             {playlist.videos.length ? (
-              <ButtonPlay playlistId={playlist.playlistId as string} />
+              <ButtonPlay
+                playlistId={
+                  (playlist.ID as number) ?? (playlist.playlistId as string)
+                }
+              />
             ) : null}
             {!isLocalPlaylist ? (
               <ButtonSaveToPlaylist playlist={playlist} />
@@ -142,7 +146,7 @@ interface VideosThumbnailProps {
 
 const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
   ({ videos, videoCount }) => {
-    const { classes, cx } = useStyles();
+    const { classes } = useStyles();
 
     const displayVideos = videos.slice(-4);
     const restOfVideosCount = videoCount - displayVideos.length;
@@ -157,7 +161,7 @@ const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
           >
             <Box
               key={video.videoId}
-              className={cx(classes.video)}
+              className={classes.video}
               style={{
                 backgroundImage: `url(${getLowQualityThumbnail(
                   video.videoThumbnails
@@ -167,7 +171,7 @@ const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
           </Tooltip>
         ))}
         {restOfVideosCount > 0 ? (
-          <Box className={cx(classes.more)}>
+          <Box className={classes.more}>
             <Tooltip
               label={`${restOfVideosCount} more videos`}
               position="right"
@@ -240,7 +244,7 @@ const ButtonSaveToPlaylist = memo(({ playlist }: { playlist: Playlist }) => {
   );
 });
 
-const ButtonPlay = memo(({ playlistId }: { playlistId: string }) => {
+const ButtonPlay = memo(({ playlistId }: { playlistId: number | string }) => {
   const { handlePlay } = usePlayPlaylist();
 
   return (
