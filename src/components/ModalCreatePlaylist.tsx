@@ -12,6 +12,7 @@ import { memo, useState } from "react";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
+import { Form } from "./Form";
 import { Modal } from "./Modal";
 
 export const ModalCreatePlaylist = memo(() => {
@@ -46,23 +47,22 @@ export const ModalCreatePlaylist = memo(() => {
         size="lg"
         title="Create new playlist"
       >
-        <TextInput
-          data-autofocus
-          placeholder="My awesome title"
-          label="Title"
-          onChange={(event) => setPlaylistTitle(event.target.value)}
-        />
-        <Flex gap={8} justify="flex-end" mt="xl">
-          <Button onClick={() => setOpened(false)} color="gray">
-            Cancel
-          </Button>
-          <Button
-            onClick={handleAddToPlaylist}
-            disabled={playlistTitle.length === 0}
-          >
-            Create playlist
-          </Button>
-        </Flex>
+        <Form onSubmit={handleAddToPlaylist}>
+          <TextInput
+            data-autofocus
+            placeholder="My awesome title"
+            label="Title"
+            onChange={(event) => setPlaylistTitle(event.target.value)}
+          />
+          <Flex gap={8} justify="flex-end" mt="xl">
+            <Button onClick={() => setOpened(false)} color="gray">
+              Cancel
+            </Button>
+            <Button type="submit" disabled={playlistTitle.length === 0}>
+              Create playlist
+            </Button>
+          </Flex>
+        </Form>
       </Modal>
       <Box style={{ position: "absolute", bottom: 32, right: 32, zIndex: 2 }}>
         <Tooltip label="Create new playlist" position="left">

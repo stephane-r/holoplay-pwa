@@ -15,6 +15,7 @@ import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
 import { formatToOptionsCollection } from "../utils/formatToOptions";
+import { Form } from "./Form";
 import { Modal } from "./Modal";
 
 interface ModalAddToPlaylistProps {
@@ -107,45 +108,52 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
           size="lg"
           title="Add video to playlist"
         >
-          {!playlistsIsEmpty ? (
-            <>
-              <Text>
-                Select the playlist to wich you want to add your video
-              </Text>
-              <Space h={4} />
-              <Select
-                label="Playlists"
-                placeholder="Your playlist"
-                data={formatToOptionsCollection(playlists)}
-                onChange={setSelectedPlaylistId}
-              />
-            </>
-          ) : null}
-          {!selectedPlaylistId ? (
-            <>
-              <Space h={24} />
-              <Divider />
-              <Space h={16} />
-              <Text>Or create new playlist</Text>
-              {playlistsIsEmpty ? (
-                <Text>Create your first playlist</Text>
-              ) : null}
-              <Space h={4} />
-              <TextInput
-                placeholder="My awesome title"
-                label="Title"
-                onChange={(event) => setNewPlaylistTitle(event.target.value)}
-              />
-            </>
-          ) : null}
-          <Flex gap={8} justify="flex-end" mt="xl">
-            <Button onClick={onClose} color="gray">
-              Cancel
-            </Button>
-            <Button onClick={handleAddToPlaylist} disabled={disabled}>
-              Add to playlist
-            </Button>
-          </Flex>
+          <Form onSubmit={handleAddToPlaylist}>
+            {!playlistsIsEmpty ? (
+              <>
+                <Text>
+                  Select the playlist to wich you want to add your video
+                </Text>
+                <Space h={4} />
+                <Select
+                  label="Playlists"
+                  placeholder="Your playlist"
+                  data={formatToOptionsCollection(playlists)}
+                  onChange={setSelectedPlaylistId}
+                />
+                {!selectedPlaylistId ? (
+                  <>
+                    <Space h={24} />
+                    <Divider />
+                    <Space h={16} />
+                    <Text>Or create new playlist</Text>
+                  </>
+                ) : null}
+              </>
+            ) : null}
+            {!selectedPlaylistId ? (
+              <>
+                {playlistsIsEmpty ? (
+                  <Text>Create your first playlist</Text>
+                ) : null}
+                <Space h={4} />
+                <TextInput
+                  data-autofocus
+                  placeholder="My awesome title"
+                  label="Title"
+                  onChange={(event) => setNewPlaylistTitle(event.target.value)}
+                />
+              </>
+            ) : null}
+            <Flex gap={8} justify="flex-end" mt="xl">
+              <Button onClick={onClose} color="gray">
+                Cancel
+              </Button>
+              <Button type="submit" disabled={disabled}>
+                Add to playlist
+              </Button>
+            </Flex>
+          </Form>
         </Modal>
       </>
     );
