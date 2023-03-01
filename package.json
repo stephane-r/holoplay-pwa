@@ -1,6 +1,6 @@
 {
   "name": "holoplay-pwa",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "dependencies": {
     "@codemotion/color-thief": "^2.0.5",
