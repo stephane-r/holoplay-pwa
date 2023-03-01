@@ -17,6 +17,7 @@ import { PlayerContainer } from "../containers/Player";
 import { DrawerPlayerContainer } from "../containers/DrawerPlayer";
 import { PreviousNextTrackProvider } from "../providers/PreviousNextTrack";
 import { HistoryProvider } from "../providers/History";
+import { SpotlightProvider } from "../providers/Spotlight";
 
 const useStyles = createStyles(() => ({
   scrollArea: {
@@ -44,26 +45,28 @@ export const App: React.FC<AppProps> = ({ children }) => {
                     <HistoryProvider>
                       <ColorSchemeProvider>
                         <MantineProvider>
-                          <NotificationsProvider>
-                            <Flex>
-                              <NavigationContainer />
-                              <ScrollArea
-                                className={cx(classes.scrollArea)}
-                                style={{
-                                  position: "static",
-                                }} // Stay in inline-styles for now
-                              >
-                                <Flex>
-                                  <Box style={{ flex: 1 }}>
-                                    <Header />
-                                    <Main>{children}</Main>
-                                  </Box>
-                                  <DrawerPlayerContainer />
-                                </Flex>
-                                <PlayerContainer />
-                              </ScrollArea>
-                            </Flex>
-                          </NotificationsProvider>
+                          <SpotlightProvider>
+                            <NotificationsProvider>
+                              <Flex>
+                                <NavigationContainer />
+                                <ScrollArea
+                                  className={cx(classes.scrollArea)}
+                                  style={{
+                                    position: "static",
+                                  }} // Stay in inline-styles for now
+                                >
+                                  <Flex>
+                                    <Box style={{ flex: 1 }}>
+                                      <Header />
+                                      <Main>{children}</Main>
+                                    </Box>
+                                    <DrawerPlayerContainer />
+                                  </Flex>
+                                  <PlayerContainer />
+                                </ScrollArea>
+                              </Flex>
+                            </NotificationsProvider>
+                          </SpotlightProvider>
                         </MantineProvider>
                       </ColorSchemeProvider>
                     </HistoryProvider>

@@ -11,6 +11,7 @@
     "@mantine/hooks": "^5.10.4",
     "@mantine/modals": "^5.10.4",
     "@mantine/notifications": "^5.10.4",
+    "@mantine/spotlight": "^5.10.5",
     "@tabler/icons": "^2.4.0",
     "@tabler/icons-react": "^2.4.0",
     "@types/jest": "^27.5.2",
