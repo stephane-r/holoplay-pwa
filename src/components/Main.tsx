@@ -13,10 +13,10 @@ interface MainProps {
 }
 
 export const Main: React.FC<MainProps> = ({ children }) => {
-  const { cx, classes } = useStyles();
+  const { classes } = useStyles();
 
   return (
-    <main className={cx(classes.main)}>
+    <main className={classes.main}>
       {children}
       <PlayerSpace />
     </main>

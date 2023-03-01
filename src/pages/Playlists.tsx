@@ -3,13 +3,17 @@ import { PageHeader } from "../components/PageHeader";
 import { ModalCreatePlaylist } from "../components/ModalCreatePlaylist";
 import { usePlaylists } from "../providers/Playlist";
 import { CardList } from "../components/CardList";
-import { Alert } from "@mantine/core";
+import { Alert, Box, Flex } from "@mantine/core";
 
 export const PlaylistsPage = memo(() => {
   return (
     <div>
-      <PageHeader title="Playlists" />
-      <ModalCreatePlaylist />
+      <Flex gap={20} align="center">
+        <Box mb="xl">
+          <ModalCreatePlaylist />
+        </Box>
+        <PageHeader title="Playlists" />
+      </Flex>
       <PlaylistListContainer />
     </div>
   );

@@ -64,18 +64,16 @@ export const ModalCreatePlaylist = memo(() => {
           </Flex>
         </Form>
       </Modal>
-      <Box style={{ position: "absolute", bottom: 32, right: 32, zIndex: 2 }}>
-        <Tooltip label="Create new playlist" position="left">
-          <ActionIcon
-            onClick={() => setOpened(true)}
-            variant="filled"
-            size="xl"
-            radius="xl"
-          >
-            <IconPlus />
-          </ActionIcon>
-        </Tooltip>
-      </Box>
+      <Tooltip label="Create new playlist" position="left">
+        <ActionIcon
+          onClick={() => setOpened(true)}
+          variant="filled"
+          radius="xl"
+          size="lg"
+        >
+          <IconPlus size={20} />
+        </ActionIcon>
+      </Tooltip>
     </>
   );
 });
