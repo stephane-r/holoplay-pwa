@@ -1,11 +1,4 @@
-import {
-  Button,
-  Flex,
-  TextInput,
-  ActionIcon,
-  Box,
-  Tooltip,
-} from "@mantine/core";
+import { Button, Flex, TextInput, ActionIcon, Tooltip } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { IconPlus } from "@tabler/icons-react";
 import { memo, useState } from "react";

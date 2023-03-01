@@ -10,7 +10,7 @@ import {
 import { showNotification } from "@mantine/notifications";
 import { memo, useMemo, useState } from "react";
 import { db } from "../database";
-import { getLocalPlaylists } from "../database/utils";
+import { getPlaylists } from "../database/utils";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
@@ -32,6 +32,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
     const [newPlaylistTitle, setNewPlaylistTitle] = useState("");
     const playlists = usePlaylists();
     const setPlaylists = useSetPlaylists();
+    const localPlaylist = playlists.filter((p) => !p.playlistId);
 
     const playlistsIsEmpty = playlists.length === 0;
 
@@ -43,7 +44,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
       }
 
       db.commit();
-      setPlaylists(getLocalPlaylists());
+      setPlaylists(getPlaylists());
       showNotification({
         title: video.title,
         message: `Added to playlist`,
@@ -118,7 +119,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
                 <Select
                   label="Playlists"
                   placeholder="Your playlist"
-                  data={formatToOptionsCollection(playlists)}
+                  data={formatToOptionsCollection(localPlaylist)}
                   onChange={setSelectedPlaylistId}
                 />
                 {!selectedPlaylistId ? (

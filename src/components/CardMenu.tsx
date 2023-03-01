@@ -4,10 +4,13 @@ import {
   IconDownload,
   IconShare,
   IconPlayerPlay,
+  IconTrash,
 } from "@tabler/icons-react";
 import { memo, useState } from "react";
+import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
 import { Video } from "../types/interfaces/Video";
 import { ModalAddToPlaylist } from "./ModalAddToPlaylist";
+import { ModalDeleteFromPlaylist } from "./ModalDeleteFromPlaylist";
 
 interface CardMenuProps {
   video: Video;
@@ -16,6 +19,9 @@ interface CardMenuProps {
 export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
   const [addToPlaylistModalOpened, setAddToPlaylistModalOpened] =
     useState(false);
+  const [deleteFromPlaylistModalOpened, setDeleteFromPlaylistModalOpened] =
+    useState(false);
+  const { isRemotePlaylistDetail, isLocalPlaylist } = useIsLocalPlaylist();
 
   return (
     <>
@@ -26,13 +32,27 @@ export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Label>Settings</Menu.Label>
-          <Menu.Item
-            onClick={() => setAddToPlaylistModalOpened(true)}
-            icon={<IconPlayerPlay size={14} />}
-          >
-            Add to playlist
-          </Menu.Item>
+          {!isRemotePlaylistDetail ? (
+            <>
+              <Menu.Label>Settings</Menu.Label>
+              {isLocalPlaylist ? (
+                <Menu.Item
+                  onClick={() => setDeleteFromPlaylistModalOpened(true)}
+                  color="red"
+                  icon={<IconTrash size={14} />}
+                >
+                  Remove from playlist
+                </Menu.Item>
+              ) : (
+                <Menu.Item
+                  onClick={() => setAddToPlaylistModalOpened(true)}
+                  icon={<IconPlayerPlay size={14} />}
+                >
+                  Add to playlist
+                </Menu.Item>
+              )}
+            </>
+          ) : null}
           <Menu.Label>Other</Menu.Label>
           <Menu.Item icon={<IconDownload size={14} />}>Download</Menu.Item>
           <Menu.Item icon={<IconShare size={14} />}>Share</Menu.Item>
@@ -41,6 +61,11 @@ export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
       <ModalAddToPlaylist
         opened={addToPlaylistModalOpened}
         onClose={() => setAddToPlaylistModalOpened(false)}
+        video={video}
+      />
+      <ModalDeleteFromPlaylist
+        opened={deleteFromPlaylistModalOpened}
+        onClose={() => setDeleteFromPlaylistModalOpened(false)}
         video={video}
       />
     </>

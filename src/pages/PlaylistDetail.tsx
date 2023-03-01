@@ -1,12 +1,9 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 import { PageHeader } from "../components/PageHeader";
-import { useParams } from "react-router-dom";
-import { getPlaylist as getLocalPlaylist } from "../database/utils";
-import { LoadingOverlay, Text } from "@mantine/core";
+import { Alert, LoadingOverlay, Text } from "@mantine/core";
 import { CardList } from "../components/CardList";
-import { Playlist } from "../types/interfaces/Playlist";
-import { useQuery } from "react-query";
-import { getPlaylist as getRemotePlaylist } from "../services/playlist";
+import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
+import { useGetPlaylist } from "../hooks/useGetPlaylist";
 
 export const PlaylistDetailPage = memo(() => {
   return (
@@ -17,20 +14,8 @@ export const PlaylistDetailPage = memo(() => {
 });
 
 const PageContainer = memo(() => {
-  const { playlistId } = useParams<{ playlistId: string }>();
-  const isLocalPlaylist = Number(playlistId);
-  const [remotePlaylist, setRemotePlaylist] = useState<null | Playlist>(null);
-  const playlist = isLocalPlaylist
-    ? getLocalPlaylist(Number(playlistId))
-    : remotePlaylist;
-
-  useQuery(
-    `playlist-${playlistId}`,
-    () => getRemotePlaylist(playlistId as string),
-    {
-      onSuccess: setRemotePlaylist,
-    }
-  );
+  const { playlistId } = useIsLocalPlaylist();
+  const { playlist } = useGetPlaylist(playlistId as string | number);
 
   if (!playlist) {
     return <LoadingOverlay visible />;
@@ -38,9 +23,13 @@ const PageContainer = memo(() => {
 
   return (
     <>
-      <PageHeader title={playlist?.title} canGoBack />
+      <PageHeader title={playlist.title} canGoBack />
       {playlist.videos.length === 0 ? (
-        <Text>Playlist is empty</Text>
+        <Alert title={playlist.title}>
+          <Text>
+            <strong>{playlist.title}</strong> is empty
+          </Text>
+        </Alert>
       ) : (
         <CardList data={playlist.videos} />
       )}
