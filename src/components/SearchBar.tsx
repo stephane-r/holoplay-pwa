@@ -18,7 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Search, SearchTypes } from "../types/interfaces/Search";
 import { Form } from "./Form";
-import { useMediaQuery } from "@mantine/hooks";
+import { useMediaQuery, useOs } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -50,6 +50,9 @@ export const SearchBar = memo(() => {
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(min-width: ${theme.breakpoints.md}px)`);
   const inputRef = useRef<null | HTMLInputElement>(null);
+  const os = useOs();
+
+  const isMacos = os === "macos";
 
   const form = useForm({
     initialValues: searchValues,
@@ -78,9 +81,13 @@ export const SearchBar = memo(() => {
           placeholder="What do you want hear today ?"
           radius="md"
           {...form.getInputProps("query")}
-          rightSectionWidth={matches ? 185 : 132}
+          rightSectionWidth={matches ? (isMacos ? 185 : 205) : 132}
           rightSection={
-            <TextInputRight {...form.getInputProps("type")} matches={matches} />
+            <TextInputRight
+              {...form.getInputProps("type")}
+              matches={matches}
+              isMacos={isMacos}
+            />
           }
         />
         <button type="submit" style={{ display: "none" }} />
@@ -94,16 +101,20 @@ const TextInputRight = memo(
     value,
     onChange,
     matches,
+    isMacos,
   }: {
     value: SearchTypes;
     onChange: (searchType: SearchTypes) => void;
     matches: boolean;
+    isMacos: boolean;
   }) => {
     const { classes } = useStyles();
 
     return (
       <>
-        {matches ? <Kbd className={classes.kbd}>⌘ + K</Kbd> : null}
+        {matches ? (
+          <Kbd className={classes.kbd}>{isMacos ? "⌘" : "CTRL"} + K</Kbd>
+        ) : null}
         <Box w={125} ml={6}>
           <Select
             placeholder="Type"
