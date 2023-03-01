@@ -72,6 +72,7 @@ export const SearchBar = memo(() => {
         onSubmit={form.onSubmit((values) => handleSubmit(values))}
       >
         <TextInput
+          id="js-search-bar-input"
           ref={inputRef}
           icon={<IconSearch size={15} />}
           placeholder="What do you want hear today ?"

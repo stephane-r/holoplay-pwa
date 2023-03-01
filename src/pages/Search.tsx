@@ -1,5 +1,5 @@
 import { Alert, LoadingOverlay } from "@mantine/core";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { PageHeader } from "../components/PageHeader";
 import { SearchResult } from "../components/SearchResult";
 import {
@@ -29,11 +29,34 @@ const PageHeaderContainer = memo(() => {
   );
 });
 
+const useSearchInputFocus = () => {
+  const focusSearchInput = () => {
+    const $searchBarInput = document.getElementById("js-search-bar-input");
+
+    if (!$searchBarInput) {
+      return;
+    }
+
+    $searchBarInput.focus();
+  };
+
+  return focusSearchInput;
+};
+
 const SearchResultContainer = memo(() => {
   const { loading } = useSearchLoading();
   const searchResult = useSearchResult();
+  const focusSearchInput = useSearchInputFocus();
 
-  if (searchResult.length === 0 && !loading) {
+  const searchResultIsEmpty = searchResult.length === 0 && !loading;
+
+  useEffect(() => {
+    if (searchResultIsEmpty) {
+      focusSearchInput();
+    }
+  }, [searchResultIsEmpty, focusSearchInput]);
+
+  if (searchResultIsEmpty) {
     return (
       <Alert title="Oh, wait" color="blue" radius="md">
         For show result, you need to add keys in search bar
