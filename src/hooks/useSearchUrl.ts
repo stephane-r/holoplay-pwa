@@ -1,11 +1,12 @@
+import qs from "qs";
 import { useSearchValues } from "../providers/Search";
 
 export const useSearchUrl = () => {
   const searchValues = useSearchValues();
   let searchUrl = "/search";
 
-  if (searchValues.query.length > 0) {
-    searchUrl = `/search?query=${searchValues.query}&type=${searchValues.type}`;
+  if (searchValues.q.length > 0) {
+    searchUrl = `/search?q=${qs.stringify(searchValues)}`;
   }
 
   return searchUrl;

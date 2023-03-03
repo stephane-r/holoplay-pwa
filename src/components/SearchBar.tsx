@@ -1,20 +1,10 @@
-import {
-  Box,
-  createStyles,
-  Flex,
-  Kbd,
-  Select,
-  TextInput,
-  useMantineTheme,
-} from "@mantine/core";
+import { createStyles, Flex, Kbd, TextInput } from "@mantine/core";
 import { memo, useRef } from "react";
-import { IconAdjustmentsAlt, IconSearch } from "@tabler/icons-react";
+import { IconSearch } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
-import { useNavigate } from "react-router-dom";
-import { Search, SearchTypes } from "../types/interfaces/Search";
 import { Form } from "./Form";
-import { useMediaQuery, useOs } from "@mantine/hooks";
+import { useOs } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -40,26 +30,25 @@ const useStyles = createStyles((theme) => ({
 export const SearchBar = memo(() => {
   const setSearchValues = useSetSearchValues();
   const searchValues = useSearchValues();
-  const navigate = useNavigate();
   const { classes } = useStyles();
-  const theme = useMantineTheme();
-  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.md}px)`);
   const inputRef = useRef<null | HTMLInputElement>(null);
   const os = useOs();
 
   const isMacos = os === "macos";
 
   const form = useForm({
-    initialValues: searchValues,
+    initialValues: { q: searchValues.q },
     validate: {
-      query: (value) => value.length === 0,
+      q: (value) => value.length === 0,
     },
   });
 
-  const handleSubmit = (values: Search) => {
+  const handleSubmit = (values: { q: string }) => {
     inputRef.current?.blur();
-    setSearchValues(values);
-    navigate(`/search?query=${values.query}&type=${values.type}`);
+    setSearchValues({
+      ...searchValues,
+      q: values.q,
+    });
   };
 
   return (
@@ -74,14 +63,10 @@ export const SearchBar = memo(() => {
           icon={<IconSearch size={15} />}
           placeholder="What do you want hear today ?"
           radius="md"
-          {...form.getInputProps("query")}
-          rightSectionWidth={matches ? (isMacos ? 185 : 205) : 132}
+          {...form.getInputProps("q")}
+          rightSectionWidth={isMacos ? 63 : 83}
           rightSection={
-            <TextInputRight
-              {...form.getInputProps("type")}
-              matches={matches}
-              isMacos={isMacos}
-            />
+            <Kbd className={classes.kbd}>{isMacos ? "⌘" : "CTRL"} + K</Kbd>
           }
         />
         <button type="submit" style={{ display: "none" }} />
@@ -89,49 +74,3 @@ export const SearchBar = memo(() => {
     </Flex>
   );
 });
-
-const TextInputRight = memo(
-  ({
-    value,
-    onChange,
-    matches,
-    isMacos,
-  }: {
-    value: SearchTypes;
-    onChange: (searchType: SearchTypes) => void;
-    matches: boolean;
-    isMacos: boolean;
-  }) => {
-    const { classes } = useStyles();
-
-    return (
-      <>
-        {matches ? (
-          <Kbd className={classes.kbd}>{isMacos ? "⌘" : "CTRL"} + K</Kbd>
-        ) : null}
-        <Box w={125} ml={6}>
-          <Select
-            placeholder="Type"
-            icon={<IconAdjustmentsAlt size={16} />}
-            defaultValue="video"
-            value={value}
-            data={[
-              { value: "video", label: "Videos" },
-              { value: "channel", label: "Channels" },
-              { value: "playlist", label: "Playlists" },
-            ]}
-            onChange={onChange}
-            styles={() => ({
-              input: {
-                minHeight: 20,
-                height: 20,
-                border: 0,
-                paddingRight: 10,
-              },
-            })}
-          />
-        </Box>
-      </>
-    );
-  }
-);

@@ -12,11 +12,11 @@ export const SearchResult = memo(() => {
   const [searchValues, setSearchValues] = useState(currentSearchValues);
   const { ref, inView } = useInView();
   const [page, setPage] = useState(1);
-  const [enabled, setEnabled] = useState(searchValues.query.length > 0);
+  const [enabled, setEnabled] = useState(searchValues.q.length > 0);
   const [videos, setVideos] = useState<Video[]>([]);
 
   const { isFetching } = useQuery(
-    ["search"],
+    `search-${currentSearchValues.q}-${currentSearchValues.type}-${page}`,
     async () => search({ ...currentSearchValues, page }),
     {
       onSuccess: (data) => {
@@ -32,7 +32,7 @@ export const SearchResult = memo(() => {
   );
 
   useEffect(() => {
-    if (searchValues.query !== currentSearchValues.query) {
+    if (JSON.stringify(searchValues) !== JSON.stringify(currentSearchValues)) {
       setSearchValues(currentSearchValues);
       setVideos([]);
       setPage(1);
@@ -43,7 +43,7 @@ export const SearchResult = memo(() => {
     }
   }, [inView, currentSearchValues, searchValues]);
 
-  if (searchValues.query.length === 0) {
+  if (searchValues.q.length === 0) {
     return (
       <Alert title="Oh, wait" color="blue" radius="md">
         For show result, you need to add keys in search bar

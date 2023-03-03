@@ -2,7 +2,6 @@ import {
   SpotlightProvider as MSpotlightProvider,
   SpotlightAction,
 } from "@mantine/spotlight";
-import { Search } from "../types/interfaces/Search";
 import {
   IconHeart,
   IconHistory,
@@ -14,7 +13,7 @@ import {
 } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetSearchValues } from "./Search";
+import { useSearchValues, useSetSearchValues } from "./Search";
 
 interface SpotlightProviderProps {
   children: React.ReactNode;
@@ -34,6 +33,7 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
 }) => {
   const navigate = useNavigate();
   const setSearchValues = useSetSearchValues();
+  const searchValues = useSearchValues();
   const [searchQuery, setSearchQuery] = useState<null | string>(null);
 
   const onTrigger = useCallback(
@@ -44,12 +44,7 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
           break;
         case "Search":
           if (searchQuery && searchQuery.length > 0) {
-            const values = {
-              query: searchQuery as string,
-              type: "video",
-            } as Search;
-            setSearchValues(values);
-            navigate(`/search?query=${searchQuery}&type=video`);
+            setSearchValues({ ...searchValues, q: searchQuery as string });
           } else {
             navigate(`/search`);
           }

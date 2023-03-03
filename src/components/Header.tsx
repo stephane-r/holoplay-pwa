@@ -4,6 +4,7 @@ import { MobileNavigationContainer } from "../containers/MobileNavigation";
 import { ColorScheme } from "./ColorScheme";
 import { GithubActionIcon } from "./GithubActionIcon";
 import { SearchBar } from "./SearchBar";
+import { SearchFilters } from "./SearchFiltersMenu";
 
 const useStyles = createStyles(() => ({
   container: {
@@ -24,6 +25,10 @@ export const Header = memo(() => {
     <header className={classes.container}>
       <MobileNavigationContainer />
       <SearchBar />
+      <Space w={8} />
+      <div>
+        <SearchFilters />
+      </div>
       <Space w={8} />
       <div>
         <GithubActionIcon />

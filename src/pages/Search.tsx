@@ -18,7 +18,7 @@ const PageHeaderContainer = memo(() => {
   return (
     <PageHeader
       title={`Search results ${
-        searchValues.query.length > 0 ? `: ${searchValues.query}` : ""
+        searchValues.q.length > 0 ? `: ${searchValues.q}` : ""
       }`}
     />
   );

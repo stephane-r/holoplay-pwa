@@ -1,17 +1,24 @@
+import qs from "qs";
 import { createContext, useContext, useMemo, useState } from "react";
-import { Search, SearchTypes } from "../types/interfaces/Search";
+import { useNavigate } from "react-router-dom";
+import {
+  Search,
+  SearchDate,
+  SearchDuration,
+  SearchSortBy,
+  SearchTypes,
+} from "../types/interfaces/Search";
 
-const SearchValueContext = createContext<Search>({
-  query: "",
+const initialState: Search = {
+  q: "",
   type: "video",
-});
-const SetSearchValueContext = createContext<null | React.Dispatch<
-  React.SetStateAction<Search>
->>(null);
-const SearchLoadingContext = createContext<{
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}>({ loading: false, setLoading: () => {} });
+  sortBy: "relevance",
+  time: "all",
+  duration: "all",
+};
+
+const SearchValueContext = createContext<Search>(initialState);
+const SetSearchValueContext = createContext<any>(null);
 
 interface SearchProviderrProps {
   children: React.ReactNode;
@@ -20,8 +27,12 @@ interface SearchProviderrProps {
 const getSearchParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
   return {
-    query: (urlParams.get("query") as string) ?? "",
-    type: (urlParams.get("type") as SearchTypes) ?? "video",
+    q: (urlParams.get("q") as string) ?? "",
+    type: (urlParams.get("type") as SearchTypes) ?? initialState.type,
+    sortBy: (urlParams.get("sortBy") as SearchSortBy) ?? initialState.sortBy,
+    time: (urlParams.get("time") as SearchDate) ?? initialState.time,
+    duration:
+      (urlParams.get("duration") as SearchDuration) ?? initialState.duration,
   };
 };
 
@@ -29,7 +40,6 @@ export const SearchProvider: React.FC<SearchProviderrProps> = ({
   children,
 }) => {
   const [value, setValue] = useState<Search>(getSearchParams());
-  const [loading, setLoading] = useState<boolean>(false);
 
   const params = useMemo(
     () => ({
@@ -39,20 +49,10 @@ export const SearchProvider: React.FC<SearchProviderrProps> = ({
     [value]
   );
 
-  const loadingState = useMemo(
-    () => ({
-      loading,
-      setLoading,
-    }),
-    [loading]
-  );
-
   return (
     <SearchValueContext.Provider value={params.value}>
       <SetSearchValueContext.Provider value={params.setValue}>
-        <SearchLoadingContext.Provider value={loadingState}>
-          {children}
-        </SearchLoadingContext.Provider>
+        {children}
       </SetSearchValueContext.Provider>
     </SearchValueContext.Provider>
   );
@@ -60,7 +60,14 @@ export const SearchProvider: React.FC<SearchProviderrProps> = ({
 
 export const useSearchValues = () => useContext(SearchValueContext);
 
-export const useSetSearchValues = () =>
-  useContext(SetSearchValueContext) as React.Dispatch<
-    React.SetStateAction<Search>
-  >;
+export const useSetSearchValues = () => {
+  const setValue = useContext(SetSearchValueContext);
+  const navigate = useNavigate();
+
+  const handleSetValue = (updatedValues: Search) => {
+    setValue(updatedValues);
+    navigate(`/search?${qs.stringify(updatedValues)}`);
+  };
+
+  return handleSetValue;
+};
