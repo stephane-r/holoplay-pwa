@@ -91,7 +91,7 @@ export const DrawerPlayer = memo(() => {
 
 export const DrawerPlayerVideo = memo(() => {
   const { classes } = useStyles();
-  const { video } = usePlayerVideo();
+  const { video } = usePlayerVideo() as { video: Video };
 
   return (
     <>
@@ -110,7 +110,7 @@ export const DrawerPlayerVideo = memo(() => {
         <Flex align="center" gap="xl">
           <ButtonRepeat iconSize={16} />
           <PlayerActions />
-          <ButtonFavorite video={video as Video} variant="transparent" />
+          <ButtonFavorite video={video} variant="transparent" />
         </Flex>
       </Flex>
     </>

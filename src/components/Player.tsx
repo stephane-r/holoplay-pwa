@@ -28,6 +28,7 @@ import { ButtonRepeat } from "./ButtonRepeat";
 import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonDownload } from "./ButtonDownload";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
+import { ButtonShare } from "./ButtonShare";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -110,6 +111,8 @@ export const Player = memo(() => {
               <ButtonRepeat iconSize={20} />
               <Space w="lg" />
               <ButtonDownload iconSize={20} />
+              <Space w="lg" />
+              <ButtonShare iconSize={20} />
               <Space w="lg" />
               <ButtonFavorite iconSize={20} variant="transparent" />
               {showVolumeBar ? (
