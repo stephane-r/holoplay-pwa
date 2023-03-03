@@ -27,6 +27,7 @@ import { PlayerBackground } from "./PlayerBackground";
 import { ButtonRepeat } from "./ButtonRepeat";
 import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonDownload } from "./ButtonDownload";
+import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -91,6 +92,7 @@ export const Player = memo(() => {
       style={{ display: matches ? "block" : "none" }}
     >
       <Flex align="center" className={classes.content}>
+        <PlayerLoadingOverlay />
         {matches ? (
           <>
             <PlayerBackground />

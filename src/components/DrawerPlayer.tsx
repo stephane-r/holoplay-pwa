@@ -21,6 +21,7 @@ import { PlayerProgress } from "./PlayerProgress";
 import { VideoList } from "./VideoList";
 import { ButtonDownload } from "./ButtonDownload";
 import { ButtonShare } from "./ButtonShare";
+import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -66,12 +67,13 @@ export const DrawerPlayer = memo(() => {
     <Card className={classes.card} style={cardStyles} radius={0} p={0}>
       <PlayerBackground />
       <Box>
-        <Box p="xl">
+        <Box p="xl" pos="relative">
           <Title order={3}>Now playing</Title>
           <Space h={36} />
           <DrawerPlayerVideo />
+          <PlayerLoadingOverlay />
+          <Space h="md" />
         </Box>
-        <Space h="md" />
         <Divider />
         <Space h="md" />
         <Box p="xl">

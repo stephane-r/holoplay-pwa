@@ -22,6 +22,7 @@ import {
   usePlayerState,
   usePlayerVideo,
 } from "../providers/Player";
+import { Image } from "./Image";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -38,7 +39,6 @@ const useStyles = createStyles((theme) => ({
     overflow: "hidden",
     padding: theme.spacing.sm,
     position: "relative",
-    background: "grey",
     minHeight: 152,
     borderRadius: theme.radius.md,
   },
@@ -163,12 +163,18 @@ const CardImage: React.FC<CardImageProps> = ({ image, title, children }) => {
       align="flex-end"
       justify="flex-end"
     >
-      <img
+      <Image
         src={image?.url as string}
         alt={title}
         className={classes.image}
         loading="lazy"
       />
+      {/* <img
+        src={image?.url as string}
+        alt={title}
+        className={classes.image}
+        loading="lazy"
+      /> */}
       {children}
     </Flex>
   );

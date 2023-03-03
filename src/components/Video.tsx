@@ -13,6 +13,7 @@ import { memo } from "react";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlayerAudio, usePlayerVideo } from "../providers/Player";
 import { Video as VideoType, VideoThumbnail } from "../types/interfaces/Video";
+import { Image } from "./Image";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -27,6 +28,8 @@ const useStyles = createStyles((theme) => ({
     },
   },
   image: {
+    width: "100%",
+    height: 75,
     maxWidth: 100,
     borderRadius: theme.radius.md,
 
@@ -81,7 +84,7 @@ export const Video: React.FC<VideoProps> = memo(
           <Flex align="center" style={{ flex: 1 }} gap="md">
             {withThumbnail ? (
               <Box className={classes.image}>
-                <img
+                <Image
                   src={image.url}
                   alt={video.title}
                   className={classes.image}
