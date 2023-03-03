@@ -22,9 +22,10 @@ interface PlayerState {
   currentTime: string | null;
   percentage: number | null;
   volume: number;
+  loading: boolean;
 }
 
-const initialPlayerState: PlayerState = {
+export const initialPlayerState: PlayerState = {
   paused: false,
   muted: false,
   repeat: false,
@@ -32,6 +33,7 @@ const initialPlayerState: PlayerState = {
   currentTime: null,
   percentage: null,
   volume: 1,
+  loading: true,
 };
 
 const PlayerAudioContext = createContext<React.MutableRefObject<null> | null>(

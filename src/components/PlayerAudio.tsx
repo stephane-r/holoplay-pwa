@@ -57,6 +57,13 @@ export const PlayerAudio = memo(() => {
     }));
   };
 
+  const handleCanPlay = () => {
+    setPlayerState((previousState) => ({
+      ...previousState,
+      loading: false,
+    }));
+  };
+
   return (
     <Box style={{ display: "none" }} aria-hidden="true">
       <ReactAudioPlayer
@@ -67,6 +74,7 @@ export const PlayerAudio = memo(() => {
         listenInterval={100}
         onPause={handlePause}
         onPlay={handlePlay}
+        onCanPlay={handleCanPlay}
         onEnded={handleEnd}
         onListen={handleListen}
         onVolumeChanged={handleVolumeChanged}

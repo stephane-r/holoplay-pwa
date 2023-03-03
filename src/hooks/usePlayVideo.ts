@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { getLastVideoPlayed, getSettings } from "../database/utils";
 import { useSetHistory } from "../providers/History";
-import { useSetPlayerUrl, useSetPlayerVideo } from "../providers/Player";
+import {
+  initialPlayerState,
+  useSetPlayerState,
+  useSetPlayerUrl,
+  useSetPlayerVideo,
+} from "../providers/Player";
 import { useSetPlayerPlaylist } from "../providers/PlayerPlaylist";
 import { useSetPreviousNextVideos } from "../providers/PreviousNextTrack";
 import { getVideo } from "../services/video";
@@ -33,6 +38,7 @@ export const usePlayVideo = () => {
   const [loading, setLoading] = useState(false);
   const setPlayerUrl = useSetPlayerUrl();
   const setPlayerVideo = useSetPlayerVideo();
+  const setPlayerState = useSetPlayerState();
   const getVideosPlaylist = useResolveVideosPlaylist();
   const setPlayerPlaylist = useSetPlayerPlaylist();
   const setPreviousNextVideos = useSetPreviousNextVideos();
@@ -72,6 +78,11 @@ export const usePlayVideo = () => {
         thumbnailUrl: videoThumbnailUrl,
         primaryColor: colors ? colors[0] : DEFAULT_PRIMARY_COLOR,
       });
+      setPlayerState((previousState) => ({
+        ...initialPlayerState,
+        repeat: previousState.repeat,
+        volume: previousState.volume,
+      }));
 
       const videosPlaylist =
         playerPlaylist ?? getVideosPlaylist() ?? data.video.recommendedVideos;
