@@ -14,7 +14,7 @@ import {
 } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSearchData, useSetSearchValues } from "./Search";
+import { useSetSearchValues } from "./Search";
 
 interface SpotlightProviderProps {
   children: React.ReactNode;
@@ -34,7 +34,6 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
 }) => {
   const navigate = useNavigate();
   const setSearchValues = useSetSearchValues();
-  const { search } = useSearchData();
   const [searchQuery, setSearchQuery] = useState<null | string>(null);
 
   const onTrigger = useCallback(
@@ -50,7 +49,6 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
               type: "video",
             } as Search;
             setSearchValues(values);
-            search(values);
             navigate(`/search?query=${searchQuery}&type=video`);
           } else {
             navigate(`/search`);
@@ -75,7 +73,7 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
           break;
       }
     },
-    [navigate, search, searchQuery, setSearchValues]
+    [navigate, searchQuery, setSearchValues]
   );
 
   const actions: SpotlightAction[] = useMemo(

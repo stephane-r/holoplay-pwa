@@ -1,12 +1,7 @@
-import { Alert, LoadingOverlay } from "@mantine/core";
 import { memo, useEffect } from "react";
 import { PageHeader } from "../components/PageHeader";
 import { SearchResult } from "../components/SearchResult";
-import {
-  useSearchLoading,
-  useSearchValues,
-  useSearchResult,
-} from "../providers/Search";
+import { useSearchValues } from "../providers/Search";
 
 export const SearchPage = memo(() => {
   return (
@@ -44,29 +39,14 @@ const useSearchInputFocus = () => {
 };
 
 const SearchResultContainer = memo(() => {
-  const { loading } = useSearchLoading();
-  const searchResult = useSearchResult();
   const focusSearchInput = useSearchInputFocus();
 
-  const searchResultIsEmpty = searchResult.length === 0 && !loading;
-
   useEffect(() => {
-    if (searchResultIsEmpty) {
-      focusSearchInput();
-    }
-  }, [searchResultIsEmpty, focusSearchInput]);
-
-  if (searchResultIsEmpty) {
-    return (
-      <Alert title="Oh, wait" color="blue" radius="md">
-        For show result, you need to add keys in search bar
-      </Alert>
-    );
-  }
+    focusSearchInput();
+  }, [focusSearchInput]);
 
   return (
     <div>
-      <LoadingOverlay visible={loading} />
       <SearchResult />
     </div>
   );

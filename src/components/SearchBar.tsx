@@ -10,11 +10,7 @@ import {
 import { memo, useRef } from "react";
 import { IconAdjustmentsAlt, IconSearch } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
-import {
-  useSearchData,
-  useSearchValues,
-  useSetSearchValues,
-} from "../providers/Search";
+import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import { useNavigate } from "react-router-dom";
 import { Search, SearchTypes } from "../types/interfaces/Search";
 import { Form } from "./Form";
@@ -43,7 +39,6 @@ const useStyles = createStyles((theme) => ({
 
 export const SearchBar = memo(() => {
   const setSearchValues = useSetSearchValues();
-  const { search } = useSearchData();
   const searchValues = useSearchValues();
   const navigate = useNavigate();
   const { classes } = useStyles();
@@ -64,7 +59,6 @@ export const SearchBar = memo(() => {
   const handleSubmit = (values: Search) => {
     inputRef.current?.blur();
     setSearchValues(values);
-    search(values);
     navigate(`/search?query=${values.query}&type=${values.type}`);
   };
 
