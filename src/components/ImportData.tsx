@@ -8,6 +8,7 @@ import {
   TransferListData,
   useMantineTheme,
 } from "@mantine/core";
+import { useTranslation } from "react-i18next";
 import { showNotification } from "@mantine/notifications";
 import { IconFileBarcode, IconFileX, IconUpload } from "@tabler/icons-react";
 import { memo, useState } from "react";
@@ -44,6 +45,9 @@ export const ImportData = memo(() => {
   const [importedFileData, setImportedFileData] = useState<
     ImportDataType[] | null
   >(null);
+  const { t } = useTranslation("translation", {
+    keyPrefix: "settings.data.import",
+  });
 
   const handleDrop = (files: File[]) => {
     const file = files[0];
@@ -98,7 +102,7 @@ export const ImportData = memo(() => {
             </Dropzone.Idle>
             <div>
               <Text size="xl" inline>
-                Drag you JSON file here or click to select files
+                {t("text")}
               </Text>
             </div>
           </Group>
@@ -122,6 +126,9 @@ const TransferList = memo(
       formateToTransferList(importedFileData),
       [],
     ]);
+    const { t } = useTranslation("translation", {
+      keyPrefix: "settings.data.import",
+    });
 
     const handleImportData = async () => {
       setLoading(true);
@@ -145,8 +152,8 @@ const TransferList = memo(
       setLoading(false);
 
       showNotification({
-        title: "Import data",
-        message: "Data imported successfully",
+        title: t("notification.title"),
+        message: t("notification.message"),
       });
 
       onClear();
@@ -158,10 +165,10 @@ const TransferList = memo(
         <MTransferList
           value={importData}
           onChange={setImportData}
-          titles={["File data", "Imported data"]}
+          titles={[t("left"), t("right")]}
           breakpoint="sm"
-          searchPlaceholder="Search..."
-          nothingFound="Nothing here"
+          searchPlaceholder={t("search.placeholder") as string}
+          nothingFound={t("search.nothing.found")}
           listHeight={300}
         />
         <Flex justify="flex-end">
@@ -171,7 +178,7 @@ const TransferList = memo(
             disabled={!importData[1].length}
             onClick={handleImportData}
           >
-            Import data
+            {t("button.submit")}
           </Button>
         </Flex>
       </Box>

@@ -8,6 +8,7 @@ import {
   SegmentedControl,
 } from "@mantine/core";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { SwitchColorScheme } from "../components/ColorScheme";
 import { PageHeader } from "../components/PageHeader";
 import { useSettings } from "../providers/Settings";
@@ -18,7 +19,7 @@ export const SettingsPage = memo(() => {
   return (
     <div>
       <PageHeader title="Settings" />
-      <Accordion multiple variant="contained">
+      <Accordion variant="contained">
         <GeneralItem />
         <ImportExportDataItem />
       </Accordion>
@@ -28,33 +29,33 @@ export const SettingsPage = memo(() => {
 
 const GeneralItem = memo(() => {
   const settings = useSettings();
+  const { t } = useTranslation("translation", {
+    keyPrefix: "settings.general",
+  });
 
   return (
     <Accordion.Item value="general">
       <Accordion.Control>
         <Group noWrap>
           <div>
-            <Text>General</Text>
+            <Text>{t("title")}</Text>
             <Text size="sm" color="dimmed" weight={400}>
-              Invidious instance, locale and dark mode
+              {t("description")}
             </Text>
           </div>
         </Group>
       </Accordion.Control>
       <Accordion.Panel>
         <Text>
-          Current Invidious Instance :{" "}
+          {t("invidious.current")} :{" "}
           <strong>{settings.currentInstance?.domain}</strong>
         </Text>
-        <Alert title="Information" mt="xs">
-          <Text>
-            For now, you can not set default Invidious instance. This feature
-            will be coming soon !
-          </Text>
+        <Alert title={t("invidious.alert.title")} mt="xs">
+          <Text>{t("invidious.alert")}</Text>
         </Alert>
         <Divider mt="md" mb="lg" />
         <Select
-          label="Choose language"
+          label={t("language")}
           defaultValue="en"
           disabled
           data={[
@@ -68,12 +69,8 @@ const GeneralItem = memo(() => {
             },
           ]}
         />
-        <Alert title="Information" mt="lg">
-          <Text>
-            For now, HoloPlay is only available in English language. French
-            translation is comming soon. Also, you can contribute to new
-            language.
-          </Text>
+        <Alert title={t("language.alert.title")} mt="lg">
+          <Text>{t("language.alert")}</Text>
         </Alert>
         <Divider mt="md" mb="lg" />
         <SwitchColorScheme />
@@ -84,16 +81,18 @@ const GeneralItem = memo(() => {
 
 const ImportExportDataItem = memo(() => {
   const [type, setType] = useState<"import" | "export">("import");
+  const { t } = useTranslation("translation", {
+    keyPrefix: "settings.data",
+  });
 
   return (
     <Accordion.Item value="data">
       <Accordion.Control>
         <Group noWrap>
           <div>
-            <Text>Import or export your data</Text>
+            <Text>{t("title")}</Text>
             <Text size="sm" color="dimmed" weight={400}>
-              Import your favorites and history from Invidious instance or
-              Freetube, etc and export your data
+              {t("description")}
             </Text>
           </div>
         </Group>
@@ -102,8 +101,8 @@ const ImportExportDataItem = memo(() => {
         <SegmentedControl
           w={300}
           data={[
-            { label: "Import", value: "import" },
-            { label: "Export", value: "export" },
+            { label: t("import"), value: "import" },
+            { label: t("export"), value: "export" },
           ]}
           onChange={(type: "import" | "export") => setType(type)}
         />

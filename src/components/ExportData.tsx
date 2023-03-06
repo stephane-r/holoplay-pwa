@@ -7,6 +7,7 @@ import {
   TransferListItem,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
+import { useTranslation } from "react-i18next";
 import { memo, useState } from "react";
 import { getAllPlaylists } from "../database/utils";
 import { Playlist } from "../types/interfaces/Playlist";
@@ -30,6 +31,9 @@ const formateToTransferList = (data: Playlist[]) => {
 };
 
 export const ExportData = memo(() => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "settings.data.export",
+  });
   const [data, setData] = useState<TransferListData>([
     // @ts-ignore
     formateToTransferList(getAllPlaylists()),
@@ -39,8 +43,8 @@ export const ExportData = memo(() => {
   const handleClick = () => {
     generateAndDownloadFile(loadPlaylistData(data[1]));
     showNotification({
-      title: "Export data",
-      message: "Your data has been exported",
+      title: t("notification.title"),
+      message: t("notification.message"),
     });
   };
 
@@ -49,13 +53,15 @@ export const ExportData = memo(() => {
       <TransferList
         value={data}
         onChange={setData}
-        searchPlaceholder="Search..."
-        nothingFound="Nothing here"
-        titles={["Your playlist", "Export playlists"]}
+        titles={[t("left"), t("right")]}
         breakpoint="sm"
+        searchPlaceholder={t("search.placeholder") as string}
+        nothingFound={t("search.nothing.found")}
       />
       <Flex justify="flex-end" mt="lg">
-        <Button onClick={handleClick}>Export my data</Button>
+        <Button onClick={handleClick} disabled={!data[1].length}>
+          {t("button.submit")}
+        </Button>
       </Flex>
     </Box>
   );
