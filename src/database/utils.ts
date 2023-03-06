@@ -11,10 +11,22 @@ export const getFavoritePlaylist = (): Playlist => {
   return db.queryAll("playlists", { query: { title: "Favorites" } })[0];
 };
 
+export const importVideosToFavorites = (importedVideos: Video[]): void => {
+  db.update("playlists", { title: "Favorites" }, (raw: Playlist) => ({
+    ...raw,
+    videos: [...importedVideos, ...raw.videos],
+  }));
+  db.commit();
+};
+
 export const getPlaylists = (): Playlist[] => {
   return db.queryAll("playlists", {
     query: (row: Playlist) => row.title !== "Favorites",
   });
+};
+
+export const getAllPlaylists = (): Playlist[] => {
+  return db.queryAll("playlists");
 };
 
 export const getLocalPlaylists = (): Playlist[] => {
