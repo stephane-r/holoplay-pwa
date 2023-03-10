@@ -18,6 +18,7 @@ import { DrawerPlayerContainer } from "../containers/DrawerPlayer";
 import { PreviousNextTrackProvider } from "../providers/PreviousNextTrack";
 import { HistoryProvider } from "../providers/History";
 import { SpotlightProvider } from "../providers/Spotlight";
+import { AppUpdate } from "./AppUpdate";
 
 const useStyles = createStyles(() => ({
   scrollArea: {
@@ -77,6 +78,7 @@ export const App: React.FC<AppProps> = ({ children }) => {
           </FavoriteProvider>
         </SearchProvider>
       </SettingsProvider>
+      <AppUpdate />
     </QueryClientProvider>
   );
 };

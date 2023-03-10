@@ -26,5 +26,7 @@
     "settings.data.export.search.nothing.found": "Nothing here",
     "settings.data.export.button.submit": "Export my data",
     "settings.data.export.notification.title": "Export data",
-    "settings.data.export.notification.message": "Your data has been exported"
+    "settings.data.export.notification.message": "Your data has been exported",
+    "app.update.title": "Update available",
+    "app.update.message": "Press here to update HoloPlay"
 }
