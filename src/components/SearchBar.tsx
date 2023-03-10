@@ -1,10 +1,16 @@
-import { createStyles, Flex, Kbd, TextInput } from "@mantine/core";
+import {
+  createStyles,
+  Flex,
+  Kbd,
+  TextInput,
+  useMantineTheme,
+} from "@mantine/core";
 import { memo, useRef } from "react";
 import { IconSearch } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import { Form } from "./Form";
-import { useOs } from "@mantine/hooks";
+import { useMediaQuery, useOs } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -33,6 +39,8 @@ export const SearchBar = memo(() => {
   const { classes } = useStyles();
   const inputRef = useRef<null | HTMLInputElement>(null);
   const os = useOs();
+  const theme = useMantineTheme();
+  const isLg = useMediaQuery(`(min-width: ${theme.breakpoints.lg}px)`);
 
   const isMacos = os === "macos";
 
@@ -66,7 +74,9 @@ export const SearchBar = memo(() => {
           {...form.getInputProps("q")}
           rightSectionWidth={isMacos ? 63 : 83}
           rightSection={
-            <Kbd className={classes.kbd}>{isMacos ? "⌘" : "CTRL"} + K</Kbd>
+            isLg ? (
+              <Kbd className={classes.kbd}>{isMacos ? "⌘" : "CTRL"} + K</Kbd>
+            ) : undefined
           }
         />
         <button type="submit" style={{ display: "none" }} />
