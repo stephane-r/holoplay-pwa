@@ -7,6 +7,7 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
 import { Video } from "../types/interfaces/Video";
 import { ModalAddToPlaylist } from "./ModalAddToPlaylist";
@@ -22,6 +23,7 @@ export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
   const [deleteFromPlaylistModalOpened, setDeleteFromPlaylistModalOpened] =
     useState(false);
   const { isRemotePlaylistDetail, isLocalPlaylist } = useIsLocalPlaylist();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -34,28 +36,32 @@ export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
         <Menu.Dropdown>
           {!isRemotePlaylistDetail ? (
             <>
-              <Menu.Label>Settings</Menu.Label>
+              <Menu.Label>{t("menu.video.settings")}</Menu.Label>
               {isLocalPlaylist ? (
                 <Menu.Item
                   onClick={() => setDeleteFromPlaylistModalOpened(true)}
                   color="red"
                   icon={<IconTrash size={14} />}
                 >
-                  Remove from playlist
+                  {t("menu.video.remove.playlist")}
                 </Menu.Item>
               ) : (
                 <Menu.Item
                   onClick={() => setAddToPlaylistModalOpened(true)}
                   icon={<IconPlayerPlay size={14} />}
                 >
-                  Add to playlist
+                  {t("menu.video.add.playlist")}
                 </Menu.Item>
               )}
             </>
           ) : null}
           <Menu.Label>Other</Menu.Label>
-          <Menu.Item icon={<IconDownload size={14} />}>Download</Menu.Item>
-          <Menu.Item icon={<IconShare size={14} />}>Share</Menu.Item>
+          <Menu.Item icon={<IconDownload size={14} />}>
+            {t("menu.video.download")}
+          </Menu.Item>
+          <Menu.Item icon={<IconShare size={14} />}>
+            {t("menu.video.share")}
+          </Menu.Item>
         </Menu.Dropdown>
       </Menu>
       <ModalAddToPlaylist

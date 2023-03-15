@@ -8,10 +8,12 @@ import {
   SearchSortBy,
   SearchTypes,
 } from "../types/interfaces/Search";
+import { useTranslation } from "react-i18next";
 
 export const SearchFilters = memo(() => {
   const setSearchValues = useSetSearchValues();
   const searchValues = useSearchValues();
+  const { t } = useTranslation();
 
   return (
     <Menu width={200} position="bottom-end">
@@ -21,14 +23,14 @@ export const SearchFilters = memo(() => {
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Label>Type</Menu.Label>
+        <Menu.Label>{t("search.filter.type.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <SegmentedControl
             fullWidth
             value={searchValues.type}
             data={[
-              { label: "Videos", value: "video" },
-              { label: "Playlists", value: "playlist" },
+              { value: "video", label: t("search.filter.type.videos") },
+              { value: "playlist", label: t("search.filter.type.videos") },
             ]}
             onChange={(value) => {
               setSearchValues({
@@ -38,15 +40,27 @@ export const SearchFilters = memo(() => {
             }}
           />
         </Box>
-        <Menu.Label>Sort by</Menu.Label>
+        <Menu.Label>{t("search.filter.sort.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <Select
             value={searchValues.sortBy}
             data={[
-              { value: "relevance", label: "Most relevant" },
-              { value: "rating", label: "Rating" },
-              { value: "upload_date", label: "Upload date" },
-              { value: "view_count", label: "View count" },
+              {
+                value: "relevance",
+                label: t("search.filter.sort.relevance") as string,
+              },
+              {
+                value: "rating",
+                label: t("search.filter.sort.rating") as string,
+              },
+              {
+                value: "upload_date",
+                label: t("search.filter.sort.upload-date") as string,
+              },
+              {
+                value: "view_count",
+                label: t("search.filter.sort.view-count") as string,
+              },
             ]}
             onChange={(value) =>
               setSearchValues({
@@ -56,17 +70,23 @@ export const SearchFilters = memo(() => {
             }
           />
         </Box>
-        <Menu.Label>Time</Menu.Label>
+        <Menu.Label>{t("search.filter.time.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <Select
             value={searchValues.time}
             data={[
-              { value: "all", label: "Any time" },
-              { value: "hour", label: "Last hour" },
-              { value: "today", label: "Today" },
-              { value: "week", label: "This week" },
-              { value: "month", label: "This month" },
-              { value: "year", label: "This year" },
+              { value: "all", label: t("search.filter.time.all") as string },
+              { value: "hour", label: t("search.filter.time.hour") as string },
+              {
+                value: "today",
+                label: t("search.filter.time.today") as string,
+              },
+              { value: "week", label: t("search.filter.time.week") as string },
+              {
+                value: "month",
+                label: t("search.filter.time.month") as string,
+              },
+              { value: "year", label: t("search.filter.time.year") as string },
             ]}
             onChange={(value) =>
               setSearchValues({
@@ -76,15 +96,27 @@ export const SearchFilters = memo(() => {
             }
           />
         </Box>
-        <Menu.Label>Duration</Menu.Label>
+        <Menu.Label>{t("search.filter.duration.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <Select
             value={searchValues.duration}
             data={[
-              { value: "all", label: "All durations" },
-              { value: "short", label: "Short" },
-              { value: "long", label: "Long" },
-              { value: "medium", label: "Medium" },
+              {
+                value: "all",
+                label: t("search.filter.duration.all") as string,
+              },
+              {
+                value: "short",
+                label: t("search.filter.duration.short") as string,
+              },
+              {
+                value: "long",
+                label: t("search.filter.duration.long") as string,
+              },
+              {
+                value: "medium",
+                label: t("search.filter.duration.medium") as string,
+              },
             ]}
             onChange={(value) =>
               setSearchValues({

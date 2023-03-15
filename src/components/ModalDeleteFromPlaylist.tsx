@@ -1,6 +1,7 @@
 import { Button, Flex, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { db } from "../database";
 import { getPlaylist, getPlaylists } from "../database/utils";
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
@@ -19,6 +20,7 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
   memo(({ opened, onClose, video }) => {
     const setPlaylists = useSetPlaylists();
     const { playlistId } = useIsLocalPlaylist();
+    const { t } = useTranslation();
 
     const handleDeleteVideo = () => {
       const playlist = getPlaylist(Number(playlistId));
@@ -26,10 +28,10 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
       if (!playlist) {
         showNotification({
           title: "Error",
-          message: "Playlist not found",
+          message: t("Playlist not found"),
           color: "red",
         });
-        throw Error("Playlist not found");
+        throw Error(t("Playlist not found") as string);
       }
 
       const updatedVideos = playlist.videos.filter(
@@ -49,8 +51,10 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
       db.commit();
       setPlaylists(getPlaylists());
       showNotification({
-        title: "Video deleted",
-        message: `${video.title} has been deleted from playlist`,
+        title: t("modal.video.delete.playlist.notification.title"),
+        message: `${video.title} ${t(
+          "modal.video.delete.playlist.notification.message"
+        )}`,
       });
 
       onClose();
@@ -62,18 +66,19 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
         onClose={() => onClose()}
         centered
         size="lg"
-        title="Delete playlist"
+        title={t("modal.video.delete.playlist.title")}
         overlayBlur={3}
       >
         <Text>
-          Do you want deleted <strong>{video.title}</strong> from playlist ?
+          {t("modal.video.delete.playlist.text")} <strong>{video.title}</strong>{" "}
+          {t("modal.video.delete.playlist.text2")}
         </Text>
         <Flex gap={8} justify="flex-end" mt="xl">
           <Button onClick={() => onClose()} color="gray">
-            Cancel
+            {t("button.cancel")}
           </Button>
           <Button onClick={handleDeleteVideo} color="red">
-            Delete playlist
+            {t("modal.video.delete.playlist.button.submit")}
           </Button>
         </Flex>
       </Modal>

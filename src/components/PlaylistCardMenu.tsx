@@ -1,6 +1,7 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import { IconDotsVertical, IconEdit, IconTrash } from "@tabler/icons-react";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Playlist } from "../types/interfaces/Playlist";
 import { ModalDeletePlaylist } from "./ModalDeletePlaylist";
 import { ModalUpdatePlaylist } from "./ModalUpdatePlaylist";
@@ -14,6 +15,7 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
     const [menuOpened, setMenuOpened] = useState(false);
     const [modalUpdateOpened, setModalUpdateOpened] = useState(false);
     const [modalDeleteOpened, setModalDeleteOpened] = useState(false);
+    const { t } = useTranslation();
 
     return (
       <>
@@ -32,13 +34,13 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Label>Settings</Menu.Label>
+            <Menu.Label>{t("playlist.nemu.title")}</Menu.Label>
             {!playlist.playlistId ? (
               <Menu.Item
                 icon={<IconEdit size={14} />}
                 onClick={() => setModalUpdateOpened(true)}
               >
-                Edit
+                {t("playlist.nemu.edit")}
               </Menu.Item>
             ) : null}
             <Menu.Item
@@ -46,7 +48,7 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
               icon={<IconTrash size={14} />}
               onClick={() => setModalDeleteOpened(true)}
             >
-              Delete
+              {t("playlist.nemu.delete")}
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>

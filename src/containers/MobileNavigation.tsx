@@ -1,12 +1,14 @@
 import { Burger, Space, useMantineTheme } from "@mantine/core";
 import { useMediaQuery, useToggle } from "@mantine/hooks";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { MobileNavigation } from "../components/MobileNavigation";
 
 export const MobileNavigationContainer = memo(() => {
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
   const [value, setValue] = useToggle([false, true]);
+  const { t } = useTranslation();
 
   if (!matches) return null;
 
@@ -16,7 +18,7 @@ export const MobileNavigationContainer = memo(() => {
         <Burger
           opened={value}
           size="sm"
-          aria-label="Open navigation"
+          aria-label={t("navigation.open") as string}
           onClick={() => setValue()}
         />
       </div>

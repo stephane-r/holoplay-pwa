@@ -23,6 +23,7 @@ import {
   usePlayerVideo,
 } from "../providers/Player";
 import { Image } from "./Image";
+import { useTranslation } from "react-i18next";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -61,6 +62,7 @@ export const Card: React.FC<CardProps> = memo(
   ({ video, component = "div" }) => {
     const { handlePlay, loading } = usePlayVideo();
     const { classes } = useStyles();
+    const { t } = useTranslation();
 
     const image = video.videoThumbnails.find(
       (thumbnail) => thumbnail.quality === "maxresdefault"
@@ -93,7 +95,7 @@ export const Card: React.FC<CardProps> = memo(
               </Badge>
               {video.liveNow || videoDuration === "00:00" ? (
                 <Badge variant="filled" size="xs" color="red">
-                  Live
+                  {t("live")}
                 </Badge>
               ) : null}
             </Flex>
@@ -193,6 +195,8 @@ const ButtonPlayPause = memo(
 );
 
 const ButtonPlay = memo(({ onClick }: { onClick: () => void }) => {
+  const { t } = useTranslation();
+
   return (
     <ActionIcon
       variant="default"
@@ -200,7 +204,7 @@ const ButtonPlay = memo(({ onClick }: { onClick: () => void }) => {
       size={36}
       style={{ marginRight: "auto" }}
       onClick={() => onClick()}
-      title="Play"
+      title={t("button.play")}
     >
       <IconPlayerPlay size={18} stroke={1.5} />
     </ActionIcon>
@@ -210,6 +214,7 @@ const ButtonPlay = memo(({ onClick }: { onClick: () => void }) => {
 const ButtonAudioPlayPause = memo(() => {
   const playerAudio = usePlayerAudio();
   const playerState = usePlayerState();
+  const { t } = useTranslation();
 
   const handlePlayPause = () => {
     // @ts-ignore
@@ -228,7 +233,7 @@ const ButtonAudioPlayPause = memo(() => {
       radius="md"
       size={36}
       style={{ marginRight: "auto" }}
-      title={playerState.paused ? "Play" : "Pause"}
+      title={playerState.paused ? t("button.play") : t("button.pause")}
       onClick={handlePlayPause}
     >
       {playerState.paused ? <IconPlayerPlay /> : <IconPlayerPause />}

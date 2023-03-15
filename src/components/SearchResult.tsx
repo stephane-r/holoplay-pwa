@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import { useQuery } from "react-query";
 import { search } from "../services/search";
 import { Video } from "../types/interfaces/Video";
+import { useTranslation } from "react-i18next";
 
 export const SearchResult = memo(() => {
   const currentSearchValues = useSearchValues();
@@ -14,6 +15,7 @@ export const SearchResult = memo(() => {
   const [page, setPage] = useState(1);
   const [enabled, setEnabled] = useState(searchValues.q.length > 0);
   const [videos, setVideos] = useState<Video[]>([]);
+  const { t } = useTranslation();
 
   const { isFetching } = useQuery(
     `search-${currentSearchValues.q}-${currentSearchValues.type}-${page}`,
@@ -45,8 +47,8 @@ export const SearchResult = memo(() => {
 
   if (searchValues.q.length === 0) {
     return (
-      <Alert title="Oh, wait" color="blue" radius="md">
-        For show result, you need to add keys in search bar
+      <Alert title={t("search.result.alert.title")} color="blue" radius="md">
+        {t("search.result.alert.message")}
       </Alert>
     );
   }

@@ -22,6 +22,7 @@ import { VideoList } from "./VideoList";
 import { ButtonDownload } from "./ButtonDownload";
 import { ButtonShare } from "./ButtonShare";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
+import { useTranslation } from "react-i18next";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -56,6 +57,7 @@ export const DrawerPlayer = memo(() => {
   const { classes } = useStyles();
   const playerUrl = usePlayerUrl();
   const playerPlaylist = usePlayerPlaylist();
+  const { t } = useTranslation();
 
   const cardStyles = {
     width: playerUrl ? 500 : 0,
@@ -68,7 +70,7 @@ export const DrawerPlayer = memo(() => {
       <PlayerBackground />
       <Box>
         <Box p="xl" pos="relative">
-          <Title order={3}>Now playing</Title>
+          <Title order={3}>{t("drawer.player.title")}</Title>
           <Space h={36} />
           <DrawerPlayerVideo />
           <PlayerLoadingOverlay />
@@ -77,7 +79,7 @@ export const DrawerPlayer = memo(() => {
         <Divider />
         <Space h="md" />
         <Box p="xl">
-          <Title order={3}>Your queue</Title>
+          <Title order={3}>{t("drawer.player.queue")}</Title>
         </Box>
         <Box p="xs">
           <ScrollArea className={classes.scrollArea}>

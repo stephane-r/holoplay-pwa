@@ -11,6 +11,7 @@ import { useForm } from "@mantine/form";
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import { Form } from "./Form";
 import { useMediaQuery, useOs } from "@mantine/hooks";
+import { useTranslation } from "react-i18next";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -41,6 +42,7 @@ export const SearchBar = memo(() => {
   const os = useOs();
   const theme = useMantineTheme();
   const isLg = useMediaQuery(`(min-width: ${theme.breakpoints.lg}px)`);
+  const { t } = useTranslation();
 
   const isMacos = os === "macos";
 
@@ -69,7 +71,7 @@ export const SearchBar = memo(() => {
           id="js-search-bar-input"
           ref={inputRef}
           icon={<IconSearch size={15} />}
-          placeholder="What do you want hear today ?"
+          placeholder={t("search.bar.placeholder") as string}
           radius="md"
           {...form.getInputProps("q")}
           rightSectionWidth={isMacos ? 63 : 83}

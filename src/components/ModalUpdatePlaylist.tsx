@@ -1,6 +1,7 @@
 import { Button, Flex, TextInput } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
@@ -18,6 +19,7 @@ export const ModalUpdatePlaylist: React.FC<ModalUpdatePlaylistProps> = memo(
   ({ opened, onClose, playlist }) => {
     const [playlistTitle, setPlaylistTitle] = useState(playlist.title);
     const setPlaylists = useSetPlaylists();
+    const { t } = useTranslation();
 
     const handleUpdatePlaylist = () => {
       db.update("playlists", { ID: playlist.ID }, (data: Playlist) => ({
@@ -27,8 +29,10 @@ export const ModalUpdatePlaylist: React.FC<ModalUpdatePlaylistProps> = memo(
       db.commit();
       setPlaylists(getPlaylists());
       showNotification({
-        title: "Playlist updated",
-        message: `${playlistTitle} has been updated}`,
+        title: t("modal.playlist.update.notification.title"),
+        message: `${playlistTitle} ${t(
+          "modal.playlist.update.notification.message"
+        )}`,
       });
 
       onClose();
@@ -40,24 +44,24 @@ export const ModalUpdatePlaylist: React.FC<ModalUpdatePlaylistProps> = memo(
         onClose={() => onClose()}
         centered
         size="lg"
-        title="Update playlist"
+        title={t("modal.playlist.update.title")}
         overlayBlur={3}
       >
         <Form onSubmit={() => handleUpdatePlaylist()}>
           <TextInput
             data-autofocus
-            placeholder="My awesome title"
-            label="Title"
+            placeholder={t("modal.playlist.update.input.placeholder") as string}
+            label={t("modal.playlist.update.input.label")}
             value={playlistTitle}
             onChange={(event) => setPlaylistTitle(event.target.value)}
           />
         </Form>
         <Flex gap={8} justify="flex-end" mt="xl">
           <Button onClick={() => onClose()} color="gray">
-            Cancel
+            {t("button.cancel")}
           </Button>
           <Button type="submit" disabled={playlistTitle.length === 0}>
-            Update playlist
+            {t("modal.playlist.update.button.submit")}
           </Button>
         </Flex>
       </Modal>
