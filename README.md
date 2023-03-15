@@ -1,46 +1,74 @@
-# Getting Started with Create React App
+<h2>🚨 Warning</h2>
+<p>This repository is DEPRECATED and not maintained anymore.<p>
+<p>An new app is available : <a href="https://github.com/stephane-r/holoplay-pwa">HoloPlay in PWA</a>, work on iOS, Android (PWA, with background sound !) and Desktop</p>
+    
+<hr>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center"><img src="./docs/logo.png" width="150" /></p>
+<h2 align="center">HoloPlay</h2>
+<p align="center" style="margin: 10px 0;"><a href="https://f-droid.org/fr/packages/com.holoplay"><img height="70" src="https://f-droid.org/wiki/images/0/06/F-Droid-button_get-it-on.png"></a></p>
+<p align="center">
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Badges"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/stars/stephane-r/HoloPlay?label=%E2%AD%90%20Stars" alt="Stars"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/forks/stephane-r/HoloPlay?color=%23ff69b4" alt="Forks"></a>
+</p>
 
-## Available Scripts
+<hr>
 
-In the project directory, you can run:
+HoloPlay (HoP) is a audio only Youtube alternative app using [Invidious API](https://github.com/omarroth/invidious). You can save music to favoris or create your playlists. This project is fully open source.
 
-### `npm start`
+If you want add more feature, PM or PR are welcome :)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Android version compatibility
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+HoloPlay has been tested on real devices with Android version 8, 9 and 10. Android 5, 6 and 7 on Emulator only.
 
-### `npm test`
+For now, HoloPlay is designed for mobile, not optimized for tablet device.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `npm run build`
+- **Search by video and playlist**
+- **Create your playlists**
+- **Save favourites**
+- **Downloading video**
+- **Background mode (Android, PWA)**
+- **Offline**
+- **Respect your privacy**
+- **Open Source**
+- **Cloud Syncing**
+- **Dark Theme**
+- **internationalization with EN (default) and FR** (soon)
+- **Add your self hosted Invidious instance URL** (soon)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installing
 
-### `npm run eject`
+TODO
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Built With
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [React](https://reactjs.org)
+- [Mantine](https://mantine.dev)
+- [TypeScript](https://www.typescriptlang.org/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## About Invidious
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+[Invidious](https://github.com/iv-org/invidious) is an alternative front-end to YouTube. HoloPlay use all [Invidious public instances](https://api.invidious.io/). All instances are retrieved each time HoloPlay is launched.
 
-## Learn More
+## Contributing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Please read [CONTRIBUTING.md]() for details on our code of conduct, and the process for submitting pull requests to us.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
+
+This project is licensed under the MIT.
+
+## TODO
+
+- [ ] i18n support
+- [ ] Add custom Invidious instance
