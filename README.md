@@ -1,23 +1,16 @@
-<h2>🚨 Warning</h2>
-<p>This repository is DEPRECATED and not maintained anymore.<p>
-<p>An new app is available : <a href="https://github.com/stephane-r/holoplay-pwa">HoloPlay in PWA</a>, work on iOS, Android (PWA, with background sound !) and Desktop</p>
-    
-<hr>
-
 <p align="center"><img src="./docs/logo.png" width="150" /></p>
 <h2 align="center">HoloPlay</h2>
-<p align="center" style="margin: 10px 0;"><a href="https://f-droid.org/fr/packages/com.holoplay"><img height="70" src="https://f-droid.org/wiki/images/0/06/F-Droid-button_get-it-on.png"></a></p>
 <p align="center">
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
     <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Badges"></a>
     <a href="https://github.com/stephane-r/holoplay-pwa/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"></a>
-    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/stars/stephane-r/HoloPlay?label=%E2%AD%90%20Stars" alt="Stars"></a>
-    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/forks/stephane-r/HoloPlay?color=%23ff69b4" alt="Forks"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/stars/stephane-r/holoplay-pwa?label=%E2%AD%90%20Stars" alt="Stars"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/forks/stephane-r/holoplay-pwa?color=%23ff69b4" alt="Forks"></a>
 </p>
 
 <hr>
 
-HoloPlay (HoP) is a audio only Youtube alternative app using [Invidious API](https://github.com/omarroth/invidious). You can save music to favoris or create your playlists. This project is fully open source.
+HoloPlay is a audio only Youtube alternative app using [Invidious API](https://github.com/omarroth/invidious). You can save music to favoris or create your playlists. This project is fully open source.
 
 If you want add more feature, PM or PR are welcome :)
 
