@@ -17,7 +17,14 @@ export const GithubActionIcon = memo(() => {
   const { classes } = useStyles();
 
   return (
-    <ActionIcon className={classes.button} radius="md" variant="filled">
+    <ActionIcon
+      component="a"
+      href="https://github.com/stephane-r/holoplay-pwa"
+      target="_blank"
+      className={classes.button}
+      radius="md"
+      variant="filled"
+    >
       <IconBrandGithub size={20} />
     </ActionIcon>
   );
