@@ -1,5 +1,4 @@
 import { Alert, Space, Text, Title } from "@mantine/core";
-import { t } from "i18next";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useFavorite } from "../providers/Favorite";

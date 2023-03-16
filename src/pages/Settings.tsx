@@ -4,7 +4,6 @@ import {
   Accordion,
   Divider,
   Alert,
-  Select,
   SegmentedControl,
 } from "@mantine/core";
 import { memo, useState } from "react";
@@ -14,11 +13,14 @@ import { PageHeader } from "../components/PageHeader";
 import { useSettings } from "../providers/Settings";
 import { ImportData } from "../components/ImportData";
 import { ExportData } from "../components/ExportData";
+import { ChangeLanguage } from "../components/ChangeLanguage";
 
 export const SettingsPage = memo(() => {
+  const { t } = useTranslation();
+
   return (
     <div>
-      <PageHeader title="Settings" />
+      <PageHeader title={t("page.settings.title")} />
       <Accordion variant="contained">
         <GeneralItem />
         <ImportExportDataItem />
@@ -54,24 +56,7 @@ const GeneralItem = memo(() => {
           <Text>{t("invidious.alert")}</Text>
         </Alert>
         <Divider mt="md" mb="lg" />
-        <Select
-          label={t("language")}
-          defaultValue="en"
-          disabled
-          data={[
-            {
-              value: "en",
-              label: "English",
-            },
-            {
-              value: " fr",
-              label: "French",
-            },
-          ]}
-        />
-        <Alert title={t("language.alert.title")} mt="lg">
-          <Text>{t("language.alert")}</Text>
-        </Alert>
+        <ChangeLanguage />
         <Divider mt="md" mb="lg" />
         <SwitchColorScheme />
       </Accordion.Panel>
