@@ -1,46 +1,67 @@
-# Getting Started with Create React App
+<p align="center"><img src="./docs/logo.png" width="150" /></p>
+<h2 align="center">HoloPlay</h2>
+<p align="center">
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Badges"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/stars/stephane-r/holoplay-pwa?label=%E2%AD%90%20Stars" alt="Stars"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/forks/stephane-r/holoplay-pwa?color=%23ff69b4" alt="Forks"></a>
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<hr>
 
-## Available Scripts
+HoloPlay is a audio only Youtube alternative app using [Invidious API](https://github.com/omarroth/invidious). You can save music to favoris or create your playlists. This project is fully open source.
 
-In the project directory, you can run:
+If you want add more feature, PM or PR are welcome :)
 
-### `npm start`
+## Android version compatibility
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+HoloPlay has been tested on real devices with Android version 8, 9 and 10. Android 5, 6 and 7 on Emulator only.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+For now, HoloPlay is designed for mobile, not optimized for tablet device.
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Search by video and playlist**
+- **Create your playlists**
+- **Save favourites**
+- **Downloading video**
+- **Background mode (Android, PWA)**
+- **Offline**
+- **Respect your privacy**
+- **Open Source**
+- **Cloud Syncing**
+- **Dark Theme**
+- **internationalization with EN (default) and FR** (soon)
+- **Add your self hosted Invidious instance URL** (soon)
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Installing
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+TODO
 
-### `npm run eject`
+## Built With
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- [React](https://reactjs.org)
+- [Mantine](https://mantine.dev)
+- [TypeScript](https://www.typescriptlang.org/)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## About Invidious
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+[Invidious](https://github.com/iv-org/invidious) is an alternative front-end to YouTube. HoloPlay use all [Invidious public instances](https://api.invidious.io/). All instances are retrieved each time HoloPlay is launched.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Contributing
 
-## Learn More
+Please read [CONTRIBUTING.md]() for details on our code of conduct, and the process for submitting pull requests to us.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## License
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This project is licensed under the MIT.
+
+## TODO
+
+- [ ] i18n support
+- [ ] Add custom Invidious instance
