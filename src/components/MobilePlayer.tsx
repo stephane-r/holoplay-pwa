@@ -13,6 +13,7 @@ import {
 } from "@mantine/core";
 import { IconChevronUp } from "@tabler/icons-react";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
 import { DrawerPlayerVideo } from "./DrawerPlayer";
@@ -58,6 +59,7 @@ export const MobilePlayer = memo(() => {
 const ButtonOpenDrawer = memo(() => {
   const [isOpen, setOpen] = useState(false);
   const videos = usePlayerPlaylist();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -67,7 +69,7 @@ const ButtonOpenDrawer = memo(() => {
       <Drawer
         opened={isOpen}
         onClose={() => setOpen((state) => !state)}
-        title="Now playing"
+        title={t("player.title")}
         padding="xl"
         size="full"
         position="bottom"
@@ -77,7 +79,7 @@ const ButtonOpenDrawer = memo(() => {
           <Space h="xl" />
           <Divider />
           <Space h="xl" />
-          <Title order={3}>Your queue</Title>
+          <Title order={3}>{t("player.queue")}</Title>
           <Space h="xl" />
           <VideoList videos={videos} />
         </ScrollArea>

@@ -1,11 +1,10 @@
-import { UnstyledButton } from "@mantine/core";
 import { memo } from "react";
-import { IconBrandGooglePlay } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 
 export const Logo = memo(() => {
   return (
-    <UnstyledButton style={{ marginTop: 8 }}>
-      <IconBrandGooglePlay />
-    </UnstyledButton>
+    <Link to="/" style={{ marginTop: 8 }}>
+      <img src="/logo-holoplay-white.png" width={40} alt="Logo HoloPlay" />
+    </Link>
   );
 });

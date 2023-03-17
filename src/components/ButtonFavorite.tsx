@@ -8,6 +8,7 @@ import { useFavorite, useSetFavorite } from "../providers/Favorite";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
 import { usePlayerVideo } from "../providers/Player";
+import { useTranslation } from "react-i18next";
 
 interface ButtonFavoriteProps extends ActionIconProps {
   video?: Video;
@@ -19,6 +20,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     const favorite = useFavorite();
     const setFavorite = useSetFavorite();
     const { video: currentVideo } = usePlayerVideo();
+    const { t } = useTranslation();
 
     const video = parentVideo ?? (currentVideo as Video);
 
@@ -44,7 +46,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
 
       showNotification({
         title: video.title,
-        message: "Added to favorites",
+        message: t("favorite.add.success.message"),
       });
     };
 
@@ -58,7 +60,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
 
       showNotification({
         title: video.title,
-        message: "Removed from favorites",
+        message: t("favorite.remove.success.message"),
       });
     };
 

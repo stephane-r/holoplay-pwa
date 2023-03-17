@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { memo, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
@@ -33,6 +34,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
     const playlists = usePlaylists();
     const setPlaylists = useSetPlaylists();
     const localPlaylist = playlists.filter((p) => !p.playlistId);
+    const { t } = useTranslation();
 
     const playlistsIsEmpty = playlists.length === 0;
 
@@ -47,7 +49,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
       setPlaylists(getPlaylists());
       showNotification({
         title: video.title,
-        message: `Added to playlist`,
+        message: t("modal.video.playlist.add"),
       });
 
       onClose();
@@ -61,11 +63,11 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
       if (!selectedPlaylist) {
         showNotification({
           title: "Error",
-          message: "Select playlist does not exist",
+          message: t("modal.video.playlist.add.error"),
           color: "red",
         });
 
-        throw new Error("Select playlist does not exist");
+        throw new Error(t("modal.video.playlist.add.error") as string);
       }
 
       db.update(
@@ -80,7 +82,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
     };
 
     const createNewPlaylist = () => {
-      db.insert("playlists", {
+      db.insert("modal.playlists", {
         createdAt: new Date().toISOString(),
         title: newPlaylistTitle,
         videos: [video],
@@ -107,18 +109,18 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
           onClose={onClose}
           centered
           size="lg"
-          title="Add video to playlist"
+          title={t("modal.video.playlist.title")}
         >
           <Form onSubmit={handleAddToPlaylist}>
             {!playlistsIsEmpty ? (
               <>
-                <Text>
-                  Select the playlist to wich you want to add your video
-                </Text>
+                <Text>{t("modal.video.playlist.your.text")}</Text>
                 <Space h={4} />
                 <Select
-                  label="Playlists"
-                  placeholder="Your playlist"
+                  label={t("modal.video.playlist.your.label")}
+                  placeholder={
+                    t("modal.video.playlist.your.playlist") as string
+                  }
                   data={formatToOptionsCollection(localPlaylist)}
                   onChange={setSelectedPlaylistId}
                 />
@@ -127,7 +129,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
                     <Space h={24} />
                     <Divider />
                     <Space h={16} />
-                    <Text>Or create new playlist</Text>
+                    <Text>{t("modal.video.playlist.or")}</Text>
                   </>
                 ) : null}
               </>
@@ -135,23 +137,25 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
             {!selectedPlaylistId ? (
               <>
                 {playlistsIsEmpty ? (
-                  <Text>Create your first playlist</Text>
+                  <Text>{t("modal.video.playlist.selected.text")}</Text>
                 ) : null}
                 <Space h={4} />
                 <TextInput
                   data-autofocus
-                  placeholder="My awesome title"
-                  label="Title"
+                  placeholder={
+                    t("modal.video.playlist.selected.placeholder") as string
+                  }
+                  label={t("modal.video.playlist.selected.label")}
                   onChange={(event) => setNewPlaylistTitle(event.target.value)}
                 />
               </>
             ) : null}
             <Flex gap={8} justify="flex-end" mt="xl">
               <Button onClick={onClose} color="gray">
-                Cancel
+                {t("button.cancel")}
               </Button>
               <Button type="submit" disabled={disabled}>
-                Add to playlist
+                {t("modal.video.playlist.button.add")}
               </Button>
             </Flex>
           </Form>

@@ -25,6 +25,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSearchUrl } from "../hooks/useSearchUrl";
 import { PlayerSpace } from "./Player";
 import { AppVersion } from "./AppVersion";
+import { useTranslation } from "react-i18next";
 
 export const NAVIGATION_WIDTH = 88;
 
@@ -140,6 +141,7 @@ export const Navigation = memo(() => {
   const navigate = useNavigate();
   const location = useLocation();
   const { cx, classes } = useStyles();
+  const { t } = useTranslation();
 
   const isActive = (routeName: string) => ({
     onClick: () => navigate(routeName),
@@ -158,31 +160,35 @@ export const Navigation = memo(() => {
       </Center>
       <Navbar.Section grow mt={32}>
         <Stack justify="center" spacing={0}>
-          <NavbarLink icon={IconHome2} label="Dashboard" {...isActive("/")} />
+          <NavbarLink
+            icon={IconHome2}
+            label={t("navigation.dashboard")}
+            {...isActive("/")}
+          />
           <SearchLink />
           <NavbarLink
             icon={IconTrendingUp}
-            label="Trending"
+            label={t("navigation.trending")}
             {...isActive("/trending")}
           />
           <NavbarLink
             icon={IconUsers}
-            label="Most popular"
+            label={t("navigation.most-popular")}
             {...isActive("/most-popular")}
           />
           <NavbarLink
             icon={IconHeart}
-            label="Favorites"
+            label={t("navigation.favorites")}
             {...isActive("/favorites")}
           />
           <NavbarLink
             icon={IconMusic}
-            label="Playlists"
+            label={t("navigation.playlists")}
             {...isActive("/playlists")}
           />
           <NavbarLink
             icon={IconHistory}
-            label="History"
+            label={t("navigation.history")}
             {...isActive("/history")}
           />
         </Stack>
@@ -191,12 +197,12 @@ export const Navigation = memo(() => {
         <Stack justify="center" spacing={0}>
           <NavbarLink
             icon={IconInfoCircle}
-            label="About"
+            label={t("navigation.about")}
             {...isActive("/about")}
           />
           <NavbarLink
             icon={IconSettings}
-            label="Settings"
+            label={t("navigation.settings")}
             {...isActive("/settings")}
           />
           <AppVersion align="center" />
@@ -211,11 +217,12 @@ const SearchLink = memo(() => {
   const navigate = useNavigate();
   const location = useLocation();
   const url = useSearchUrl();
+  const { t } = useTranslation();
 
   return (
     <NavbarLink
       icon={IconSearch}
-      label="Search"
+      label={t("navigation.search")}
       onClick={() => navigate(url)}
       active={location.pathname === "/search"}
     />

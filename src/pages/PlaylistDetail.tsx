@@ -4,6 +4,7 @@ import { Alert, LoadingOverlay, Text } from "@mantine/core";
 import { CardList } from "../components/CardList";
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
 import { useGetPlaylist } from "../hooks/useGetPlaylist";
+import { useTranslation } from "react-i18next";
 
 export const PlaylistDetailPage = memo(() => {
   return (
@@ -16,6 +17,7 @@ export const PlaylistDetailPage = memo(() => {
 const PageContainer = memo(() => {
   const { playlistId } = useIsLocalPlaylist();
   const { playlist } = useGetPlaylist(playlistId as string | number);
+  const { t } = useTranslation();
 
   if (!playlist) {
     return <LoadingOverlay visible />;
@@ -27,7 +29,7 @@ const PageContainer = memo(() => {
       {playlist.videos.length === 0 ? (
         <Alert title={playlist.title}>
           <Text>
-            <strong>{playlist.title}</strong> is empty
+            <strong>{playlist.title}</strong> {t("is.empty")}
           </Text>
         </Alert>
       ) : (

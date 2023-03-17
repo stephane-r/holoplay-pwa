@@ -8,6 +8,7 @@ import {
   IconShare,
 } from "@tabler/icons-react";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
 import { Video } from "../types/interfaces/Video";
@@ -23,6 +24,7 @@ export const ButtonShare: React.FC<ButtonDownloadProps> = memo(
     const { video } = usePlayerVideo() as { video: Video };
     const clipboard = useClipboard();
     const settings = useSettings();
+    const { t } = useTranslation();
 
     const formateVideoUrl = (type: ShareType) => {
       switch (type) {
@@ -38,37 +40,37 @@ export const ButtonShare: React.FC<ButtonDownloadProps> = memo(
     const handleClick = (type: ShareType) => {
       clipboard.copy(formateVideoUrl(type));
       showNotification({
-        title: "Copied to clipboard",
-        message: "The link has been copied to your clipboard",
+        title: t("share.notification.title"),
+        message: t("share.notification.message"),
       });
     };
 
     return (
       <Menu shadow="md" width={200}>
         <Menu.Target>
-          <ActionIcon title="Share video">
+          <ActionIcon title={t("button.share.video")}>
             <IconShare size={iconSize} />
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Label>Share</Menu.Label>
+          <Menu.Label>{t("share.title")}</Menu.Label>
           <Menu.Item
             onClick={() => handleClick("holoplay")}
             icon={<IconCopy size={18} />}
           >
-            Copy <strong>HoloPlay</strong> link
+            {t("share.holoplay.link")}
           </Menu.Item>
           <Menu.Item
             onClick={() => handleClick("invidious")}
             icon={<IconPlayerPlay size={18} />}
           >
-            Copy <strong>Invidious</strong> link
+            {t("share.invidious.link")}
           </Menu.Item>
           <Menu.Item
             onClick={() => handleClick("youtube")}
             icon={<IconBrandYoutube size={18} />}
           >
-            Copy <strong>Youtube</strong> link
+            {t("share.youtube.link")}
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>

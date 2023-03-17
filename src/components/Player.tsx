@@ -29,6 +29,7 @@ import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonDownload } from "./ButtonDownload";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 import { ButtonShare } from "./ButtonShare";
+import { useTranslation } from "react-i18next";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -193,13 +194,14 @@ const PlayerVolume = memo(() => {
 const PlayerPlaylist = memo(() => {
   const [opened, setOpened] = useState(false);
   const videosPlaylist = usePlayerPlaylist();
+  const { t } = useTranslation();
 
   return (
     <>
       <Drawer
         opened={opened}
         onClose={() => setOpened(false)}
-        title="Next song"
+        title={t("player.next.song")}
         padding="xl"
         position="right"
         size="xl"

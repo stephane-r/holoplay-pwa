@@ -6,6 +6,7 @@ import {
   IconPlayerTrackPrev,
 } from "@tabler/icons-react";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlayerAudio, usePlayerState } from "../providers/Player";
 import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
@@ -77,6 +78,7 @@ export const ButtonPlayPause: React.FC<ButtonNextVideoProps> = memo(
 const ButtonPreviousVideo = memo(() => {
   const { handlePlay, loading } = usePlayVideo();
   const { videosIds } = usePreviousNextVideos();
+  const { t } = useTranslation();
 
   const handlePlayPreviousVideo = () => {
     handlePlay(videosIds.previousVideoId as string);
@@ -86,7 +88,7 @@ const ButtonPreviousVideo = memo(() => {
     <ActionIcon
       size="lg"
       radius="md"
-      title="Previous video"
+      title={t("player.previous.video")}
       disabled={!videosIds.previousVideoId}
       onClick={handlePlayPreviousVideo}
       loading={loading}
@@ -99,6 +101,7 @@ const ButtonPreviousVideo = memo(() => {
 const ButtonNextVideo = memo(() => {
   const { handlePlay, loading } = usePlayVideo();
   const { videosIds } = usePreviousNextVideos();
+  const { t } = useTranslation();
 
   const handlePlayNextVideo = () => {
     handlePlay(videosIds.nextVideoId as string);
@@ -108,7 +111,7 @@ const ButtonNextVideo = memo(() => {
     <ActionIcon
       size="lg"
       radius="md"
-      title="Next video"
+      title={t("player.next.video")}
       disabled={!videosIds.nextVideoId}
       onClick={handlePlayNextVideo}
       loading={loading}

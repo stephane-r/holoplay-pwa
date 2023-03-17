@@ -1,6 +1,6 @@
 {
   "name": "holoplay-pwa",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@codemotion/color-thief": "^2.0.5",
@@ -21,6 +21,7 @@
     "@types/react-dom": "^18.0.11",
     "hex-to-rgba": "^2.0.1",
     "i18next": "^22.4.10",
+    "i18next-browser-languagedetector": "^7.0.1",
     "image-color-extraction": "^1.1.4",
     "localstoragedb": "^2.3.2",
     "qs": "^6.11.0",

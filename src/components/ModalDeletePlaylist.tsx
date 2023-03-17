@@ -1,6 +1,7 @@
 import { Button, Flex, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
@@ -16,6 +17,7 @@ interface ModalDeletePlaylistProps {
 export const ModalDeletePlaylist: React.FC<ModalDeletePlaylistProps> = memo(
   ({ opened, onClose, playlist }) => {
     const setPlaylists = useSetPlaylists();
+    const { t } = useTranslation();
 
     const handleDeletePlaylist = () => {
       db.deleteRows("playlists", {
@@ -24,8 +26,10 @@ export const ModalDeletePlaylist: React.FC<ModalDeletePlaylistProps> = memo(
       db.commit();
       setPlaylists(getPlaylists());
       showNotification({
-        title: "Playlist deleted",
-        message: `${playlist.title} has been deleted`,
+        title: t("modal.playlist.delete.notification.title"),
+        message: `${playlist.title} ${t(
+          "modal.playlist.delete.notification.message"
+        )}`,
       });
 
       onClose();
@@ -37,18 +41,19 @@ export const ModalDeletePlaylist: React.FC<ModalDeletePlaylistProps> = memo(
         onClose={() => onClose()}
         centered
         size="lg"
-        title="Delete playlist"
+        title={t("modal.playlist.delete.title")}
         overlayBlur={3}
       >
         <Text>
-          Do you want deleted <strong>{playlist.title}</strong> playlist ?
+          {t("modal.playlist.delete.text")} <strong>{playlist.title}</strong>{" "}
+          {t("modal.playlist.delete.text2")} ?
         </Text>
         <Flex gap={8} justify="flex-end" mt="xl">
           <Button onClick={() => onClose()} color="gray">
-            Cancel
+            {t("button.cancel")}
           </Button>
           <Button onClick={handleDeletePlaylist} color="red">
-            Delete playlist
+            {t("modal.playlist.delete.button.submit")}
           </Button>
         </Flex>
       </Modal>

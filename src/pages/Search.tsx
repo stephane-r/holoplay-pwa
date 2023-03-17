@@ -1,4 +1,5 @@
 import { memo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { PageHeader } from "../components/PageHeader";
 import { SearchResult } from "../components/SearchResult";
 import { useSearchValues } from "../providers/Search";
@@ -14,10 +15,11 @@ export const SearchPage = memo(() => {
 
 const PageHeaderContainer = memo(() => {
   const searchValues = useSearchValues();
+  const { t } = useTranslation();
 
   return (
     <PageHeader
-      title={`Search results ${
+      title={`${t("page.search.title")} ${
         searchValues.q.length > 0 ? `: ${searchValues.q}` : ""
       }`}
     />

@@ -4,15 +4,18 @@ import { ModalCreatePlaylist } from "../components/ModalCreatePlaylist";
 import { usePlaylists } from "../providers/Playlist";
 import { CardList } from "../components/CardList";
 import { Alert, Box, Flex } from "@mantine/core";
+import { useTranslation } from "react-i18next";
 
 export const PlaylistsPage = memo(() => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <Flex gap={20} align="center">
         <Box mb="xl">
           <ModalCreatePlaylist />
         </Box>
-        <PageHeader title="Playlists" />
+        <PageHeader title={t("page.playlists.title")} />
       </Flex>
       <PlaylistListContainer />
     </div>
@@ -21,11 +24,12 @@ export const PlaylistsPage = memo(() => {
 
 const PlaylistListContainer = memo(() => {
   const playlists = usePlaylists();
+  const { t } = useTranslation();
 
   if (!playlists.length) {
     return (
-      <Alert title="But, why?" color="blue" radius="md">
-        You have no playlists
+      <Alert title={t("playlists.empty.alert.title")} color="blue" radius="md">
+        {t("playlists.empty.alert.message")}
       </Alert>
     );
   }

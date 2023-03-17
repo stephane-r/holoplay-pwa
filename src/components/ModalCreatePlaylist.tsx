@@ -2,6 +2,7 @@ import { Button, Flex, TextInput, ActionIcon, Tooltip } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { IconPlus } from "@tabler/icons-react";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
@@ -12,6 +13,7 @@ export const ModalCreatePlaylist = memo(() => {
   const [opened, setOpened] = useState(false);
   const [playlistTitle, setPlaylistTitle] = useState("");
   const setPlaylists = useSetPlaylists();
+  const { t } = useTranslation();
 
   const handleAddToPlaylist = () => {
     db.insert("playlists", {
@@ -24,8 +26,10 @@ export const ModalCreatePlaylist = memo(() => {
     db.commit();
     setPlaylists(getPlaylists());
     showNotification({
-      title: "Playlist created",
-      message: `${playlistTitle} has been created}`,
+      title: t("modal.create.playlist.notification.title"),
+      message: `${playlistTitle} ${t(
+        "modal.create.playlist.notification.message"
+      )}`,
     });
 
     setOpened(false);
@@ -38,26 +42,26 @@ export const ModalCreatePlaylist = memo(() => {
         onClose={() => setOpened(false)}
         centered
         size="lg"
-        title="Create new playlist"
+        title={t("create.playlist.title")}
       >
         <Form onSubmit={handleAddToPlaylist}>
           <TextInput
             data-autofocus
-            placeholder="My awesome title"
-            label="Title"
+            placeholder={t("modal.create.playlist.input.placeholder") as string}
+            label={t("modal.create.playlist.input.placeholder")}
             onChange={(event) => setPlaylistTitle(event.target.value)}
           />
           <Flex gap={8} justify="flex-end" mt="xl">
             <Button onClick={() => setOpened(false)} color="gray">
-              Cancel
+              {t("button.cancel")}
             </Button>
             <Button type="submit" disabled={playlistTitle.length === 0}>
-              Create playlist
+              {t("modal.create.playlist.button.submit")}
             </Button>
           </Flex>
         </Form>
       </Modal>
-      <Tooltip label="Create new playlist" position="left">
+      <Tooltip label={t("create.playlist.title")} position="left">
         <ActionIcon
           onClick={() => setOpened(true)}
           variant="filled"
