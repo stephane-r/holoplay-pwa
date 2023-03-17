@@ -148,12 +148,21 @@
     "page.dashboard.title": "Dashboard",
     "page.favorites.title": "Favorites",
     "page.history.title": "History",
-    "page.about.title": "About",
     "page.playlists.title": "Playlists",
     "page.most-populars.title": "Most Populars",
     "page.search.title": "Search results",
     "page.trending.title": "Trending",
     "page.settings.title": "Settings",
     "page.wip.alert.title": "Oops",
-    "page.wip.alert.message": "This page is in working progress"
+    "page.wip.alert.message": "This page is in working progress",
+    "page.about.title": "About",
+    "page.about.description1": "is a Web App connected to the different",
+    "page.about.description2": "instances and which allows you to listen, freely and without tracking, to the incredible Youtube database.",
+    "page.about.version": "Version",
+    "page.about.github": "Github",
+    "page.about.source.code1": "View the source code",
+    "page.about.source.code2": "on Github",
+    "page.about.troubleshooting": "TroubleShooting",
+    "page.about.issue": "Report an issue",
+    "page.about.feature": "Request a feature or suggest an idea"
 }

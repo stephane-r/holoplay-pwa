@@ -147,12 +147,21 @@
     "page.dashboard.title": "Dashboard",
     "page.favorites.title": "Favoris",
     "page.history.title": "Historique",
-    "page.about.title": "A propos",
     "page.playlists.title": "Playlists",
     "page.most-populars.title": "Plus populaires",
     "page.search.title": "Recherche",
     "page.trending.title": "Tendance",
     "page.settings.title": "Paramètres",
     "page.wip.alert.title": "Oops",
-    "page.wip.alert.message": "Cette page n'est pas encore disponible"
+    "page.wip.alert.message": "Cette page n'est pas encore disponible",
+    "page.about.title": "A propos",
+    "page.about.description1": "est une application web connectée aux différentes instances",
+    "page.about.description2": "et qui permet d'écouter, librement et sans tracking, l'incroyable base de donnée de Youtube.",
+    "page.about.version": "Version",
+    "page.about.github": "Github",
+    "page.about.source.code1": "Voir le code source",
+    "page.about.source.code2": "sur Github",
+    "page.about.troubleshooting": "Besoin d'aide",
+    "page.about.issue": "Signaler un problème",
+    "page.about.feature": "Demander une fonctionnalité ou suggérer une idée"
 }
