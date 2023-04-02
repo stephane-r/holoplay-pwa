@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Popover, Space } from "@mantine/core";
 import { getSearchHistory } from "../database/utils";
+import { IconHistory } from "@tabler/icons-react";
 
 interface SearcHistoryMenuProps {
   opened: boolean;
@@ -26,6 +27,12 @@ export const SearcHistoryMenu: React.FC<SearcHistoryMenuProps> = ({
               fullWidth
               compact
               onClick={() => onSelect(item.term)}
+              styles={() => ({
+                inner: {
+                  justifyContent: "flex-start",
+                },
+              })}
+              leftIcon={<IconHistory size={16} />}
             >
               {item.term}
             </Button>
