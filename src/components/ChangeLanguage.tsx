@@ -2,8 +2,7 @@ import { Select } from "@mantine/core";
 import i18next from "i18next";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-
-type Languages = "en-EN" | "fr-FR";
+import { Languages, languagesValues } from "../translations";
 
 export const ChangeLanguage = memo(() => {
   const { t } = useTranslation("translation", {
@@ -19,16 +18,7 @@ export const ChangeLanguage = memo(() => {
       label={t("language")}
       value={i18next.language}
       onChange={handleChange}
-      data={[
-        {
-          value: "en-EN",
-          label: "English",
-        },
-        {
-          value: "fr-FR",
-          label: "French",
-        },
-      ]}
+      data={languagesValues}
     />
   );
 });
