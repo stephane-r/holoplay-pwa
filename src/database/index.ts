@@ -41,6 +41,10 @@ const initDb = () => {
     ]);
   }
 
+  if (!db.tableExists("searchHistory")) {
+    db.createTable("searchHistory", ["createdAt", "term"]);
+  }
+
   return db;
 };
 

@@ -1,5 +1,6 @@
 import { db } from ".";
 import { Playlist } from "../types/interfaces/Playlist";
+import { SearchHistory } from "../types/interfaces/Search";
 import { Settings } from "../types/interfaces/Settings";
 import { Video } from "../types/interfaces/Video";
 
@@ -47,4 +48,11 @@ export const getVideosHistory = (): Video[] => {
 
 export const getLastVideoPlayed = (): Video => {
   return getVideosHistory()[0];
+};
+
+export const getSearchHistory = (): SearchHistory[] => {
+  return db.queryAll("searchHistory", {
+    sort: [["ID", "DESC"]],
+    limit: 5,
+  });
 };

@@ -22,3 +22,8 @@ export interface Search {
   time: SearchDate;
   duration: SearchDuration;
 }
+
+export interface SearchHistory {
+  createdAt: string;
+  term: string;
+}
