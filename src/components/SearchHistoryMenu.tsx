@@ -15,6 +15,10 @@ export const SearcHistoryMenu: React.FC<SearcHistoryMenuProps> = ({
 }) => {
   const data = getSearchHistory();
 
+  if (!data.length) {
+    return <>{children}</>;
+  }
+
   return (
     <Popover opened={opened} width="target">
       <Popover.Target>{children}</Popover.Target>
