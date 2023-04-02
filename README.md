@@ -14,12 +14,6 @@ HoloPlay is a audio only Youtube alternative app using [Invidious API](https://g
 
 If you want add more feature, PM or PR are welcome :)
 
-## Android version compatibility
-
-HoloPlay has been tested on real devices with Android version 8, 9 and 10. Android 5, 6 and 7 on Emulator only.
-
-For now, HoloPlay is designed for mobile, not optimized for tablet device.
-
 ## Features
 
 - **Search by video and playlist**
@@ -27,12 +21,11 @@ For now, HoloPlay is designed for mobile, not optimized for tablet device.
 - **Save favourites**
 - **Downloading video**
 - **Background mode (Android, PWA)**
-- **Offline**
 - **Respect your privacy**
 - **Open Source**
-- **Cloud Syncing**
+- **Cloud Syncing** (soon)
 - **Dark Theme**
-- **internationalization with EN (default) and FR** (soon)
+- **internationalization with English (default), French and Japanese (thank to maboroshin !)**
 - **Add your self hosted Invidious instance URL** (soon)
 
 ## Getting Started
