@@ -1,12 +1,5 @@
 import { memo } from "react";
-import {
-  Navbar,
-  Center,
-  Tooltip,
-  UnstyledButton,
-  createStyles,
-  Stack,
-} from "@mantine/core";
+import { Navbar, Center, createStyles, Stack } from "@mantine/core";
 import {
   IconHome2,
   IconGauge,
@@ -26,6 +19,8 @@ import { useSearchUrl } from "../hooks/useSearchUrl";
 import { PlayerSpace } from "./Player";
 import { AppVersion } from "./AppVersion";
 import { useTranslation } from "react-i18next";
+import { NavbarLink } from "./NavbarLink";
+import { ButtonSyncData } from "./ButtonSyncData";
 
 export const NAVIGATION_WIDTH = 88;
 
@@ -36,60 +31,7 @@ const useStyles = createStyles((theme) => ({
         ? theme.colors.dark[6]
         : theme.colors.gray[0],
   },
-  link: {
-    width: 44,
-    height: 44,
-    borderRadius: theme.radius.md,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-    margin: "auto",
-    marginBottom: theme.spacing.sm,
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[5]
-          : theme.colors.gray[0],
-    },
-  },
-  active: {
-    "&, &:hover": {
-      backgroundColor: theme.fn.variant({
-        variant: "light",
-        color: theme.primaryColor,
-      }).background,
-      color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
-        .color,
-    },
-  },
 }));
-
-interface NavbarLinkProps {
-  icon: any;
-  label: string;
-  active?: boolean;
-  onClick?(): void;
-}
-
-const NavbarLink = memo(
-  ({ icon: Icon, label, active, onClick }: NavbarLinkProps) => {
-    const { classes, cx } = useStyles();
-    return (
-      <Tooltip label={label} position="right">
-        <UnstyledButton
-          onClick={onClick}
-          className={cx(classes.link, { [classes.active]: active })}
-        >
-          <Icon stroke={1.5} />
-        </UnstyledButton>
-      </Tooltip>
-    );
-  }
-);
 
 export const navigationItems = [
   {
@@ -195,6 +137,7 @@ export const Navigation = memo(() => {
       </Navbar.Section>
       <Navbar.Section>
         <Stack justify="center" spacing={0}>
+          <ButtonSyncData />
           <NavbarLink
             icon={IconInfoCircle}
             label={t("navigation.about")}

@@ -14,13 +14,13 @@ import { IconFileBarcode, IconFileX, IconUpload } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import {
   getFavoritePlaylist,
+  importPlaylist,
   importVideosToFavorites,
 } from "../database/utils";
 import { Dropzone } from "@mantine/dropzone";
 import { useSetFavorite } from "../providers/Favorite";
 import { getVideo } from "../services/video";
 import { Video } from "../types/interfaces/Video";
-import { db } from "../database";
 import { useSetPlaylists } from "../providers/Playlist";
 import { getPlaylists } from "../database/utils";
 
@@ -165,14 +165,11 @@ const TransferList = memo(
 
             const videosData = await Promise.all(promises);
 
-            db.insert("playlists", {
-              createdAt: new Date().toISOString(),
+            importPlaylist({
               title: playlist.playlistName,
               videos: videosData.map(({ video }) => video),
               videoCount: videosData.length,
-              type: "playlist",
             });
-            db.commit();
             setPlaylists(getPlaylists());
           });
         }

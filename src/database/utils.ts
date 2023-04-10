@@ -12,11 +12,33 @@ export const getFavoritePlaylist = (): Playlist => {
   return db.queryAll("playlists", { query: { title: "Favorites" } })[0];
 };
 
+const removeDuplicateVideoId = (videos: Video[]): Video[] => {
+  return videos.filter(
+    (value, index, self) =>
+      index === self.findIndex((t) => t.videoId === value.videoId)
+  );
+};
+
 export const importVideosToFavorites = (importedVideos: Video[]): void => {
   db.update("playlists", { title: "Favorites" }, (raw: Playlist) => ({
     ...raw,
-    videos: [...importedVideos, ...raw.videos],
+    videos: removeDuplicateVideoId([...importedVideos, ...raw.videos]),
   }));
+  db.commit();
+};
+
+export const importPlaylist = (playlist: {
+  title: string;
+  videos: Video[];
+  videoCount: number;
+}): void => {
+  db.insert("playlists", {
+    createdAt: new Date().toISOString(),
+    title: playlist.title,
+    videos: playlist.videos,
+    videoCount: playlist.videoCount,
+    type: "playlist",
+  });
   db.commit();
 };
 

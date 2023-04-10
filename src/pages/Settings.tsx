@@ -14,6 +14,7 @@ import { useSettings } from "../providers/Settings";
 import { ImportData } from "../components/ImportData";
 import { ExportData } from "../components/ExportData";
 import { ChangeLanguage } from "../components/ChangeLanguage";
+import { SaveData } from "../components/SaveData";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();
@@ -64,8 +65,10 @@ const GeneralItem = memo(() => {
   );
 });
 
+type ImportExportTab = "import" | "export" | "save";
+
 const ImportExportDataItem = memo(() => {
-  const [type, setType] = useState<"import" | "export">("import");
+  const [type, setType] = useState<ImportExportTab>("import");
   const { t } = useTranslation("translation", {
     keyPrefix: "settings.data",
   });
@@ -88,10 +91,22 @@ const ImportExportDataItem = memo(() => {
           data={[
             { label: t("import"), value: "import" },
             { label: t("export"), value: "export" },
+            { label: "Save", value: "save" },
           ]}
-          onChange={(type: "import" | "export") => setType(type)}
+          onChange={(type: ImportExportTab) => setType(type)}
         />
-        {type === "import" ? <ImportData /> : <ExportData />}
+        {(() => {
+          switch (type) {
+            case "import":
+              return <ImportData />;
+            case "export":
+              return <ExportData />;
+            case "save":
+              return <SaveData />;
+            default:
+              return null;
+          }
+        })()}
       </Accordion.Panel>
     </Accordion.Item>
   );
