@@ -20,18 +20,18 @@ import { Dropzone } from "@mantine/dropzone";
 import { useSetFavorite } from "../providers/Favorite";
 import { getVideo } from "../services/video";
 import { Video } from "../types/interfaces/Video";
+import { db } from "../database";
+import { useSetPlaylists } from "../providers/Playlist";
+import { getPlaylists } from "../database/utils";
 
 export const formateToTransferList = (data: ImportDataType[]) => {
   return data
     .filter((item) => item.videos.length > 0)
-    .map((item) =>
-      item.videos.map((video) => ({
-        value: video.videoId,
-        label: video.title,
-        group: item.playlistName,
-      }))
-    )
-    .flat();
+    .map((item) => ({
+      // @ts-ignore
+      value: String(item.ID),
+      label: `${item.playlistName} (${item.videos.length} videos)`,
+    }));
 };
 
 interface ImportDataType {
@@ -121,6 +121,7 @@ const TransferList = memo(
     onClear: () => void;
   }) => {
     const setFavorite = useSetFavorite();
+    const setPlaylists = useSetPlaylists();
     const [loading, setLoading] = useState(false);
     const [importData, setImportData] = useState<TransferListData>([
       formateToTransferList(importedFileData),
@@ -132,32 +133,66 @@ const TransferList = memo(
 
     const handleImportData = async () => {
       setLoading(true);
-      const importedVideos = importedFileData
-        ?.map((item) => item.videos)
-        .flat();
-      const selectedVideoIds = importData[1].map((item) => item.value);
-      const videos = importedVideos?.filter((item) =>
-        selectedVideoIds.includes(item.videoId)
-      ) as Video[];
 
-      const promises = [];
-      for (const video of videos) {
-        promises.push(getVideo(video.videoId));
+      try {
+        const favoritesData = importedFileData.find(
+          (data) => data.playlistName === "Favorites"
+        );
+        const playlistsData = importedFileData.filter(
+          (data) => data.playlistName !== "Favorites"
+        );
+
+        if (favoritesData) {
+          const promises = [];
+
+          for (const video of favoritesData.videos) {
+            promises.push(getVideo(video.videoId));
+          }
+
+          const videosData = await Promise.all(promises);
+
+          importVideosToFavorites(videosData.map(({ video }) => video));
+          setFavorite(getFavoritePlaylist());
+        }
+
+        if (playlistsData.length > 0) {
+          playlistsData.map(async (playlist) => {
+            const promises = [];
+
+            for (const video of playlist.videos) {
+              promises.push(getVideo(video.videoId));
+            }
+
+            const videosData = await Promise.all(promises);
+
+            db.insert("playlists", {
+              createdAt: new Date().toISOString(),
+              title: playlist.playlistName,
+              videos: videosData.map(({ video }) => video),
+              videoCount: videosData.length,
+              type: "playlist",
+            });
+            db.commit();
+            setPlaylists(getPlaylists());
+          });
+        }
+
+        showNotification({
+          title: t("notification.title"),
+          message: t("notification.message"),
+        });
+
+        onClear();
+        setImportData([[], []]);
+      } catch (error) {
+        showNotification({
+          title: t("notification.error.title"),
+          message: t("notification.error.message"),
+          color: "red",
+        });
+      } finally {
+        setLoading(false);
       }
-
-      const videosData = await Promise.all(promises);
-
-      importVideosToFavorites(videosData.map(({ video }) => video));
-      setFavorite(getFavoritePlaylist());
-      setLoading(false);
-
-      showNotification({
-        title: t("notification.title"),
-        message: t("notification.message"),
-      });
-
-      onClear();
-      setImportData([[], []]);
     };
 
     return (

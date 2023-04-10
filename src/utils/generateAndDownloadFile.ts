@@ -8,7 +8,7 @@ export const generateAndDownloadFile = (data: unknown) => {
   );
   $link.setAttribute(
     "download",
-    `holoplay-export-${new Date().toISOString}.json`
+    `holoplay-export-${new Date().toISOString()}.json`
   );
   $link.style.display = "none";
   document.body.appendChild($link);

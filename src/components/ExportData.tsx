@@ -36,7 +36,12 @@ export const ExportData = memo(() => {
   });
   const [data, setData] = useState<TransferListData>([
     // @ts-ignore
-    formateToTransferList(getAllPlaylists()),
+    formateToTransferList(
+      getAllPlaylists().map((p) => ({
+        ...p,
+        playlistName: p.title,
+      }))
+    ),
     [],
   ]);
 

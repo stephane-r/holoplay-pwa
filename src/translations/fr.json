@@ -18,6 +18,8 @@
     "settings.data.import.button.submit": "Importer les données",
     "settings.data.import.notification.title": "Import de données",
     "settings.data.import.notification.message": "Les données ont été importées",
+    "settings.data.import.notification.error.title": "Erreur",
+    "settings.data.import.notification.error.message": "Une erreur est survenue lors de l'import des données",
     "settings.data.export": "Exporter",
     "settings.data.export.left": "Vos playlists",
     "settings.data.export.right": "Vos playlists exportées",
