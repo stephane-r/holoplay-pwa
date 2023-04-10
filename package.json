@@ -1,6 +1,12 @@
 {
   "name": "holoplay-pwa",
   "version": "0.4.1",
+  "author": "Stéphane Richin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stephane-r/holoplay-pwa"
+  },
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@codemotion/color-thief": "^2.0.5",
