@@ -56,5 +56,6 @@ This project is licensed under the MIT.
 
 ## TODO
 
-- [ ] i18n support
+- [x] i18n support
+- [ ] Default Invidious instance
 - [ ] Add custom Invidious instance
