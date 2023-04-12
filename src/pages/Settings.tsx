@@ -3,18 +3,17 @@ import {
   Text,
   Accordion,
   Divider,
-  Alert,
   SegmentedControl,
 } from "@mantine/core";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SwitchColorScheme } from "../components/ColorScheme";
 import { PageHeader } from "../components/PageHeader";
-import { useSettings } from "../providers/Settings";
 import { ImportData } from "../components/ImportData";
 import { ExportData } from "../components/ExportData";
 import { ChangeLanguage } from "../components/ChangeLanguage";
 import { SaveData } from "../components/SaveData";
+import { SelectInvidiousInstance } from "../components/SelectInvidiousInstance";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();
@@ -31,7 +30,6 @@ export const SettingsPage = memo(() => {
 });
 
 const GeneralItem = memo(() => {
-  const settings = useSettings();
   const { t } = useTranslation("translation", {
     keyPrefix: "settings.general",
   });
@@ -49,13 +47,8 @@ const GeneralItem = memo(() => {
         </Group>
       </Accordion.Control>
       <Accordion.Panel>
-        <Text>
-          {t("invidious.current")} :{" "}
-          <strong>{settings.currentInstance?.domain}</strong>
-        </Text>
-        <Alert title={t("invidious.alert.title")} mt="xs">
-          <Text>{t("invidious.alert")}</Text>
-        </Alert>
+        <Text mb="md">{t("invidious.description")}</Text>
+        <SelectInvidiousInstance />
         <Divider mt="md" mb="lg" />
         <ChangeLanguage />
         <Divider mt="md" mb="lg" />

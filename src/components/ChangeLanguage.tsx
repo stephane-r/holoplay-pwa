@@ -16,6 +16,7 @@ export const ChangeLanguage = memo(() => {
   return (
     <Select
       label={t("language")}
+      description={t("language.description")}
       value={i18next.language}
       onChange={handleChange}
       data={languagesValues}

@@ -1,31 +1,31 @@
 interface Monitor {
-  monitorId: Number;
-  createdAt: Number;
-  statusClass: String;
-  name: String;
-  url?: String;
+  monitorId: number;
+  createdAt: number;
+  statusClass: string;
+  name: string;
+  url?: string;
 }
 
 interface Software {
-  branch: String;
-  name: String;
+  branch: string;
+  name: string;
   version: string;
 }
 
 interface Metadata {
-  lastChannelRefreshedAt: Number;
-  updatedAt: Number;
+  lastChannelRefreshedAt: number;
+  updatedAt: number;
 }
 
 interface User {
-  activeHalfyear: Number;
-  activeMonth: Number;
-  total: Number;
+  activeHalfyear: number;
+  activeMonth: number;
+  total: number;
 }
 
 interface Stat {
-  version: String;
-  openRegistrations: Boolean;
+  version: string;
+  openRegistrations: boolean;
   software: Software;
   metadata: Metadata;
   usage: {
@@ -36,13 +36,13 @@ interface Stat {
 type InstanceTypes = "https" | "onion";
 
 export interface Instance {
-  domain: String;
-  api: Boolean;
-  cors: Boolean;
-  flag: String;
+  domain: string;
+  api: boolean;
+  cors: boolean;
+  flag: string;
   monitor: Monitor;
-  region: String;
+  region: string;
   stats: Stat;
   type: InstanceTypes;
-  uri: String;
+  uri: string;
 }

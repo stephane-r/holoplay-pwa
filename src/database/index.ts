@@ -1,5 +1,7 @@
 // @ts-ignore
 import localStorageDB from "localstoragedb";
+import { getSettings } from "./utils";
+import { Settings } from "../types/interfaces/Settings";
 
 const initDb = () => {
   const db = new localStorageDB("library", localStorage);
@@ -13,7 +15,11 @@ const initDb = () => {
       "videoCount",
       "type",
     ]);
-    db.createTable("settings", ["createdAt", "currentInstance"]);
+    db.createTable("settings", [
+      "createdAt",
+      "currentInstance",
+      "defaultInstance",
+    ]);
 
     db.insert("playlists", {
       createdAt: new Date().toISOString(),
@@ -43,6 +49,11 @@ const initDb = () => {
 
   if (!db.tableExists("searchHistory")) {
     db.createTable("searchHistory", ["createdAt", "term"]);
+  }
+
+  if (!db.columnExists("settings", "defaultInstance")) {
+    db.alterTable("settings", "defaultInstance", null);
+    db.commit();
   }
 
   return db;

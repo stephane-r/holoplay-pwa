@@ -12,6 +12,7 @@ import {
   filterAndParseInstances,
 } from "../services/instances";
 import { Settings } from "../types/interfaces/Settings";
+import { getSettings } from "../database/utils";
 
 const SettingsContext = createContext<null | {
   settings: Settings;
@@ -26,27 +27,36 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
   children,
 }) => {
   const [settings, setSettings] = useState<Settings>({
+    ...getSettings(),
     instances: [],
-    currentInstance: null,
   });
 
-  const handleSuccess = useCallback((data: any) => {
-    const instances = filterAndParseInstances(data as any);
-    const currentInstance =
-      instances[generateRandomInteger(1, instances.length - 1)];
+  const handleSuccess = useCallback(
+    (data: any) => {
+      if (settings.instances.length > 0) return;
 
-    setSettings((previousState) => ({
-      ...previousState,
-      instances,
-      currentInstance,
-    }));
+      const instances = filterAndParseInstances(data as any);
+      const currentInstance =
+        settings.defaultInstance ??
+        instances[generateRandomInteger(1, instances.length - 1)];
 
-    db.update("settings", { ID: 1 }, () => ({ currentInstance }));
-    db.commit();
-  }, []);
+      setSettings((previousState) => ({
+        ...previousState,
+        instances,
+        currentInstance,
+      }));
+
+      db.update("settings", { ID: 1 }, (data: Settings) => ({
+        currentInstance,
+      }));
+      db.commit();
+    },
+    [settings.defaultInstance, settings.instances.length]
+  );
 
   useQuery("instances", () => fetchInvidiousInstances(), {
     onSuccess: handleSuccess,
+    enabled: settings.instances.length === 0,
   });
 
   const value = useMemo(
