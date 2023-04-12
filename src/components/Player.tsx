@@ -18,7 +18,7 @@ import {
   usePlayerUrl,
   usePlayerVideo,
 } from "../providers/Player";
-import { useMediaQuery } from "@mantine/hooks";
+import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
 import { VideoList } from "./VideoList";
 import { PlayerActions } from "./PlayerActions";
@@ -133,6 +133,8 @@ export const Player = memo(() => {
 const VideoInformations = memo(() => {
   const { classes } = useStyles();
   const { video, thumbnailUrl } = usePlayerVideo();
+
+  useDocumentTitle(video?.title as string);
 
   return (
     <Flex

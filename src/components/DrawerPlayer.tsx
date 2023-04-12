@@ -23,6 +23,7 @@ import { ButtonDownload } from "./ButtonDownload";
 import { ButtonShare } from "./ButtonShare";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 import { useTranslation } from "react-i18next";
+import { useDocumentTitle } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -122,6 +123,8 @@ export const DrawerPlayerVideo = memo(() => {
 const VideoInformations = memo(() => {
   const { video } = usePlayerVideo();
   const { classes } = useStyles();
+
+  useDocumentTitle(`${video?.title as string} - HoloPlay`);
 
   if (!video) {
     return null;
