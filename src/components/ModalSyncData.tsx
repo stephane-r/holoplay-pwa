@@ -1,4 +1,12 @@
-import { Box, Button, Flex, Text, TextInput } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Flex,
+  MediaQuery,
+  Text,
+  TextInput,
+  useMantineTheme,
+} from "@mantine/core";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Form } from "./Form";
@@ -42,6 +50,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
     const [enabled, setEnabled] = useState(false);
     const setFavorite = useSetFavorite();
     const setPlaylists = useSetPlaylists();
+    const theme = useMantineTheme();
 
     const { isLoading } = useQuery("sync", async () => syncData(value), {
       enabled,
@@ -158,9 +167,16 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
             </Box>
           </Flex>
           <Flex gap={8} justify="flex-end" mt="xl">
-            <Button onClick={() => onClose()} color="gray">
-              {t("button.cancel")}
-            </Button>
+            <MediaQuery
+              query={`(max-width: ${theme.breakpoints.xs})`}
+              styles={{ display: "none" }}
+            >
+              <Box>
+                <Button onClick={() => onClose()} color="gray">
+                  {t("button.cancel")}
+                </Button>
+              </Box>
+            </MediaQuery>
             <Button
               type="submit"
               loading={isLoading}

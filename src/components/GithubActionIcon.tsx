@@ -6,10 +6,6 @@ const useStyles = createStyles((theme) => ({
   button: {
     height: 36,
     width: 36,
-
-    [`@media (max-width: ${theme.breakpoints.xs})`]: {
-      display: "none",
-    },
   },
 }));
 

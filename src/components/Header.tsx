@@ -1,10 +1,18 @@
-import { createStyles, Space } from "@mantine/core";
+import {
+  Box,
+  createStyles,
+  Flex,
+  MediaQuery,
+  Space,
+  useMantineTheme,
+} from "@mantine/core";
 import { memo } from "react";
 import { MobileNavigationContainer } from "../containers/MobileNavigation";
 import { ColorScheme } from "./ColorScheme";
 import { GithubActionIcon } from "./GithubActionIcon";
 import { SearchBar } from "./SearchBar";
 import { SearchFilters } from "./SearchFiltersMenu";
+import { SyncActionIcon } from "./SyncActionIcon";
 
 const useStyles = createStyles(() => ({
   container: {
@@ -20,23 +28,40 @@ const useStyles = createStyles(() => ({
 
 export const Header = memo(() => {
   const { classes } = useStyles();
+  const theme = useMantineTheme();
 
   return (
     <header className={classes.container}>
       <MobileNavigationContainer />
       <SearchBar />
       <Space w={8} />
-      <div>
+      <Flex gap={8}>
         <SearchFilters />
-      </div>
-      <Space w={8} />
-      <div>
-        <GithubActionIcon />
-      </div>
-      <Space w={8} />
-      <div>
-        <ColorScheme />
-      </div>
+        <MediaQuery
+          query={`(min-width: ${theme.breakpoints.md})`}
+          styles={{ display: "none" }}
+        >
+          <Box>
+            <SyncActionIcon />
+          </Box>
+        </MediaQuery>
+        <MediaQuery
+          query={`(max-width: ${theme.breakpoints.md})`}
+          styles={{ display: "none" }}
+        >
+          <Box>
+            <GithubActionIcon />
+          </Box>
+        </MediaQuery>
+        <MediaQuery
+          query={`(max-width: ${theme.breakpoints.md})`}
+          styles={{ display: "none" }}
+        >
+          <Box>
+            <ColorScheme />
+          </Box>
+        </MediaQuery>
+      </Flex>
     </header>
   );
 });
