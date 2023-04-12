@@ -23,10 +23,9 @@ If you want add more feature, PM or PR are welcome :)
 - **Background mode (Android, PWA)**
 - **Respect your privacy**
 - **Open Source**
-- **Cloud Syncing** (soon)
+- **Data Syncing** (by using [Holoplay Serverless](https://github.com/stephane-r/holoplay-serverless))
 - **Dark Theme**
 - **internationalization with English (default), French and Japanese (thank to maboroshin !)**
-- **Add your self hosted Invidious instance URL** (soon)
 
 ## Getting Started
 
