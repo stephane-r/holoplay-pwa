@@ -82,7 +82,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
     };
 
     const createNewPlaylist = () => {
-      db.insert("modal.playlists", {
+      db.insert("playlists", {
         createdAt: new Date().toISOString(),
         title: newPlaylistTitle,
         videos: [video],
