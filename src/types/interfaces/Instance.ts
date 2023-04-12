@@ -46,3 +46,9 @@ export interface Instance {
   type: InstanceTypes;
   uri: string;
 }
+
+export interface CustomInstance {
+  domain: string;
+  type: InstanceTypes;
+  uri: string;
+}

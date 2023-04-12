@@ -1,7 +1,5 @@
 // @ts-ignore
 import localStorageDB from "localstoragedb";
-import { getSettings } from "./utils";
-import { Settings } from "../types/interfaces/Settings";
 
 const initDb = () => {
   const db = new localStorageDB("library", localStorage);
@@ -19,6 +17,7 @@ const initDb = () => {
       "createdAt",
       "currentInstance",
       "defaultInstance",
+      "customInstances",
     ]);
 
     db.insert("playlists", {
@@ -29,6 +28,8 @@ const initDb = () => {
     db.insert("settings", {
       createdAt: new Date().toISOString(),
       currentInstance: null,
+      defaultInstance: null,
+      customInstances: [],
     });
 
     db.commit();
@@ -53,6 +54,11 @@ const initDb = () => {
 
   if (!db.columnExists("settings", "defaultInstance")) {
     db.alterTable("settings", "defaultInstance", null);
+    db.commit();
+  }
+
+  if (!db.columnExists("settings", "customInstances")) {
+    db.alterTable("settings", "customInstances", []);
     db.commit();
   }
 

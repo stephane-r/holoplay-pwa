@@ -46,7 +46,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
         currentInstance,
       }));
 
-      db.update("settings", { ID: 1 }, (data: Settings) => ({
+      db.update("settings", { ID: 1 }, () => ({
         currentInstance,
       }));
       db.commit();
