@@ -49,43 +49,44 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
         setEnabled(false);
         importData(data);
       },
-    });
-
-    const importData = async (data: Playlist[]) => {
-      try {
-        const favoritesPlaylist = data.find(
-          (playlist) => playlist.title === "Favorites"
-        );
-        const playlists = data.filter(
-          (playlist) => playlist.title !== "Favorites"
-        );
-
-        if (favoritesPlaylist) {
-          importVideosToFavorites(favoritesPlaylist.videos);
-          setFavorite(getFavoritePlaylist());
-        }
-
-        if (playlists.length > 0) {
-          playlists.map(async (playlist) => {
-            importPlaylist(playlist);
-            setPlaylists(getPlaylists());
-          });
-        }
-
-        showNotification({
-          title: t("modal.sync.notification.success.title"),
-          message: t("modal.sync.notification.success.message"),
-          color: "green",
-        });
-
-        onClose();
-      } catch {
+      retry: false,
+      onError: () => {
         showNotification({
           title: t("modal.sync.notification.error.title"),
           message: t("modal.sync.notification.error.message"),
           color: "red",
         });
+        setEnabled(false);
+      },
+    });
+
+    const importData = async (data: Playlist[]) => {
+      const favoritesPlaylist = data.find(
+        (playlist) => playlist.title === "Favorites"
+      );
+      const playlists = data.filter(
+        (playlist) => playlist.title !== "Favorites"
+      );
+
+      if (favoritesPlaylist) {
+        importVideosToFavorites(favoritesPlaylist.videos);
+        setFavorite(getFavoritePlaylist());
       }
+
+      if (playlists.length > 0) {
+        playlists.map(async (playlist) => {
+          importPlaylist(playlist);
+          setPlaylists(getPlaylists());
+        });
+      }
+
+      showNotification({
+        title: t("modal.sync.notification.success.title"),
+        message: t("modal.sync.notification.success.message"),
+        color: "green",
+      });
+
+      onClose();
     };
 
     const handleSubmit = () => {

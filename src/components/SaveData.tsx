@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@mantine/core";
+import { Alert, Box, Button, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { memo, useState } from "react";
 import { getAllPlaylists } from "../database/utils";
@@ -7,7 +7,7 @@ import { showNotification } from "@mantine/notifications";
 
 export const SaveData = memo(() => {
   const { t } = useTranslation("translation", {
-    keyPrefix: "settings.data.sync",
+    keyPrefix: "settings.data.save",
   });
 
   return (
@@ -21,9 +21,7 @@ export const SaveData = memo(() => {
 const saveData = async () => {
   const request = await fetch(`${process.env.REACT_APP_API_URL}/api/save`, {
     method: "POST",
-    mode: "cors",
     headers: {
-      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ data: getAllPlaylists() }),
@@ -34,12 +32,12 @@ const saveData = async () => {
 
 const ButtonSaveData = memo(() => {
   const { t } = useTranslation("translation", {
-    keyPrefix: "settings.data.sync",
+    keyPrefix: "settings.data.save",
   });
   const [code, setCode] = useState<string | null>(null);
   const [enabled, setEnabled] = useState(false);
 
-  useQuery("save-data", async () => saveData(), {
+  const { isLoading } = useQuery("save-data", async () => saveData(), {
     enabled,
     onSuccess: (data) => {
       setCode(data.code);
@@ -47,6 +45,15 @@ const ButtonSaveData = memo(() => {
         title: t("notification.title"),
         message: t("notification.message"),
         color: "green",
+      });
+      setEnabled(false);
+    },
+    retry: false,
+    onError: () => {
+      showNotification({
+        title: t("notification.error.title"),
+        message: t("notification.error.message"),
+        color: "red",
       });
       setEnabled(false);
     },
@@ -59,11 +66,13 @@ const ButtonSaveData = memo(() => {
   return (
     <>
       {code ? (
-        <Text>
-          {t("notification.backupcode")} : <strong>{code}</strong>
-        </Text>
+        <Alert mt="sm" title="Code">
+          <Text>
+            {t("backupcode")} : <strong>{code}</strong>. {t("backupcode2")}
+          </Text>
+        </Alert>
       ) : null}
-      <Button mt="md" onClick={handleClick}>
+      <Button loading={isLoading} mt="md" onClick={handleClick}>
         {t("button.save")}
       </Button>
     </>
