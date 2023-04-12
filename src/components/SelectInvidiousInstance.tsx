@@ -1,13 +1,4 @@
-import {
-  ActionIcon,
-  Badge,
-  Button,
-  Checkbox,
-  Flex,
-  Switch,
-  Table,
-  Tooltip,
-} from "@mantine/core";
+import { Badge, Checkbox, Flex, Switch, Table } from "@mantine/core";
 import { memo } from "react";
 import { Instance } from "../types/interfaces/Instance";
 import { useSetSettings, useSettings } from "../providers/Settings";
@@ -15,7 +6,6 @@ import { db } from "../database";
 import { Settings } from "../types/interfaces/Settings";
 import { useTranslation } from "react-i18next";
 import { ModalAddCustomInstance } from "./ModalAddCustomInstance";
-import { IconTrash } from "@tabler/icons-react";
 import { ModalDeleteCustomInstance } from "./ModalDeleteCustomInstance";
 
 export const SelectInvidiousInstance = memo(() => {
@@ -41,9 +31,11 @@ export const SelectInvidiousInstance = memo(() => {
         </tr>
       </thead>
       <tbody>
-        {settings.customInstances.map((instance) => (
-          <TableRow key={instance.domain} instance={instance} custom />
-        ))}
+        {settings.customInstances
+          ? settings.customInstances.map((instance) => (
+              <TableRow key={instance.domain} instance={instance} custom />
+            ))
+          : null}
         {settings.instances.map((instance) => (
           <TableRow key={instance.domain} instance={instance} />
         ))}

@@ -53,12 +53,12 @@ const initDb = () => {
   }
 
   if (!db.columnExists("settings", "defaultInstance")) {
-    db.alterTable("settings", "defaultInstance", null);
+    db.alterTable("settings", "defaultInstance");
     db.commit();
   }
 
   if (!db.columnExists("settings", "customInstances")) {
-    db.alterTable("settings", "customInstances", []);
+    db.alterTable("settings", "customInstances");
     db.commit();
   }
 
