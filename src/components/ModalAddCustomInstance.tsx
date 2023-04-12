@@ -37,14 +37,14 @@ export const ModalAddCustomInstance = memo(() => {
     };
     db.update("settings", { ID: 1 }, (data: Settings) => ({
       currentInstance: customInstance,
-      customInstances: [...data.customInstances, customInstance],
+      customInstances: [...(data.customInstances ?? []), customInstance],
     }));
     db.commit();
     setSettings((previousState) => ({
       ...previousState,
       currentInstance: customInstance as Instance,
       customInstances: [
-        ...previousState.customInstances,
+        ...(previousState.customInstances ?? []),
         customInstance as Instance,
       ],
     }));
