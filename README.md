@@ -21,11 +21,11 @@ If you want add more feature, PM or PR are welcome :)
 - **Save favourites**
 - **Downloading video**
 - **Background mode (Android, PWA)**
+- **Data Syncing between devices** (by using [Holoplay Serverless](https://github.com/stephane-r/holoplay-serverless))
+- **Internationalization with 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English (default), 🇫🇷 French and 🇯🇵 Japanese (thank to maboroshin !)**
 - **Respect your privacy**
 - **Open Source**
-- **Data Syncing** (by using [Holoplay Serverless](https://github.com/stephane-r/holoplay-serverless))
 - **Dark Theme**
-- **internationalization with English (default), French and Japanese (thank to maboroshin !)**
 
 ## Getting Started
 
