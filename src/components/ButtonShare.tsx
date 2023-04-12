@@ -1,6 +1,6 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import { useClipboard } from "@mantine/hooks";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import {
   IconBrandYoutube,
   IconCopy,
@@ -39,7 +39,7 @@ export const ButtonShare: React.FC<ButtonDownloadProps> = memo(
 
     const handleClick = (type: ShareType) => {
       clipboard.copy(formateVideoUrl(type));
-      showNotification({
+      notifications.show({
         title: t("share.notification.title"),
         message: t("share.notification.message"),
       });

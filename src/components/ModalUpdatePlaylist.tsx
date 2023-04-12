@@ -1,5 +1,5 @@
 import { Button, Flex, TextInput } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { db } from "../database";
@@ -28,7 +28,7 @@ export const ModalUpdatePlaylist: React.FC<ModalUpdatePlaylistProps> = memo(
       }));
       db.commit();
       setPlaylists(getPlaylists());
-      showNotification({
+      notifications.show({
         title: t("modal.playlist.update.notification.title"),
         message: `${playlistTitle} ${t(
           "modal.playlist.update.notification.message"
@@ -45,7 +45,9 @@ export const ModalUpdatePlaylist: React.FC<ModalUpdatePlaylistProps> = memo(
         centered
         size="lg"
         title={t("modal.playlist.update.title")}
-        overlayBlur={3}
+        overlayProps={{
+          blur: 3,
+        }}
       >
         <Form onSubmit={() => handleUpdatePlaylist()}>
           <TextInput

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { memo, useState } from "react";
 import { getAllPlaylists } from "../database/utils";
 import { useQuery } from "react-query";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 
 export const SaveData = memo(() => {
   const { t } = useTranslation("translation", {
@@ -41,7 +41,7 @@ const ButtonSaveData = memo(() => {
     enabled,
     onSuccess: (data) => {
       setCode(data.code);
-      showNotification({
+      notifications.show({
         title: t("notification.title"),
         message: t("notification.message"),
         color: "green",
@@ -50,7 +50,7 @@ const ButtonSaveData = memo(() => {
     },
     retry: false,
     onError: () => {
-      showNotification({
+      notifications.show({
         title: t("notification.error.title"),
         message: t("notification.error.message"),
         color: "red",

@@ -1,7 +1,7 @@
 import { ActionIcon, ActionIconProps } from "@mantine/core";
 import { IconHeart } from "@tabler/icons-react";
 import { memo } from "react";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import { db } from "../database";
 import { getFavoritePlaylist } from "../database/utils";
 import { useFavorite, useSetFavorite } from "../providers/Favorite";
@@ -44,7 +44,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
         videos: [video, ...favorite.videos],
       });
 
-      showNotification({
+      notifications.show({
         title: video.title,
         message: t("favorite.add.success.message"),
       });
@@ -58,7 +58,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
         ),
       });
 
-      showNotification({
+      notifications.show({
         title: video.title,
         message: t("favorite.remove.success.message"),
       });

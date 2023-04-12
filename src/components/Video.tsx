@@ -33,7 +33,7 @@ const useStyles = createStyles((theme) => ({
     maxWidth: 100,
     borderRadius: theme.radius.md,
 
-    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
       display: "none",
     },
   },

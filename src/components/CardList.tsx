@@ -11,19 +11,19 @@ const useStyles = createStyles((theme) => ({
     gridColumnGap: theme.spacing.lg,
     gridRowGap: theme.spacing.lg,
 
-    [`@media (min-width: ${theme.breakpoints.xs}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.xs})`]: {
       gridTemplateColumns: "repeat(2, 1fr)",
     },
 
-    [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.sm})`]: {
       gridTemplateColumns: "repeat(3, 1fr)",
     },
 
-    [`@media (min-width: ${theme.breakpoints.md}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.md})`]: {
       gridTemplateColumns: "repeat(4, 1fr)",
     },
 
-    [`@media (min-width: ${theme.breakpoints.xl}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.xl})`]: {
       gridTemplateColumns: "repeat(5, 1fr)",
     },
 

@@ -20,7 +20,7 @@ const useStyles = createStyles((theme) => ({
   container: {
     width: "100%",
 
-    [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.sm})`]: {
       maxWidth: 460,
     },
 
@@ -44,7 +44,7 @@ export const SearchBar = memo(() => {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const os = useOs();
   const theme = useMantineTheme();
-  const isLg = useMediaQuery(`(min-width: ${theme.breakpoints.lg}px)`);
+  const isLg = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`);
   const { t } = useTranslation();
   const [menuOpened, setMenuOpened] = useState(false);
 

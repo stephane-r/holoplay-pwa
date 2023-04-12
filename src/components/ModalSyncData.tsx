@@ -14,7 +14,7 @@ import {
 import { useSetFavorite } from "../providers/Favorite";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 
 interface ModalSyncDataProps {
   opened: boolean;
@@ -51,7 +51,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
       },
       retry: false,
       onError: () => {
-        showNotification({
+        notifications.show({
           title: t("modal.sync.notification.error.title"),
           message: t("modal.sync.notification.error.message"),
           color: "red",
@@ -80,7 +80,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
         });
       }
 
-      showNotification({
+      notifications.show({
         title: t("modal.sync.notification.success.title"),
         message: t("modal.sync.notification.success.message"),
         color: "green",
@@ -100,7 +100,9 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
         centered
         size="lg"
         title={t("modal.sync.title")}
-        overlayBlur={3}
+        overlayProps={{
+          blur: 3,
+        }}
       >
         <Form onSubmit={() => handleSubmit()}>
           <Text mb="lg">{t("modal.sync.text")}</Text>

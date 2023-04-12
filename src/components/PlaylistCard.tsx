@@ -9,7 +9,7 @@ import {
   Title,
   Tooltip,
 } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
@@ -215,7 +215,7 @@ const ButtonSaveToPlaylist = memo(({ playlist }: { playlist: Playlist }) => {
 
   const savePlaylist = () => {
     db.insert("playlists", playlist);
-    showNotification({
+    notifications.show({
       title: "Playlist saved",
       message: `${playlist.title} has been added to your playlists list`,
     });
@@ -225,7 +225,7 @@ const ButtonSaveToPlaylist = memo(({ playlist }: { playlist: Playlist }) => {
     db.deleteRows("playlists", {
       playlistId: playlist.playlistId,
     });
-    showNotification({
+    notifications.show({
       title: "Playlist deleted",
       message: `${playlist.title} has been deleted from your playlists list`,
     });

@@ -43,23 +43,23 @@ const useStyles = createStyles((theme) => ({
   content: {
     padding: theme.spacing.sm,
 
-    [`@media (min-width: ${theme.breakpoints.lg}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.lg})`]: {
       padding: theme.spacing.xl,
     },
   },
   videoInformationsContainer: {
     maxWidth: 100,
 
-    [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.sm})`]: {
       maxWidth: 320,
       overflow: "hidden",
     },
 
-    [`@media (min-width: ${theme.breakpoints.md}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.md})`]: {
       maxWidth: 280,
     },
 
-    [`@media (min-width: ${theme.breakpoints.lg}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.lg})`]: {
       maxWidth: 320,
     },
 
@@ -73,7 +73,7 @@ const useStyles = createStyles((theme) => ({
     height: 50,
     borderRadius: theme.radius.md,
 
-    [`@media (max-width: ${theme.breakpoints.lg}px)`]: {
+    [`@media (max-width: ${theme.breakpoints.lg})`]: {
       display: "none",
     },
   },
@@ -83,10 +83,8 @@ export const Player = memo(() => {
   const { classes } = useStyles();
   const matches = useMediaQuery("(max-width: 2140px)");
   const theme = useMantineTheme();
-  const showProgressBar = useMediaQuery(
-    `(min-width: ${theme.breakpoints.md}px)`
-  );
-  const showVolumeBar = useMediaQuery(`(min-width: ${theme.breakpoints.xl}px)`);
+  const showProgressBar = useMediaQuery(`(min-width: ${theme.breakpoints.md})`);
+  const showVolumeBar = useMediaQuery(`(min-width: ${theme.breakpoints.xl})`);
 
   return (
     <Box

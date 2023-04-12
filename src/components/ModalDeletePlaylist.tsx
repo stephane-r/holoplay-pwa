@@ -1,5 +1,5 @@
 import { Button, Flex, Text } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { db } from "../database";
@@ -25,7 +25,7 @@ export const ModalDeletePlaylist: React.FC<ModalDeletePlaylistProps> = memo(
       });
       db.commit();
       setPlaylists(getPlaylists());
-      showNotification({
+      notifications.show({
         title: t("modal.playlist.delete.notification.title"),
         message: `${playlist.title} ${t(
           "modal.playlist.delete.notification.message"
@@ -42,7 +42,9 @@ export const ModalDeletePlaylist: React.FC<ModalDeletePlaylistProps> = memo(
         centered
         size="lg"
         title={t("modal.playlist.delete.title")}
-        overlayBlur={3}
+        overlayProps={{
+          blur: 3,
+        }}
       >
         <Text>
           {t("modal.playlist.delete.text")} <strong>{playlist.title}</strong>{" "}

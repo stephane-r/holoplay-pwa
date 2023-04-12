@@ -17,11 +17,11 @@ export const MantineProvider: React.FC<MantineProviderProps> = ({
       theme={{
         colorScheme,
         breakpoints: {
-          xs: 500,
-          sm: 800,
-          md: 1000,
-          lg: 1200,
-          xl: 1400,
+          xs: "30em",
+          sm: "50em",
+          md: "62em",
+          lg: "75em",
+          xl: "90em",
         },
       }}
       withGlobalStyles

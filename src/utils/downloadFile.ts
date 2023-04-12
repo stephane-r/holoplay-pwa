@@ -1,4 +1,4 @@
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 
 export const downloadFile = (url: string, filename: string): Promise<void> => {
   return fetch(url)
@@ -10,7 +10,7 @@ export const downloadFile = (url: string, filename: string): Promise<void> => {
       link.click();
     })
     .catch((error) => {
-      showNotification({
+      notifications.show({
         title: "Download",
         message: "Failed to download file",
         color: "red",

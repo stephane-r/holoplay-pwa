@@ -39,14 +39,14 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     marginBottom: theme.spacing.xl,
 
-    [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.sm})`]: {
       maxWidth: 320,
     },
   },
   progressContainer: {
     width: "100%",
 
-    [`@media (min-width: ${theme.breakpoints.sm}px)`]: {
+    [`@media (min-width: ${theme.breakpoints.sm})`]: {
       paddingLeft: theme.spacing.xl,
       paddingRight: theme.spacing.xl,
     },

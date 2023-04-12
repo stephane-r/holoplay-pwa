@@ -9,7 +9,7 @@ import i18n from "i18next";
 import { ColorSchemeProvider } from "../providers/ColorScheme";
 import { MantineProvider } from "../providers/Mantine";
 import { FavoriteProvider } from "../providers/Favorite";
-import { NotificationsProvider } from "@mantine/notifications";
+import { Notifications } from "@mantine/notifications";
 import { PlaylistProvider } from "../providers/Playlist";
 import { PlayerProvider } from "../providers/Player";
 import { PlayerPlaylistProvider } from "../providers/PlayerPlaylist";
@@ -50,26 +50,25 @@ export const App: React.FC<AppProps> = ({ children }) => {
                         <ColorSchemeProvider>
                           <MantineProvider>
                             <SpotlightProvider>
-                              <NotificationsProvider>
-                                <Flex>
-                                  <NavigationContainer />
-                                  <ScrollArea
-                                    className={cx(classes.scrollArea)}
-                                    style={{
-                                      position: "static",
-                                    }} // Stay in inline-styles for now
-                                  >
-                                    <Flex>
-                                      <Box style={{ flex: 1 }}>
-                                        <Header />
-                                        <Main>{children}</Main>
-                                      </Box>
-                                      <DrawerPlayerContainer />
-                                    </Flex>
-                                    <PlayerContainer />
-                                  </ScrollArea>
-                                </Flex>
-                              </NotificationsProvider>
+                              <Notifications />
+                              <Flex>
+                                <NavigationContainer />
+                                <ScrollArea
+                                  className={cx(classes.scrollArea)}
+                                  style={{
+                                    position: "static",
+                                  }} // Stay in inline-styles for now
+                                >
+                                  <Flex>
+                                    <Box style={{ flex: 1 }}>
+                                      <Header />
+                                      <Main>{children}</Main>
+                                    </Box>
+                                    <DrawerPlayerContainer />
+                                  </Flex>
+                                  <PlayerContainer />
+                                </ScrollArea>
+                              </Flex>
                             </SpotlightProvider>
                           </MantineProvider>
                         </ColorSchemeProvider>

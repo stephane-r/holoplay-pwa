@@ -9,7 +9,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useTranslation } from "react-i18next";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import { IconFileBarcode, IconFileX, IconUpload } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import {
@@ -174,7 +174,7 @@ const TransferList = memo(
           });
         }
 
-        showNotification({
+        notifications.show({
           title: t("notification.title"),
           message: t("notification.message"),
         });
@@ -182,7 +182,7 @@ const TransferList = memo(
         onClear();
         setImportData([[], []]);
       } catch (error) {
-        showNotification({
+        notifications.show({
           title: t("notification.error.title"),
           message: t("notification.error.message"),
           color: "red",

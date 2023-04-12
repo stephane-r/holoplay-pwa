@@ -8,7 +8,7 @@ import { usePlayerUrl } from "../providers/Player";
 
 export const PlayerContainer = memo(() => {
   const theme = useMantineTheme();
-  const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
+  const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
   const playerUrl = usePlayerUrl();
 
   if (!playerUrl) return null;

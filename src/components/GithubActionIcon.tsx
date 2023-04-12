@@ -7,7 +7,7 @@ const useStyles = createStyles((theme) => ({
     height: 36,
     width: 36,
 
-    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
+    [`@media (max-width: ${theme.breakpoints.xs})`]: {
       display: "none",
     },
   },

@@ -6,7 +6,7 @@ import { MobileNavigation } from "../components/MobileNavigation";
 
 export const MobileNavigationContainer = memo(() => {
   const theme = useMantineTheme();
-  const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
+  const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
   const [value, setValue] = useToggle([false, true]);
   const { t } = useTranslation();
 

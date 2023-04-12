@@ -1,5 +1,5 @@
 import { Button, Flex, Text } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { db } from "../database";
@@ -26,7 +26,7 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
       const playlist = getPlaylist(Number(playlistId));
 
       if (!playlist) {
-        showNotification({
+        notifications.show({
           title: "Error",
           message: t("Playlist not found"),
           color: "red",
@@ -50,7 +50,7 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
       );
       db.commit();
       setPlaylists(getPlaylists());
-      showNotification({
+      notifications.show({
         title: t("modal.video.delete.playlist.notification.title"),
         message: `${video.title} ${t(
           "modal.video.delete.playlist.notification.message"
@@ -67,7 +67,9 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
         centered
         size="lg"
         title={t("modal.video.delete.playlist.title")}
-        overlayBlur={3}
+        overlayProps={{
+          blur: 3,
+        }}
       >
         <Text>
           {t("modal.video.delete.playlist.text")} <strong>{video.title}</strong>{" "}

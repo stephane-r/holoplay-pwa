@@ -1,4 +1,4 @@
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import { useCallback, useEffect, useState } from "react";
 import { usePlaylists } from "../providers/Playlist";
 import { queryClient } from "../queryClient";
@@ -21,7 +21,7 @@ export const useGetPlaylist = (playlistId: string | number) => {
       .fetchQuery(`playlist-${id}`, () => getPlaylist(id))
       .then((playlist) => setPlaylist(playlist))
       .catch((error) => {
-        showNotification({
+        notifications.show({
           title: "Error",
           message: error.message,
           color: "red",

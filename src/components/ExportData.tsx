@@ -6,7 +6,7 @@ import {
   TransferListData,
   TransferListItem,
 } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import { notifications } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
 import { memo, useState } from "react";
 import { getAllPlaylists } from "../database/utils";
@@ -47,7 +47,7 @@ export const ExportData = memo(() => {
 
   const handleClick = () => {
     generateAndDownloadFile(loadPlaylistData(data[1]));
-    showNotification({
+    notifications.show({
       title: t("notification.title"),
       message: t("notification.message"),
     });
