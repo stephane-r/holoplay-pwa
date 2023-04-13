@@ -6,7 +6,7 @@ export const useVideoShareListener = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const videoId = searchParams.get("watch");
+    const videoId = searchParams.get("v");
 
     if (videoId) {
       handlePlay(videoId);
