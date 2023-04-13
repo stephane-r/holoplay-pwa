@@ -5,6 +5,7 @@ import {
   Search,
   SearchDate,
   SearchDuration,
+  SearchService,
   SearchSortBy,
   SearchTypes,
 } from "../types/interfaces/Search";
@@ -15,6 +16,7 @@ const initialState: Search = {
   sortBy: "relevance",
   time: "all",
   duration: "all",
+  service: "invidious",
 };
 
 const SearchValueContext = createContext<Search>(initialState);
@@ -33,6 +35,7 @@ const getSearchParams = () => {
     time: (urlParams.get("time") as SearchDate) ?? initialState.time,
     duration:
       (urlParams.get("duration") as SearchDuration) ?? initialState.duration,
+    service: (urlParams.get("service") as SearchService) ?? "invidious",
   };
 };
 

@@ -10,8 +10,8 @@ export const getVideo = async (
   );
   const video: Video = await request.json();
 
-  const adaptiveFormat = video.adaptiveFormats.find((format) =>
-    format.type.match(/webm/i)
+  const adaptiveFormat = video.adaptiveFormats.find(
+    (format) => format.type.match(/webm/i) || format.type.match(/audio/i)
   ) as AdaptiveFormat;
 
   return {

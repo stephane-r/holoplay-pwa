@@ -5,6 +5,7 @@ import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import {
   SearchDate,
   SearchDuration,
+  SearchService,
   SearchSortBy,
   SearchTypes,
 } from "../types/interfaces/Search";
@@ -16,7 +17,7 @@ export const SearchFilters = memo(() => {
   const { t } = useTranslation();
 
   return (
-    <Menu width={200} position="bottom-end">
+    <Menu width={250} position="bottom-end">
       <Menu.Target>
         <ActionIcon variant="filled" radius="md" size={36}>
           <IconFilter size={20} />
@@ -27,10 +28,33 @@ export const SearchFilters = memo(() => {
         <Box p="xs" pt={4}>
           <SegmentedControl
             fullWidth
+            value={searchValues.service}
+            data={[
+              {
+                value: "invidious",
+                label: t("search.filter.service.invidious"),
+              },
+              {
+                value: "youtube_music",
+                label: t("search.filter.service.youtubeMusic"),
+              },
+            ]}
+            onChange={(value) => {
+              setSearchValues({
+                ...searchValues,
+                service: value as SearchService,
+              });
+            }}
+          />
+        </Box>
+        <Menu.Label>{t("search.filter.type.label")}</Menu.Label>
+        <Box p="xs" pt={4}>
+          <SegmentedControl
+            fullWidth
             value={searchValues.type}
             data={[
               { value: "video", label: t("search.filter.type.videos") },
-              { value: "playlist", label: t("search.filter.type.videos") },
+              { value: "playlist", label: t("search.filter.type.playlists") },
             ]}
             onChange={(value) => {
               setSearchValues({

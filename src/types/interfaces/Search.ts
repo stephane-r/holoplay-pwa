@@ -6,6 +6,7 @@ export type SearchSortBy =
   | "view_count";
 export type SearchDuration = "all" | "short" | "medium" | "long";
 export type SearchDate = "all" | "hour" | "today" | "week" | "month" | "year";
+export type SearchService = "invidious" | "youtube_music";
 
 export interface SearchParams {
   q: String;
@@ -21,6 +22,7 @@ export interface Search {
   sortBy: SearchSortBy;
   time: SearchDate;
   duration: SearchDuration;
+  service: SearchService;
 }
 
 export interface SearchHistory {
