@@ -20,7 +20,12 @@ export const AboutPage = () => {
         {t("description2")}
       </Text>
       <Title order={3}>{t("version")}</Title>
-      <Text mt="sm">{pkg.version}</Text>
+      <Anchor
+        href={`https://github.com/stephane-r/holoplay-pwa/releases/tag/v${pkg.version}`}
+        target="_blank"
+      >
+        <Text mt="sm">{pkg.version}</Text>
+      </Anchor>
       <Space h={28} />
       <Title order={3}>{t("github")}</Title>
       <Text mt="sm">
