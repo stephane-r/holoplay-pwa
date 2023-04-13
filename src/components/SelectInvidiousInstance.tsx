@@ -14,6 +14,9 @@ export const SelectInvidiousInstance = memo(() => {
     keyPrefix: "settings.general",
   });
 
+  const hasCustomInstances =
+    settings.customInstances && settings.customInstances.length > 0;
+
   return (
     <Table highlightOnHover>
       <thead>
@@ -24,20 +27,24 @@ export const SelectInvidiousInstance = memo(() => {
               <ModalAddCustomInstance />
             </Flex>
           </th>
-          <th style={{ width: 120 }}>{t("invidious.type")}</th>
-          <th style={{ width: 120 }}>{t("invidious.actions")}</th>
-          <th style={{ width: 120 }}></th>
-          <th style={{ width: 120 }}></th>
+          <th style={{ width: 130 }}>{t("invidious.type")}</th>
+          <th style={{ width: 130 }}>{t("invidious.actions")}</th>
+          <th style={{ width: 130 }}></th>
+          {hasCustomInstances ? <th style={{ width: 130 }}></th> : null}
         </tr>
       </thead>
       <tbody>
-        {settings.customInstances
+        {hasCustomInstances
           ? settings.customInstances.map((instance) => (
               <TableRow key={instance.domain} instance={instance} custom />
             ))
           : null}
         {settings.instances.map((instance) => (
-          <TableRow key={instance.domain} instance={instance} />
+          <TableRow
+            key={instance.domain}
+            instance={instance}
+            lastCell={hasCustomInstances}
+          />
         ))}
       </tbody>
     </Table>
@@ -45,7 +52,15 @@ export const SelectInvidiousInstance = memo(() => {
 });
 
 const TableRow = memo(
-  ({ instance, custom }: { instance: Instance; custom?: boolean }) => {
+  ({
+    instance,
+    custom,
+    lastCell,
+  }: {
+    instance: Instance;
+    custom?: boolean;
+    lastCell?: boolean;
+  }) => {
     const settings = useSettings();
     const setSettings = useSetSettings();
     const { t } = useTranslation("translation", {
@@ -110,14 +125,16 @@ const TableRow = memo(
             }
           />
         </td>
-        <td>
-          {custom ? (
-            <ModalDeleteCustomInstance
-              disabled={isCurrent || isDefault}
-              instance={instance}
-            />
-          ) : null}
-        </td>
+        {lastCell || custom ? (
+          <td>
+            {custom ? (
+              <ModalDeleteCustomInstance
+                disabled={isCurrent || isDefault}
+                instance={instance}
+              />
+            ) : null}
+          </td>
+        ) : null}
       </tr>
     );
   }
