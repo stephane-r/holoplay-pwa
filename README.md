@@ -16,6 +16,7 @@ If you want add more feature, PM or PR are welcome :)
 
 ## Features
 
+- **Search on Invidious or Youtube Music**
 - **Search by video and playlist**
 - **Create your playlists**
 - **Save favourites**
