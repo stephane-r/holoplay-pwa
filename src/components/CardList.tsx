@@ -1,4 +1,4 @@
-import { Box, createStyles } from "@mantine/core";
+import { Box, createStyles, rem } from "@mantine/core";
 import { memo } from "react";
 import { useLocation } from "react-router-dom";
 import { Video } from "../types/interfaces/Video";
@@ -43,7 +43,7 @@ const useStyles = createStyles((theme) => ({
   },
   column: {},
   flexColumn: {
-    flex: "0 0 277px",
+    flex: `0 0 ${rem(277)}`,
   },
 }));
 

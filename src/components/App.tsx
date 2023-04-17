@@ -21,6 +21,7 @@ import { HistoryProvider } from "../providers/History";
 import { SpotlightProvider } from "../providers/Spotlight";
 import { AppUpdate } from "./AppUpdate";
 import { I18nextProvider } from "react-i18next";
+import { MobileNavigationContainer } from "../containers/MobileNavigation";
 
 const useStyles = createStyles(() => ({
   scrollArea: {
@@ -63,6 +64,7 @@ export const App: React.FC<AppProps> = ({ children }) => {
                                     <Box style={{ flex: 1 }}>
                                       <Header />
                                       <Main>{children}</Main>
+                                      <MobileNavigationContainer />
                                     </Box>
                                     <DrawerPlayerContainer />
                                   </Flex>

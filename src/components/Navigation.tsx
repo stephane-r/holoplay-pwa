@@ -33,62 +33,28 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const navigationItems = [
-  {
-    icon: IconHome2,
-    label: "Home",
-    route: "/",
-  },
-  {
-    icon: IconSearch,
-    label: "Search",
-    route: "/search",
-  },
-  {
-    icon: IconGauge,
-    label: "Trending",
-    route: "/trending",
-  },
-  {
-    icon: IconDeviceDesktopAnalytics,
-    label: "Most popular",
-    route: "/most-popular",
-  },
-  {
-    icon: IconHeart,
-    label: "Favorites",
-    route: "/favorites",
-  },
-  {
-    icon: IconMusic,
-    label: "Playlists",
-    route: "/playlists",
-  },
-];
-
-export const navigationItemsSecondary = [
-  {
-    icon: IconSettings,
-    label: "Settings",
-    route: "/settings",
-  },
-  {
-    icon: IconInfoCircle,
-    label: "About",
-    route: "/about",
-  },
-];
-
-export const Navigation = memo(() => {
+export const useNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { cx, classes } = useStyles();
-  const { t } = useTranslation();
 
-  const isActive = (routeName: string) => ({
-    onClick: () => navigate(routeName),
+  const isActive = (routeName: string, onNavigate?: () => void) => ({
+    onClick: () => {
+      navigate(routeName);
+      onNavigate?.();
+    },
     active: location.pathname === routeName,
   });
+
+  return {
+    navigate,
+    isActive,
+  };
+};
+
+export const Navigation = memo(() => {
+  const { isActive } = useNavigation();
+  const { cx, classes } = useStyles();
+  const { t } = useTranslation();
 
   return (
     <Navbar

@@ -1,10 +1,17 @@
-import { Tooltip, UnstyledButton, createStyles } from "@mantine/core";
+import {
+  Tooltip,
+  UnstyledButton,
+  createStyles,
+  rem,
+  useMantineTheme,
+} from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
 
 const useStyles = createStyles((theme) => ({
   link: {
-    width: 44,
-    height: 44,
+    width: rem(44),
+    height: rem(44),
     borderRadius: theme.radius.md,
     display: "flex",
     alignItems: "center",
@@ -14,12 +21,15 @@ const useStyles = createStyles((theme) => ({
         ? theme.colors.dark[0]
         : theme.colors.gray[7],
     margin: "auto",
-    marginBottom: theme.spacing.sm,
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[5]
-          : theme.colors.gray[0],
+
+    [`@media (min-width: ${theme.breakpoints.md})`]: {
+      marginBottom: theme.spacing.sm,
+      "&:hover": {
+        backgroundColor:
+          theme.colorScheme === "dark"
+            ? theme.colors.dark[5]
+            : theme.colors.gray[0],
+      },
     },
   },
   active: {
@@ -44,9 +54,13 @@ interface NavbarLinkProps {
 export const NavbarLink = memo(
   ({ icon: Icon, label, active, onClick }: NavbarLinkProps) => {
     const { classes, cx } = useStyles();
+    const theme = useMantineTheme();
+    const matches = useMediaQuery(
+      `screen and (max-width: ${theme.breakpoints.sm})`
+    );
 
     return (
-      <Tooltip label={label} position="right">
+      <Tooltip label={label} position="right" disabled={matches}>
         <UnstyledButton
           onClick={onClick}
           className={cx(classes.link, { [classes.active]: active })}

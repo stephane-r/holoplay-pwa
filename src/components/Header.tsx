@@ -7,7 +7,6 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { memo } from "react";
-import { MobileNavigationContainer } from "../containers/MobileNavigation";
 import { ColorScheme } from "./ColorScheme";
 import { GithubActionIcon } from "./GithubActionIcon";
 import { SearchBar } from "./SearchBar";
@@ -32,7 +31,6 @@ export const Header = memo(() => {
 
   return (
     <header className={classes.container}>
-      <MobileNavigationContainer />
       <SearchBar />
       <Space w={8} />
       <Flex gap={8}>

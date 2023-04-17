@@ -1,10 +1,19 @@
-import { createStyles } from "@mantine/core";
+import { createStyles, rem } from "@mantine/core";
 import { PlayerSpace } from "./Player";
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   main: {
     flex: 1,
-    padding: "16px 28px 24px",
+    padding: `${rem(16)} ${rem(20)} ${rem(24)}`,
+
+    [`@media screen and (max-width: ${theme.breakpoints.md})`]: {
+      minHeight: "calc(100vh - 128px)",
+    },
+
+    [`@media screen and (min-width: ${theme.breakpoints.md})`]: {
+      paddingRight: rem(28),
+      paddingLeft: rem(28),
+    },
   },
 }));
 
