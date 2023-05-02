@@ -90,9 +90,11 @@ export const Card: React.FC<CardProps> = memo(
               gap="xs"
               style={{ zIndex: 2, position: "relative" }}
             >
-              <Badge variant="filled" size="xs">
-                {videoDuration}
-              </Badge>
+              {videoDuration !== "00:00" ? (
+                <Badge variant="filled" size="xs">
+                  {videoDuration}
+                </Badge>
+              ) : null}
               {video.liveNow || videoDuration === "00:00" ? (
                 <Badge variant="filled" size="xs" color="red">
                   {t("live")}
