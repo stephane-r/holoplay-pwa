@@ -4,6 +4,7 @@ import {
   createStyles,
   Drawer,
   Flex,
+  rem,
   ScrollArea,
   Slider,
   Space,
@@ -30,6 +31,7 @@ import { ButtonDownload } from "./ButtonDownload";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 import { ButtonShare } from "./ButtonShare";
 import { useTranslation } from "react-i18next";
+import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -112,6 +114,8 @@ export const Player = memo(() => {
               <ButtonDownload iconSize={20} />
               <Space w="lg" />
               <ButtonShare iconSize={20} />
+              <Space w="lg" />
+              <ButtonPlayerModeVideo />
               <Space w="lg" />
               <ButtonFavorite iconSize={20} variant="transparent" />
               {showVolumeBar ? (

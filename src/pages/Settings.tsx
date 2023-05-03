@@ -14,6 +14,7 @@ import { ExportData } from "../components/ExportData";
 import { ChangeLanguage } from "../components/ChangeLanguage";
 import { SaveData } from "../components/SaveData";
 import { SelectInvidiousInstance } from "../components/SelectInvidiousInstance";
+import { SwitchVideoMode } from "../components/SwitchVideoMode";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();
@@ -23,6 +24,7 @@ export const SettingsPage = memo(() => {
       <PageHeader title={t("page.settings.title")} />
       <Accordion variant="contained">
         <GeneralItem />
+        <PlayerItem />
         <ImportExportDataItem />
       </Accordion>
     </div>
@@ -53,6 +55,31 @@ const GeneralItem = memo(() => {
         <ChangeLanguage />
         <Divider mt="md" mb="lg" />
         <SwitchColorScheme />
+      </Accordion.Panel>
+    </Accordion.Item>
+  );
+});
+
+const PlayerItem = memo(() => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "settings.player",
+  });
+
+  return (
+    <Accordion.Item value="player">
+      <Accordion.Control>
+        <Group noWrap>
+          <div>
+            <Text>{t("title")}</Text>
+            <Text size="sm" color="dimmed" weight={400}>
+              {t("description")}
+            </Text>
+          </div>
+        </Group>
+      </Accordion.Control>
+      <Accordion.Panel>
+        <Text mb="md">{t("video.mode.title")}</Text>
+        <SwitchVideoMode />
       </Accordion.Panel>
     </Accordion.Item>
   );

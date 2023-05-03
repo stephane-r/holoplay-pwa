@@ -19,7 +19,8 @@ interface PlayerState {
   muted: boolean;
   repeat: boolean;
   duration: string | null;
-  currentTime: string | null;
+  currentTime: number | null;
+  formatedCurrentTime: string | null;
   percentage: number | null;
   volume: number;
   loading: boolean;
@@ -31,6 +32,7 @@ export const initialPlayerState: PlayerState = {
   repeat: false,
   duration: null,
   currentTime: null,
+  formatedCurrentTime: null,
   percentage: null,
   volume: 1,
   loading: true,

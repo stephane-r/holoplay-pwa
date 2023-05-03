@@ -5,6 +5,7 @@ import {
   Divider,
   Drawer,
   Flex,
+  rem,
   ScrollArea,
   Slider,
   Space,
@@ -20,11 +21,13 @@ import { DrawerPlayerVideo } from "./DrawerPlayer";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
 import { VideoList } from "./VideoList";
+import { useViewportSize } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   container: {
     position: "absolute",
-    bottom: 0,
+    bottom: rem(50),
+    paddingBottom: rem(10),
     left: 0,
     right: 0,
     zIndex: 2,
@@ -60,6 +63,7 @@ const ButtonOpenDrawer = memo(() => {
   const [isOpen, setOpen] = useState(false);
   const videos = usePlayerPlaylist();
   const { t } = useTranslation();
+  const { height } = useViewportSize();
 
   return (
     <>
@@ -74,7 +78,7 @@ const ButtonOpenDrawer = memo(() => {
         size="full"
         position="bottom"
       >
-        <ScrollArea style={{ height: 500, maxWidth: "100%" }}>
+        <ScrollArea style={{ height, maxWidth: "100%" }}>
           <DrawerPlayerVideo />
           <Space h="xl" />
           <Divider />

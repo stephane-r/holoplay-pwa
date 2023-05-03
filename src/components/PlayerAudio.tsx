@@ -9,6 +9,7 @@ import {
 } from "../providers/Player";
 import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
+import { usePlayerMode } from "../providers/PlayerMode";
 
 export const PlayerAudio = memo(() => {
   const playerAudio = usePlayerAudio();
@@ -16,6 +17,7 @@ export const PlayerAudio = memo(() => {
   const setPlayerState = useSetPlayerState();
   const { handlePlay: play } = usePlayVideo();
   const { videosIds } = usePreviousNextVideos();
+  const playerMode = usePlayerMode();
 
   const handlePause = () => {
     setPlayerState((previousState) => ({
@@ -45,7 +47,8 @@ export const PlayerAudio = memo(() => {
     setPlayerState((previousState) => ({
       ...previousState,
       duration: displayTimeBySeconds(audio.duration),
-      currentTime: displayTimeBySeconds(currentTime, audio.duration),
+      currentTime,
+      formatedCurrentTime: displayTimeBySeconds(currentTime, audio.duration),
       percentage: (100 * currentTime) / Number(audio.duration.toFixed(2)),
     }));
   };
@@ -69,7 +72,7 @@ export const PlayerAudio = memo(() => {
       <ReactAudioPlayer
         ref={playerAudio}
         src={playerUrl as string}
-        autoPlay
+        autoPlay={playerMode === "audio"}
         controls
         listenInterval={100}
         onPause={handlePause}

@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlayerAudio, usePlayerState } from "../providers/Player";
 import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
+import { usePlayerMode } from "../providers/PlayerMode";
 
 interface PlayerActionsProps {
   showTrackPrevious?: boolean;
@@ -18,6 +19,7 @@ interface PlayerActionsProps {
 
 export const PlayerActions: React.FC<PlayerActionsProps> = memo(
   ({ showTrackPrevious = true, showTrackNext = true }) => {
+    const playerMode = usePlayerMode();
     const iconPlayPauseOnly = !showTrackPrevious && !showTrackNext;
     const iconPlayPauseOnlyProps: ActionIconProps = {
       size: iconPlayPauseOnly ? "lg" : "xl",
@@ -25,7 +27,11 @@ export const PlayerActions: React.FC<PlayerActionsProps> = memo(
     };
 
     return (
-      <Flex align="center" gap="lg">
+      <Flex
+        align="center"
+        gap="lg"
+        style={{ pointerEvents: playerMode === "video" ? "none" : "all" }}
+      >
         {showTrackPrevious ? <ButtonPreviousVideo /> : null}
         <ButtonPlayPause
           {...iconPlayPauseOnlyProps}

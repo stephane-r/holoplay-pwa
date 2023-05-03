@@ -16,6 +16,10 @@
     "settings.general.language.alert": "For now, HoloPlay is only available in English language. French translation is comming soon. Also, you can contribute to new language.",
     "settings.general.language.alert.title": "Information",
     "settings.general.darkmode": "Use dark mode",
+    "settings.player.title": "Player",
+    "settings.player.description": "Player settings",
+    "settings.player.video.mode.title": "Video mode",
+    "settings.player.video.mode.label": "The video mode is an iframe displayed in case of an error changing an audio source. It can also be displayed manually from the Player.",
     "settings.data.title": "Import, export or save your data",
     "settings.data.description": "Import your favorites and history from Invidious instance or Freetube, etc and export your data",
     "settings.data.import": "Import",
@@ -206,5 +210,12 @@
     "page.about.source.code2": "on Github",
     "page.about.troubleshooting": "TroubleShooting",
     "page.about.issue": "Report an issue",
-    "page.about.feature": "Request a feature or suggest an idea"
+    "page.about.feature": "Request a feature or suggest an idea",
+    "player.mode.audio.error.message": "Audio mode is not supported for this video, fallback to video mode",
+    "modal.video.iframe.information.title": "Information",
+    "modal.video.iframe.information.subtitle": "What is this iframe and why ?",
+    "modal.video.iframe.information.text1": "HoloPlay can play an Invidious source in Audio only mode or via a video iframe. By default, the video mode is used in the event of an error loading an audio source. If there is an error, the iframe opens automatically. It is also possible to activate the video mode manually from the Player.",
+    "modal.video.iframe.information.text2": "URL used on the iframe",
+    "modal.video.iframe.information.text3": "This feature can be disable from the application settings screen.",
+    "video.mode": "Video mode"
 }

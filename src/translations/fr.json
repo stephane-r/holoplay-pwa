@@ -15,6 +15,10 @@
     "settings.general.language.description": "Selectionner la langue de l'application",
     "settings.general.language.alert.title": "Information",
     "settings.general.darkmode": "Mode sombre",
+    "settings.player.title": "Player",
+    "settings.player.description": "Paramètrage du player",
+    "settings.player.video.mode.title": "Mode vidéo",
+    "settings.player.video.mode.label": "Le mode vidéo est une iframe affichée en cas d'erreur de changement d'une source audio. Elle peut également être affichée manuellement depuis le Player.",
     "settings.data.title": "Importer, exporter ou sauvegarder mes données",
     "settings.data.description": "Importer mes favoris et mon historique depuis une instance Invidious ou Freetube et exporter mes données",
     "settings.data.import": "Importer",
@@ -205,5 +209,12 @@
     "page.about.source.code2": "sur Github",
     "page.about.troubleshooting": "Besoin d'aide",
     "page.about.issue": "Signaler un problème",
-    "page.about.feature": "Demander une fonctionnalité ou suggérer une idée"
+    "page.about.feature": "Demander une fonctionnalité ou suggérer une idée",
+    "player.mode.audio.error.message": "Le mode audio n'est pas disponible pour cette vidéo, bascule en mode vidéo",
+    "modal.video.iframe.information.title": "Information",
+    "modal.video.iframe.information.subtitle": "Qu'est-ce que cette iframe et pourquoi ?",
+    "modal.video.iframe.information.text1": "HoloPlay peux jouer une source Invidious en mode Audio only ou via une iframe video. Par défaut, le mode vidéo est utilisé en cas d'erreur de chargement d'une source audio. En cas d'erreur, l'iframe s'ouvre automatiquement. Il est également possible d'activer le mode vidéo manuellement depuis le Player.",
+    "modal.video.iframe.information.text2": "L'URL utilisée est",
+    "modal.video.iframe.information.text3": "Cette fonctionnalité peut être désactiver depuis la page paramètres de l'application.",
+    "video.mode": "Mode vidéo"
 }

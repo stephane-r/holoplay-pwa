@@ -24,6 +24,7 @@ import { ButtonShare } from "./ButtonShare";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 import { useTranslation } from "react-i18next";
 import { useDocumentTitle } from "@mantine/hooks";
+import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -104,6 +105,7 @@ export const DrawerPlayerVideo = memo(() => {
         <Flex gap="md">
           <ButtonDownload iconSize={16} />
           <ButtonShare iconSize={16} />
+          <ButtonPlayerModeVideo iconSize={16} />
         </Flex>
         <Space h="xl" />
         <Flex className={classes.progressContainer}>

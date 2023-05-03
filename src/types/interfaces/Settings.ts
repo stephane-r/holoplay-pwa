@@ -5,4 +5,5 @@ export interface Settings {
   currentInstance: Instance | null;
   defaultInstance: Instance | null;
   customInstances: Instance[];
+  videoMode: boolean;
 }

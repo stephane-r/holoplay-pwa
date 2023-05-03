@@ -10,7 +10,7 @@
 
 <hr>
 
-HoloPlay is a audio only Youtube alternative app using [Invidious API](https://github.com/omarroth/invidious). You can save music to favoris or create your playlists. This project is fully open source.
+HoloPlay is a Youtube alternative app using [Invidious API](https://github.com/omarroth/invidious). You can save music to favoris or create your playlists. This project is fully open source.
 
 If you want add more feature, PM or PR are welcome :)
 
@@ -23,7 +23,8 @@ If you want add more feature, PM or PR are welcome :)
 - **Downloading video**
 - **Background mode (Android, PWA)**
 - **Data Syncing between devices** (by using [Holoplay Serverless](https://github.com/stephane-r/holoplay-serverless))
-- **Internationalization with 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English (default), 🇫🇷 French and 🇯🇵 Japanese (thank to maboroshin !)**
+- **Internationalization with 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English (default), 🇫🇷 French and 🇯🇵 Japanese (thank to Maboroshin !)**
+- **Audio and video mode (iframe use youtube-nocookie.com domain)**
 - **Respect your privacy**
 - **Open Source**
 - **Dark Theme**
@@ -56,6 +57,8 @@ This project is licensed under the MIT.
 
 ## TODO
 
+- [ ] Video mode
+- [ ] Virtualize list for better performance
 - [x] i18n support
-- [ ] Default Invidious instance
-- [ ] Add custom Invidious instance
+- [x] Default Invidious instance
+- [x] Add custom Invidious instance

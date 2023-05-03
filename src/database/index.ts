@@ -62,6 +62,11 @@ const initDb = () => {
     db.commit();
   }
 
+  if (!db.columnExists("settings", "videoMode")) {
+    db.alterTable("settings", "videoMode", true);
+    db.commit();
+  }
+
   return db;
 };
 
