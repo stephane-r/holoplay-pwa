@@ -2,8 +2,6 @@ import { memo } from "react";
 import { Navbar, Center, createStyles, Stack } from "@mantine/core";
 import {
   IconHome2,
-  IconGauge,
-  IconDeviceDesktopAnalytics,
   IconSettings,
   IconInfoCircle,
   IconHeart,

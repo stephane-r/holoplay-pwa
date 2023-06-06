@@ -68,6 +68,7 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
           break;
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [navigate, searchQuery, setSearchValues]
   );
 

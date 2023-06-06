@@ -1,5 +1,5 @@
 import { ActionIcon, Tooltip, createStyles } from "@mantine/core";
-import { IconChevronLeft, IconVideo } from "@tabler/icons-react";
+import { IconVideo } from "@tabler/icons-react";
 import { memo } from "react";
 import {
   useSetVideoIframeVisibility,

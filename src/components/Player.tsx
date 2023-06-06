@@ -4,7 +4,6 @@ import {
   createStyles,
   Drawer,
   Flex,
-  rem,
   ScrollArea,
   Slider,
   Space,

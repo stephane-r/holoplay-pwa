@@ -12,6 +12,7 @@ import { useSetSettings } from "../providers/Settings";
 import { Instance } from "../types/interfaces/Instance";
 
 const DOMAIN_REGEX =
+  // eslint-disable-next-line no-useless-escape
   /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
 
 export const ModalAddCustomInstance = memo(() => {
