@@ -4,8 +4,9 @@ import { initReactI18next } from "react-i18next";
 import en from "./en.json";
 import fr from "./fr.json";
 import ja from "./ja.json";
+import ru from "./ru.json";
 
-export type Languages = "en-EN" | "fr-FR" | "ja-JP";
+export type Languages = "en-EN" | "fr-FR" | "ja-JP" | "ru-RU";
 
 export const languagesValues = [
   {
@@ -20,6 +21,10 @@ export const languagesValues = [
     value: "ja-JP",
     label: "Japanese",
   },
+  {
+    value: "ru-RU",
+    label: "Russian",
+  },
 ];
 
 export const resources = {
@@ -31,6 +36,9 @@ export const resources = {
   },
   ja: {
     translation: ja,
+  },
+  ru: {
+    translation: ru,
   },
 };
 
