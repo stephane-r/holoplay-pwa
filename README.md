@@ -23,7 +23,7 @@ If you want add more feature, PM or PR are welcome :)
 - **Downloading video**
 - **Background mode (Android, PWA)**
 - **Data Syncing between devices** (by using [Holoplay Serverless](https://github.com/stephane-r/holoplay-serverless))
-- **Internationalization with 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English (default), 🇫🇷 French and 🇯🇵 Japanese (thank to Maboroshin !)**
+- **Internationalization with 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English, 🇫🇷 French, 🇯🇵 Japanese and 🇷🇺 Russian**
 - **Audio and video mode (iframe use youtube-nocookie.com domain)**
 - **Respect your privacy**
 - **Open Source**
@@ -35,7 +35,25 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-TODO
+First, use **Node.js 18** or higher.
+
+Copy `.env.dist` to `.env` and change `REACT_APP_API_URL` to your Holoplay Serverless URL :
+
+```bash
+REACT_APP_API_URL=http://localhost:3001 # Or https://holoplay-serverless.vercel.app for production domain
+```
+
+Then, install dependencies:
+
+```bash
+npm install
+```
+
+And run project in development mode:
+
+```bash
+npm start
+```
 
 ## Built With
 
@@ -47,9 +65,11 @@ TODO
 
 [Invidious](https://github.com/iv-org/invidious) is an alternative front-end to YouTube. HoloPlay use all [Invidious public instances](https://api.invidious.io/). All instances are retrieved each time HoloPlay is launched.
 
-## Contributing
+## Contributors
 
-Please read [CONTRIBUTING.md]() for details on our code of conduct, and the process for submitting pull requests to us.
+<a href="https://github.com/stephane-r/holoplay-pwa/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=stephane-r/holoplay-pwa" />
+</a>
 
 ## License
 
@@ -57,8 +77,9 @@ This project is licensed under the MIT.
 
 ## TODO
 
-- [ ] Video mode
+- [ ] Use region on Invidious API ()
 - [ ] Virtualize list for better performance
+- [x] Video mode
 - [x] i18n support
 - [x] Default Invidious instance
 - [x] Add custom Invidious instance
