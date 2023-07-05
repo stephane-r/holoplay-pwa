@@ -62,7 +62,7 @@ export const ModalUpdatePlaylist: React.FC<ModalUpdatePlaylistProps> = memo(
           <Button onClick={() => onClose()} color="gray">
             {t("button.cancel")}
           </Button>
-          <Button type="submit" disabled={playlistTitle.length === 0}>
+          <Button type="submit" disabled={playlistTitle?.length === 0}>
             {t("modal.playlist.update.button.submit")}
           </Button>
         </Flex>
