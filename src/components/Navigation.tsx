@@ -19,6 +19,7 @@ import { AppVersion } from "./AppVersion";
 import { useTranslation } from "react-i18next";
 import { NavbarLink } from "./NavbarLink";
 import { ButtonSyncData } from "./ButtonSyncData";
+import { useTrendingUrl } from "../providers/TrendingFilters";
 
 export const NAVIGATION_WIDTH = 88;
 
@@ -72,11 +73,7 @@ export const Navigation = memo(() => {
             {...isActive("/")}
           />
           <SearchLink />
-          <NavbarLink
-            icon={IconTrendingUp}
-            label={t("navigation.trending")}
-            {...isActive("/trending")}
-          />
+          <TrendingLink />
           <NavbarLink
             icon={IconUsers}
             label={t("navigation.most-popular")}
@@ -132,6 +129,22 @@ const SearchLink = memo(() => {
       label={t("navigation.search")}
       onClick={() => navigate(url)}
       active={location.pathname === "/search"}
+    />
+  );
+});
+
+const TrendingLink = memo(() => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const url = useTrendingUrl();
+  const { t } = useTranslation();
+
+  return (
+    <NavbarLink
+      icon={IconTrendingUp}
+      label={t("navigation.trending")}
+      onClick={() => navigate(url)}
+      active={location.pathname === "/trending"}
     />
   );
 });

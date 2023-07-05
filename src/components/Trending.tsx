@@ -4,9 +4,14 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { getTrendings } from "../services/trending";
 import { CardList } from "./CardList";
+import { useTrendingFiltersValues } from "../providers/TrendingFilters";
 
 export const Trending = memo(() => {
-  const query = useQuery("trending", () => getTrendings());
+  const trendingFiltersValues = useTrendingFiltersValues();
+  const query = useQuery(
+    `trending-${trendingFiltersValues.type}-${trendingFiltersValues.region}`,
+    () => getTrendings(trendingFiltersValues)
+  );
   const { t } = useTranslation();
 
   if (!query.data) {
