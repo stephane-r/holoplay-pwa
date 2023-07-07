@@ -7,8 +7,9 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
+// @ts-ignore
+import { getName, getCode } from "country-list";
 import { TrendingFilterType } from "../components/TrendingFilters";
-
 export interface TrendingFilters {
   type: TrendingFilterType;
   region: string;
@@ -16,7 +17,9 @@ export interface TrendingFilters {
 
 const initialState: TrendingFilters = {
   type: "music",
-  region: navigator.language.split("-")[0]?.toUpperCase() ?? "US",
+  region: getCode(
+    getName(navigator.language.split("-")[0]?.toUpperCase() ?? "US")
+  ),
 };
 
 const TrendingFiltersValuesContext =
