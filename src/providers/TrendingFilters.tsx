@@ -7,19 +7,16 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-// @ts-ignore
-import { getName, getCode } from "country-list";
 import { TrendingFilterType } from "../components/TrendingFilters";
+import { useQuery } from "react-query";
 export interface TrendingFilters {
   type: TrendingFilterType;
-  region: string;
+  region: string | null;
 }
 
 const initialState: TrendingFilters = {
   type: "music",
-  region: getCode(
-    getName(navigator.language.split("-")[0]?.toUpperCase() ?? "US")
-  ),
+  region: null,
 };
 
 const TrendingFiltersValuesContext =
@@ -38,11 +35,35 @@ const getInitialParams = () => {
   };
 };
 
+const getCountryCode = async () => {
+  const request = await fetch(
+    `${process.env.REACT_APP_API_URL}/api/countryCode`
+  );
+  return request.json();
+};
+
+interface GeoLocation {
+  city: string;
+  country: string;
+  countryRegion: string;
+  region: string;
+}
+
 export const TrendingFiltersProvider: React.FC<ProviderProps> = ({
   children,
 }) => {
   const [value, setValue] = useState<TrendingFilters>(getInitialParams());
   const navigate = useNavigate();
+
+  useQuery("country-code", () => getCountryCode(), {
+    enabled: !value.region,
+    onSuccess: (data: GeoLocation) => {
+      setValue((previousState) => ({
+        ...previousState,
+        region: data.country,
+      }));
+    },
+  });
 
   const handleSetValue = useCallback(
     (updatedValues: TrendingFilters) => {

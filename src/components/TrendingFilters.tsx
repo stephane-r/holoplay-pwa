@@ -35,7 +35,11 @@ export const TrendingFilters = memo(() => {
       />
       <Select
         searchable
-        value={getCode(getName(trendingFiltersValues.region))}
+        value={
+          trendingFiltersValues.region
+            ? getCode(getName(trendingFiltersValues.region))
+            : null
+        }
         onChange={(value) =>
           setTrendingFiltersValues({
             ...trendingFiltersValues,

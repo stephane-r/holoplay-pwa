@@ -10,7 +10,10 @@ export const Trending = memo(() => {
   const trendingFiltersValues = useTrendingFiltersValues();
   const query = useQuery(
     `trending-${trendingFiltersValues.type}-${trendingFiltersValues.region}`,
-    () => getTrendings(trendingFiltersValues)
+    () => getTrendings(trendingFiltersValues),
+    {
+      enabled: Boolean(trendingFiltersValues.region),
+    }
   );
   const { t } = useTranslation();
 
