@@ -25,6 +25,7 @@
     "@types/node": "^20.3.3",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
+    "@types/uuid": "^9.0.2",
     "country-list": "^2.3.0",
     "framer-motion": "^10.12.18",
     "hex-to-rgba": "^2.0.1",
@@ -42,6 +43,7 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.14.1",
     "react-scripts": "^5.0.1",
+    "uuid": "^9.0.0",
     "video.js": "^8.3.0",
     "videojs-youtube": "^3.0.1",
     "web-vitals": "^3.3.2"
