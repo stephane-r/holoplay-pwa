@@ -1,15 +1,18 @@
 import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { Video } from "../types/interfaces/Video";
 import { ColorInfo } from "../utils/colorExtractor";
+import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 
 interface PlayerVideo {
   video: Video | null;
+  sponsorBlockSegments: SponsorBlockSegment[] | null;
   thumbnailUrl: string | null;
   primaryColor: ColorInfo | null;
 }
 
 const initialPlayerVideoState = {
   video: null,
+  sponsorBlockSegments: null,
   thumbnailUrl: null,
   primaryColor: null,
 };
@@ -18,6 +21,7 @@ interface PlayerState {
   paused: boolean;
   muted: boolean;
   repeat: boolean;
+  audioDuration: number | null;
   duration: string | null;
   currentTime: number | null;
   formatedCurrentTime: string | null;
@@ -30,6 +34,7 @@ export const initialPlayerState: PlayerState = {
   paused: false,
   muted: false,
   repeat: false,
+  audioDuration: null,
   duration: null,
   currentTime: null,
   formatedCurrentTime: null,

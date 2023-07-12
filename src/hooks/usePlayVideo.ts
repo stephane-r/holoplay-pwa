@@ -13,6 +13,7 @@ import { getVideo } from "../services/video";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { colorExtractor } from "../utils/colorExtractor";
 import { useResolveVideosPlaylist } from "./useResolveVideosPlaylist";
+import { getSponsorBlockSegments } from "../services/sponsor-block";
 
 const DEFAULT_PRIMARY_COLOR = {
   color: "#000",
@@ -51,7 +52,10 @@ export const usePlayVideo = () => {
     setLoading(true);
 
     try {
-      const data = await getVideo(videoId);
+      const [sponsorBlockSegments, data] = await Promise.all([
+        getSponsorBlockSegments(videoId),
+        getVideo(videoId),
+      ]);
       const videoThumbnail = data.video.videoThumbnails.find(
         (thumbnail) => thumbnail.quality === "sddefault"
       ) as VideoThumbnail;
@@ -77,6 +81,7 @@ export const usePlayVideo = () => {
         video: data.video,
         thumbnailUrl: videoThumbnailUrl,
         primaryColor: colors ? colors[0] : DEFAULT_PRIMARY_COLOR,
+        sponsorBlockSegments: sponsorBlockSegments.segments,
       });
       setPlayerState((previousState) => ({
         ...initialPlayerState,

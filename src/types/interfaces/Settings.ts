@@ -6,4 +6,5 @@ export interface Settings {
   defaultInstance: Instance | null;
   customInstances: Instance[];
   videoMode: boolean;
+  deviceId: string;
 }

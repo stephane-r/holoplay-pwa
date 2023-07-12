@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 // @ts-ignore
 import localStorageDB from "localstoragedb";
 
@@ -14,6 +15,7 @@ const initDb = () => {
       "type",
     ]);
     db.createTable("settings", [
+      "deviceId",
       "createdAt",
       "currentInstance",
       "defaultInstance",
@@ -67,6 +69,10 @@ const initDb = () => {
     db.commit();
   }
 
+  if (!db.columnExists("settings", "deviceId")) {
+    db.alterTable("settings", "deviceId", uuidv4());
+    db.commit();
+  }
   return db;
 };
 

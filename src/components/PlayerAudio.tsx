@@ -46,8 +46,9 @@ export const PlayerAudio = memo(() => {
     const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
     setPlayerState((previousState) => ({
       ...previousState,
+      audioDuration: Math.round(audio.duration),
       duration: displayTimeBySeconds(audio.duration),
-      currentTime,
+      currentTime: Math.round(currentTime),
       formatedCurrentTime: displayTimeBySeconds(currentTime, audio.duration),
       percentage: (100 * currentTime) / Number(audio.duration.toFixed(2)),
     }));
