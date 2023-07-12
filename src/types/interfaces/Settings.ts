@@ -7,4 +7,6 @@ export interface Settings {
   customInstances: Instance[];
   videoMode: boolean;
   deviceId: string;
+  sponsorBlock: boolean;
+  sponsorBlockCategories: string[];
 }

@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 // @ts-ignore
 import localStorageDB from "localstoragedb";
+import { sponsorBlockCategoriesValues } from "../components/SponsorBlockSettings";
+import { Settings } from "../types/interfaces/Settings";
 
 const initDb = () => {
   const db = new localStorageDB("library", localStorage);
@@ -15,7 +17,6 @@ const initDb = () => {
       "type",
     ]);
     db.createTable("settings", [
-      "deviceId",
       "createdAt",
       "currentInstance",
       "defaultInstance",
@@ -73,6 +74,20 @@ const initDb = () => {
     db.alterTable("settings", "deviceId", uuidv4());
     db.commit();
   }
+
+  if (!db.columnExists("settings", "sponsorBlock")) {
+    db.alterTable("settings", "sponsorBlock", true);
+    db.alterTable("settings", "sponsorBlockCategories");
+    db.commit();
+
+    db.update("settings", { ID: 1 }, (data: Settings) => ({
+      sponsorBlockCategories: sponsorBlockCategoriesValues.map(
+        (category) => category.value
+      ),
+    }));
+    db.commit();
+  }
+
   return db;
 };
 

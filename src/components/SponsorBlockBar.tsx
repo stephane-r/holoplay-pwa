@@ -2,16 +2,22 @@ import { Flex } from "@mantine/core";
 import { memo } from "react";
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
+import { useSettings } from "../providers/Settings";
 
 interface RangeSponsorBlockSegment extends SponsorBlockSegment {
   percent: string;
 }
 
 export const SponsorBlockBar = memo(() => {
+  const settings = useSettings();
   const playerVideo = usePlayerVideo();
   const playerState = usePlayerState();
 
-  if (!playerVideo.sponsorBlockSegments || !playerState.audioDuration) {
+  if (
+    !settings.sponsorBlock ||
+    !playerVideo.sponsorBlockSegments ||
+    !playerState.audioDuration
+  ) {
     return null;
   }
 

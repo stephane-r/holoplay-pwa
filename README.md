@@ -38,6 +38,7 @@ If you want add more feature, PM or PR are welcome :)
 - **Audio and video mode (by using youtube-nocookie.com)**
 - **Respect your privacy**
 - **Open Source**
+- **Sponsor Block**
 - **Responsive**
 - **Dark Theme**
 

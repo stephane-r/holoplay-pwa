@@ -15,6 +15,7 @@ import { ChangeLanguage } from "../components/ChangeLanguage";
 import { SaveData } from "../components/SaveData";
 import { SelectInvidiousInstance } from "../components/SelectInvidiousInstance";
 import { SwitchVideoMode } from "../components/SwitchVideoMode";
+import { SponsorBlockSettings } from "../components/SponsorBlockSettings";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();
@@ -80,6 +81,9 @@ const PlayerItem = memo(() => {
       <Accordion.Panel>
         <Text mb="md">{t("video.mode.title")}</Text>
         <SwitchVideoMode />
+        <Divider mt="xl" mb="lg" />
+        <Text mb="md">{t("sponsorBlock.title")}</Text>
+        <SponsorBlockSettings />
       </Accordion.Panel>
     </Accordion.Item>
   );
