@@ -14,6 +14,17 @@ HoloPlay is a Youtube alternative app using [Invidious API](https://github.com/o
 
 If you want add more feature, PM or PR are welcome :)
 
+[<img src="docs/screenshots/dashboard.png" width=350>](./docs/screenshots/dashboard.png)
+[<img src="docs/screenshots/search.png" width=350>](./docs/screenshots/search.png)
+[<img src="docs/screenshots/search-light-mode.png" width=350>](./docs/screenshots/search-light-mode.png)
+[<img src="docs/screenshots/playlists.png" width=350>](./docs/screenshots/playlists.png)
+
+<br>
+
+[<img src="docs/screenshots/mobile.png" width=250>](./docs/screenshots/mobile.png)
+[<img src="docs/screenshots/playlists-mobile.png" width=250>](./docs/screenshots/playlists-mobile.png)
+[<img src="docs/screenshots/favorite-mobile.png" width=250>](./docs/screenshots/favorite-mobile.png)
+
 ## Features
 
 - **Search on Invidious or Youtube Music**
@@ -24,9 +35,10 @@ If you want add more feature, PM or PR are welcome :)
 - **Background mode (Android, PWA)**
 - **Data Syncing between devices** (by using [Holoplay Serverless](https://github.com/stephane-r/holoplay-serverless))
 - **Internationalization with 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English, 🇫🇷 French, 🇯🇵 Japanese and 🇷🇺 Russian**
-- **Audio and video mode (iframe use youtube-nocookie.com domain)**
+- **Audio and video mode (by using youtube-nocookie.com)**
 - **Respect your privacy**
 - **Open Source**
+- **Responsive**
 - **Dark Theme**
 
 ## Getting Started
@@ -77,8 +89,9 @@ This project is licensed under the MIT.
 
 ## TODO
 
-- [ ] Use region on Invidious API ()
+- [ ] Play on other device from app (ex. desktop to mobile)
 - [ ] Virtualize list for better performance
+- [x] Use region on Invidious API ()
 - [x] Video mode
 - [x] i18n support
 - [x] Default Invidious instance
