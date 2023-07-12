@@ -1,4 +1,4 @@
-import { MutableRefObject, memo, useRef } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import {
   usePlayerAudio,
   usePlayerState,
@@ -12,15 +12,18 @@ import {
   createStyles,
   getStylesRef,
   rem,
-  useMantineTheme,
 } from "@mantine/core";
 import {
   IconChevronDown,
   IconHandMove,
   IconInfoCircle,
 } from "@tabler/icons-react";
-import { useSetPlayerMode } from "../providers/PlayerMode";
 import { useDisclosure } from "@mantine/hooks";
+import videojs from "video.js";
+import Player from "video.js/dist/types/player";
+import "video.js/dist/video-js.css";
+import "videojs-youtube";
+import { useSetPlayerMode } from "../providers/PlayerMode";
 import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility";
 
@@ -75,9 +78,7 @@ export const VideoIframe: React.FC<VideoIframeProps> = memo(
   ({ width, height }) => {
     const { classes } = useStyles();
     const { video } = usePlayerVideo();
-    const iframe = useRef() as MutableRefObject<HTMLIFrameElement>;
     const playerState = usePlayerState();
-    const theme = useMantineTheme();
 
     if (!video) {
       return null;
@@ -89,22 +90,91 @@ export const VideoIframe: React.FC<VideoIframeProps> = memo(
         <ButtonHide />
         <ButtonInformation />
         <ButtonClose />
-        <iframe
-          ref={iframe}
-          title="Invidious Video Player"
-          width={width}
-          height={height}
+        <Video
+          loop={playerState.repeat}
           src={`https://www.youtube-nocookie.com/embed/${
             video.videoId
-          }?rel=0;&autoplay=1&start=${Math.floor(
-            playerState.currentTime as number
-          )}`}
-          style={{ border: "none", borderRadius: theme.radius.md }}
-        ></iframe>
+          }&start=${Math.floor(playerState.currentTime as number)}`}
+        />
       </Box>
     );
   }
 );
+
+const Video = ({ loop, src }: { loop: boolean; src: string }) => {
+  const videoRef = useRef();
+  const playerRef = useRef<Player>();
+  const playerAudio = usePlayerAudio();
+
+  const onReady = useCallback(
+    (player: Player) => {
+      player.on("seeked", () => {
+        // @ts-ignore
+        const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+        audio.currentTime = Math.round(player.currentTime());
+      });
+    },
+    [playerAudio]
+  );
+
+  const options = useMemo(
+    () => ({
+      techOrder: ["youtube"],
+      autoplay: true,
+      controls: true,
+      responsive: true,
+      fluid: true,
+      liveui: true,
+      loop,
+      sources: [
+        {
+          src,
+          type: "video/youtube",
+        },
+      ],
+    }),
+    [loop, src]
+  );
+
+  useEffect(() => {
+    if (!playerRef.current) {
+      const videoElement = document.createElement("video-js");
+      videoElement.classList.add("vjs-big-play-centered");
+
+      if (!videoRef.current) {
+        return;
+      }
+
+      (videoRef.current as HTMLElement).appendChild(videoElement);
+
+      const player = (playerRef.current = videojs(videoElement, options, () => {
+        onReady(player);
+      }));
+    } else {
+      const player = playerRef.current as any;
+      player.autoplay(options.autoplay);
+      player.src(options.sources);
+    }
+  }, [onReady, options, videoRef]);
+
+  useEffect(() => {
+    const player = playerRef.current;
+
+    return () => {
+      if (player && !player.isDisposed()) {
+        player.dispose();
+        playerRef.current = undefined;
+      }
+    };
+  }, [playerRef]);
+
+  return (
+    <div data-vjs-player>
+      {/* @ts-ignore */}
+      <div ref={videoRef} />
+    </div>
+  );
+};
 
 const ButtonClose = memo(() => {
   const { classes } = useStyles();

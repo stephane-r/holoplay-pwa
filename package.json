@@ -42,6 +42,8 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.14.1",
     "react-scripts": "^5.0.1",
+    "video.js": "^8.3.0",
+    "videojs-youtube": "^3.0.1",
     "web-vitals": "^3.3.2"
   },
   "scripts": {
