@@ -12,7 +12,13 @@ export const AppVersion: React.FC<AppVersionProps> = memo(
     const { t } = useTranslation();
 
     return (
-      <Text align={align} title={t("app.version")}>
+      <Text
+        component="a"
+        href={`https://github.com/stephane-r/holoplay-pwa/releases/tag/v${pkg.version}`}
+        target="_blank"
+        align={align}
+        title={t("app.version")}
+      >
         <Space h={4} />
         <Badge size="xs">{pkg.version}</Badge>
       </Text>
