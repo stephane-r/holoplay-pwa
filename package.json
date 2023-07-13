@@ -51,7 +51,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "release": "./scripts/release.sh"
   },
   "eslintConfig": {
     "extends": [
