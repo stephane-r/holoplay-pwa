@@ -1,8 +1,24 @@
-import { Flex } from "@mantine/core";
+import { Flex, createStyles } from "@mantine/core";
 import { memo } from "react";
+import memoizeOne from "memoize-one";
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 import { useSettings } from "../providers/Settings";
+
+const useStyles = createStyles((theme) => ({
+  container: {
+    zIndex: 2,
+    pointerEvents: "none",
+    borderRadius: 4,
+  },
+  segment: {
+    background:
+      theme.colorScheme === "dark"
+        ? theme.colors.indigo[0]
+        : theme.colors.orange[5],
+    height: 4,
+  },
+}));
 
 interface RangeSponsorBlockSegment extends SponsorBlockSegment {
   percent: string;
@@ -12,6 +28,7 @@ export const SponsorBlockBar = memo(() => {
   const settings = useSettings();
   const playerVideo = usePlayerVideo();
   const playerState = usePlayerState();
+  const { classes } = useStyles();
 
   if (
     !settings.sponsorBlock ||
@@ -33,11 +50,12 @@ export const SponsorBlockBar = memo(() => {
       top={2}
       left={0}
       w="100%"
-      style={{ zIndex: 2, pointerEvents: "none", borderRadius: 4 }}
+      className={classes.container}
     >
       {segments.map((segment, index) => (
         <div
           key={segment.percent}
+          className={segment.UUID ? classes.segment : undefined}
           style={{
             borderRadius:
               index === 0
@@ -45,10 +63,6 @@ export const SponsorBlockBar = memo(() => {
                 : index + 1 === segments.length
                 ? "0 4px 4px 0"
                 : 0,
-            background: segment.UUID
-              ? "rgba(255, 255, 255, 0.8)"
-              : "transparent",
-            height: 4,
             width: segment.percent,
           }}
         />
