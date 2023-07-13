@@ -3,7 +3,7 @@ name: Create Release
 on:
   push:
     branches:
-      - "develop"
+      - "main"
 
 jobs:
   build:
@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          ref: develop
 
       - name: Update CHANGELOG
         id: changelog
@@ -38,11 +36,3 @@ jobs:
           branch: develop
           commit_message: "docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]"
           file_pattern: CHANGELOG.md
-
-      - name: Merge develop in main
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          from_branch: develop
-          target_branch: main
-          github_token: ${{ secrets.GITHUB_TOKEN }}
