@@ -1,6 +1,6 @@
 {
   "name": "holoplay-pwa",
-  "version": "1.7.8",
+  "version": "1.7.9",
   "author": "Stéphane Richin",
   "repository": {
     "type": "git",
@@ -51,8 +51,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "release": "./scripts/release.sh"
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
