@@ -14,4 +14,4 @@ git tag -l
 
 # Push to GitHub
 git push origin develop
-git push origin "v$PACKAGE_VERSION"
+git push origin --tags
