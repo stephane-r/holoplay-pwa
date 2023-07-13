@@ -21,7 +21,7 @@ export const SponsorBlockBar = memo(() => {
     return null;
   }
 
-  const segments = rangeSponsorBlockSegments(
+  const segments = memoizedRangeSponsorBlockSegments(
     playerVideo.sponsorBlockSegments,
     playerState.audioDuration as number
   );
@@ -91,3 +91,4 @@ const rangeSponsorBlockSegments = (
         dec,
       ];
     }, []);
+const memoizedRangeSponsorBlockSegments = memoizeOne(rangeSponsorBlockSegments);
