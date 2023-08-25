@@ -49,19 +49,20 @@ export const SearchFilters = memo(() => {
         </Box>
         <Menu.Label>{t("search.filter.type.label")}</Menu.Label>
         <Box p="xs" pt={4}>
-          <SegmentedControl
-            fullWidth
+          <Select
             value={searchValues.type}
             data={[
               { value: "video", label: t("search.filter.type.videos") },
               { value: "playlist", label: t("search.filter.type.playlists") },
+              { value: "channel", label: t("search.filter.type.channel") },
+              { value: "all", label: t("search.filter.type.all") },
             ]}
-            onChange={(value) => {
+            onChange={(value) =>
               setSearchValues({
                 ...searchValues,
                 type: value as SearchTypes,
-              });
-            }}
+              })
+            }
           />
         </Box>
         <Menu.Label>{t("search.filter.sort.label")}</Menu.Label>

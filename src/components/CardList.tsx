@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Video } from "../types/interfaces/Video";
 import { Card } from "./Card";
 import { PlaylistCard } from "./PlaylistCard";
+import { ChannelCard } from "./ChannelCard";
 
 const useStyles = createStyles((theme) => ({
   grid: {
@@ -67,11 +68,16 @@ export const CardList: React.FC<CardListProps> = memo(
             key={`${currentPath}—${item.title}-${index}`}
             className={scrollable ? classes.flexColumn : classes.column}
           >
-            {item.type === "playlist" ? (
-              <PlaylistCard playlist={item as any} />
-            ) : (
-              <Card video={item} />
-            )}
+            {(() => {
+              switch (item.type) {
+                case "playlist":
+                  return <PlaylistCard playlist={item as any} />;
+                case "channel":
+                  return <ChannelCard channel={item as any} />;
+                default:
+                  return <Card video={item} />;
+              }
+            })()}
           </Box>
         ))}
       </Box>

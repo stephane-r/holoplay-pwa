@@ -82,15 +82,24 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
 
     const isRemotePlaylist = Boolean(playlist.playlistId);
     const isLocalPlaylist = Boolean(playlist.ID);
+    const hasVideos = Boolean(playlist.videos.length);
 
     return (
-      <Card withBorder radius="md" p="xl" className={classes.card}>
+      <Card
+        withBorder
+        radius="md"
+        p="xl"
+        pt={hasVideos ? undefined : "xs"}
+        className={classes.card}
+      >
         <Flex gap={8}>
-          <VideosThumbnail
-            videos={playlist.videos}
-            videoCount={playlist.videoCount}
-          />
-          <PlaylistCardMenu playlist={playlist} />
+          {hasVideos ? (
+            <VideosThumbnail
+              videos={playlist.videos}
+              videoCount={playlist.videoCount}
+            />
+          ) : null}
+          {playlist.ID ? <PlaylistCardMenu playlist={playlist} /> : null}
         </Flex>
         <Title
           order={3}

@@ -13,6 +13,7 @@ import { RootPage } from "../pages/Root";
 import { SearchPage } from "../pages/Search";
 import { SettingsPage } from "../pages/Settings";
 import { TrendingPage } from "../pages/Trending";
+import { ChannelDetailPage } from "../pages/ChannelDetail";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "playlists/:playlistId",
         element: <PlaylistDetailPage />,
+      },
+      {
+        path: "channels/:authorId",
+        element: <ChannelDetailPage />,
       },
     ],
   },

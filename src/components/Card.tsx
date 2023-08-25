@@ -22,8 +22,8 @@ import {
   usePlayerState,
   usePlayerVideo,
 } from "../providers/Player";
-import { Image } from "./Image";
 import { useTranslation } from "react-i18next";
+import { CardImage } from "./CardImage";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -151,38 +151,6 @@ const HackedCardPress = memo(({ videoId }: { videoId: string }) => {
     />
   );
 });
-
-interface CardImageProps {
-  image: VideoThumbnail;
-  title: string;
-  children: React.ReactNode;
-}
-
-const CardImage: React.FC<CardImageProps> = ({ image, title, children }) => {
-  const { classes } = useStyles();
-
-  return (
-    <Flex
-      className={classes.imageContainer}
-      align="flex-end"
-      justify="flex-end"
-    >
-      <Image
-        src={image?.url as string}
-        alt={title}
-        className={classes.image}
-        loading="lazy"
-      />
-      {/* <img
-        src={image?.url as string}
-        alt={title}
-        className={classes.image}
-        loading="lazy"
-      /> */}
-      {children}
-    </Flex>
-  );
-};
 
 const ButtonPlayPause = memo(
   ({ onClick, videoId }: { onClick: () => void; videoId: string }) => {
