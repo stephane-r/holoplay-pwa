@@ -13,10 +13,28 @@ import { useTranslation } from "react-i18next";
 interface ButtonFavoriteProps extends ActionIconProps {
   video?: Video;
   iconSize?: number;
+  buttonSize?: number;
 }
 
+const getItemId = (item: Video) => {
+  switch (item.type) {
+    case "channel":
+      return item.authorId;
+    case "playlist":
+      // @ts-ignore
+      return item.playlistId;
+    default:
+      return item.videoId;
+  }
+};
+
 export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
-  ({ video: parentVideo, iconSize = 18, variant = "default" }) => {
+  ({
+    video: parentVideo,
+    iconSize = 18,
+    variant = "default",
+    buttonSize = 36,
+  }) => {
     const favorite = useFavorite();
     const setFavorite = useSetFavorite();
     const { video: currentVideo } = usePlayerVideo();
@@ -25,7 +43,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     const video = parentVideo ?? (currentVideo as Video);
 
     const isFavorite = favorite.videos.find(
-      (favVideo) => favVideo.videoId === video.videoId
+      (favVideo) => getItemId(favVideo) === getItemId(video)
     );
 
     const updateAndCommit = (updatedFavoritePlaylist: Playlist) => {
@@ -41,11 +59,11 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     const handleAdd = () => {
       updateAndCommit({
         ...favorite,
-        videos: [video, ...favorite.videos],
+        videos: [{ ...video, videoId: getItemId(video) }, ...favorite.videos],
       });
 
       notifications.show({
-        title: video.title,
+        title: video.title ?? video.author,
         message: t("favorite.add.success.message"),
       });
     };
@@ -54,12 +72,12 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
       updateAndCommit({
         ...favorite,
         videos: favorite.videos.filter(
-          (favVideo) => favVideo.videoId !== video.videoId
+          (favVideo) => getItemId(favVideo) !== getItemId(video)
         ),
       });
 
       notifications.show({
-        title: video.title,
+        title: video.title ?? video.author,
         message: t("favorite.remove.success.message"),
       });
     };
@@ -76,7 +94,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
         variant={isFavorite ? "filled" : variant}
         color={isFavorite ? "pink" : "gray"}
         radius="md"
-        size={36}
+        size={buttonSize}
         onClick={onClick}
       >
         <IconHeart color="pink" size={iconSize} stroke={1.5} />

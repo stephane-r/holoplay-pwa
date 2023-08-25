@@ -20,6 +20,7 @@ import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { PlaylistCardMenu } from "./PlaylistCardMenu";
+import { ButtonFavorite } from "./ButtonFavorite";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -141,6 +142,8 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
             {!isLocalPlaylist ? (
               <ButtonSaveToPlaylist playlist={playlist} />
             ) : null}
+            {/* @ts-ignore */}
+            <ButtonFavorite video={playlist} buttonSize={28} iconSize={14} />
           </Flex>
         </Flex>
       </Card>

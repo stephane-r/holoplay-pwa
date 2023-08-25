@@ -15,6 +15,7 @@ import { VideoThumbnail } from "../types/interfaces/Video";
 import { Channel } from "../types/interfaces/Channel";
 import { useTranslation } from "react-i18next";
 import { CardImage } from "./CardImage";
+import { ButtonFavorite } from "./ButtonFavorite";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -70,6 +71,8 @@ export const ChannelCard: React.FC<ChannelCardProps> = memo(({ channel }) => {
             {channel.videoCount} videos
           </Text>
         </Box>
+        {/* @ts-ignore */}
+        <ButtonFavorite video={channel} />
       </Flex>
     </Card>
   );
