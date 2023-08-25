@@ -169,6 +169,7 @@
     "search.filter.service.label": "Service",
     "search.filter.service.invidious": "Invidious",
     "search.filter.service.youtubeMusic": "Youtube Music",
+    "search.filter.source.label": "Source",
     "search.filter.type.label": "Type",
     "search.filter.type.videos": "Vidéos",
     "search.filter.type.playlists": "Playlists",

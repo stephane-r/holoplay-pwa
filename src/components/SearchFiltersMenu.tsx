@@ -24,7 +24,7 @@ export const SearchFilters = memo(() => {
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Label>{t("search.filter.type.label")}</Menu.Label>
+        <Menu.Label>{t("search.filter.source.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <SegmentedControl
             fullWidth
