@@ -111,7 +111,7 @@ const Video = ({ loop, src }: { loop: boolean; src: string }) => {
       player.on("seeked", () => {
         // @ts-ignore
         const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-        audio.currentTime = Math.round(player.currentTime());
+        audio.currentTime = Math.round(player.currentTime() as number);
       });
     },
     [playerAudio]
