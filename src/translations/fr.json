@@ -74,6 +74,7 @@
     "button.pause": "Pause",
     "button.share.video": "Partager la vidéo",
     "button.cancel": "Annuler",
+    "button.see-all": "Voir plus",
     "live": "Live",
     "share.title": "Partager",
     "share.holoplay.link": "Copier le lien HoloPlay",
@@ -173,7 +174,7 @@
     "search.filter.type.label": "Type",
     "search.filter.type.videos": "Vidéos",
     "search.filter.type.playlists": "Playlists",
-    "search.filter.type.channel": "Channel",
+    "search.filter.type.channel": "Chaînes",
     "search.filter.type.all": "Tous",
     "search.filter.type.musics": "Musiques",
     "search.filter.type.gaming": "Gaming",
@@ -229,5 +230,12 @@
     "modal.video.iframe.information.text1": "HoloPlay peux jouer une source Invidious en mode Audio only ou via une iframe video. Par défaut, le mode vidéo est utilisé en cas d'erreur de chargement d'une source audio. En cas d'erreur, l'iframe s'ouvre automatiquement. Il est également possible d'activer le mode vidéo manuellement depuis le Player.",
     "modal.video.iframe.information.text2": "L'URL utilisée est",
     "modal.video.iframe.information.text3": "Cette fonctionnalité peut être désactiver depuis la page paramètres de l'application.",
-    "video.mode": "Mode vidéo"
+    "video.mode": "Mode vidéo",
+    "favorite.tab.all": "Tous",
+    "favorite.tab.videos": "Vidéos",
+    "favorite.tab.livestreams": "Lives",
+    "favorite.tab.playlists": "Playlists",
+    "favorite.tab.channels": "Chaînes",
+    "favorite.tab.empty": "Aucun favoris dans cette section.",
+    "genre.title": "Ambiances & genres"
 }

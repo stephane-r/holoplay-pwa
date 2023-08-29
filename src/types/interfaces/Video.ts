@@ -9,7 +9,7 @@ type QualityTypes =
   | "middle"
   | "end";
 
-type VideoTypes = "video" | "playlist" | "channel";
+type VideoTypes = "video" | "playlist" | "channel" | "scheduled" | "livestream";
 
 export interface VideoThumbnail {
   width: number;
