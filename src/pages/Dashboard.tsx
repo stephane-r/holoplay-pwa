@@ -30,7 +30,7 @@ export const DashboardPage = memo(() => {
       <Flex align="baseline" gap={12}>
         <Title order={2}>{t("page.trending.title")}</Title>
         <Link to="/trending" className={classes.link}>
-          See all
+          {t("button.see-all")}
         </Link>
       </Flex>
       <Space h="lg" />
@@ -39,7 +39,7 @@ export const DashboardPage = memo(() => {
       <Flex align="baseline" gap={12}>
         <Title order={2}>{t("page.most-populars.title")}</Title>
         <Link to="/most-popular" className={classes.link}>
-          See all
+          {t("button.see-all")}
         </Link>
       </Flex>
       <Space h="lg" />

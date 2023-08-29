@@ -11,6 +11,7 @@ import { memo } from "react";
 import { genres } from "../utils/genres";
 import { useHover } from "@mantine/hooks";
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
+import { useTranslation } from "react-i18next";
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -34,13 +35,15 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export const GenreList = memo(() => {
+  const { t } = useTranslation();
+
   return (
     <>
-      <Title order={2}>Moods & genres</Title>
+      <Title order={2}>{t("genre.title")}</Title>
       <Space h="lg" />
       <Flex gap={20} wrap="wrap">
         {genres.map((genre) => (
-          <Genre genre={genre} />
+          <Genre key={genre.name} genre={genre} />
         ))}
       </Flex>
     </>
