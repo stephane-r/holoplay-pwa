@@ -28,7 +28,9 @@ export const useResolveVideosPlaylist = () => {
       }
     }
     if (location.pathname === "/favorites") {
-      videos = getFavoritePlaylist().videos;
+      videos = getFavoritePlaylist().videos.filter(
+        (video) => video.type === "video"
+      );
     }
     if (location.pathname === "/most-popular") {
       videos = queryClient.getQueriesData("most-popular")[0][1] as Video[];
