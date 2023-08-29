@@ -10,6 +10,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.9.1] - 2023-08-29
+### :sparkles: New Features
+- [`e48c327`](https://github.com/stephane-r/holoplay-pwa/commit/e48c327af3a28f31fd40db3cb733e106fcba1243) - add generated genre list on dashboard
+
+### :bug: Bug Fixes
+- [`b970d8f`](https://github.com/stephane-r/holoplay-pwa/commit/b970d8f796860421e67fc28eb17b8cf405f65f69) - use default os colorscheme by default
+- [`70f994c`](https://github.com/stephane-r/holoplay-pwa/commit/70f994c9d9245b59f6c0b6b2817228f63d227e2b) - add missing translation on favorite and genre component
+
+### :wrench: Chores
+- [`1083c85`](https://github.com/stephane-r/holoplay-pwa/commit/1083c8589ac2ec36fad712bc9ad2d1f255dd4577) - **release**: 1.7.8
+
+
 ## [v1.7.12] - 2023-07-24
 ### :sparkles: New Features
 - [`c73d58b`](https://github.com/stephane-r/holoplay-pwa/commit/c73d58b6ac7cc4271e0c6ad31137493c1de34453) - add tag link on app version
@@ -43,3 +55,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [v1.7.2]: https://github.com/stephane-r/holoplay-pwa/compare/v1.7.1...v1.7.2
 [v1.7.12]: https://github.com/stephane-r/holoplay-pwa/compare/v1.7.11...v1.7.12
+[v1.9.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.0...v1.9.1
