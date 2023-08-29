@@ -68,6 +68,21 @@ And run project in development mode:
 npm start
 ```
 
+## Docker
+
+If you prefer Docker, holoplay can be run in a container from official Docker hub :
+
+```bash
+docker run -d -p 3000:3000 spout8301/holoplay:latest
+```
+
+Or locally :
+
+```bash
+docker build -t holoplay .
+docker run -d -p 3000:3000 holoplay
+```
+
 ## Built With
 
 - [React](https://reactjs.org)
