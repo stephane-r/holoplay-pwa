@@ -1,5 +1,5 @@
 import { ColorScheme, MantineProvider as Provider } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
+import { useColorScheme, useLocalStorage } from "@mantine/hooks";
 
 interface MantineProviderProps {
   children: React.ReactNode;
@@ -8,6 +8,7 @@ interface MantineProviderProps {
 export const MantineProvider: React.FC<MantineProviderProps> = ({
   children,
 }) => {
+  const osColorScheme = useColorScheme();
   const [colorScheme] = useLocalStorage<ColorScheme>({
     key: "mantine-color-scheme",
   });
@@ -15,7 +16,7 @@ export const MantineProvider: React.FC<MantineProviderProps> = ({
   return (
     <Provider
       theme={{
-        colorScheme,
+        colorScheme: colorScheme ?? osColorScheme,
         breakpoints: {
           xs: "30em",
           sm: "50em",
