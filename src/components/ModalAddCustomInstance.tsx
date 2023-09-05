@@ -35,6 +35,7 @@ export const ModalAddCustomInstance = memo(() => {
     const customInstance = {
       ...instance,
       uri: `${instance.type}://${instance.domain}`,
+      custom: true,
     };
     db.update("settings", { ID: 1 }, (data: Settings) => ({
       currentInstance: customInstance,

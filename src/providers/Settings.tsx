@@ -36,9 +36,26 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
       if (settings.instances.length > 0) return;
 
       const instances = filterAndParseInstances(data as any);
-      const currentInstance =
-        settings.defaultInstance ??
-        instances[generateRandomInteger(1, instances.length - 1)];
+
+      const currentInstance = (() => {
+        if (settings.defaultInstance) {
+          if (settings.defaultInstance.custom) {
+            return settings.defaultInstance;
+          }
+
+          const isStillUp = instances.find(
+            (instance) => instance.domain === settings.defaultInstance?.domain
+          );
+
+          // If the default instance is still up, use it
+          // Otherwise, pick a random instance
+          if (isStillUp) {
+            return settings.defaultInstance;
+          }
+        }
+
+        return instances[generateRandomInteger(1, instances.length - 1)];
+      })();
 
       setSettings((previousState) => ({
         ...previousState,
