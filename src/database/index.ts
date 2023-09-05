@@ -88,7 +88,13 @@ const initDb = () => {
     db.commit();
   }
 
+  if (!db.tableExists("migrations")) {
+    db.createTable("migrations", ["createdAt", "name"]);
+  }
+
   return db;
 };
 
 export const db = initDb();
+
+require("./migrations");
