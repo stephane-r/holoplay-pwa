@@ -149,6 +149,7 @@
     "modal.instance.add.notification.message": "added",
     "modal.instance.add.button.cancel": "Cancel",
     "modal.instance.add.button.submit": "Add and use",
+    "modal.instance.add.default": "Use by default",
     "modal.instance.delete.title": "Delete Invidious instance",
     "modal.instance.delete.notification.title": "Instance deleted",
     "modal.instance.delete.notification.message": "has been deleted",
