@@ -4,6 +4,7 @@ import ReactAudioPlayer from "react-audio-player";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
   usePlayerAudio,
+  usePlayerState,
   usePlayerUrl,
   useSetPlayerState,
 } from "../providers/Player";
@@ -18,6 +19,7 @@ export const PlayerAudio = memo(() => {
   const { handlePlay: play } = usePlayVideo();
   const { videosIds } = usePreviousNextVideos();
   const playerMode = usePlayerMode();
+  const playerState = usePlayerState();
 
   const handlePause = () => {
     setPlayerState((previousState) => ({
@@ -82,6 +84,7 @@ export const PlayerAudio = memo(() => {
         onEnded={handleEnd}
         onListen={handleListen}
         onVolumeChanged={handleVolumeChanged}
+        volume={playerState.volume}
       />
     </Box>
   );
