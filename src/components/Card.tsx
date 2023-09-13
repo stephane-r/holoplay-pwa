@@ -1,4 +1,8 @@
-import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
+import {
+  IconMusic,
+  IconPlayerPause,
+  IconPlayerPlay,
+} from "@tabler/icons-react";
 import {
   Card as MCard,
   Text,
@@ -24,6 +28,7 @@ import {
 } from "../providers/Player";
 import { useTranslation } from "react-i18next";
 import { CardImage } from "./CardImage";
+import { useColorScheme } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -50,6 +55,18 @@ const useStyles = createStyles((theme) => ({
     maxHeight: "110%",
     borderRadius: theme.radius.md,
     transform: "translate3d(-50%, -50%, 0)",
+  },
+  buttonPlaying: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 4,
+    width: "100%",
+    height: "100%",
+    background:
+      theme.colorScheme === "dark"
+        ? "rgba(0, 0, 0, 0.7)"
+        : "rgba(255, 255, 255, 0.8)",
   },
 }));
 
@@ -78,6 +95,7 @@ export const Card: React.FC<CardProps> = memo(
         p="sm"
         className={classes.card}
       >
+        <CardPlaying videoId={video.videoId} />
         <HackedCardPress videoId={video.videoId} />
         <LoadingOverlay visible={loading} overlayBlur={2} />
         <UnstyledButton
@@ -208,5 +226,38 @@ const ButtonAudioPlayPause = memo(() => {
     >
       {playerState.paused ? <IconPlayerPlay /> : <IconPlayerPause />}
     </ActionIcon>
+  );
+});
+
+const CardPlaying = memo(({ videoId }: { videoId: string }) => {
+  const { video } = usePlayerVideo();
+  const playerAudio = usePlayerAudio();
+  const { classes } = useStyles();
+
+  if (video?.videoId !== videoId) {
+    return null;
+  }
+
+  const handlePlayPause = () => {
+    // @ts-ignore
+    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  };
+
+  return (
+    <UnstyledButton
+      className={classes.buttonPlaying}
+      style={{}}
+      onClick={handlePlayPause}
+    >
+      <Flex align="center" justify="center">
+        <IconMusic size={60} />
+      </Flex>
+    </UnstyledButton>
   );
 });

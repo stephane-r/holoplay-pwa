@@ -1,4 +1,11 @@
-import { Button, Flex, TextInput, Select, Space } from "@mantine/core";
+import {
+  Button,
+  Flex,
+  TextInput,
+  Select,
+  Space,
+  Checkbox,
+} from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -24,6 +31,7 @@ export const ModalAddCustomInstance = memo(() => {
     initialValues: {
       domain: "",
       type: "https",
+      isDefault: false,
     },
     validate: {
       domain: (value) => !value.match(DOMAIN_REGEX),
@@ -31,22 +39,34 @@ export const ModalAddCustomInstance = memo(() => {
   });
   const setSettings = useSetSettings();
 
-  const handleSubmit = (instance: { domain: string; type: string }) => {
+  const handleSubmit = (instance: {
+    domain: string;
+    type: string;
+    isDefault: boolean;
+  }) => {
     const customInstance = {
-      ...instance,
+      domain: instance.domain,
+      type: instance.type,
       uri: `${instance.type}://${instance.domain}`,
+      custom: true,
     };
     db.update("settings", { ID: 1 }, (data: Settings) => ({
+      defaultInstance: instance.isDefault
+        ? customInstance
+        : data.defaultInstance,
       currentInstance: customInstance,
-      customInstances: [...(data.customInstances ?? []), customInstance],
+      customInstances: [customInstance, ...(data.customInstances ?? [])],
     }));
     db.commit();
     setSettings((previousState) => ({
       ...previousState,
+      defaultInstance: instance.isDefault
+        ? (customInstance as Instance)
+        : previousState.defaultInstance,
       currentInstance: customInstance as Instance,
       customInstances: [
-        ...(previousState.customInstances ?? []),
         customInstance as Instance,
+        ...(previousState.customInstances ?? []),
       ],
     }));
 
@@ -81,6 +101,8 @@ export const ModalAddCustomInstance = memo(() => {
             {...form.getInputProps("type")}
             data={[{ label: "https", value: "https" }]}
           />
+          <Space h="lg" />
+          <Checkbox label={t("default")} {...form.getInputProps("isDefault")} />
           <Flex gap={8} justify="flex-end" mt="xl">
             <Button onClick={() => setOpened(false)} color="gray">
               {t("button.cancel")}

@@ -45,10 +45,12 @@ export interface Instance {
   stats: Stat;
   type: InstanceTypes;
   uri: string;
+  custom: boolean;
 }
 
 export interface CustomInstance {
   domain: string;
   type: InstanceTypes;
   uri: string;
+  custom: boolean;
 }
