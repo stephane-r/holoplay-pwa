@@ -89,6 +89,12 @@ docker run -d -p 3000:3000 holoplay
 - [Mantine](https://mantine.dev)
 - [TypeScript](https://www.typescriptlang.org/)
 
+## Plausible Analytics
+
+HoloPlay use [Plausible Analytics](https://plausible.io/), an transparent and fully open source [privacy-friendly analytics](https://plausible.io/privacy-focused-web-analytics) software.
+
+Analytics page is public : [HoloPlay Plausible page](https://plausible.holoplay.io/holoplay.io)
+
 ## About Invidious
 
 [Invidious](https://github.com/iv-org/invidious) is an alternative front-end to YouTube. HoloPlay use all [Invidious public instances](https://api.invidious.io/). All instances are retrieved each time HoloPlay is launched.
