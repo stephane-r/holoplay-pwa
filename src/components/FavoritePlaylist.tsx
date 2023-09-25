@@ -28,7 +28,9 @@ export const FavoritePlaylist = memo(() => {
   const videos = data.filter(
     (video) => video.type === "video" || video.type === "scheduled"
   );
-  const livestream = data.filter((video) => video.type === "livestream");
+  const livestream = data.filter(
+    (video) => video.type === "livestream" || video.liveNow
+  );
   const playlists = data.filter((video) => video.type === "playlist");
   const channels = data.filter((video) => video.type === "channel");
 
