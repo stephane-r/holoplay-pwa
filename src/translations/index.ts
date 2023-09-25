@@ -5,8 +5,9 @@ import en from "./en.json";
 import fr from "./fr.json";
 import ja from "./ja.json";
 import ru from "./ru.json";
+import de from "./de.json";
 
-export type Languages = "en-EN" | "fr-FR" | "ja-JP" | "ru-RU";
+export type Languages = "en-EN" | "fr-FR" | "ja-JP" | "ru-RU" | "de-DE";
 
 export const languagesValues = [
   {
@@ -25,6 +26,10 @@ export const languagesValues = [
     value: "ru-RU",
     label: "Russian",
   },
+  {
+    value: "de-DE",
+    label: "German",
+  },
 ];
 
 export const resources = {
@@ -39,6 +44,9 @@ export const resources = {
   },
   ru: {
     translation: ru,
+  },
+  de: {
+    translation: de,
   },
 };
 
