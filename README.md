@@ -34,7 +34,7 @@ If you want add more feature, PM or PR are welcome :)
 - **Downloading video**
 - **Background mode (Android, PWA)**
 - **Data Syncing between devices** (by using [Holoplay Serverless](https://github.com/stephane-r/holoplay-serverless))
-- **Internationalization with 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English, 🇫🇷 French, 🇯🇵 Japanese and 🇷🇺 Russian**
+- **Internationalization with 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English, 🇫🇷 French, 🇯🇵 Japanese, 🇷🇺 Russian and 🇩🇪 German**
 - **Audio and video mode (by using youtube-nocookie.com)**
 - **Respect your privacy**
 - **Open Source**
