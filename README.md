@@ -4,8 +4,9 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
     <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Badges"></a>
     <a href="https://github.com/stephane-r/holoplay-pwa/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"></a>
-    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/stars/stephane-r/holoplay-pwa?label=%E2%AD%90%20Stars" alt="Stars"></a>
-    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/github/forks/stephane-r/holoplay-pwa?color=%23ff69b4" alt="Forks"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa-"><img src="https://img.shields.io/github/stars/stephane-r/holoplay-pwa?label=%E2%AD%90%20Stars" alt="Stars"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa"><img src="https://img.shields.io/github/forks/stephane-r/holoplay-pwa?color=%23ff69b4" alt="Forks"></a>
+    <a href="https://github.com/stephane-r/holoplay-pwa/tags"><img src="https://img.shields.io/docker/pulls/spout8301/holoplay" alt="Docker pull"></a>
 </p>
 
 <hr>
