@@ -26,7 +26,13 @@ export const DashboardPage = memo(() => {
   return (
     <div>
       <PageHeader title={t("page.dashboard.title")} />
-      <Space h="lg" />
+      <Space h={20} />
+      <RecentlyPlay />
+      <Space h={60} />
+      <RecentFavorites />
+      <Space h={60} />
+      <GenreList />
+      <Space h={60} />
       <Flex align="baseline" gap={12}>
         <Title order={2}>{t("page.trending.title")}</Title>
         <Link to="/trending" className={classes.link}>
@@ -44,12 +50,6 @@ export const DashboardPage = memo(() => {
       </Flex>
       <Space h="lg" />
       <Popular horizontal />
-      <Space h={60} />
-      <GenreList />
-      <Space h={60} />
-      <RecentFavorites />
-      <Space h={60} />
-      <RecentlyPlay />
     </div>
   );
 });
