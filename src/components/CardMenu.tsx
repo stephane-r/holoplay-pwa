@@ -55,7 +55,7 @@ export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
               )}
             </>
           ) : null}
-          <Menu.Label>Other</Menu.Label>
+          <Menu.Label>{t("menu.video.other")}</Menu.Label>
           <Menu.Item icon={<IconDownload size={14} />}>
             {t("menu.video.download")}
           </Menu.Item>
