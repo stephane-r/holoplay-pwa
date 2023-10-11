@@ -72,6 +72,9 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
+    "husky": "^8.0.3",
     "typescript": "^4.9.5",
     "uniqolor": "^1.1.0"
   }
