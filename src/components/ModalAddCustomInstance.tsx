@@ -18,9 +18,15 @@ import { Settings } from "../types/interfaces/Settings";
 import { useSetSettings } from "../providers/Settings";
 import { Instance } from "../types/interfaces/Instance";
 
-const DOMAIN_REGEX =
-  // eslint-disable-next-line no-useless-escape
-  /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm;
+const URL_REGEX = new RegExp(
+  "^(https?:\\/\\/)?" + // Protocol
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // Domain name
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + // Ip (v4) address
+    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // Port and path
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + // Query string
+    "(\\#[-a-z\\d_]*)?$",
+  "i"
+);
 
 export const ModalAddCustomInstance = memo(() => {
   const [opened, setOpened] = useState(false);
@@ -32,7 +38,7 @@ export const ModalAddCustomInstance = memo(() => {
       isDefault: false,
     },
     validate: {
-      domain: (value) => !value.match(DOMAIN_REGEX),
+      domain: (value) => !value.match(URL_REGEX),
     },
   });
   const setSettings = useSetSettings();
@@ -99,7 +105,10 @@ export const ModalAddCustomInstance = memo(() => {
           <Select
             label={t("settings.general.invidious.type")}
             {...form.getInputProps("type")}
-            data={[{ label: "https", value: "https" }]}
+            data={[
+              { label: "https", value: "https" },
+              { label: "http", value: "http" },
+            ]}
           />
           <Space h="lg" />
           <Checkbox
