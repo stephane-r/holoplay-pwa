@@ -13,7 +13,7 @@
 
 HoloPlay is a Youtube alternative app using [Invidious API](https://github.com/omarroth/invidious). You can save music to favoris or create your playlists. This project is fully open source.
 
-If you want add more feature, PM or PR are welcome :)
+If you want add more feature, PM, MR or PR are welcome :)
 
 [<img src="docs/screenshots/dashboard.png" width=350>](./docs/screenshots/dashboard.png)
 [<img src="docs/screenshots/search.png" width=350>](./docs/screenshots/search.png)
