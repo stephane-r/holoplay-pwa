@@ -24,6 +24,8 @@ import { I18nextProvider } from "react-i18next";
 import { MobileNavigationContainer } from "../containers/MobileNavigation";
 import { PlayerModeProvider } from "../providers/PlayerMode";
 import { TrendingFiltersProvider } from "../providers/TrendingFilters";
+import { StableNavigateProvider } from "../providers/Navigate";
+import { Outlet } from "react-router-dom";
 
 const useStyles = createStyles(() => ({
   scrollArea: {
@@ -32,62 +34,62 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-interface AppProps {
-  children: React.ReactNode;
-}
-
-export const App: React.FC<AppProps> = ({ children }) => {
+export const App = () => {
   const { cx, classes } = useStyles();
 
   return (
     <I18nextProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
-        <SettingsProvider>
-          <SearchProvider>
-            <TrendingFiltersProvider>
-              <FavoriteProvider>
-                <PlaylistProvider>
-                  <PlayerProvider>
-                    <PreviousNextTrackProvider>
-                      <PlayerPlaylistProvider>
-                        <PlayerModeProvider>
-                          <HistoryProvider>
-                            <ColorSchemeProvider>
-                              <MantineProvider>
-                                <SpotlightProvider>
-                                  <Notifications />
-                                  <Flex>
-                                    <NavigationContainer />
-                                    <ScrollArea
-                                      className={cx(classes.scrollArea)}
-                                      style={{
-                                        position: "static",
-                                      }} // Stay in inline-styles for now
-                                    >
-                                      <Flex>
-                                        <Box style={{ flex: 1 }}>
-                                          <Header />
-                                          <Main>{children}</Main>
-                                          <MobileNavigationContainer />
-                                        </Box>
-                                        <DrawerPlayerContainer />
-                                      </Flex>
-                                      <PlayerContainer />
-                                    </ScrollArea>
-                                  </Flex>
-                                </SpotlightProvider>
-                              </MantineProvider>
-                            </ColorSchemeProvider>
-                          </HistoryProvider>
-                        </PlayerModeProvider>
-                      </PlayerPlaylistProvider>
-                    </PreviousNextTrackProvider>
-                  </PlayerProvider>
-                </PlaylistProvider>
-              </FavoriteProvider>
-            </TrendingFiltersProvider>
-          </SearchProvider>
-        </SettingsProvider>
+        <StableNavigateProvider>
+          <SettingsProvider>
+            <SearchProvider>
+              <TrendingFiltersProvider>
+                <FavoriteProvider>
+                  <PlaylistProvider>
+                    <PlayerProvider>
+                      <PreviousNextTrackProvider>
+                        <PlayerPlaylistProvider>
+                          <PlayerModeProvider>
+                            <HistoryProvider>
+                              <ColorSchemeProvider>
+                                <MantineProvider>
+                                  <SpotlightProvider>
+                                    <Notifications />
+                                    <Flex>
+                                      <NavigationContainer />
+                                      <ScrollArea
+                                        className={cx(classes.scrollArea)}
+                                        style={{
+                                          position: "static",
+                                        }} // Stay in inline-styles for now
+                                      >
+                                        <Flex>
+                                          <Box style={{ flex: 1 }}>
+                                            <Header />
+                                            <Main>
+                                              <Outlet />
+                                            </Main>
+                                            <MobileNavigationContainer />
+                                          </Box>
+                                          <DrawerPlayerContainer />
+                                        </Flex>
+                                        <PlayerContainer />
+                                      </ScrollArea>
+                                    </Flex>
+                                  </SpotlightProvider>
+                                </MantineProvider>
+                              </ColorSchemeProvider>
+                            </HistoryProvider>
+                          </PlayerModeProvider>
+                        </PlayerPlaylistProvider>
+                      </PreviousNextTrackProvider>
+                    </PlayerProvider>
+                  </PlaylistProvider>
+                </FavoriteProvider>
+              </TrendingFiltersProvider>
+            </SearchProvider>
+          </SettingsProvider>
+        </StableNavigateProvider>
         <AppUpdate />
       </QueryClientProvider>
     </I18nextProvider>

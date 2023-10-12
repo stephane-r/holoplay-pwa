@@ -9,16 +9,16 @@ import { HistoryPage } from "../pages/History";
 import { PlaylistDetailPage } from "../pages/PlaylistDetail";
 import { PlaylistsPage } from "../pages/Playlists";
 import { PopularPage } from "../pages/Popular";
-import { RootPage } from "../pages/Root";
 import { SearchPage } from "../pages/Search";
 import { SettingsPage } from "../pages/Settings";
 import { TrendingPage } from "../pages/Trending";
 import { ChannelDetailPage } from "../pages/ChannelDetail";
+import { App } from "./App";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootPage />,
+    element: <App />,
     children: [
       {
         element: <DashboardPage />,

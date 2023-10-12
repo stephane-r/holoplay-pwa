@@ -1,6 +1,5 @@
 import qs from "qs";
 import { createContext, useContext, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Search,
   SearchDate,
@@ -9,6 +8,7 @@ import {
   SearchSortBy,
   SearchTypes,
 } from "../types/interfaces/Search";
+import { useStableNavigate } from "./Navigate";
 
 const initialState: Search = {
   q: "",
@@ -65,11 +65,14 @@ export const useSearchValues = () => useContext(SearchValueContext);
 
 export const useSetSearchValues = () => {
   const setValue = useContext(SetSearchValueContext);
-  const navigate = useNavigate();
+  const navigate = useStableNavigate();
 
   const handleSetValue = (updatedValues: Search) => {
     setValue(updatedValues);
-    navigate(`/search?${qs.stringify(updatedValues)}`);
+
+    if (document.location.pathname !== "/search") {
+      navigate(`/search?${qs.stringify(updatedValues)}`);
+    }
   };
 
   return handleSetValue;

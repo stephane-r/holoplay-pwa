@@ -15,7 +15,6 @@ import {
   IconMusic,
   IconSearch,
 } from "@tabler/icons-react";
-import { useNavigation } from "../components/Navigation";
 import { MobileNavigation } from "../components/MobileNavigation";
 import { useTranslation } from "react-i18next";
 
@@ -38,7 +37,6 @@ export const MobileNavigationContainer = memo(() => {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
-  const { isActive } = useNavigation();
   const { t } = useTranslation();
 
   if (!matches) return null;
@@ -49,22 +47,22 @@ export const MobileNavigationContainer = memo(() => {
         <NavbarLink
           label={t("navigation.dashboard")}
           icon={IconHome2}
-          {...isActive("/")}
+          activePath="/"
         />
         <NavbarLink
           label={t("navigation.search")}
           icon={IconSearch}
-          {...isActive("/search")}
+          activePath="/search"
         />
         <NavbarLink
           label={t("navigation.favorites")}
           icon={IconHeart}
-          {...isActive("/favorites")}
+          activePath="/favorites"
         />
         <NavbarLink
           label={t("navigation.playlists")}
           icon={IconMusic}
-          {...isActive("/playlists")}
+          activePath="/playlists"
         />
         <NavigationDrawer />
       </Flex>
