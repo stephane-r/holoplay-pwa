@@ -28,7 +28,6 @@ import {
 } from "../providers/Player";
 import { useTranslation } from "react-i18next";
 import { CardImage } from "./CardImage";
-import { useColorScheme } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   card: {
