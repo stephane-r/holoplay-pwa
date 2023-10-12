@@ -12,7 +12,6 @@ import {
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
 import { memo } from "react";
-import { useNavigate } from "react-router-dom";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
@@ -21,6 +20,7 @@ import { Playlist } from "../types/interfaces/Playlist";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { PlaylistCardMenu } from "./PlaylistCardMenu";
 import { ButtonFavorite } from "./ButtonFavorite";
+import { useStableNavigate } from "../providers/Navigate";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -75,7 +75,7 @@ interface PlaylistCardProps {
 export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
   ({ playlist }) => {
     const { classes } = useStyles();
-    const navigate = useNavigate();
+    const navigate = useStableNavigate();
 
     const goToPlaylist = () => {
       navigate(`/playlists/${playlist.playlistId ?? playlist.ID}`);

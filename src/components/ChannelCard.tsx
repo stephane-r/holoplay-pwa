@@ -10,12 +10,12 @@ import {
 } from "@mantine/core";
 import { IconDiscountCheckFilled } from "@tabler/icons-react";
 import { memo } from "react";
-import { useNavigate } from "react-router-dom";
 import { VideoThumbnail } from "../types/interfaces/Video";
 import { Channel } from "../types/interfaces/Channel";
 import { useTranslation } from "react-i18next";
 import { CardImage } from "./CardImage";
 import { ButtonFavorite } from "./ButtonFavorite";
+import { useStableNavigate } from "../providers/Navigate";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -32,7 +32,7 @@ interface ChannelCardProps {
 
 export const ChannelCard: React.FC<ChannelCardProps> = memo(({ channel }) => {
   const { classes } = useStyles();
-  const navigate = useNavigate();
+  const navigate = useStableNavigate();
   const { t } = useTranslation();
 
   const goToChannel = () => {
