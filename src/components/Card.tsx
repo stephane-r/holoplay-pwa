@@ -28,7 +28,6 @@ import {
 } from "../providers/Player";
 import { useTranslation } from "react-i18next";
 import { CardImage } from "./CardImage";
-import { useColorScheme } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -75,6 +74,9 @@ interface CardProps {
   component?: "div" | "li";
 }
 
+export const isLiveStream = (video: Video) =>
+  video.type === "livestream" || video.liveNow || video.lengthSeconds === 0;
+
 export const Card: React.FC<CardProps> = memo(
   ({ video, component = "div" }) => {
     const { handlePlay, loading } = usePlayVideo();
@@ -84,8 +86,6 @@ export const Card: React.FC<CardProps> = memo(
     const image = video.videoThumbnails.find(
       (thumbnail) => thumbnail.quality === "maxresdefault"
     ) as VideoThumbnail;
-
-    const videoDuration = displayTimeBySeconds(video.lengthSeconds);
 
     return (
       <MCard
@@ -108,12 +108,12 @@ export const Card: React.FC<CardProps> = memo(
               gap="xs"
               style={{ zIndex: 2, position: "relative" }}
             >
-              {videoDuration !== "00:00" ? (
+              {video.lengthSeconds > 0 ? (
                 <Badge variant="filled" size="xs">
-                  {videoDuration}
+                  {displayTimeBySeconds(video.lengthSeconds)}
                 </Badge>
               ) : null}
-              {video.liveNow || videoDuration === "00:00" ? (
+              {isLiveStream(video) ? (
                 <Badge variant="filled" size="xs" color="red">
                   {t("live")}
                 </Badge>
