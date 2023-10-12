@@ -51,7 +51,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "ts:check": "tsc",
+    "lint": "eslint src"
   },
   "eslintConfig": {
     "extends": [
