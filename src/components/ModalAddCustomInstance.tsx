@@ -24,9 +24,7 @@ const DOMAIN_REGEX =
 
 export const ModalAddCustomInstance = memo(() => {
   const [opened, setOpened] = useState(false);
-  const { t } = useTranslation("translation", {
-    keyPrefix: "modal.instance.add",
-  });
+  const { t } = useTranslation("translation");
   const form = useForm({
     initialValues: {
       domain: "",
@@ -71,8 +69,10 @@ export const ModalAddCustomInstance = memo(() => {
     }));
 
     notifications.show({
-      title: t("notification.title"),
-      message: `${instance.domain} ${t("notification.message")}`,
+      title: t("modal.instance.add.notification.title"),
+      message: `${instance.domain} ${t(
+        "modal.instance.add.notification.message"
+      )}`,
     });
 
     setOpened(false);
@@ -85,30 +85,33 @@ export const ModalAddCustomInstance = memo(() => {
         onClose={() => setOpened(false)}
         centered
         size="lg"
-        title={t("title")}
+        title={t("modal.instance.add.title")}
       >
         <Form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
           <TextInput
             data-autofocus
-            placeholder={t("input.placeholder") as string}
-            label={t("input.label")}
-            description={t("input.description")}
+            placeholder={t("modal.instance.add.input.placeholder") as string}
+            label={t("modal.instance.add.input.label")}
+            description={t("modal.instance.add.input.description")}
             {...form.getInputProps("domain")}
           />
           <Space h="sm" />
           <Select
-            label="Type"
+            label={t("settings.general.invidious.type")}
             {...form.getInputProps("type")}
             data={[{ label: "https", value: "https" }]}
           />
           <Space h="lg" />
-          <Checkbox label={t("default")} {...form.getInputProps("isDefault")} />
+          <Checkbox
+            label={t("modal.instance.add.default")}
+            {...form.getInputProps("isDefault")}
+          />
           <Flex gap={8} justify="flex-end" mt="xl">
             <Button onClick={() => setOpened(false)} color="gray">
-              {t("button.cancel")}
+              {t("modal.instance.add.button.cancel")}
             </Button>
             <Button type="submit" disabled={!form.isValid()}>
-              {t("button.submit")}
+              {t("modal.instance.add.button.submit")}
             </Button>
           </Flex>
         </Form>
