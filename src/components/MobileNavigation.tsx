@@ -1,6 +1,6 @@
 import { createStyles, Divider, Space } from "@mantine/core";
 import { memo } from "react";
-import { Box, NavLink } from "@mantine/core";
+import { Box } from "@mantine/core";
 import {
   IconHistory,
   IconInfoCircle,
@@ -8,8 +8,8 @@ import {
   IconTrendingUp,
   IconUsers,
 } from "@tabler/icons-react";
-import { useNavigation } from "./Navigation";
 import { useTranslation } from "react-i18next";
+import { MobileNavbarLink } from "./NavbarLink";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -27,39 +27,43 @@ interface MobileNavigationProps {
 export const MobileNavigation: React.FC<MobileNavigationProps> = memo(
   ({ onClose }) => {
     const { classes } = useStyles();
-    const { isActive } = useNavigation();
     const { t } = useTranslation();
 
     return (
       <Box className={classes.container} role="navigation">
         <Space h="xs" />
-        <NavLink
-          icon={<IconTrendingUp size={20} stroke={1.5} />}
+        <MobileNavbarLink
+          icon={IconTrendingUp}
           label={t("navigation.trending")}
-          {...isActive("/trending", onClose)}
+          onClose={onClose}
+          activePath="/trending"
         />
-        <NavLink
-          icon={<IconUsers size={20} stroke={1.5} />}
+        <MobileNavbarLink
+          icon={IconUsers}
           label={t("navigation.most-popular")}
-          {...isActive("/most-popular", onClose)}
+          onClose={onClose}
+          activePath="/most-popular"
         />
-        <NavLink
-          icon={<IconHistory size={20} stroke={1.5} />}
+        <MobileNavbarLink
+          icon={IconHistory}
           label={t("navigation.history")}
-          {...isActive("/history", onClose)}
+          onClose={onClose}
+          activePath="/history"
         />
         <Space h="xs" />
         <Divider />
         <Space h="xs" />
-        <NavLink
-          icon={<IconSettings size={20} stroke={1.5} />}
+        <MobileNavbarLink
+          icon={IconSettings}
           label={t("navigation.settings")}
-          {...isActive("/settings", onClose)}
+          onClose={onClose}
+          activePath="/settings"
         />
-        <NavLink
-          icon={<IconInfoCircle size={20} stroke={1.5} />}
+        <MobileNavbarLink
+          icon={IconInfoCircle}
           label={t("navigation.about")}
-          {...isActive("/about", onClose)}
+          onClose={onClose}
+          activePath="/about"
         />
         <Space h="xs" />
       </Box>

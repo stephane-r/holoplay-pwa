@@ -12,8 +12,8 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSearchValues, useSetSearchValues } from "./Search";
+import { useStableNavigate } from "./Navigate";
 
 interface SpotlightProviderProps {
   children: React.ReactNode;
@@ -31,7 +31,7 @@ type SpotlightTriggerType =
 export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
   children,
 }) => {
-  const navigate = useNavigate();
+  const navigate = useStableNavigate();
   const setSearchValues = useSetSearchValues();
   const searchValues = useSearchValues();
   const [searchQuery, setSearchQuery] = useState<null | string>(null);

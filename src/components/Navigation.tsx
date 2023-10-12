@@ -12,7 +12,6 @@ import {
   IconTrendingUp,
 } from "@tabler/icons-react";
 import { Logo } from "./Logo";
-import { useNavigate, useLocation } from "react-router-dom";
 import { useSearchUrl } from "../hooks/useSearchUrl";
 import { PlayerSpace } from "./Player";
 import { AppVersion } from "./AppVersion";
@@ -20,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { NavbarLink } from "./NavbarLink";
 import { ButtonSyncData } from "./ButtonSyncData";
 import { useTrendingUrl } from "../providers/TrendingFilters";
+import { useStableNavigate } from "../providers/Navigate";
 
 export const NAVIGATION_WIDTH = 88;
 
@@ -32,26 +32,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const useNavigation = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const isActive = (routeName: string, onNavigate?: () => void) => ({
-    onClick: () => {
-      navigate(routeName);
-      onNavigate?.();
-    },
-    active: location.pathname === routeName,
-  });
-
-  return {
-    navigate,
-    isActive,
-  };
-};
-
 export const Navigation = memo(() => {
-  const { isActive } = useNavigation();
   const { cx, classes } = useStyles();
   const { t } = useTranslation();
 
@@ -70,29 +51,29 @@ export const Navigation = memo(() => {
           <NavbarLink
             icon={IconHome2}
             label={t("navigation.dashboard")}
-            {...isActive("/")}
+            activePath="/"
           />
           <SearchLink />
           <TrendingLink />
           <NavbarLink
             icon={IconUsers}
             label={t("navigation.most-popular")}
-            {...isActive("/most-popular")}
+            activePath="/most-popular"
           />
           <NavbarLink
             icon={IconHeart}
             label={t("navigation.favorites")}
-            {...isActive("/favorites")}
+            activePath="/favorites"
           />
           <NavbarLink
             icon={IconMusic}
             label={t("navigation.playlists")}
-            {...isActive("/playlists")}
+            activePath="/playlists"
           />
           <NavbarLink
             icon={IconHistory}
             label={t("navigation.history")}
-            {...isActive("/history")}
+            activePath="/history"
           />
         </Stack>
       </Navbar.Section>
@@ -102,12 +83,12 @@ export const Navigation = memo(() => {
           <NavbarLink
             icon={IconInfoCircle}
             label={t("navigation.about")}
-            {...isActive("/about")}
+            activePath="/about"
           />
           <NavbarLink
             icon={IconSettings}
             label={t("navigation.settings")}
-            {...isActive("/settings")}
+            activePath="/settings"
           />
           <AppVersion align="center" />
         </Stack>
@@ -118,8 +99,7 @@ export const Navigation = memo(() => {
 });
 
 const SearchLink = memo(() => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useStableNavigate();
   const url = useSearchUrl();
   const { t } = useTranslation();
 
@@ -128,14 +108,13 @@ const SearchLink = memo(() => {
       icon={IconSearch}
       label={t("navigation.search")}
       onClick={() => navigate(url)}
-      active={location.pathname === "/search"}
+      activePath="/search"
     />
   );
 });
 
 const TrendingLink = memo(() => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useStableNavigate();
   const url = useTrendingUrl();
   const { t } = useTranslation();
 
@@ -144,7 +123,7 @@ const TrendingLink = memo(() => {
       icon={IconTrendingUp}
       label={t("navigation.trending")}
       onClick={() => navigate(url)}
-      active={location.pathname === "/trending"}
+      activePath="/trending"
     />
   );
 });

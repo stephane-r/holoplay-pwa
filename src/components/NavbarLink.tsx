@@ -1,4 +1,5 @@
 import {
+  NavLink,
   Tooltip,
   UnstyledButton,
   createStyles,
@@ -7,6 +8,8 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
+import { useStableNavigate } from "../providers/Navigate";
+import { useLocation } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -44,16 +47,44 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+export type RoutePath =
+  | "/"
+  | "/search"
+  | "/favorites"
+  | "/trending"
+  | "/most-popular"
+  | "/playlists"
+  | "/history"
+  | "/about"
+  | "/settings";
+
 interface NavbarLinkProps {
   icon: any;
   label: string;
   active?: boolean;
   onClick?(): void;
+  activePath?: RoutePath;
 }
 
+const useNavbarLink = (routeName: string, callback?: () => void) => {
+  const navigate = useStableNavigate();
+  const location = useLocation();
+
+  return {
+    onClick: () => {
+      navigate(routeName);
+      if (callback) {
+        callback();
+      }
+    },
+    active: location.pathname === routeName,
+  };
+};
+
 export const NavbarLink = memo(
-  ({ icon: Icon, label, active, onClick }: NavbarLinkProps) => {
+  ({ icon: Icon, label, onClick, activePath }: NavbarLinkProps) => {
     const { classes, cx } = useStyles();
+    const link = useNavbarLink(activePath as RoutePath);
     const theme = useMantineTheme();
     const matches = useMediaQuery(
       `screen and (max-width: ${theme.breakpoints.sm})`
@@ -62,12 +93,31 @@ export const NavbarLink = memo(
     return (
       <Tooltip label={label} position="right" disabled={matches}>
         <UnstyledButton
-          onClick={onClick}
-          className={cx(classes.link, { [classes.active]: active })}
+          onClick={onClick ?? link.onClick}
+          className={cx(classes.link, { [classes.active]: link.active })}
         >
           <Icon stroke={1.5} />
         </UnstyledButton>
       </Tooltip>
+    );
+  }
+);
+
+interface MobileNavbarLinkProps extends NavbarLinkProps {
+  onClose: () => void;
+}
+
+export const MobileNavbarLink = memo(
+  ({ icon: Icon, label, activePath, onClose }: MobileNavbarLinkProps) => {
+    const link = useNavbarLink(activePath as RoutePath, onClose);
+
+    return (
+      <NavLink
+        icon={<Icon />}
+        label={label}
+        onClick={link.onClick}
+        active={link.active}
+      />
     );
   }
 );

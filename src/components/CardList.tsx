@@ -1,6 +1,5 @@
 import { Box, createStyles, rem } from "@mantine/core";
 import { memo } from "react";
-import { useLocation } from "react-router-dom";
 import { Video } from "../types/interfaces/Video";
 import { Card } from "./Card";
 import { PlaylistCard } from "./PlaylistCard";
@@ -55,8 +54,6 @@ interface CardListProps {
 
 export const CardList: React.FC<CardListProps> = memo(
   ({ data, scrollable = false }) => {
-    const location = useLocation();
-    const currentPath = location.pathname.replace("/", "");
     const { classes } = useStyles();
 
     if (!data.length) return null;
@@ -65,7 +62,7 @@ export const CardList: React.FC<CardListProps> = memo(
       <Box className={scrollable ? classes.flexGrid : classes.grid}>
         {data.map((item, index) => (
           <Box
-            key={`${currentPath}—${item.title}-${index}`}
+            key={`${document.location.pathname}—${item.title}-${index}`}
             className={scrollable ? classes.flexColumn : classes.column}
           >
             {(() => {

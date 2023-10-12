@@ -6,9 +6,9 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
 import { TrendingFilterType } from "../components/TrendingFilters";
 import { useQuery } from "react-query";
+import { useStableNavigate } from "./Navigate";
 export interface TrendingFilters {
   type: TrendingFilterType;
   region: string | null;
@@ -53,7 +53,7 @@ export const TrendingFiltersProvider: React.FC<ProviderProps> = ({
   children,
 }) => {
   const [value, setValue] = useState<TrendingFilters>(getInitialParams());
-  const navigate = useNavigate();
+  const navigate = useStableNavigate();
 
   useQuery("country-code", () => getCountryCode(), {
     enabled: !value.region,
