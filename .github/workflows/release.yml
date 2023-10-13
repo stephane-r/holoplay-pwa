@@ -63,6 +63,7 @@ jobs:
           draft: false
           makeLatest: true
           name: v${{ steps.package-version.outputs.current-version }}
+          tag: v${{ steps.package-version.outputs.current-version }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ github.token }}
 
