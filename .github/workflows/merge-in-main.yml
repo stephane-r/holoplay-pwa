@@ -1,12 +1,12 @@
-name: Update CHANGELOG and create release
+name: Build and push Docker images on hub
 
 on:
   push:
-    tags:
-      - v[0-9]+.[0-9]+.[0-9]+
+    branches:
+      - main
 
 jobs:
-  build:
+  changelog:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
