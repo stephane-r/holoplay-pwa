@@ -24,6 +24,11 @@ jobs:
         with:
           node-version: 20
 
+      - name: Configure committer
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
       - name: Update app version
         run: |
           npm version ${{ inputs.release }}
