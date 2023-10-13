@@ -85,9 +85,6 @@ export const SearchBar = memo(() => {
     handleSubmit({ q: value });
   };
 
-  console.log(searchValues);
-  console.log(form.getInputProps("q"));
-
   return (
     <Flex align="center" gap={16} className={classes.container}>
       <Form

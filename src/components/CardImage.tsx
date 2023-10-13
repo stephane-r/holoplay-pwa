@@ -23,15 +23,19 @@ const useStyles = createStyles((theme) => ({
 interface CardImageProps {
   image: VideoThumbnail;
   title: string;
+  domain?: string;
   children?: React.ReactNode;
 }
 
 export const CardImage: React.FC<CardImageProps> = ({
   image,
   title,
+  domain = "",
   children,
 }) => {
   const { classes } = useStyles();
+
+  const domainUrl = image.url.startsWith("https") ? "" : domain;
 
   return (
     <Flex
@@ -40,7 +44,7 @@ export const CardImage: React.FC<CardImageProps> = ({
       justify="flex-end"
     >
       <Image
-        src={image?.url as string}
+        src={`${domainUrl}${image.url}`}
         alt={title}
         className={classes.image}
         loading="lazy"

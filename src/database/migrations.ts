@@ -20,4 +20,13 @@ export default (() => {
       saveMigration("05092023_migrate_custom_instance");
     } catch {}
   }
+
+  if (
+    !migrationsName.includes("13102023_migrate_remove_card_image_url_domain")
+  ) {
+    try {
+      require("./13102023_migrate_remove_card_image_url_domain").default();
+      saveMigration("13102023_migrate_remove_card_image_url_domain");
+    } catch {}
+  }
 })();
