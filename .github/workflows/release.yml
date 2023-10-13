@@ -39,7 +39,7 @@ jobs:
 
       - name: Push tag version
         run: |
-          git push origin ${{ steps.package-version.outputs.version }}
+          git push origin ${{ steps.package-version.outputs.current-version }}
 
       - name: Merge develop in main
         uses: devmasx/merge-branch@master
@@ -48,3 +48,27 @@ jobs:
           from_branch: develop
           target_branch: main
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ steps.package-version.outputs.current-version }}
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          allowUpdates: true
+          draft: false
+          makeLatest: true
+          name: ${{ steps.package-version.outputs.current-version }}
+          body: ${{ steps.changelog.outputs.changes }}
+          token: ${{ github.token }}
+
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: develop
+          commit_message: "docs: update CHANGELOG.md for ${{ steps.package-version.outputs.current-version }}"
+          file_pattern: CHANGELOG.md
