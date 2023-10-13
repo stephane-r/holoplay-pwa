@@ -1,8 +1,9 @@
 import { Box, Flex, Slider, Text } from "@mantine/core";
 import { memo } from "react";
+
+import { useSponsorBlock } from "../hooks/useSponsorBlock";
 import { usePlayerAudio, usePlayerState } from "../providers/Player";
 import { SponsorBlockBar } from "./SponsorBlockBar";
-import { useSponsorBlock } from "../hooks/useSponsorBlock";
 
 export const PlayerProgress = memo(() => {
   const playerAudio = usePlayerAudio();

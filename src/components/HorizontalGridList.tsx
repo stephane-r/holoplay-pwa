@@ -1,6 +1,7 @@
 import { Box, createStyles } from "@mantine/core";
-import { memo } from "react";
 import { useElementSize } from "@mantine/hooks";
+import { memo } from "react";
+
 import { Video } from "../types/interfaces/Video";
 import { CardList } from "./CardList";
 
@@ -25,5 +26,5 @@ export const HorizontalGridList: React.FC<HorizontalGridListProps> = memo(
         </div>
       </Box>
     );
-  }
+  },
 );

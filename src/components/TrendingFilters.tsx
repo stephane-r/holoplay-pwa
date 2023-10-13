@@ -1,13 +1,14 @@
 import { Select } from "@mantine/core";
 // @ts-ignore
-import { getName, getCode } from "country-list";
+import { getCode, getName } from "country-list";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { countriesCode } from "../utils/countriesCode";
+
 import {
   useSetTrendingFiltersValues,
   useTrendingFiltersValues,
 } from "../providers/TrendingFilters";
+import { countriesCode } from "../utils/countriesCode";
 
 export type TrendingFilterType = "music" | "gaming" | "news" | "movies";
 

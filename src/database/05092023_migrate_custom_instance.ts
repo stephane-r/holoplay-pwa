@@ -16,7 +16,7 @@ const migration = () => {
 
   if (settings.defaultInstance) {
     const isCustomInstance = settings.customInstances.find(
-      (instance) => instance.domain === settings.defaultInstance?.domain
+      (instance) => instance.domain === settings.defaultInstance?.domain,
     );
 
     if (!isCustomInstance) {

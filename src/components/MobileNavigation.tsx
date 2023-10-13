@@ -1,5 +1,4 @@
-import { createStyles, Divider, Space } from "@mantine/core";
-import { memo } from "react";
+import { Divider, Space, createStyles } from "@mantine/core";
 import { Box } from "@mantine/core";
 import {
   IconHistory,
@@ -8,7 +7,9 @@ import {
   IconTrendingUp,
   IconUsers,
 } from "@tabler/icons-react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { MobileNavbarLink } from "./NavbarLink";
 
 const useStyles = createStyles((theme) => ({
@@ -68,5 +69,5 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = memo(
         <Space h="xs" />
       </Box>
     );
-  }
+  },
 );

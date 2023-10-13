@@ -3,24 +3,25 @@ import {
   Badge,
   Box,
   Card,
-  createStyles,
   Flex,
   Text,
   Title,
   Tooltip,
+  createStyles,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
 import { memo } from "react";
+
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
+import { useStableNavigate } from "../providers/Navigate";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
-import { PlaylistCardMenu } from "./PlaylistCardMenu";
 import { ButtonFavorite } from "./ButtonFavorite";
-import { useStableNavigate } from "../providers/Navigate";
+import { PlaylistCardMenu } from "./PlaylistCardMenu";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -148,7 +149,7 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
         </Flex>
       </Card>
     );
-  }
+  },
 );
 
 interface VideosThumbnailProps {
@@ -176,7 +177,7 @@ const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
               className={classes.video}
               style={{
                 backgroundImage: `url(${getLowQualityThumbnail(
-                  video.videoThumbnails
+                  video.videoThumbnails,
                 )})`,
               }}
             />
@@ -196,12 +197,12 @@ const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
         ) : null}
       </>
     );
-  }
+  },
 );
 
 const getLowQualityThumbnail = (thumbnails: VideoThumbnail[]) => {
   const thumbnail = thumbnails.find(
-    (thumbnail) => thumbnail.quality === "medium"
+    (thumbnail) => thumbnail.quality === "medium",
   );
 
   return thumbnail ? thumbnail.url : "";
@@ -212,7 +213,7 @@ const ButtonSaveToPlaylist = memo(({ playlist }: { playlist: Playlist }) => {
   const playlists = usePlaylists();
 
   const isSavedPlaylist = playlists.find(
-    (p) => p.playlistId === playlist.playlistId
+    (p) => p.playlistId === playlist.playlistId,
   );
 
   const handleClick = () => {

@@ -1,6 +1,7 @@
 import { Alert, Space, Text, Title } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { useHistory } from "../providers/History";
 import { HorizontalGridList } from "./HorizontalGridList";
 

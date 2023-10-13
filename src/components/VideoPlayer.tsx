@@ -1,10 +1,11 @@
 import { useMantineTheme } from "@mantine/core";
-import { memo, useMemo, useRef } from "react";
-import { MotionStyle, motion } from "framer-motion";
-import { VideoIframe } from "./VideoIframe";
 import { useMediaQuery } from "@mantine/hooks";
+import { MotionStyle, motion } from "framer-motion";
+import { memo, useMemo, useRef } from "react";
+
 import { useVideoIframeVisibility } from "../providers/VideoIframeVisibility";
 import { ButtonToggleVideoIframeVisibility } from "./ButtonToggleVideoIframeVisibility";
+import { VideoIframe } from "./VideoIframe";
 
 export const VideoPlayer = memo(() => {
   const theme = useMantineTheme();
@@ -17,7 +18,7 @@ export const VideoPlayer = memo(() => {
       width: isMobile ? 300 : 400,
       height: isMobile ? 150 : 200,
     }),
-    [isMobile]
+    [isMobile],
   );
 
   const containerStyles: MotionStyle = useMemo(
@@ -32,7 +33,7 @@ export const VideoPlayer = memo(() => {
       top: isMobile ? "20vh" : "60vh",
       left: 0,
     }),
-    [isMobile]
+    [isMobile],
   );
 
   const commonStyles: MotionStyle = useMemo(
@@ -47,7 +48,7 @@ export const VideoPlayer = memo(() => {
       visibility: "visible",
       ...iframeSize,
     }),
-    [theme, iframeSize]
+    [theme, iframeSize],
   );
 
   const visibleStyles: MotionStyle = {

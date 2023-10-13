@@ -1,6 +1,7 @@
 import { notifications } from "@mantine/notifications";
 import { memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+
 import { useServiceWorker } from "../hooks/useServiceWorker";
 
 export const AppUpdate = memo(() => {

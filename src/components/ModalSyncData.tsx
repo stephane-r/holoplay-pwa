@@ -7,22 +7,23 @@ import {
   TextInput,
   useMantineTheme,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Form } from "./Form";
-import { Modal } from "./Modal";
 import useDigitInput from "react-digit-input";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
-import { Playlist } from "../types/interfaces/Playlist";
+
 import {
   getFavoritePlaylist,
   importPlaylist,
   importVideosToFavorites,
 } from "../database/utils";
-import { useSetFavorite } from "../providers/Favorite";
 import { getPlaylists } from "../database/utils";
+import { useSetFavorite } from "../providers/Favorite";
 import { useSetPlaylists } from "../providers/Playlist";
-import { notifications } from "@mantine/notifications";
+import { Playlist } from "../types/interfaces/Playlist";
+import { Form } from "./Form";
+import { Modal } from "./Modal";
 
 interface ModalSyncDataProps {
   opened: boolean;
@@ -31,7 +32,7 @@ interface ModalSyncDataProps {
 
 const syncData = async (code: string): Promise<Playlist[]> => {
   const request = await fetch(
-    `${process.env.REACT_APP_API_URL}/api/sync/${code}`
+    `${process.env.REACT_APP_API_URL}/api/sync/${code}`,
   );
   const { data } = await request.json();
   return data;
@@ -71,10 +72,10 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
 
     const importData = async (data: Playlist[]) => {
       const favoritesPlaylist = data.find(
-        (playlist) => playlist.title === "Favorites"
+        (playlist) => playlist.title === "Favorites",
       );
       const playlists = data.filter(
-        (playlist) => playlist.title !== "Favorites"
+        (playlist) => playlist.title !== "Favorites",
       );
 
       if (favoritesPlaylist) {
@@ -188,5 +189,5 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
         </Form>
       </Modal>
     );
-  }
+  },
 );

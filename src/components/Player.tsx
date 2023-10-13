@@ -1,36 +1,37 @@
 import {
   ActionIcon,
   Box,
-  createStyles,
   Drawer,
   Flex,
   ScrollArea,
   Slider,
   Space,
   Text,
+  createStyles,
   useMantineTheme,
 } from "@mantine/core";
+import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 import { IconPlaylist, IconVolume } from "@tabler/icons-react";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import {
   usePlayerAudio,
   usePlayerState,
   usePlayerUrl,
   usePlayerVideo,
 } from "../providers/Player";
-import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
-import { VideoList } from "./VideoList";
-import { PlayerActions } from "./PlayerActions";
-import { PlayerProgress } from "./PlayerProgress";
-import { PlayerBackground } from "./PlayerBackground";
-import { ButtonRepeat } from "./ButtonRepeat";
-import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonDownload } from "./ButtonDownload";
-import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
-import { ButtonShare } from "./ButtonShare";
-import { useTranslation } from "react-i18next";
+import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
+import { ButtonRepeat } from "./ButtonRepeat";
+import { ButtonShare } from "./ButtonShare";
+import { PlayerActions } from "./PlayerActions";
+import { PlayerBackground } from "./PlayerBackground";
+import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
+import { PlayerProgress } from "./PlayerProgress";
+import { VideoList } from "./VideoList";
 
 const useStyles = createStyles((theme) => ({
   container: {

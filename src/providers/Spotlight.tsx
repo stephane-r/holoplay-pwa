@@ -12,8 +12,9 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
-import { useSearchValues, useSetSearchValues } from "./Search";
+
 import { useStableNavigate } from "./Navigate";
+import { useSearchValues, useSetSearchValues } from "./Search";
 
 interface SpotlightProviderProps {
   children: React.ReactNode;
@@ -69,7 +70,7 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigate, searchQuery, setSearchValues]
+    [navigate, searchQuery, setSearchValues],
   );
 
   const actions: SpotlightAction[] = useMemo(
@@ -117,7 +118,7 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
         icon: <IconHistory size={18} />,
       },
     ],
-    [onTrigger]
+    [onTrigger],
   );
 
   const handleFilter = (query: string, actions: SpotlightAction[]) => {
@@ -126,7 +127,7 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
       return actions.filter((action) => action.title === "Search");
     }
     return actions.filter((action) =>
-      action.title.toLowerCase().includes(query.toLowerCase())
+      action.title.toLowerCase().includes(query.toLowerCase()),
     );
   };
 

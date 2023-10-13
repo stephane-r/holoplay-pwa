@@ -1,6 +1,7 @@
 import { useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
+
 import { Navigation } from "../components/Navigation";
 
 export const NavigationContainer = memo(() => {

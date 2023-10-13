@@ -1,6 +1,7 @@
 import { Box, Button, Divider, Popover, Space } from "@mantine/core";
-import { getSearchHistory } from "../database/utils";
 import { IconHistory } from "@tabler/icons-react";
+
+import { getSearchHistory } from "../database/utils";
 
 interface SearcHistoryMenuProps {
   opened: boolean;

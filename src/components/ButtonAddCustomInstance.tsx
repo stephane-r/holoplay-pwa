@@ -21,5 +21,5 @@ export const ButtonAddCustomInstance = memo(
         <Text>{t("invidious.button.add")}</Text>
       </Button>
     );
-  }
+  },
 );

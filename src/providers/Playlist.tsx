@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
+
 import { getPlaylists } from "../database/utils";
 import { Playlist } from "../types/interfaces/Playlist";
 
@@ -21,7 +22,7 @@ export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({
       playlists,
       setPlaylists,
     }),
-    [playlists]
+    [playlists],
   );
 
   return (

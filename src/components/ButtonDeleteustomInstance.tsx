@@ -21,5 +21,5 @@ export const ButtonDeleteCustomInstance = memo(
         {t("invidious.delete")}
       </Button>
     );
-  }
+  },
 );

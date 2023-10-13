@@ -8,8 +8,9 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
-import { useStableNavigate } from "../providers/Navigate";
 import { useLocation } from "react-router-dom";
+
+import { useStableNavigate } from "../providers/Navigate";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -87,7 +88,7 @@ export const NavbarLink = memo(
     const link = useNavbarLink(activePath as RoutePath);
     const theme = useMantineTheme();
     const matches = useMediaQuery(
-      `screen and (max-width: ${theme.breakpoints.sm})`
+      `screen and (max-width: ${theme.breakpoints.sm})`,
     );
 
     return (
@@ -100,7 +101,7 @@ export const NavbarLink = memo(
         </UnstyledButton>
       </Tooltip>
     );
-  }
+  },
 );
 
 interface MobileNavbarLinkProps extends NavbarLinkProps {
@@ -119,5 +120,5 @@ export const MobileNavbarLink = memo(
         active={link.active}
       />
     );
-  }
+  },
 );

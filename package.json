@@ -55,7 +55,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "ts:check": "tsc",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "format": "prettier --write ./src"
   },
   "eslintConfig": {
     "extends": [
@@ -78,6 +79,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "husky": "^8.0.3",
     "typescript": "^4.9.5",
     "uniqolor": "^1.1.0"

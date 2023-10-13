@@ -1,10 +1,11 @@
 import { Badge, Checkbox, Flex, Switch, Table } from "@mantine/core";
 import { memo } from "react";
-import { Instance } from "../types/interfaces/Instance";
-import { useSetSettings, useSettings } from "../providers/Settings";
-import { db } from "../database";
-import { Settings } from "../types/interfaces/Settings";
 import { useTranslation } from "react-i18next";
+
+import { db } from "../database";
+import { useSetSettings, useSettings } from "../providers/Settings";
+import { Instance } from "../types/interfaces/Instance";
+import { Settings } from "../types/interfaces/Settings";
 import { ModalAddCustomInstance } from "./ModalAddCustomInstance";
 import { ModalDeleteCustomInstance } from "./ModalDeleteCustomInstance";
 
@@ -72,7 +73,7 @@ const TableRow = memo(
 
     const handleInstanceChange = (
       key: "currentInstance" | "defaultInstance",
-      value: Instance | null
+      value: Instance | null,
     ) => {
       db.update("settings", { ID: 1 }, (data: Settings) => ({
         ...data,
@@ -120,7 +121,7 @@ const TableRow = memo(
             onChange={() =>
               handleInstanceChange(
                 "defaultInstance",
-                isDefault ? null : instance
+                isDefault ? null : instance,
               )
             }
           />
@@ -137,5 +138,5 @@ const TableRow = memo(
         ) : null}
       </tr>
     );
-  }
+  },
 );

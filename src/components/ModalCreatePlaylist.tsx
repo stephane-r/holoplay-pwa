@@ -1,8 +1,9 @@
-import { Button, Flex, TextInput, ActionIcon, Tooltip } from "@mantine/core";
+import { ActionIcon, Button, Flex, TextInput, Tooltip } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconPlus } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
@@ -28,7 +29,7 @@ export const ModalCreatePlaylist = memo(() => {
     notifications.show({
       title: t("modal.create.playlist.notification.title"),
       message: `${playlistTitle} ${t(
-        "modal.create.playlist.notification.message"
+        "modal.create.playlist.notification.message",
       )}`,
     });
 

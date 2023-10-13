@@ -1,10 +1,11 @@
-import { memo } from "react";
-import { PageHeader } from "../components/PageHeader";
 import { Alert, LoadingOverlay, Text } from "@mantine/core";
-import { CardList } from "../components/CardList";
-import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
-import { useGetPlaylist } from "../hooks/useGetPlaylist";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
+import { CardList } from "../components/CardList";
+import { PageHeader } from "../components/PageHeader";
+import { useGetPlaylist } from "../hooks/useGetPlaylist";
+import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
 
 export const PlaylistDetailPage = memo(() => {
   return (

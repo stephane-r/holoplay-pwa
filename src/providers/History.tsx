@@ -5,6 +5,7 @@ import {
   useMemo,
   useState,
 } from "react";
+
 import { db } from "../database";
 import { getVideosHistory } from "../database/utils";
 import { Video } from "../types/interfaces/Video";
@@ -32,7 +33,7 @@ export const HistoryProvider: React.FC<HistoryProviderProps> = ({
       history,
       setHistory: handleSetHistory,
     }),
-    [history, handleSetHistory]
+    [history, handleSetHistory],
   );
 
   return (

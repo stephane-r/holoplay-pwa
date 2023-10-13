@@ -1,4 +1,5 @@
 import qs from "qs";
+
 import { Search } from "../types/interfaces/Search";
 import { Video } from "../types/interfaces/Video";
 import { getCurrentInstance } from "../utils/getCurrentInstance";

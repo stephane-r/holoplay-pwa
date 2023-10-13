@@ -1,7 +1,8 @@
 import { createContext, useContext, useMemo, useRef, useState } from "react";
+
+import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 import { Video } from "../types/interfaces/Video";
 import { ColorInfo } from "../utils/colorExtractor";
-import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 
 interface PlayerVideo {
   video: Video | null;
@@ -44,7 +45,7 @@ export const initialPlayerState: PlayerState = {
 };
 
 const PlayerAudioContext = createContext<React.MutableRefObject<null> | null>(
-  null
+  null,
 );
 const PlayerUrlContext = createContext<string | null>(null);
 const SetPlayerUrlContext = createContext<
@@ -75,7 +76,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
       video,
       setVideo,
     }),
-    [video]
+    [video],
   );
 
   const urlState = useMemo(
@@ -83,7 +84,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
       url,
       setUrl,
     }),
-    [url]
+    [url],
   );
 
   const playerState = useMemo(
@@ -91,7 +92,7 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
       playerStatus,
       setPlayerStatus,
     }),
-    [playerStatus]
+    [playerStatus],
   );
 
   return (

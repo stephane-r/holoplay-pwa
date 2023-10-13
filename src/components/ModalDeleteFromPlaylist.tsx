@@ -2,6 +2,7 @@ import { Button, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { db } from "../database";
 import { getPlaylist, getPlaylists } from "../database/utils";
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
@@ -35,7 +36,7 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
       }
 
       const updatedVideos = playlist.videos.filter(
-        (v) => v.videoId !== video.videoId
+        (v) => v.videoId !== video.videoId,
       );
 
       db.update(
@@ -46,14 +47,14 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
         (row: Playlist) => ({
           ...row,
           videos: updatedVideos,
-        })
+        }),
       );
       db.commit();
       setPlaylists(getPlaylists());
       notifications.show({
         title: t("modal.video.delete.playlist.notification.title"),
         message: `${video.title} ${t(
-          "modal.video.delete.playlist.notification.message"
+          "modal.video.delete.playlist.notification.message",
         )}`,
       });
 

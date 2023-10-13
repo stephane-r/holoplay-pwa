@@ -3,26 +3,27 @@ import {
   Button,
   Flex,
   Group,
-  Text,
   TransferList as MTransferList,
+  Text,
   TransferListData,
   useMantineTheme,
 } from "@mantine/core";
-import { useTranslation } from "react-i18next";
+import { Dropzone } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { IconFileBarcode, IconFileX, IconUpload } from "@tabler/icons-react";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import {
   getFavoritePlaylist,
   importPlaylist,
   importVideosToFavorites,
 } from "../database/utils";
-import { Dropzone } from "@mantine/dropzone";
+import { getPlaylists } from "../database/utils";
 import { useSetFavorite } from "../providers/Favorite";
+import { useSetPlaylists } from "../providers/Playlist";
 import { getVideo } from "../services/video";
 import { Video } from "../types/interfaces/Video";
-import { useSetPlaylists } from "../providers/Playlist";
-import { getPlaylists } from "../database/utils";
 
 export const formateToTransferList = (data: ImportDataType[]) => {
   return data
@@ -136,10 +137,10 @@ const TransferList = memo(
 
       try {
         const favoritesData = importedFileData.find(
-          (data) => data.playlistName === "Favorites"
+          (data) => data.playlistName === "Favorites",
         );
         const playlistsData = importedFileData.filter(
-          (data) => data.playlistName !== "Favorites"
+          (data) => data.playlistName !== "Favorites",
         );
 
         if (favoritesData) {
@@ -215,5 +216,5 @@ const TransferList = memo(
         </Flex>
       </Box>
     );
-  }
+  },
 );

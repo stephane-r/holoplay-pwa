@@ -15,7 +15,7 @@ export const getFavoritePlaylist = (): Playlist => {
 const removeDuplicateVideoId = (videos: Video[]): Video[] => {
   return videos.filter(
     (value, index, self) =>
-      index === self.findIndex((t) => t.videoId === value.videoId)
+      index === self.findIndex((t) => t.videoId === value.videoId),
   );
 };
 

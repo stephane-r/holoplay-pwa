@@ -4,7 +4,7 @@ export type PlayerMode = "audio" | "video";
 
 const PlayerModeContext = createContext<PlayerMode>("audio");
 const SetPlayerModeContext = createContext<(mode: PlayerMode) => void>(
-  () => {}
+  () => {},
 );
 
 interface PlayerModeProviderProps {
@@ -21,7 +21,7 @@ export const PlayerModeProvider: React.FC<PlayerModeProviderProps> = ({
       mode,
       setMode,
     }),
-    [mode, setMode]
+    [mode, setMode],
   );
 
   return (

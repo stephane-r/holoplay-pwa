@@ -1,12 +1,13 @@
 import {
   Box,
-  createStyles,
   Flex,
   MediaQuery,
   Space,
+  createStyles,
   useMantineTheme,
 } from "@mantine/core";
 import { memo } from "react";
+
 import { ColorScheme } from "./ColorScheme";
 import { GithubActionIcon } from "./GithubActionIcon";
 import { SearchBar } from "./SearchBar";

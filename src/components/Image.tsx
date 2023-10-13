@@ -31,5 +31,5 @@ export const Image: FC<ImgHTMLAttributes<HTMLImageElement>> = memo(
         />
       </>
     );
-  }
+  },
 );

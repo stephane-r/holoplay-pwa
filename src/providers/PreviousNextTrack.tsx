@@ -42,7 +42,7 @@ export const PreviousNextTrackProvider: React.FC<
       videosIds,
       setPreviousVideoId,
     }),
-    [videosIds]
+    [videosIds],
   );
 
   return (

@@ -1,6 +1,7 @@
-import { v4 as uuidv4 } from "uuid";
 // @ts-ignore
 import localStorageDB from "localstoragedb";
+import { v4 as uuidv4 } from "uuid";
+
 import { sponsorBlockCategoriesValues } from "../components/SponsorBlockSettings";
 import { Settings } from "../types/interfaces/Settings";
 
@@ -82,7 +83,7 @@ const initDb = () => {
 
     db.update("settings", { ID: 1 }, (data: Settings) => ({
       sponsorBlockCategories: sponsorBlockCategoriesValues.map(
-        (category) => category.value
+        (category) => category.value,
       ),
     }));
     db.commit();

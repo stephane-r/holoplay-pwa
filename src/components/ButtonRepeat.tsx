@@ -1,6 +1,7 @@
 import { ActionIcon } from "@mantine/core";
 import { IconRepeat, IconRepeatOnce } from "@tabler/icons-react";
 import { memo } from "react";
+
 import {
   usePlayerAudio,
   usePlayerState,
@@ -37,5 +38,5 @@ export const ButtonRepeat: React.FC<ButtonRepeatProps> = memo(
         )}
       </ActionIcon>
     );
-  }
+  },
 );

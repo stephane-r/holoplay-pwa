@@ -1,25 +1,26 @@
-import { memo } from "react";
-import { Navbar, Center, createStyles, Stack } from "@mantine/core";
+import { Center, Navbar, Stack, createStyles } from "@mantine/core";
 import {
-  IconHome2,
-  IconSettings,
-  IconInfoCircle,
   IconHeart,
-  IconSearch,
-  IconMusic,
   IconHistory,
-  IconUsers,
+  IconHome2,
+  IconInfoCircle,
+  IconMusic,
+  IconSearch,
+  IconSettings,
   IconTrendingUp,
+  IconUsers,
 } from "@tabler/icons-react";
-import { Logo } from "./Logo";
-import { useSearchUrl } from "../hooks/useSearchUrl";
-import { PlayerSpace } from "./Player";
-import { AppVersion } from "./AppVersion";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { NavbarLink } from "./NavbarLink";
-import { ButtonSyncData } from "./ButtonSyncData";
-import { useTrendingUrl } from "../providers/TrendingFilters";
+
+import { useSearchUrl } from "../hooks/useSearchUrl";
 import { useStableNavigate } from "../providers/Navigate";
+import { useTrendingUrl } from "../providers/TrendingFilters";
+import { AppVersion } from "./AppVersion";
+import { ButtonSyncData } from "./ButtonSyncData";
+import { Logo } from "./Logo";
+import { NavbarLink } from "./NavbarLink";
+import { PlayerSpace } from "./Player";
 
 export const NAVIGATION_WIDTH = 88;
 
