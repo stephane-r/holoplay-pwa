@@ -28,6 +28,7 @@ import {
 } from "../providers/Player";
 import { useTranslation } from "react-i18next";
 import { CardImage } from "./CardImage";
+import { useSettings } from "../providers/Settings";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -82,6 +83,7 @@ export const Card: React.FC<CardProps> = memo(
     const { handlePlay, loading } = usePlayVideo();
     const { classes } = useStyles();
     const { t } = useTranslation();
+    const { currentInstance } = useSettings();
 
     const image = video.videoThumbnails.find(
       (thumbnail) => thumbnail.quality === "maxresdefault"
@@ -102,7 +104,11 @@ export const Card: React.FC<CardProps> = memo(
           style={{ width: "100%" }}
           onClick={() => handlePlay(video.videoId)}
         >
-          <CardImage image={image} title={video.title}>
+          <CardImage
+            image={image}
+            domain={currentInstance?.uri}
+            title={video.title}
+          >
             <Flex
               align="center"
               gap="xs"
