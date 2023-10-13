@@ -32,7 +32,14 @@ jobs:
       - name: Update app version
         run: |
           npm version ${{ inputs.release }}
-          git push --follow-tags
+
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+      - name: Push tag version
+        run: |
+          git push origin ${{ steps.package-version.outputs.version }}
 
       - name: Merge develop in main
         uses: devmasx/merge-branch@master
