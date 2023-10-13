@@ -11,6 +11,7 @@ import {
   IconVideo,
 } from "@tabler/icons-react";
 import { isLiveStream } from "./Card";
+import { usePaginateData } from "../hooks/usePaginateData";
 
 export const FavoritePlaylist = memo(() => {
   const favorite = useFavorite();
@@ -55,21 +56,32 @@ export const FavoritePlaylist = memo(() => {
         </Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="all" pt="xs">
-        <CardList data={data} />
+        <DataList data={data} />
       </Tabs.Panel>
       <Tabs.Panel value="videos" pt="xs">
-        {!videos.length ? <Empty /> : <CardList data={videos} />}
+        {!videos.length ? <Empty /> : <DataList data={videos} />}
       </Tabs.Panel>
       <Tabs.Panel value="livestream" pt="xs">
-        {!livestream.length ? <Empty /> : <CardList data={livestream} />}
+        {!livestream.length ? <Empty /> : <DataList data={livestream} />}
       </Tabs.Panel>
       <Tabs.Panel value="playlists" pt="xs">
-        {!playlists.length ? <Empty /> : <CardList data={playlists} />}
+        {!playlists.length ? <Empty /> : <DataList data={playlists} />}
       </Tabs.Panel>
       <Tabs.Panel value="channels" pt="xs">
-        {!channels.length ? <Empty /> : <CardList data={channels} />}
+        {!channels.length ? <Empty /> : <DataList data={channels} />}
       </Tabs.Panel>
     </Tabs>
+  );
+});
+
+const DataList = memo(({ data: initialData }: any) => {
+  const { data, ref } = usePaginateData(initialData);
+
+  return (
+    <>
+      <CardList data={data} />
+      <button ref={ref} style={{ opacity: 0 }} />
+    </>
   );
 });
 
