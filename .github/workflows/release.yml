@@ -54,7 +54,7 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ github.token }}
-          tag: ${{ steps.package-version.outputs.current-version }}
+          tag: v${{ steps.package-version.outputs.current-version }}
 
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
@@ -62,7 +62,7 @@ jobs:
           allowUpdates: true
           draft: false
           makeLatest: true
-          name: ${{ steps.package-version.outputs.current-version }}
+          name: v${{ steps.package-version.outputs.current-version }}
           body: ${{ steps.changelog.outputs.changes }}
           token: ${{ github.token }}
 
@@ -70,5 +70,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: develop
-          commit_message: "docs: update CHANGELOG.md for ${{ steps.package-version.outputs.current-version }}"
+          commit_message: "docs: update CHANGELOG.md for v${{ steps.package-version.outputs.current-version }}"
           file_pattern: CHANGELOG.md
