@@ -10,6 +10,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.9.12] - 2023-10-13
+### :sparkles: New Features
+- [`0aa3cde`](https://github.com/stephane-r/holoplay-pwa/commit/0aa3cde7e4a917e9b05fedc262948ca31cce1dcb) - **dashboard**: change blocks order
+- [`733fc2a`](https://github.com/stephane-r/holoplay-pwa/commit/733fc2aa6de0dd4deecad741be273bab626a8158) - **host**: add possibility to add host domain without ssl
+- [`e3aaa29`](https://github.com/stephane-r/holoplay-pwa/commit/e3aaa29f033443f65598f35a202c4d659510414f) - **card-image**: remove domain from URL and use settings.currentInstance
+- [`03538f4`](https://github.com/stephane-r/holoplay-pwa/commit/03538f4643f579dfdfe9174e0ba819ebc6aa7858) - load paginate local history and favorite data
+
+### :bug: Bug Fixes
+- [`7d29f97`](https://github.com/stephane-r/holoplay-pwa/commit/7d29f97426a84b04a13625c78bc396418ea111de) - **translations**: add missing translations
+- [`a621b12`](https://github.com/stephane-r/holoplay-pwa/commit/a621b122af08e8a456fbfbf104d17ac84f5f4337) - **favorite**: fix wrong livestream tab filter
+
+### :zap: Performance Improvements
+- [`5f257e2`](https://github.com/stephane-r/holoplay-pwa/commit/5f257e207fa6ad07056e947af93ab30f0bf81807) - **navigation**: create NavigateProvider for improve navigate rerender components
+
+### :wrench: Chores
+- [`1f5e7a2`](https://github.com/stephane-r/holoplay-pwa/commit/1f5e7a2bf7e8b6147dd5bdca5fdf6de7bf1d5452) - **ci**: add new Github action for build Docker images
+- [`18d8fea`](https://github.com/stephane-r/holoplay-pwa/commit/18d8fea72ffc98c7cbab5d565fcebfb23c6c2af9) - add commitlint config
+- [`dee6213`](https://github.com/stephane-r/holoplay-pwa/commit/dee6213401fe17e73d16e4e9560386bec65c1fa6) - **ci**: add code quality job
+- [`125ead7`](https://github.com/stephane-r/holoplay-pwa/commit/125ead78d1070cd8c2f447684260419c5ca879f9) - add lodash dependency
+- [`16d96a1`](https://github.com/stephane-r/holoplay-pwa/commit/16d96a1151c7ac05270c1e47c1499980c73d6331) - sort imports using prettier
+- [`27af9d4`](https://github.com/stephane-r/holoplay-pwa/commit/27af9d4c6e7c1738cf1ca5865efcea251244bfba) - **ci**: fix type on Docker build GA
+- [`562754f`](https://github.com/stephane-r/holoplay-pwa/commit/562754fe8e9d3d89dba4967295683a27bb5f7e51) - **ci**: change to manual release job
+- [`bca9f8a`](https://github.com/stephane-r/holoplay-pwa/commit/bca9f8ad5d5328c19cc60c13d1e3dfdc9beee493) - **ci**: add commiter step
+- [`3d4120a`](https://github.com/stephane-r/holoplay-pwa/commit/3d4120a6f56c0a3cd78a4c4a722d046734403991) - **ci**: update CI config
+- [`bc4a031`](https://github.com/stephane-r/holoplay-pwa/commit/bc4a0317f2f34e8f23b8101223372e0f5495529c) - **ci**: update CI config
+- [`c311303`](https://github.com/stephane-r/holoplay-pwa/commit/c3113031352bce84c53739201c3d44fa5936ad70) - **ci**: update CI config
+- [`1bce09c`](https://github.com/stephane-r/holoplay-pwa/commit/1bce09c119b2c7ec3580c4c86bcd19fef5eaeebb) - **ci**: update CI config
+- [`948c0f4`](https://github.com/stephane-r/holoplay-pwa/commit/948c0f443db06786ccdf33a8fba9863b93e9dc90) - **ci**: update CI config
+- [`2e8846f`](https://github.com/stephane-r/holoplay-pwa/commit/2e8846f918ffe232161fee0164ce601d895e3b9e) - **ci**: update CI config
+- [`bdf9356`](https://github.com/stephane-r/holoplay-pwa/commit/bdf93566ddc0b820ec9d7593d44d6cba0ed16b29) - **ci**: update CI config
+
+
 ## [v1.9.6] - 2023-10-12
 ### :sparkles: New Features
 - [`4d86856`](https://github.com/stephane-r/holoplay-pwa/commit/4d868564c29d4507eeda94d0248bd7255a859b32) - **host**: add possibility to add host domain without ssl
@@ -89,3 +121,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.9.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.0...v1.9.1
 [v1.9.4]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.3...v1.9.4
 [v1.9.6]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.5...v1.9.6
+[v1.9.12]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.6...v1.9.12
