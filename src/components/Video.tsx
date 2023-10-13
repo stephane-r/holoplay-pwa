@@ -1,18 +1,19 @@
 import {
   ActionIcon,
   Box,
-  createStyles,
   Flex,
   LoadingOverlay,
   Text,
   UnstyledButton,
+  createStyles,
 } from "@mantine/core";
 import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
 import hexToRgba from "hex-to-rgba";
 import { memo } from "react";
+
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlayerAudio, usePlayerVideo } from "../providers/Player";
-import { Video as VideoType, VideoThumbnail } from "../types/interfaces/Video";
+import { VideoThumbnail, Video as VideoType } from "../types/interfaces/Video";
 import { Image } from "./Image";
 
 const useStyles = createStyles((theme) => ({
@@ -52,7 +53,7 @@ export const Video: React.FC<VideoProps> = memo(
     const playerAudio = usePlayerAudio();
 
     const image = video.videoThumbnails.find(
-      (thumbnail) => thumbnail.quality === "default"
+      (thumbnail) => thumbnail.quality === "default",
     ) as VideoThumbnail;
 
     const isPlaying = playedVideo?.videoId === video.videoId;
@@ -112,5 +113,5 @@ export const Video: React.FC<VideoProps> = memo(
         </Flex>
       </UnstyledButton>
     );
-  }
+  },
 );

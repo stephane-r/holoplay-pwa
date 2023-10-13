@@ -1,6 +1,7 @@
 import { ColorScheme, UnstyledButton } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { memo } from "react";
+
 import { useStableNavigate } from "../providers/Navigate";
 
 export const Logo = memo(() => {

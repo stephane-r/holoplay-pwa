@@ -1,5 +1,6 @@
 import qs from "qs";
 import { createContext, useContext, useMemo, useState } from "react";
+
 import {
   Search,
   SearchDate,
@@ -49,7 +50,7 @@ export const SearchProvider: React.FC<SearchProviderrProps> = ({
       value,
       setValue,
     }),
-    [value]
+    [value],
   );
 
   return (

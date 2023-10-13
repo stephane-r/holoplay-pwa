@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from "react";
+
 import {
   usePlayerAudio,
   usePlayerState,
@@ -11,10 +12,10 @@ const inRange = (num: number, min: number, max: number) =>
 
 const getNextSegment = (
   currentTime: number,
-  segments: SponsorBlockSegment[]
+  segments: SponsorBlockSegment[],
 ) => {
   return segments.find(
-    (segment) => Math.round(segment.startTime) >= currentTime - 1
+    (segment) => Math.round(segment.startTime) >= currentTime - 1,
   );
 };
 
@@ -29,14 +30,14 @@ export const useSponsorBlock = () => {
       const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
       audio.currentTime = currentTime;
     },
-    [playerAudio]
+    [playerAudio],
   );
 
   useEffect(() => {
     if (playerVideo.sponsorBlockSegments && playerState.currentTime) {
       const nextSegment = getNextSegment(
         playerState.currentTime,
-        playerVideo.sponsorBlockSegments
+        playerVideo.sponsorBlockSegments,
       );
 
       if (
@@ -44,7 +45,7 @@ export const useSponsorBlock = () => {
         inRange(
           playerState.currentTime,
           nextSegment.startTime,
-          nextSegment.endTime
+          nextSegment.endTime,
         )
       ) {
         handleSeek(nextSegment.endTime);

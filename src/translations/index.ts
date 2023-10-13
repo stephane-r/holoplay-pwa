@@ -1,11 +1,12 @@
 import i18next from "i18next";
 import detector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
+
+import de from "./de.json";
 import en from "./en.json";
 import fr from "./fr.json";
 import ja from "./ja.json";
 import ru from "./ru.json";
-import de from "./de.json";
 
 export type Languages = "en-EN" | "fr-FR" | "ja-JP" | "ru-RU" | "de-DE";
 

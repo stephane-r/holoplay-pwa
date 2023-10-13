@@ -1,10 +1,11 @@
-import { memo } from "react";
-import { PageHeader } from "../components/PageHeader";
-import { ModalCreatePlaylist } from "../components/ModalCreatePlaylist";
-import { usePlaylists } from "../providers/Playlist";
-import { CardList } from "../components/CardList";
 import { Alert, Box, Flex } from "@mantine/core";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
+import { CardList } from "../components/CardList";
+import { ModalCreatePlaylist } from "../components/ModalCreatePlaylist";
+import { PageHeader } from "../components/PageHeader";
+import { usePlaylists } from "../providers/Playlist";
 
 export const PlaylistsPage = memo(() => {
   const { t } = useTranslation();

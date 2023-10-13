@@ -1,8 +1,9 @@
-import { memo, useState } from "react";
-import { NavbarLink } from "./NavbarLink";
 import { IconCloudDownload } from "@tabler/icons-react";
+import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { ModalSyncData } from "./ModalSyncData";
+import { NavbarLink } from "./NavbarLink";
 
 export const ButtonSyncData = memo(() => {
   const { t } = useTranslation();

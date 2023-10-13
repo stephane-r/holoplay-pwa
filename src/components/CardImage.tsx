@@ -1,4 +1,5 @@
-import { createStyles, Flex } from "@mantine/core";
+import { Flex, createStyles } from "@mantine/core";
+
 import { VideoThumbnail } from "../types/interfaces/Video";
 import { Image } from "./Image";
 

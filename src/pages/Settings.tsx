@@ -1,21 +1,22 @@
 import {
-  Group,
-  Text,
   Accordion,
   Divider,
+  Group,
   SegmentedControl,
+  Text,
 } from "@mantine/core";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SwitchColorScheme } from "../components/ColorScheme";
-import { PageHeader } from "../components/PageHeader";
-import { ImportData } from "../components/ImportData";
-import { ExportData } from "../components/ExportData";
+
 import { ChangeLanguage } from "../components/ChangeLanguage";
+import { SwitchColorScheme } from "../components/ColorScheme";
+import { ExportData } from "../components/ExportData";
+import { ImportData } from "../components/ImportData";
+import { PageHeader } from "../components/PageHeader";
 import { SaveData } from "../components/SaveData";
 import { SelectInvidiousInstance } from "../components/SelectInvidiousInstance";
-import { SwitchVideoMode } from "../components/SwitchVideoMode";
 import { SponsorBlockSettings } from "../components/SponsorBlockSettings";
+import { SwitchVideoMode } from "../components/SwitchVideoMode";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();

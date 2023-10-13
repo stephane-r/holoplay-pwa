@@ -1,27 +1,28 @@
 import {
   ActionIcon,
   Box,
-  createStyles,
   Divider,
   Drawer,
   Flex,
-  rem,
   ScrollArea,
   Slider,
   Space,
   Text,
   Title,
+  createStyles,
+  rem,
 } from "@mantine/core";
+import { useViewportSize } from "@mantine/hooks";
 import { IconChevronUp } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
 import { DrawerPlayerVideo } from "./DrawerPlayer";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
 import { VideoList } from "./VideoList";
-import { useViewportSize } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   container: {

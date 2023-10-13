@@ -1,8 +1,9 @@
 import { MultiSelect, Space, Switch } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { useSetSettings, useSettings } from "../providers/Settings";
+
 import { db } from "../database";
+import { useSetSettings, useSettings } from "../providers/Settings";
 import { Settings } from "../types/interfaces/Settings";
 
 export const sponsorBlockCategoriesValues = [

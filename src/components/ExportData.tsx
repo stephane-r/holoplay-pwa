@@ -7,8 +7,9 @@ import {
   TransferListItem,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { useTranslation } from "react-i18next";
 import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
+
 import { getAllPlaylists } from "../database/utils";
 import { Playlist } from "../types/interfaces/Playlist";
 import { generateAndDownloadFile } from "../utils/generateAndDownloadFile";
@@ -16,7 +17,7 @@ import { generateAndDownloadFile } from "../utils/generateAndDownloadFile";
 const loadPlaylistData = (data: TransferListItem[]) => {
   const playlists = getAllPlaylists();
   return data.map((playlist) =>
-    playlists.find((p) => p.playlistId ?? String(p.ID) === playlist.value)
+    playlists.find((p) => p.playlistId ?? String(p.ID) === playlist.value),
   );
 };
 
@@ -40,7 +41,7 @@ export const ExportData = memo(() => {
       getAllPlaylists().map((p) => ({
         ...p,
         playlistName: p.title,
-      }))
+      })),
     ),
     [],
   ]);

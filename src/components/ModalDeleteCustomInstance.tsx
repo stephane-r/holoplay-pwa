@@ -2,12 +2,13 @@ import { Button, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { db } from "../database";
-import { Modal } from "./Modal";
-import { CustomInstance } from "../types/interfaces/Instance";
-import { ButtonDeleteCustomInstance } from "./ButtonDeleteustomInstance";
-import { Settings } from "../types/interfaces/Settings";
 import { useSetSettings, useSettings } from "../providers/Settings";
+import { CustomInstance } from "../types/interfaces/Instance";
+import { Settings } from "../types/interfaces/Settings";
+import { ButtonDeleteCustomInstance } from "./ButtonDeleteustomInstance";
+import { Modal } from "./Modal";
 
 export const ModalDeleteCustomInstance = memo(
   ({ disabled, instance }: { disabled: boolean; instance: CustomInstance }) => {
@@ -20,7 +21,7 @@ export const ModalDeleteCustomInstance = memo(
 
     const handleDeletePlaylist = () => {
       const customInstances = settings.customInstances.filter(
-        (customInstance) => customInstance.domain !== instance.domain
+        (customInstance) => customInstance.domain !== instance.domain,
       );
       db.update("settings", { ID: 1 }, (data: Settings) => ({
         customInstances,
@@ -66,5 +67,5 @@ export const ModalDeleteCustomInstance = memo(
         />
       </>
     );
-  }
+  },
 );

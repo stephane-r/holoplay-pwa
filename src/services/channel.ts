@@ -1,4 +1,5 @@
 import qs from "qs";
+
 import { Channel } from "../types/interfaces/Channel";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
@@ -17,7 +18,7 @@ interface VideosData {
 
 export const getChannelVideos = async (
   authorId: string,
-  continuation: string | null = null
+  continuation: string | null = null,
 ): Promise<VideosData> => {
   const apiUrl = getCurrentInstance().uri;
   const params = continuation
@@ -26,7 +27,7 @@ export const getChannelVideos = async (
       }
     : {};
   const request = await fetch(
-    `${apiUrl}/api/v1/channels/${authorId}/videos?${qs.stringify(params)}`
+    `${apiUrl}/api/v1/channels/${authorId}/videos?${qs.stringify(params)}`,
   );
   const data: {
     videos: Video[];
@@ -46,7 +47,7 @@ interface PlaylistsData {
 
 export const getChannelPlaylists = async (
   authorId: string,
-  continuation: string | null = null
+  continuation: string | null = null,
 ): Promise<PlaylistsData> => {
   const apiUrl = getCurrentInstance().uri;
   const params = continuation
@@ -55,7 +56,7 @@ export const getChannelPlaylists = async (
       }
     : {};
   const request = await fetch(
-    `${apiUrl}/api/v1/channels/${authorId}/playlists?${qs.stringify(params)}`
+    `${apiUrl}/api/v1/channels/${authorId}/playlists?${qs.stringify(params)}`,
   );
   const data: {
     playlists: Playlist[];

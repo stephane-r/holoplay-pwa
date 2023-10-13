@@ -1,12 +1,12 @@
 import {
+  FC,
+  MutableRefObject,
+  PropsWithChildren,
   createContext,
   useContext,
   useRef,
-  MutableRefObject,
-  FC,
-  PropsWithChildren,
 } from "react";
-import { useNavigate, NavigateFunction } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 const StableNavigateContext =
   createContext<MutableRefObject<NavigateFunction> | null>(null);
@@ -24,7 +24,7 @@ export const StableNavigateProvider: FC<PropsWithChildren> = ({ children }) => {
 
 export const useStableNavigate = (): NavigateFunction => {
   const navigateRef = useContext(
-    StableNavigateContext
+    StableNavigateContext,
   ) as MutableRefObject<NavigateFunction>;
 
   if (navigateRef.current === null)

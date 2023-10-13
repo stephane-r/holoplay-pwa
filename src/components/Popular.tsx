@@ -2,6 +2,7 @@ import { Alert, LoadingOverlay, Text } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
+
 import { getPopuplars } from "../services/popular";
 import { CardList } from "./CardList";
 import { HorizontalGridList } from "./HorizontalGridList";

@@ -1,6 +1,8 @@
 import { ActionIcon, Box, Menu, SegmentedControl, Select } from "@mantine/core";
-import { memo } from "react";
 import { IconFilter } from "@tabler/icons-react";
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import {
   SearchDate,
@@ -9,7 +11,6 @@ import {
   SearchSortBy,
   SearchTypes,
 } from "../types/interfaces/Search";
-import { useTranslation } from "react-i18next";
 
 export const SearchFilters = memo(() => {
   const setSearchValues = useSetSearchValues();

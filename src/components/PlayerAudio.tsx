@@ -1,6 +1,7 @@
 import { Box } from "@mantine/core";
 import { memo } from "react";
 import ReactAudioPlayer from "react-audio-player";
+
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
   usePlayerAudio,
@@ -8,9 +9,9 @@ import {
   usePlayerUrl,
   useSetPlayerState,
 } from "../providers/Player";
+import { usePlayerMode } from "../providers/PlayerMode";
 import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
-import { usePlayerMode } from "../providers/PlayerMode";
 
 export const PlayerAudio = memo(() => {
   const playerAudio = usePlayerAudio();

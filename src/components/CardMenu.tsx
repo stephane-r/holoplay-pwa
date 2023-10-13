@@ -1,13 +1,14 @@
-import { Menu, ActionIcon } from "@mantine/core";
+import { ActionIcon, Menu } from "@mantine/core";
 import {
-  IconPlus,
   IconDownload,
-  IconShare,
   IconPlayerPlay,
+  IconPlus,
+  IconShare,
   IconTrash,
 } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
 import { Video } from "../types/interfaces/Video";
 import { ModalAddToPlaylist } from "./ModalAddToPlaylist";

@@ -1,30 +1,31 @@
 import {
   Box,
   Card,
-  createStyles,
   Divider,
   Flex,
   ScrollArea,
   Space,
   Text,
   Title,
+  createStyles,
 } from "@mantine/core";
+import { useDocumentTitle } from "@mantine/hooks";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
+
 import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
+import { ButtonDownload } from "./ButtonDownload";
 import { ButtonFavorite } from "./ButtonFavorite";
+import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
+import { ButtonRepeat } from "./ButtonRepeat";
+import { ButtonShare } from "./ButtonShare";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
-import { ButtonRepeat } from "./ButtonRepeat";
+import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 import { PlayerProgress } from "./PlayerProgress";
 import { VideoList } from "./VideoList";
-import { ButtonDownload } from "./ButtonDownload";
-import { ButtonShare } from "./ButtonShare";
-import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
-import { useTranslation } from "react-i18next";
-import { useDocumentTitle } from "@mantine/hooks";
-import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -133,7 +134,7 @@ const VideoInformations = memo(() => {
   }
 
   const image = video.videoThumbnails.find(
-    (thumbnail) => thumbnail.quality === "maxresdefault"
+    (thumbnail) => thumbnail.quality === "maxresdefault",
   ) as VideoThumbnail;
 
   return (

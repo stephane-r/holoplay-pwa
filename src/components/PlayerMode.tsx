@@ -1,13 +1,14 @@
+import { useTimeout } from "@mantine/hooks";
+import { showNotification } from "@mantine/notifications";
 import { memo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+
 import {
   usePlayerState,
   usePlayerVideo,
   useSetPlayerState,
 } from "../providers/Player";
 import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
-import { useTimeout } from "@mantine/hooks";
-import { showNotification } from "@mantine/notifications";
-import { useTranslation } from "react-i18next";
 
 export const PlayerMode = memo(() => {
   const playerState = usePlayerState();
@@ -32,7 +33,7 @@ export const PlayerMode = memo(() => {
       }
     },
     5000,
-    { autoInvoke: true }
+    { autoInvoke: true },
   );
 
   useEffect(() => {

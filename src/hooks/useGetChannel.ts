@@ -1,8 +1,9 @@
 import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
+
 import { queryClient } from "../queryClient";
-import { Channel } from "../types/interfaces/Channel";
 import { getChannel } from "../services/channel";
+import { Channel } from "../types/interfaces/Channel";
 
 export const useGetChannel = (authorId: string) => {
   const [channel, setChannel] = useState<Channel | null>(null);

@@ -1,14 +1,15 @@
-import { memo, useEffect, useState } from "react";
-import { PageHeader } from "../components/PageHeader";
 import { LoadingOverlay, Paper, Tabs } from "@mantine/core";
-import { CardList } from "../components/CardList";
-import { useGetChannel } from "../hooks/useGetChannel";
-import { useParams } from "react-router-dom";
 import { IconPlaylist, IconVideo } from "@tabler/icons-react";
+import { memo, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "react-query";
+import { useParams } from "react-router-dom";
+
+import { CardList } from "../components/CardList";
+import { PageHeader } from "../components/PageHeader";
+import { useGetChannel } from "../hooks/useGetChannel";
 import { getChannelPlaylists, getChannelVideos } from "../services/channel";
-import { useTranslation } from "react-i18next";
 
 export const ChannelDetailPage = memo(() => {
   return <PageContainer />;
@@ -104,7 +105,7 @@ const PaginateDataList: React.FC<PaginateDataListProps> = memo(
         ) : null}
       </>
     );
-  }
+  },
 );
 
 const VideosTab = memo(() => {

@@ -1,5 +1,6 @@
 import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
+
 import { DrawerPlayer } from "../components/DrawerPlayer";
 import { usePlayerUrl } from "../providers/Player";
 

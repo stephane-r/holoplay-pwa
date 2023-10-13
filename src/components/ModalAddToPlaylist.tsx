@@ -1,15 +1,16 @@
 import {
-  Space,
   Button,
+  Divider,
   Flex,
   Select,
+  Space,
   Text,
   TextInput,
-  Divider,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
@@ -28,7 +29,7 @@ interface ModalAddToPlaylistProps {
 export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
   ({ opened, onClose, video }) => {
     const [selectedPlaylistId, setSelectedPlaylistId] = useState<string | null>(
-      null
+      null,
     );
     const [newPlaylistTitle, setNewPlaylistTitle] = useState("");
     const playlists = usePlaylists();
@@ -57,7 +58,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
 
     const updatePlaylist = () => {
       const selectedPlaylist = playlists.find(
-        (playlist) => playlist.ID === Number(selectedPlaylistId)
+        (playlist) => playlist.ID === Number(selectedPlaylistId),
       );
 
       if (!selectedPlaylist) {
@@ -77,7 +78,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
           ...playlist,
           videos: [video, ...playlist.videos],
           videoCount: [video, ...playlist.videos].length,
-        })
+        }),
       );
     };
 
@@ -162,5 +163,5 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
         </Modal>
       </>
     );
-  }
+  },
 );

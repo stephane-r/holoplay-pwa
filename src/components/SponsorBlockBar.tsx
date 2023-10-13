@@ -1,9 +1,10 @@
 import { Flex, createStyles } from "@mantine/core";
-import { memo } from "react";
 import memoizeOne from "memoize-one";
+import { memo } from "react";
+
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
-import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 import { useSettings } from "../providers/Settings";
+import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -40,7 +41,7 @@ export const SponsorBlockBar = memo(() => {
 
   const segments = memoizedRangeSponsorBlockSegments(
     playerVideo.sponsorBlockSegments,
-    playerState.audioDuration as number
+    playerState.audioDuration as number,
   );
 
   return (
@@ -75,13 +76,13 @@ const getPercent = (from: number, to: number) => Math.round((100 * from) / to);
 
 const rangeSponsorBlockSegments = (
   segments: SponsorBlockSegment[],
-  videoDuration: number
+  videoDuration: number,
 ): RangeSponsorBlockSegment[] =>
   segments
     .map((segment) => {
       const from = getPercent(
         segment.startTime,
-        Number(videoDuration.toFixed(2))
+        Number(videoDuration.toFixed(2)),
       );
       const to = getPercent(segment.endTime, Number(videoDuration.toFixed(2)));
 

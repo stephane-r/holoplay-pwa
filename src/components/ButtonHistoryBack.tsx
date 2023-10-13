@@ -2,6 +2,7 @@ import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { useStableNavigate } from "../providers/Navigate";
 
 export const ButtonHistoryBack = memo(() => {

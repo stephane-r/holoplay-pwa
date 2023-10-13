@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
+
 import { Video } from "../types/interfaces/Video";
 
 const PlayerPlaylistContext = createContext<Video[]>([]);
@@ -20,7 +21,7 @@ export const PlayerPlaylistProvider: React.FC<PlayerPlaylistProviderProps> = ({
       videos,
       setVideos,
     }),
-    [videos]
+    [videos],
   );
 
   return (

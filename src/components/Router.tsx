@@ -1,8 +1,10 @@
 import {
-  createBrowserRouter,
   RouterProvider as RRProvider,
+  createBrowserRouter,
 } from "react-router-dom";
+
 import { AboutPage } from "../pages/About";
+import { ChannelDetailPage } from "../pages/ChannelDetail";
 import { DashboardPage } from "../pages/Dashboard";
 import { FavoritesPage } from "../pages/Favorites";
 import { HistoryPage } from "../pages/History";
@@ -12,7 +14,6 @@ import { PopularPage } from "../pages/Popular";
 import { SearchPage } from "../pages/Search";
 import { SettingsPage } from "../pages/Settings";
 import { TrendingPage } from "../pages/Trending";
-import { ChannelDetailPage } from "../pages/ChannelDetail";
 import { App } from "./App";
 
 const router = createBrowserRouter([

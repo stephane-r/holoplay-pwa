@@ -1,5 +1,6 @@
 import { memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+
 import { PageHeader } from "../components/PageHeader";
 import { SearchResult } from "../components/SearchResult";
 import { useSearchValues } from "../providers/Search";

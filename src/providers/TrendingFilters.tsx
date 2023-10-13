@@ -6,9 +6,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import { TrendingFilterType } from "../components/TrendingFilters";
 import { useQuery } from "react-query";
+
+import { TrendingFilterType } from "../components/TrendingFilters";
 import { useStableNavigate } from "./Navigate";
+
 export interface TrendingFilters {
   type: TrendingFilterType;
   region: string | null;
@@ -37,7 +39,7 @@ const getInitialParams = () => {
 
 const getCountryCode = async () => {
   const request = await fetch(
-    `${process.env.REACT_APP_API_URL}/api/countryCode`
+    `${process.env.REACT_APP_API_URL}/api/countryCode`,
   );
   return request.json();
 };
@@ -70,7 +72,7 @@ export const TrendingFiltersProvider: React.FC<ProviderProps> = ({
       setValue(updatedValues);
       navigate(`/trending?${qs.stringify(updatedValues)}`);
     },
-    [navigate]
+    [navigate],
   );
 
   const params = useMemo(
@@ -78,7 +80,7 @@ export const TrendingFiltersProvider: React.FC<ProviderProps> = ({
       value,
       setValue: handleSetValue,
     }),
-    [value, handleSetValue]
+    [value, handleSetValue],
   );
 
   return (

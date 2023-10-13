@@ -7,7 +7,7 @@ type TIME_FORMAT = "auto" | "mm:ss" | "hh:mm:ss";
 export const displayTimeBySeconds = (
   seconds: number,
   totalSeconds: number = seconds,
-  timeFormat: TIME_FORMAT = "auto"
+  timeFormat: TIME_FORMAT = "auto",
 ): string | null => {
   if (!isFinite(seconds)) {
     return null;

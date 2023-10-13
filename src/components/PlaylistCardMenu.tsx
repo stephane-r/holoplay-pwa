@@ -2,6 +2,7 @@ import { ActionIcon, Menu } from "@mantine/core";
 import { IconDotsVertical, IconEdit, IconTrash } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { Playlist } from "../types/interfaces/Playlist";
 import { ModalDeletePlaylist } from "./ModalDeletePlaylist";
 import { ModalUpdatePlaylist } from "./ModalUpdatePlaylist";
@@ -64,5 +65,5 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
         />
       </>
     );
-  }
+  },
 );

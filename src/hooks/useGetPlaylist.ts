@@ -1,5 +1,6 @@
 import { notifications } from "@mantine/notifications";
 import { useCallback, useEffect, useState } from "react";
+
 import { usePlaylists } from "../providers/Playlist";
 import { queryClient } from "../queryClient";
 import { getPlaylist } from "../services/playlist";
@@ -13,7 +14,7 @@ export const useGetPlaylist = (playlistId: string | number) => {
     (id: number) => {
       setPlaylist(playlists.find((p) => p.ID === id) as Playlist);
     },
-    [playlists]
+    [playlists],
   );
 
   const getRemotePlaylist = (id: string) => {

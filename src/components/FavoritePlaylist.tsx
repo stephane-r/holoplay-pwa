@@ -1,8 +1,4 @@
 import { Alert, Tabs, Text } from "@mantine/core";
-import { memo } from "react";
-import { useTranslation } from "react-i18next";
-import { useFavorite } from "../providers/Favorite";
-import { CardList } from "./CardList";
 import {
   IconHeart,
   IconPlayerRecord,
@@ -10,8 +6,13 @@ import {
   IconUser,
   IconVideo,
 } from "@tabler/icons-react";
-import { isLiveStream } from "./Card";
+import { memo } from "react";
+import { useTranslation } from "react-i18next";
+
 import { usePaginateData } from "../hooks/usePaginateData";
+import { useFavorite } from "../providers/Favorite";
+import { isLiveStream } from "./Card";
+import { CardList } from "./CardList";
 
 export const FavoritePlaylist = memo(() => {
   const favorite = useFavorite();
@@ -30,7 +31,7 @@ export const FavoritePlaylist = memo(() => {
   const videos = data.filter(
     (video) =>
       (video.type === "video" || video.type === "scheduled") &&
-      video.lengthSeconds > 0
+      video.lengthSeconds > 0,
   );
   const livestream = data.filter((video) => isLiveStream(video));
   const playlists = data.filter((video) => video.type === "playlist");

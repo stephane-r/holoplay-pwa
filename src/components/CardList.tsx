@@ -1,9 +1,10 @@
 import { Box, createStyles, rem } from "@mantine/core";
 import { memo } from "react";
+
 import { Video } from "../types/interfaces/Video";
 import { Card } from "./Card";
-import { PlaylistCard } from "./PlaylistCard";
 import { ChannelCard } from "./ChannelCard";
+import { PlaylistCard } from "./PlaylistCard";
 
 const useStyles = createStyles((theme) => ({
   grid: {
@@ -79,5 +80,5 @@ export const CardList: React.FC<CardListProps> = memo(
         ))}
       </Box>
     );
-  }
+  },
 );

@@ -6,13 +6,14 @@ import {
   useState,
 } from "react";
 import { useQuery } from "react-query";
+
 import { db } from "../database";
+import { getSettings } from "../database/utils";
 import {
   fetchInvidiousInstances,
   filterAndParseInstances,
 } from "../services/instances";
 import { Settings } from "../types/interfaces/Settings";
-import { getSettings } from "../database/utils";
 
 const SettingsContext = createContext<null | {
   settings: Settings;
@@ -44,7 +45,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
           }
 
           const isStillUp = instances.find(
-            (instance) => instance.domain === settings.defaultInstance?.domain
+            (instance) => instance.domain === settings.defaultInstance?.domain,
           );
 
           // If the default instance is still up, use it
@@ -68,7 +69,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
       }));
       db.commit();
     },
-    [settings.defaultInstance, settings.instances.length]
+    [settings.defaultInstance, settings.instances.length],
   );
 
   useQuery("instances", () => fetchInvidiousInstances(), {
@@ -81,7 +82,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
       settings,
       setSettings,
     }),
-    [settings, setSettings]
+    [settings, setSettings],
   );
 
   return (

@@ -7,10 +7,11 @@ import {
 } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlayerAudio, usePlayerState } from "../providers/Player";
-import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { usePlayerMode } from "../providers/PlayerMode";
+import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 
 interface PlayerActionsProps {
   showTrackPrevious?: boolean;
@@ -40,7 +41,7 @@ export const PlayerActions: React.FC<PlayerActionsProps> = memo(
         {showTrackNext ? <ButtonNextVideo /> : null}
       </Flex>
     );
-  }
+  },
 );
 
 interface ButtonNextVideoProps extends ActionIconProps {
@@ -78,7 +79,7 @@ export const ButtonPlayPause: React.FC<ButtonNextVideoProps> = memo(
         )}
       </ActionIcon>
     );
-  }
+  },
 );
 
 const ButtonPreviousVideo = memo(() => {

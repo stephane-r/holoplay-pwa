@@ -1,7 +1,8 @@
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
-import { getPlaylist as getRemotePlaylist } from "../services/playlist";
+
 import { getPlaylist as getLocalPlaylist } from "../database/utils";
+import { getPlaylist as getRemotePlaylist } from "../services/playlist";
 import { usePlayVideo } from "./usePlayVideo";
 
 export const usePlayPlaylist = () => {

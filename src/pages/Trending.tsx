@@ -1,8 +1,9 @@
+import { Flex } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { PageHeader } from "../components/PageHeader";
 import { Trending } from "../components/Trending";
-import { Flex } from "@mantine/core";
 import { TrendingFilters } from "../components/TrendingFilters";
 
 export const TrendingPage = memo(() => {
