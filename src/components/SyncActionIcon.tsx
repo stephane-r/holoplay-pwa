@@ -1,7 +1,8 @@
-import { memo, useState } from "react";
-import { IconCloudDownload } from "@tabler/icons-react";
-import { ModalSyncData } from "./ModalSyncData";
 import { ActionIcon, createStyles } from "@mantine/core";
+import { IconCloudDownload } from "@tabler/icons-react";
+import { memo, useState } from "react";
+
+import { ModalSyncData } from "./ModalSyncData";
 
 const useStyles = createStyles((theme) => ({
   button: {

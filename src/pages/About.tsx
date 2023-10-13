@@ -1,6 +1,7 @@
 import { Anchor, Flex, Space, Text, Title } from "@mantine/core";
 import { IconExternalLink } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
+
 import pkg from "../../package.json";
 import { PageHeader } from "../components/PageHeader";
 

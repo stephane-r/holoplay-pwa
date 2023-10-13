@@ -1,9 +1,3 @@
-import { memo, useCallback, useEffect, useMemo, useRef } from "react";
-import {
-  usePlayerAudio,
-  usePlayerState,
-  usePlayerVideo,
-} from "../providers/Player";
 import {
   ActionIcon,
   Box,
@@ -13,19 +7,26 @@ import {
   getStylesRef,
   rem,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import {
   IconChevronDown,
   IconHandMove,
   IconInfoCircle,
 } from "@tabler/icons-react";
-import { useDisclosure } from "@mantine/hooks";
+import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import videojs from "video.js";
 import Player from "video.js/dist/types/player";
 import "video.js/dist/video-js.css";
 import "videojs-youtube";
+
+import {
+  usePlayerAudio,
+  usePlayerState,
+  usePlayerVideo,
+} from "../providers/Player";
 import { useSetPlayerMode } from "../providers/PlayerMode";
-import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility";
+import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 
 const useStyles = createStyles((theme) => ({
   box: {
@@ -98,7 +99,7 @@ export const VideoIframe: React.FC<VideoIframeProps> = memo(
         />
       </Box>
     );
-  }
+  },
 );
 
 const Video = ({ loop, src }: { loop: boolean; src: string }) => {
@@ -114,7 +115,7 @@ const Video = ({ loop, src }: { loop: boolean; src: string }) => {
         audio.currentTime = Math.round(player.currentTime() as number);
       });
     },
-    [playerAudio]
+    [playerAudio],
   );
 
   const options = useMemo(
@@ -133,7 +134,7 @@ const Video = ({ loop, src }: { loop: boolean; src: string }) => {
         },
       ],
     }),
-    [loop, src]
+    [loop, src],
   );
 
   useEffect(() => {

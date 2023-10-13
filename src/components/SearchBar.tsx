@@ -1,20 +1,21 @@
 import {
-  createStyles,
   Flex,
   Kbd,
   TextInput,
+  createStyles,
   useMantineTheme,
 } from "@mantine/core";
-import { memo, useRef, useState } from "react";
-import { IconSearch } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
+import { useMediaQuery, useOs } from "@mantine/hooks";
+import { IconSearch } from "@tabler/icons-react";
+import { memo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+
+import { db } from "../database";
+import { getSearchHistory } from "../database/utils";
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import { Form } from "./Form";
-import { useMediaQuery, useOs } from "@mantine/hooks";
-import { useTranslation } from "react-i18next";
-import { db } from "../database";
 import { SearcHistoryMenu } from "./SearchHistoryMenu";
-import { getSearchHistory } from "../database/utils";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -84,9 +85,6 @@ export const SearchBar = memo(() => {
     form.setFieldValue("q", value);
     handleSubmit({ q: value });
   };
-
-  console.log(searchValues);
-  console.log(form.getInputProps("q"));
 
   return (
     <Flex align="center" gap={16} className={classes.container}>

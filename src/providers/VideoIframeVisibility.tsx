@@ -2,7 +2,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 
 const VideoIframeVisibilityContext = createContext<boolean>(true);
 const SetVideoIframeVisibilityContext = createContext<(value: boolean) => void>(
-  () => {}
+  () => {},
 );
 
 interface VideoIframeVisibilityProviderProps {

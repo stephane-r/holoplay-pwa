@@ -5,10 +5,10 @@ import {
   Switch,
   useMantineTheme,
 } from "@mantine/core";
-import { useTranslation } from "react-i18next";
 import { useLocalStorage } from "@mantine/hooks";
 import { IconMoonStars, IconSun } from "@tabler/icons-react";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 
 export const ColorScheme = memo(() => {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorSchemeTypes>({

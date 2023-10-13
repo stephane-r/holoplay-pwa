@@ -1,22 +1,23 @@
 import {
   Button,
+  Checkbox,
   Flex,
-  TextInput,
   Select,
   Space,
-  Checkbox,
+  TextInput,
 } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { db } from "../database";
-import { Form } from "./Form";
-import { Modal } from "./Modal";
-import { ButtonAddCustomInstance } from "./ButtonAddCustomInstance";
-import { useForm } from "@mantine/form";
-import { Settings } from "../types/interfaces/Settings";
 import { useSetSettings } from "../providers/Settings";
 import { Instance } from "../types/interfaces/Instance";
+import { Settings } from "../types/interfaces/Settings";
+import { ButtonAddCustomInstance } from "./ButtonAddCustomInstance";
+import { Form } from "./Form";
+import { Modal } from "./Modal";
 
 const URL_REGEX = new RegExp(
   "^(https?:\\/\\/)?" + // Protocol
@@ -25,7 +26,7 @@ const URL_REGEX = new RegExp(
     "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // Port and path
     "(\\?[;&a-z\\d%_.~+=-]*)?" + // Query string
     "(\\#[-a-z\\d_]*)?$",
-  "i"
+  "i",
 );
 
 export const ModalAddCustomInstance = memo(() => {
@@ -77,7 +78,7 @@ export const ModalAddCustomInstance = memo(() => {
     notifications.show({
       title: t("modal.instance.add.notification.title"),
       message: `${instance.domain} ${t(
-        "modal.instance.add.notification.message"
+        "modal.instance.add.notification.message",
       )}`,
     });
 

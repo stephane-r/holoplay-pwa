@@ -7,11 +7,12 @@ import {
   UnstyledButton,
   createStyles,
 } from "@mantine/core";
-import { memo } from "react";
-import { genres } from "../utils/genres";
 import { useHover } from "@mantine/hooks";
-import { useSearchValues, useSetSearchValues } from "../providers/Search";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
+import { useSearchValues, useSetSearchValues } from "../providers/Search";
+import { genres } from "../utils/genres";
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -83,5 +84,5 @@ const Genre = memo(
         </Box>
       </UnstyledButton>
     );
-  }
+  },
 );

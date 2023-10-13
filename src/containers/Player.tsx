@@ -1,12 +1,13 @@
 import { useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
-import { Player } from "../components/Player";
+
 import { MobilePlayer } from "../components/MobilePlayer";
+import { Player } from "../components/Player";
 import { PlayerAudio } from "../components/PlayerAudio";
+import { PlayerMode } from "../components/PlayerMode";
 import { usePlayerUrl } from "../providers/Player";
 import { usePlayerMode } from "../providers/PlayerMode";
-import { PlayerMode } from "../components/PlayerMode";
 import { useSettings } from "../providers/Settings";
 import { VideoPlayerContainer } from "./VideoPlayer";
 

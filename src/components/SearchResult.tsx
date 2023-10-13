@@ -1,12 +1,13 @@
 import { Alert, LoadingOverlay, Paper } from "@mantine/core";
 import { memo, useEffect, useState } from "react";
-import { useSearchValues } from "../providers/Search";
-import { CardList } from "./CardList";
+import { useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "react-query";
+
+import { useSearchValues } from "../providers/Search";
 import { search } from "../services/search";
 import { Video } from "../types/interfaces/Video";
-import { useTranslation } from "react-i18next";
+import { CardList } from "./CardList";
 
 export const SearchResult = memo(() => {
   const currentSearchValues = useSearchValues();
@@ -30,7 +31,7 @@ export const SearchResult = memo(() => {
         setEnabled(false);
       },
       enabled,
-    }
+    },
   );
 
   useEffect(() => {

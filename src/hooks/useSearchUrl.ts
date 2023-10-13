@@ -1,4 +1,5 @@
 import qs from "qs";
+
 import { useSearchValues } from "../providers/Search";
 
 export const useSearchUrl = () => {

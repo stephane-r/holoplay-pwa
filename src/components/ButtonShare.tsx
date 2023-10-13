@@ -9,6 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
 import { Video } from "../types/interfaces/Video";
@@ -75,5 +76,5 @@ export const ButtonShare: React.FC<ButtonDownloadProps> = memo(
         </Menu.Dropdown>
       </Menu>
     );
-  }
+  },
 );

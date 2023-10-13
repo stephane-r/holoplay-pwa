@@ -1,14 +1,15 @@
 import { ActionIcon, ActionIconProps } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { IconHeart } from "@tabler/icons-react";
 import { memo } from "react";
-import { notifications } from "@mantine/notifications";
+import { useTranslation } from "react-i18next";
+
 import { db } from "../database";
 import { getFavoritePlaylist } from "../database/utils";
 import { useFavorite, useSetFavorite } from "../providers/Favorite";
+import { usePlayerVideo } from "../providers/Player";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
-import { usePlayerVideo } from "../providers/Player";
-import { useTranslation } from "react-i18next";
 
 interface ButtonFavoriteProps extends ActionIconProps {
   video?: Video;
@@ -43,14 +44,14 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     const video = parentVideo ?? (currentVideo as Video);
 
     const isFavorite = favorite.videos.find(
-      (favVideo) => getItemId(favVideo) === getItemId(video)
+      (favVideo) => getItemId(favVideo) === getItemId(video),
     );
 
     const updateAndCommit = (updatedFavoritePlaylist: Playlist) => {
       db.update(
         "playlists",
         { title: "Favorites" },
-        () => updatedFavoritePlaylist
+        () => updatedFavoritePlaylist,
       );
       db.commit();
       setFavorite(getFavoritePlaylist());
@@ -72,7 +73,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
       updateAndCommit({
         ...favorite,
         videos: favorite.videos.filter(
-          (favVideo) => getItemId(favVideo) !== getItemId(video)
+          (favVideo) => getItemId(favVideo) !== getItemId(video),
         ),
       });
 
@@ -100,5 +101,5 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
         <IconHeart color="pink" size={iconSize} stroke={1.5} />
       </ActionIcon>
     );
-  }
+  },
 );

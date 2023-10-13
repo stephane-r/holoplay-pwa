@@ -1,4 +1,5 @@
 import { createStyles, rem } from "@mantine/core";
+
 import { PlayerSpace } from "./Player";
 
 const useStyles = createStyles((theme) => ({

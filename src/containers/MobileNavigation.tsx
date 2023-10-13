@@ -6,8 +6,6 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { memo } from "react";
-import { NavbarLink } from "../components/NavbarLink";
 import {
   IconDotsVertical,
   IconHeart,
@@ -15,8 +13,11 @@ import {
   IconMusic,
   IconSearch,
 } from "@tabler/icons-react";
-import { MobileNavigation } from "../components/MobileNavigation";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
+import { MobileNavigation } from "../components/MobileNavigation";
+import { NavbarLink } from "../components/NavbarLink";
 
 const useStyles = createStyles((theme) => ({
   container: {

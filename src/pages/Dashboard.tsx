@@ -1,14 +1,15 @@
 import { Flex, Space, Title, createStyles } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { PageHeader } from "../components/PageHeader";
-import { useVideoShareListener } from "../hooks/useVideoShareListener";
-import { Trending } from "../components/Trending";
-import { Popular } from "../components/Popular";
 import { Link } from "react-router-dom";
+
+import { GenreList } from "../components/Genre";
+import { PageHeader } from "../components/PageHeader";
+import { Popular } from "../components/Popular";
 import { RecentFavorites } from "../components/RecentFavorites";
 import { RecentlyPlay } from "../components/RecentlyPlay";
-import { GenreList } from "../components/Genre";
+import { Trending } from "../components/Trending";
+import { useVideoShareListener } from "../hooks/useVideoShareListener";
 
 const useStyles = createStyles((theme) => ({
   link: {

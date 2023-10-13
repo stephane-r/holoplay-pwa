@@ -1,6 +1,7 @@
 import { Badge, Space, Text } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import pkg from "../../package.json";
 
 interface AppVersionProps {
@@ -23,5 +24,5 @@ export const AppVersion: React.FC<AppVersionProps> = memo(
         <Badge size="xs">{pkg.version}</Badge>
       </Text>
     );
-  }
+  },
 );

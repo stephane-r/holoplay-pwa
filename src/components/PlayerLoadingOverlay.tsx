@@ -1,5 +1,6 @@
 import { LoadingOverlay } from "@mantine/core";
 import { memo } from "react";
+
 import { usePlayerState } from "../providers/Player";
 import { usePlayerMode } from "../providers/PlayerMode";
 

@@ -1,9 +1,10 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconVideo } from "@tabler/icons-react";
 import { memo } from "react";
-import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
-import { usePlayerAudio } from "../providers/Player";
 import { useTranslation } from "react-i18next";
+
+import { usePlayerAudio } from "../providers/Player";
+import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
 
 interface ButtonPlayerModeVideoProps {
   iconSize?: number;
@@ -34,5 +35,5 @@ export const ButtonPlayerModeVideo: React.FC<ButtonPlayerModeVideoProps> = memo(
         </ActionIcon>
       </Tooltip>
     );
-  }
+  },
 );

@@ -1,21 +1,22 @@
 import {
   Box,
   Card,
-  createStyles,
   Flex,
   Text,
   Title,
   Tooltip,
   UnstyledButton,
+  createStyles,
 } from "@mantine/core";
 import { IconDiscountCheckFilled } from "@tabler/icons-react";
 import { memo } from "react";
-import { VideoThumbnail } from "../types/interfaces/Video";
-import { Channel } from "../types/interfaces/Channel";
 import { useTranslation } from "react-i18next";
-import { CardImage } from "./CardImage";
-import { ButtonFavorite } from "./ButtonFavorite";
+
 import { useStableNavigate } from "../providers/Navigate";
+import { Channel } from "../types/interfaces/Channel";
+import { VideoThumbnail } from "../types/interfaces/Video";
+import { ButtonFavorite } from "./ButtonFavorite";
+import { CardImage } from "./CardImage";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -40,7 +41,7 @@ export const ChannelCard: React.FC<ChannelCardProps> = memo(({ channel }) => {
   };
 
   const image = channel.authorThumbnails.find(
-    (thumbnail) => thumbnail.width === 512
+    (thumbnail) => thumbnail.width === 512,
   ) as VideoThumbnail;
 
   return (

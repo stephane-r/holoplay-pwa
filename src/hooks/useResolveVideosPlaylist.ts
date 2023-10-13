@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+
 import {
   getFavoritePlaylist,
   getPlaylist as getLocalPlaylist,
@@ -22,14 +23,14 @@ export const useResolveVideosPlaylist = () => {
         videos = getLocalPlaylist(Number(playlistId)).videos;
       } else {
         const remotePlaylist = queryClient.getQueriesData(
-          `playlist-${playlistId}`
+          `playlist-${playlistId}`,
         )[0][1] as Playlist;
         videos = remotePlaylist.videos;
       }
     }
     if (location.pathname === "/favorites") {
       videos = getFavoritePlaylist().videos.filter(
-        (video) => video.type === "video"
+        (video) => video.type === "video",
       );
     }
     if (location.pathname === "/most-popular") {

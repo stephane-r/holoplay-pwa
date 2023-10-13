@@ -1,31 +1,32 @@
-import { QueryClientProvider } from "react-query";
-import { Box, createStyles, Flex, ScrollArea } from "@mantine/core";
-import { Header } from "./Header";
-import { queryClient } from "../queryClient";
-import { SettingsProvider } from "../providers/Settings";
-import { SearchProvider } from "../providers/Search";
-import { Main } from "./Main";
-import i18n from "i18next";
-import { ColorSchemeProvider } from "../providers/ColorScheme";
-import { MantineProvider } from "../providers/Mantine";
-import { FavoriteProvider } from "../providers/Favorite";
+import { Box, Flex, ScrollArea, createStyles } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import { PlaylistProvider } from "../providers/Playlist";
-import { PlayerProvider } from "../providers/Player";
-import { PlayerPlaylistProvider } from "../providers/PlayerPlaylist";
+import i18n from "i18next";
+import { I18nextProvider } from "react-i18next";
+import { QueryClientProvider } from "react-query";
+import { Outlet } from "react-router-dom";
+
+import { DrawerPlayerContainer } from "../containers/DrawerPlayer";
+import { MobileNavigationContainer } from "../containers/MobileNavigation";
 import { NavigationContainer } from "../containers/Navigation";
 import { PlayerContainer } from "../containers/Player";
-import { DrawerPlayerContainer } from "../containers/DrawerPlayer";
-import { PreviousNextTrackProvider } from "../providers/PreviousNextTrack";
+import { ColorSchemeProvider } from "../providers/ColorScheme";
+import { FavoriteProvider } from "../providers/Favorite";
 import { HistoryProvider } from "../providers/History";
-import { SpotlightProvider } from "../providers/Spotlight";
-import { AppUpdate } from "./AppUpdate";
-import { I18nextProvider } from "react-i18next";
-import { MobileNavigationContainer } from "../containers/MobileNavigation";
-import { PlayerModeProvider } from "../providers/PlayerMode";
-import { TrendingFiltersProvider } from "../providers/TrendingFilters";
+import { MantineProvider } from "../providers/Mantine";
 import { StableNavigateProvider } from "../providers/Navigate";
-import { Outlet } from "react-router-dom";
+import { PlayerProvider } from "../providers/Player";
+import { PlayerModeProvider } from "../providers/PlayerMode";
+import { PlayerPlaylistProvider } from "../providers/PlayerPlaylist";
+import { PlaylistProvider } from "../providers/Playlist";
+import { PreviousNextTrackProvider } from "../providers/PreviousNextTrack";
+import { SearchProvider } from "../providers/Search";
+import { SettingsProvider } from "../providers/Settings";
+import { SpotlightProvider } from "../providers/Spotlight";
+import { TrendingFiltersProvider } from "../providers/TrendingFilters";
+import { queryClient } from "../queryClient";
+import { AppUpdate } from "./AppUpdate";
+import { Header } from "./Header";
+import { Main } from "./Main";
 
 const useStyles = createStyles(() => ({
   scrollArea: {

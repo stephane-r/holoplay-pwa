@@ -1,9 +1,10 @@
 import { Alert, Box, Button, Text } from "@mantine/core";
-import { useTranslation } from "react-i18next";
-import { memo, useState } from "react";
-import { getAllPlaylists } from "../database/utils";
-import { useQuery } from "react-query";
 import { notifications } from "@mantine/notifications";
+import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useQuery } from "react-query";
+
+import { getAllPlaylists } from "../database/utils";
 
 export const SaveData = memo(() => {
   const { t } = useTranslation("translation", {

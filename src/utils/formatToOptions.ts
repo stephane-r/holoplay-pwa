@@ -5,7 +5,7 @@ interface IOption {
 
 export const formatToOptionsCollection = (
   data: any[],
-  key: string = "ID"
+  key: string = "ID",
 ): IOption[] => {
   return data.map((p) => ({
     value: p[key],

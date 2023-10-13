@@ -1,7 +1,8 @@
-import { memo } from "react";
-import { Modal } from "./Modal";
 import { Text, Title } from "@mantine/core";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
+import { Modal } from "./Modal";
 
 interface ModalVideoIframeInformationProps {
   opened: boolean;

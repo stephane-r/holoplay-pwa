@@ -1,20 +1,33 @@
 import { Alert, Text } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { useHistory } from "../providers/History";
 import { CardList } from "./CardList";
+import { usePaginateData } from "../hooks/usePaginateData";
 
 export const HistoryList = memo(() => {
   const videos = useHistory();
-  const { t } = useTranslation();
+  const { data, ref } = usePaginateData(videos);
 
   if (!videos.length) {
-    return (
-      <Alert title={t("history.empty.title")}>
-        <Text>{t("history.empty.message")}</Text>
-      </Alert>
-    );
+    return <Empty />;
   }
 
-  return <CardList data={videos} />;
+  return (
+    <>
+      <CardList data={data} />
+      <button ref={ref} style={{ opacity: 0 }} />
+    </>
+  );
+});
+
+const Empty = memo(() => {
+  const { t } = useTranslation();
+
+  return (
+    <Alert title={t("history.empty.title")}>
+      <Text>{t("history.empty.message")}</Text>
+    </Alert>
+  );
 });

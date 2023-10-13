@@ -1,6 +1,7 @@
 import { Box, createStyles } from "@mantine/core";
 import hexToRgba from "hex-to-rgba";
 import { memo } from "react";
+
 import { usePlayerVideo } from "../providers/Player";
 
 const useStyles = createStyles((theme) => ({

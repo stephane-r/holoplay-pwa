@@ -1,9 +1,7 @@
 import { Skeleton } from "@mantine/core";
-import { memo, useState } from "react";
+import { FC, ImgHTMLAttributes, memo, useState } from "react";
 
-interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {}
-
-export const Image: React.FC<ImageProps> = memo(
+export const Image: FC<ImgHTMLAttributes<HTMLImageElement>> = memo(
   ({ className, alt, ...props }) => {
     const [loading, setLoading] = useState(true);
 
@@ -33,5 +31,5 @@ export const Image: React.FC<ImageProps> = memo(
         />
       </>
     );
-  }
+  },
 );

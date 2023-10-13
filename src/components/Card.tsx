@@ -1,33 +1,35 @@
 import {
+  ActionIcon,
+  Badge,
+  Box,
+  Flex,
+  Group,
+  LoadingOverlay,
+  Card as MCard,
+  Text,
+  UnstyledButton,
+  createStyles,
+} from "@mantine/core";
+import {
   IconMusic,
   IconPlayerPause,
   IconPlayerPlay,
 } from "@tabler/icons-react";
-import {
-  Card as MCard,
-  Text,
-  Group,
-  ActionIcon,
-  createStyles,
-  LoadingOverlay,
-  Badge,
-  Flex,
-  UnstyledButton,
-  Box,
-} from "@mantine/core";
 import React, { memo } from "react";
-import { Video, VideoThumbnail } from "../types/interfaces/Video";
-import { CardMenu } from "./CardMenu";
-import { ButtonFavorite } from "./ButtonFavorite";
+import { useTranslation } from "react-i18next";
+
 import { usePlayVideo } from "../hooks/usePlayVideo";
-import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 import {
   usePlayerAudio,
   usePlayerState,
   usePlayerVideo,
 } from "../providers/Player";
-import { useTranslation } from "react-i18next";
+import { useSettings } from "../providers/Settings";
+import { Video, VideoThumbnail } from "../types/interfaces/Video";
+import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
+import { ButtonFavorite } from "./ButtonFavorite";
 import { CardImage } from "./CardImage";
+import { CardMenu } from "./CardMenu";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -82,9 +84,10 @@ export const Card: React.FC<CardProps> = memo(
     const { handlePlay, loading } = usePlayVideo();
     const { classes } = useStyles();
     const { t } = useTranslation();
+    const { currentInstance } = useSettings();
 
     const image = video.videoThumbnails.find(
-      (thumbnail) => thumbnail.quality === "maxresdefault"
+      (thumbnail) => thumbnail.quality === "maxresdefault",
     ) as VideoThumbnail;
 
     return (
@@ -102,7 +105,11 @@ export const Card: React.FC<CardProps> = memo(
           style={{ width: "100%" }}
           onClick={() => handlePlay(video.videoId)}
         >
-          <CardImage image={image} title={video.title}>
+          <CardImage
+            image={image}
+            domain={currentInstance?.uri}
+            title={video.title}
+          >
             <Flex
               align="center"
               gap="xs"
@@ -146,7 +153,7 @@ export const Card: React.FC<CardProps> = memo(
         </Group>
       </MCard>
     );
-  }
+  },
 );
 
 const HackedCardPress = memo(({ videoId }: { videoId: string }) => {
@@ -179,7 +186,7 @@ const ButtonPlayPause = memo(
     }
 
     return <ButtonPlay onClick={onClick} />;
-  }
+  },
 );
 
 const ButtonPlay = memo(({ onClick }: { onClick: () => void }) => {

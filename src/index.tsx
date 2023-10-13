@@ -1,18 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./translations";
+
 import { RouterProvider } from "./components/Router";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import "./translations";
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement,
 );
 
 root.render(
   <React.StrictMode>
     <RouterProvider />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 serviceWorkerRegistration.register();

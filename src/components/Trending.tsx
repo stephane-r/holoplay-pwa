@@ -2,9 +2,10 @@ import { Alert, LoadingOverlay, Text } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
+
+import { useTrendingFiltersValues } from "../providers/TrendingFilters";
 import { getTrendings } from "../services/trending";
 import { CardList } from "./CardList";
-import { useTrendingFiltersValues } from "../providers/TrendingFilters";
 import { HorizontalGridList } from "./HorizontalGridList";
 
 interface TrendingProps {
@@ -19,7 +20,7 @@ export const Trending: React.FC<TrendingProps> = memo(
       () => getTrendings(trendingFiltersValues),
       {
         enabled: Boolean(trendingFiltersValues.region),
-      }
+      },
     );
     const { t } = useTranslation();
 
@@ -48,5 +49,5 @@ export const Trending: React.FC<TrendingProps> = memo(
     }
 
     return <CardList data={query.data} />;
-  }
+  },
 );

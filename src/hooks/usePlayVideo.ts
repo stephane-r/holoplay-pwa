@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { getLastVideoPlayed, getSettings } from "../database/utils";
 import { useSetHistory } from "../providers/History";
 import {
@@ -9,12 +10,12 @@ import {
 } from "../providers/Player";
 import { useSetPlayerPlaylist } from "../providers/PlayerPlaylist";
 import { useSetPreviousNextVideos } from "../providers/PreviousNextTrack";
+import { useSettings } from "../providers/Settings";
+import { getSponsorBlockSegments } from "../services/sponsor-block";
 import { getVideo } from "../services/video";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { colorExtractor } from "../utils/colorExtractor";
 import { useResolveVideosPlaylist } from "./useResolveVideosPlaylist";
-import { getSponsorBlockSegments } from "../services/sponsor-block";
-import { useSettings } from "../providers/Settings";
 
 const DEFAULT_PRIMARY_COLOR = {
   color: "#000",
@@ -23,7 +24,7 @@ const DEFAULT_PRIMARY_COLOR = {
 
 const getPreviousAndNextVideoId = (videos: Video[], videoId: string) => {
   const currentVideoIndex = videos.findIndex(
-    (video) => video.videoId === videoId
+    (video) => video.videoId === videoId,
   );
   const previousVideoId = videos[currentVideoIndex - 1]?.videoId ?? null;
   const nextVideoId = videos[currentVideoIndex + 1]?.videoId ?? null;
@@ -49,7 +50,7 @@ export const usePlayVideo = () => {
 
   const handlePlay = async (
     videoId: string,
-    playerPlaylist: Video[] | null = null
+    playerPlaylist: Video[] | null = null,
   ) => {
     setLoading(true);
 
@@ -61,15 +62,14 @@ export const usePlayVideo = () => {
         getVideo(videoId),
       ]);
       const videoThumbnail = data.video.videoThumbnails.find(
-        (thumbnail) => thumbnail.quality === "sddefault"
+        (thumbnail) => thumbnail.quality === "sddefault",
       ) as VideoThumbnail;
 
       let videoThumbnailUrl = videoThumbnail.url;
 
       if (videoThumbnail.url.startsWith("/")) {
-        videoThumbnailUrl = `${
-          getSettings().currentInstance?.uri
-        }${videoThumbnailUrl}`;
+        videoThumbnailUrl = `${getSettings().currentInstance
+          ?.uri}${videoThumbnailUrl}`;
       }
 
       const colors = await colorExtractor

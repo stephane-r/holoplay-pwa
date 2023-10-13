@@ -2,6 +2,7 @@ import { Button, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
@@ -28,7 +29,7 @@ export const ModalDeletePlaylist: React.FC<ModalDeletePlaylistProps> = memo(
       notifications.show({
         title: t("modal.playlist.delete.notification.title"),
         message: `${playlist.title} ${t(
-          "modal.playlist.delete.notification.message"
+          "modal.playlist.delete.notification.message",
         )}`,
       });
 
@@ -60,5 +61,5 @@ export const ModalDeletePlaylist: React.FC<ModalDeletePlaylistProps> = memo(
         </Flex>
       </Modal>
     );
-  }
+  },
 );
