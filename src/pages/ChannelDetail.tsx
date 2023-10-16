@@ -118,7 +118,7 @@ const VideosTab = memo(() => {
 
   return (
     <PaginateDataList
-      queryKey={`channel-${authorId}-videos`}
+      queryKey={`channels-${authorId}-videos`}
       fetcher={() => getChannelVideos(authorId as string, continuation)}
       onSuccess={handleSuccess}
       hasNextPage={Boolean(continuation)}
@@ -136,7 +136,7 @@ const PlaylistsTab = memo(() => {
 
   return (
     <PaginateDataList
-      queryKey={`channel-${authorId}-playlists`}
+      queryKey={`channels-${authorId}-playlists`}
       fetcher={() => getChannelPlaylists(authorId as string, continuation)}
       onSuccess={handleSuccess}
       hasNextPage={Boolean(continuation)}

@@ -28,6 +28,13 @@ export const useResolveVideosPlaylist = () => {
         videos = remotePlaylist.videos;
       }
     }
+    if (location.pathname.includes("/channels/")) {
+      const [, , authorId] = window.location.pathname.split("/");
+      const query = queryClient.getQueriesData(
+        `channels-${authorId}-videos-1`,
+      )[0][1] as { data: Video[] };
+      videos = query.data;
+    }
     if (location.pathname === "/favorites") {
       videos = getFavoritePlaylist().videos.filter(
         (video) => video.type === "video",
