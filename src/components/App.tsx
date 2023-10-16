@@ -65,7 +65,7 @@ export const App = () => {
                                         }} // Stay in inline-styles for now
                                       >
                                         <Flex>
-                                          <Box style={{ flex: 1 }}>
+                                          <Box style={{ flex: 1, zIndex: 1 }}>
                                             <Header />
                                             <Main>
                                               <Outlet />
