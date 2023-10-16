@@ -30,7 +30,7 @@ export const ButtonDownload: React.FC<ButtonDownloadProps> = memo(
         </Menu.Target>
         <Menu.Dropdown mah={400} style={{ overflow: "auto" }}>
           {video.adaptiveFormats.map((format) => (
-            <Menu.Item onClick={() => handleDownload()}>
+            <Menu.Item key={format.type} onClick={() => handleDownload()}>
               <span>
                 {format.type
                   .replace(";", ",")
