@@ -29,4 +29,17 @@ export default (() => {
       saveMigration("13102023_migrate_remove_card_image_url_domain");
     } catch {}
   }
+
+  if (
+    !migrationsName.includes(
+      "13102023_migrate_remove_recommended_videos_image_url_domain",
+    )
+  ) {
+    try {
+      require("./13102023_migrate_remove_recommended_videos_image_url_domain").default();
+      saveMigration(
+        "13102023_migrate_remove_recommended_videos_image_url_domain",
+      );
+    } catch {}
+  }
 })();

@@ -10,6 +10,7 @@ import { useFavorite, useSetFavorite } from "../providers/Favorite";
 import { usePlayerVideo } from "../providers/Player";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
+import { cleanVideoThumbnailsUrl } from "../utils/cleanVideoThumbnailsUrl";
 
 interface ButtonFavoriteProps extends ActionIconProps {
   video?: Video;
@@ -60,7 +61,10 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     const handleAdd = () => {
       updateAndCommit({
         ...favorite,
-        videos: [{ ...video, videoId: getItemId(video) }, ...favorite.videos],
+        videos: [
+          cleanVideoThumbnailsUrl({ ...video, videoId: getItemId(video) }),
+          ...favorite.videos,
+        ],
       });
 
       notifications.show({
