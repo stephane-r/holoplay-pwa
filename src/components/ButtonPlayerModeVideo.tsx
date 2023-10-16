@@ -1,4 +1,4 @@
-import { ActionIcon, Tooltip } from "@mantine/core";
+import { ActionIcon, Menu, Tooltip } from "@mantine/core";
 import { IconVideo } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,10 +8,11 @@ import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
 
 interface ButtonPlayerModeVideoProps {
   iconSize?: number;
+  render: "menu" | "button";
 }
 
 export const ButtonPlayerModeVideo: React.FC<ButtonPlayerModeVideoProps> = memo(
-  ({ iconSize }) => {
+  ({ iconSize, render = "button" }) => {
     const setPlayerMode = useSetPlayerMode();
     const playerMode = usePlayerMode();
     const playerAudio = usePlayerAudio();
@@ -24,6 +25,14 @@ export const ButtonPlayerModeVideo: React.FC<ButtonPlayerModeVideoProps> = memo(
       const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
       audio.pause();
     };
+
+    if (render === "menu") {
+      return (
+        <Menu.Item onClick={handleClick} icon={<IconVideo />}>
+          Video mode
+        </Menu.Item>
+      );
+    }
 
     return (
       <Tooltip label={t("video.mode")}>
