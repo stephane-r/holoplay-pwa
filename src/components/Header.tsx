@@ -21,7 +21,7 @@ const useStyles = createStyles(() => ({
     position: "sticky",
     top: 0,
     backdropFilter: "blur(8px)",
-    zIndex: 4,
+    zIndex: 5,
     padding: 16,
   },
 }));
