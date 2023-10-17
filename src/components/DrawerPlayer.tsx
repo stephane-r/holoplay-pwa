@@ -102,7 +102,7 @@ export const DrawerPlayerVideo = memo(() => {
   return (
     <>
       <Flex justify="center" align="center" direction="column">
-        <VideoInformations />
+        <VideoInformations hideDescription titleLineClamp={2} />
         <Space h="xl" />
         <Flex gap="md">
           <ButtonDownload iconSize={16} />
@@ -125,31 +125,40 @@ export const DrawerPlayerVideo = memo(() => {
   );
 });
 
-const VideoInformations = memo(() => {
-  const { video } = usePlayerVideo();
-  const { classes } = useStyles();
+interface VideoInformationsProps {
+  titleLineClamp?: number;
+  hideDescription?: boolean;
+}
 
-  useDocumentTitle(`${video?.title as string} - HoloPlay`);
+const VideoInformations: React.FC<VideoInformationsProps> = memo(
+  ({ titleLineClamp = 1, hideDescription = false }) => {
+    const { video } = usePlayerVideo();
+    const { classes } = useStyles();
 
-  if (!video) {
-    return null;
-  }
+    useDocumentTitle(`${video?.title as string} - HoloPlay`);
 
-  const image = video.videoThumbnails.find(
-    (thumbnail) => thumbnail.quality === "maxresdefault",
-  ) as VideoThumbnail;
+    if (!video) {
+      return null;
+    }
 
-  return (
-    <Box style={{ textAlign: "center", maxWidth: 400 }}>
-      <img src={image.url} alt={video.title} className={classes.thumbnail} />
-      <div>
-        <Text color="white" weight={600} lineClamp={1}>
-          {video.title}
-        </Text>
-        <Text lineClamp={1} size="sm">
-          {video.description}
-        </Text>
-      </div>
-    </Box>
-  );
-});
+    const image = video.videoThumbnails.find(
+      (thumbnail) => thumbnail.quality === "maxresdefault",
+    ) as VideoThumbnail;
+
+    return (
+      <Box style={{ textAlign: "center", maxWidth: 400 }}>
+        <img src={image.url} alt={video.title} className={classes.thumbnail} />
+        <div>
+          <Text color="white" weight={600} lineClamp={titleLineClamp}>
+            {video.title}
+          </Text>
+          {hideDescription ? null : (
+            <Text lineClamp={1} size="sm" maw="100%">
+              {video.description}
+            </Text>
+          )}
+        </div>
+      </Box>
+    );
+  },
+);
