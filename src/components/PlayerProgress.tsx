@@ -1,6 +1,7 @@
 import { Box, Flex, Slider, Text } from "@mantine/core";
 import { memo } from "react";
 
+import { useDevices } from "../hooks/useDevices";
 import { useSponsorBlock } from "../hooks/useSponsorBlock";
 import { usePlayerAudio, usePlayerState } from "../providers/Player";
 import { SponsorBlockBar } from "./SponsorBlockBar";
@@ -8,6 +9,7 @@ import { SponsorBlockBar } from "./SponsorBlockBar";
 export const PlayerProgress = memo(() => {
   const playerAudio = usePlayerAudio();
   const playerState = usePlayerState();
+  const { isLarge } = useDevices();
 
   useSponsorBlock();
 
@@ -18,7 +20,7 @@ export const PlayerProgress = memo(() => {
   };
 
   return (
-    <Flex align="center" gap="xl" style={{ flex: 1 }}>
+    <Flex align="center" gap={isLarge ? "xl" : "md"} style={{ flex: 1 }}>
       <Text size="xs" color="white">
         {String(playerState.formatedCurrentTime ?? "00:00")}
       </Text>

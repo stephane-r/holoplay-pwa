@@ -21,6 +21,7 @@ import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
 import { ButtonRepeat } from "./ButtonRepeat";
 import { ButtonShare } from "./ButtonShare";
+import { ButtonVolume } from "./Player";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
@@ -106,7 +107,8 @@ export const DrawerPlayerVideo = memo(() => {
         <Flex gap="md">
           <ButtonDownload iconSize={16} />
           <ButtonShare iconSize={16} />
-          <ButtonPlayerModeVideo iconSize={16} />
+          <ButtonPlayerModeVideo render="button" iconSize={16} />
+          <ButtonVolume />
         </Flex>
         <Space h="xl" />
         <Flex className={classes.progressContainer}>

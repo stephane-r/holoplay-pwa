@@ -1,6 +1,11 @@
-import { ActionIcon, ActionIconProps } from "@mantine/core";
+import {
+  ActionIcon,
+  ActionIconProps,
+  Menu,
+  useMantineTheme,
+} from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconHeart } from "@tabler/icons-react";
+import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -16,6 +21,7 @@ interface ButtonFavoriteProps extends ActionIconProps {
   video?: Video;
   iconSize?: number;
   buttonSize?: number;
+  render?: "menu";
 }
 
 const getItemId = (item: Video) => {
@@ -36,11 +42,13 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     iconSize = 18,
     variant = "default",
     buttonSize = 36,
+    render = null,
   }) => {
     const favorite = useFavorite();
     const setFavorite = useSetFavorite();
     const { video: currentVideo } = usePlayerVideo();
     const { t } = useTranslation();
+    const theme = useMantineTheme();
 
     const video = parentVideo ?? (currentVideo as Video);
 
@@ -93,6 +101,23 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
       }
       return handleAdd();
     };
+
+    if (render === "menu") {
+      return (
+        <Menu.Item
+          onClick={onClick}
+          icon={
+            isFavorite ? (
+              <IconHeartFilled style={{ color: theme.colors.pink[8] }} />
+            ) : (
+              <IconHeart />
+            )
+          }
+        >
+          Favorite
+        </Menu.Item>
+      );
+    }
 
     return (
       <ActionIcon
