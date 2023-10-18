@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Button,
   Checkbox,
   Combobox,
   Flex,
@@ -13,13 +14,17 @@ import { useTranslation } from "react-i18next";
 
 import classes from "./TransferList.module.css";
 
+export type TransferListData = [string[], string[]];
+
 interface TransferListProps {
   data: string[];
+  handleSubmit: (data: TransferListData) => void;
+  buttonSubmitLabel: string;
 }
 
 export const TransferList: FC<TransferListProps> = memo(
-  ({ data: userData }) => {
-    const [data, setData] = useState<[string[], string[]]>([userData, []]);
+  ({ data: userData, handleSubmit, buttonSubmitLabel }) => {
+    const [data, setData] = useState<TransferListData>([userData, []]);
 
     const handleTransfer = (transferFrom: number, options: string[]) => {
       setData((current) => {
@@ -33,23 +38,30 @@ export const TransferList: FC<TransferListProps> = memo(
         result[transferFrom] = transferFromData;
         result[transferTo] = transferToData;
 
-        return result as [string[], string[]];
+        return result as TransferListData;
       });
     };
 
     return (
-      <Flex className={classes.container}>
-        <RenderList
-          type="forward"
-          options={data[0]}
-          onTransfer={(options) => handleTransfer(0, options)}
-        />
-        <RenderList
-          type="backward"
-          options={data[1]}
-          onTransfer={(options) => handleTransfer(1, options)}
-        />
-      </Flex>
+      <>
+        <Flex className={classes.container}>
+          <RenderList
+            type="forward"
+            options={data[0]}
+            onTransfer={(options) => handleTransfer(0, options)}
+          />
+          <RenderList
+            type="backward"
+            options={data[1]}
+            onTransfer={(options) => handleTransfer(1, options)}
+          />
+        </Flex>
+        <Flex justify="flex-end" mt="lg">
+          <Button onClick={() => handleSubmit(data)} disabled={!data[1].length}>
+            {buttonSubmitLabel}
+          </Button>
+        </Flex>
+      </>
     );
   },
 );
@@ -129,7 +141,6 @@ const RenderList: FC<RenderListProps> = memo(
               </ActionIcon>
             </Group>
           </Combobox.EventsTarget>
-
           <div className={classes.list}>
             <Combobox.Options>
               {items.length > 0 ? (
