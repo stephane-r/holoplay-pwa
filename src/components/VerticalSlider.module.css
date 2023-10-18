@@ -1,0 +1,28 @@
+.container {
+  position: relative;
+  width: rem(4px);
+  height: rem(120px);
+  border-radius: var(--mantine-radius-md);
+  cursor: pointer;
+
+  [data-mantine-color-scheme="light"] & {
+    background: rgba(0, 0, 0, .1);
+  }
+  [data-mantine-color-scheme="dark"] & {
+    background: rgba(255, 255, 255, .1);
+  }
+}
+
+.filledBar {
+  position: absolute;
+  bottom: 0;
+  width: rem(4px);
+  border-radius: var(--mantine-radius-md);
+
+  [data-mantine-color-scheme="light"] & {
+    background: var(--mantine-color-blue-6);
+  }
+  [data-mantine-color-scheme="dark"] & {
+    background: white;
+  }
+}

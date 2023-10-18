@@ -20,21 +20,23 @@ export const SelectInvidiousInstance = memo(() => {
 
   return (
     <Table highlightOnHover>
-      <thead>
-        <tr>
-          <th>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th>
             <Flex align="center">
               {t("invidious.domain")}
               <ModalAddCustomInstance />
             </Flex>
-          </th>
-          <th style={{ width: 130 }}>{t("invidious.type")}</th>
-          <th style={{ width: 130 }}>{t("invidious.actions")}</th>
-          <th style={{ width: 130 }}></th>
-          {hasCustomInstances ? <th style={{ width: 130 }}></th> : null}
-        </tr>
-      </thead>
-      <tbody>
+          </Table.Th>
+          <Table.Th style={{ width: 130 }}>{t("invidious.type")}</Table.Th>
+          <Table.Th style={{ width: 130 }}>{t("invidious.actions")}</Table.Th>
+          <Table.Th style={{ width: 130 }}></Table.Th>
+          {hasCustomInstances ? (
+            <Table.Th style={{ width: 130 }}></Table.Th>
+          ) : null}
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
         {hasCustomInstances
           ? settings.customInstances.map((instance) => (
               <TableRow key={instance.domain} instance={instance} custom />
@@ -47,7 +49,7 @@ export const SelectInvidiousInstance = memo(() => {
             lastCell={hasCustomInstances}
           />
         ))}
-      </tbody>
+      </Table.Tbody>
     </Table>
   );
 });
@@ -87,8 +89,8 @@ const TableRow = memo(
     };
 
     return (
-      <tr>
-        <td>
+      <Table.Tr>
+        <Table.Td>
           {instance.flag} {instance.domain}
           {isCurrent ? (
             <Badge size="xs" ml="xs" color="lime">
@@ -105,16 +107,16 @@ const TableRow = memo(
               {t("invidious.custom")}
             </Badge>
           ) : null}
-        </td>
-        <td>{instance.type}</td>
-        <td>
+        </Table.Td>
+        <Table.Td>{instance.type}</Table.Td>
+        <Table.Td>
           <Switch
             checked={isCurrent}
             label={t("invidious.use")}
             onChange={() => handleInstanceChange("currentInstance", instance)}
           />
-        </td>
-        <td>
+        </Table.Td>
+        <Table.Td>
           <Checkbox
             checked={isDefault}
             label={t("invidious.default")}
@@ -125,18 +127,18 @@ const TableRow = memo(
               )
             }
           />
-        </td>
+        </Table.Td>
         {lastCell || custom ? (
-          <td>
+          <Table.Td>
             {custom ? (
               <ModalDeleteCustomInstance
                 disabled={isCurrent || isDefault}
                 instance={instance}
               />
             ) : null}
-          </td>
+          </Table.Td>
         ) : null}
-      </tr>
+      </Table.Tr>
     );
   },
 );

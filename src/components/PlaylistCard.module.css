@@ -1,0 +1,34 @@
+.card {
+    border-radius: var(--mantine-radius-md);
+    padding: var(--mantine-spacing-xl);
+
+    [data-mantine-color-scheme="light"] & {
+      background-color: var(--mantine-color-gray-0);
+      color: var(--mantine-color-gray-7);
+    }
+    [data-mantine-color-scheme="dark"] & {
+      background-color: var(--mantine-color-dark-6);
+      color: var(--mantine-color-dark-0);
+    }
+}
+
+.video {
+  background-color: red;
+  color: pink;
+  width: rem(28px);
+  height: rem(28px);
+  border-radius: var(--mantine-radius-sm);
+  margin-bottom: var(--mantine-spacing-sm);
+}
+
+.more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: blue;
+  color: green;
+  width: rem(28px);
+  height: rem(28px);
+  border-radius: var(--mantine-radius-sm);
+  margin-bottom: var(--mantine-spacing-sm);
+}

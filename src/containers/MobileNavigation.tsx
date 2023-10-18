@@ -1,10 +1,4 @@
-import {
-  Box,
-  Drawer,
-  Flex,
-  createStyles,
-  useMantineTheme,
-} from "@mantine/core";
+import { Box, Drawer, Flex, useMantineTheme } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
   IconDotsVertical,
@@ -18,26 +12,9 @@ import { useTranslation } from "react-i18next";
 
 import { MobileNavigation } from "../components/MobileNavigation";
 import { NavbarLink } from "../components/NavbarLink";
-
-const useStyles = createStyles((theme) => ({
-  container: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    background: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).background,
-    backdropFilter: "blur(8px)",
-    zIndex: 4,
-    borderTopLeftRadius: theme.radius.md,
-    borderTopRightRadius: theme.radius.md,
-  },
-}));
+import classes from "./MobileNavigation.module.css";
 
 export const MobileNavigationContainer = memo(() => {
-  const { classes } = useStyles();
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
   const { t } = useTranslation();

@@ -1,21 +1,22 @@
 import { Modal as MModal, ModalProps, useMantineTheme } from "@mantine/core";
+import { FC, ReactNode } from "react";
+
+import { useAppColorScheme } from "../hooks/useAppColorScheme";
 
 interface AppModalProps extends ModalProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export const Modal: React.FC<AppModalProps> = ({ children, ...props }) => {
+export const Modal: FC<AppModalProps> = ({ children, ...props }) => {
+  const colorScheme = useAppColorScheme();
   const theme = useMantineTheme();
 
   return (
     <MModal
       overlayProps={{
         color:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[9]
-            : theme.colors.gray[2],
-        opacity: 0.55,
-        blur: 3,
+          colorScheme === "dark" ? theme.colors.dark[9] : theme.colors.gray[2],
+        blur: 5,
       }}
       radius="md"
       {...props}

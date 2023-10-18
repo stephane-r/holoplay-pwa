@@ -1,0 +1,43 @@
+.box {
+  &:hover {
+    .button {
+      opacity: 1;
+      top: rem(8px);
+    }
+  }
+}
+
+.button {
+  position: absolute;
+  top: rem(8px);
+  color: black;
+  background: white;
+  z-index: 5;
+
+  &:hover {
+    color: black;
+    background: white;
+  }
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    opacity: 0;
+    transition: "0.2s";
+    top: rem(-22px);
+  }
+}
+
+.buttonClose {
+  left: rem(8px);
+}
+
+.buttonHide {
+  left: rem(44px);
+}
+
+.buttonMove {
+  right: rem(8px);
+}
+
+.buttonInfo {
+  right: rem(44px);
+}

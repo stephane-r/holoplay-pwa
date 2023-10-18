@@ -38,7 +38,7 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
             <Menu.Label>{t("playlist.nemu.title")}</Menu.Label>
             {!playlist.playlistId ? (
               <Menu.Item
-                icon={<IconEdit size={14} />}
+                leftSection={<IconEdit size={14} />}
                 onClick={() => setModalUpdateOpened(true)}
               >
                 {t("playlist.nemu.edit")}
@@ -46,7 +46,7 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
             ) : null}
             <Menu.Item
               color="red"
-              icon={<IconTrash size={14} />}
+              leftSection={<IconTrash size={14} />}
               onClick={() => setModalDeleteOpened(true)}
             >
               {t("playlist.nemu.delete")}

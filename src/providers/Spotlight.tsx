@@ -1,7 +1,4 @@
-import {
-  SpotlightProvider as MSpotlightProvider,
-  SpotlightAction,
-} from "@mantine/spotlight";
+import { Spotlight, SpotlightActionData } from "@mantine/spotlight";
 import {
   IconHeart,
   IconHistory,
@@ -11,14 +8,10 @@ import {
   IconTrendingUp,
   IconUsers,
 } from "@tabler/icons-react";
-import { useCallback, useMemo, useState } from "react";
+import { FC, PropsWithChildren, useCallback, useMemo, useState } from "react";
 
 import { useStableNavigate } from "./Navigate";
 import { useSearchValues, useSetSearchValues } from "./Search";
-
-interface SpotlightProviderProps {
-  children: React.ReactNode;
-}
 
 type SpotlightTriggerType =
   | "Dashboard"
@@ -29,16 +22,14 @@ type SpotlightTriggerType =
   | "Playlist"
   | "History";
 
-export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
-  children,
-}) => {
+export const SpotlightProvider: FC<PropsWithChildren> = ({ children }) => {
   const navigate = useStableNavigate();
   const setSearchValues = useSetSearchValues();
   const searchValues = useSearchValues();
   const [searchQuery, setSearchQuery] = useState<null | string>(null);
 
   const onTrigger = useCallback(
-    (action: SpotlightAction) => {
+    (action: SpotlightActionData) => {
       switch (action.title as SpotlightTriggerType) {
         case "Dashboard":
           navigate("/");
@@ -73,45 +64,52 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
     [navigate, searchQuery, setSearchValues],
   );
 
-  const actions: SpotlightAction[] = useMemo(
+  const actions: SpotlightActionData[] = useMemo(
     () => [
       {
+        id: "dashboard",
         title: "Dashboard",
         description: "Your dashboard with somes stats",
         onTrigger,
         icon: <IconHome2 size={18} />,
       },
       {
+        id: "search",
         title: "Search",
-        description: "Search an artist, album or playlist (ex. Search:Eminem)",
+        description: "Search an artist, alb um or playlist (ex. Search:Eminem)",
         onTrigger,
         icon: <IconSearch size={18} />,
       },
       {
+        id: "trending",
         title: "Trending",
         description: "Trending videos",
         onTrigger,
         icon: <IconTrendingUp size={18} />,
       },
       {
+        id: "most-popular",
         title: "Most popular",
         description: "Most popular videos",
         onTrigger,
         icon: <IconUsers size={18} />,
       },
       {
+        id: "favorites",
         title: "Favorites",
         description: "Your favorite videos",
         onTrigger,
         icon: <IconHeart size={18} />,
       },
       {
+        id: "playlist",
         title: "Playlist",
         description: "Your playlists",
         onTrigger,
         icon: <IconMusic size={18} />,
       },
       {
+        id: "history",
         title: "History",
         description: "Your history played videos",
         onTrigger,
@@ -121,27 +119,32 @@ export const SpotlightProvider: React.FC<SpotlightProviderProps> = ({
     [onTrigger],
   );
 
-  const handleFilter = (query: string, actions: SpotlightAction[]) => {
+  const handleFilter = (query: string, actions: SpotlightActionData[]) => {
     if (query.includes("search:") || query.includes("Search:")) {
       setSearchQuery(query.replace("search:", "").replace("Search:", "")); // ahah
       return actions.filter((action) => action.title === "Search");
     }
-    return actions.filter((action) =>
-      action.title.toLowerCase().includes(query.toLowerCase()),
+    return actions.filter(
+      (action) =>
+        (action.label as string)?.toLowerCase().includes(query.toLowerCase()),
     );
   };
 
   return (
-    <MSpotlightProvider
+    <Spotlight
       actions={actions}
       highlightQuery
-      searchIcon={<IconSearch size={18} />}
-      searchPlaceholder="Search..."
+      searchProps={{
+        leftSection: <IconSearch size={18} />,
+        placeholder: "Search...",
+      }}
       shortcut="mod + k"
-      nothingFoundMessage="Nothing found"
-      filter={handleFilter}
+      nothingFound="Nothing found"
+      filter={(query, actions) =>
+        handleFilter(query, actions as SpotlightActionData[])
+      }
     >
       {children}
-    </MSpotlightProvider>
+    </Spotlight>
   );
 };

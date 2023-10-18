@@ -1,0 +1,23 @@
+.item {
+  width: rem(90px);
+  height: rem(90px);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--mantine-spacing-xs);
+  transition: background-color 0.2s;
+
+  [data-mantine-color-scheme="light"] & {
+    background-color: var(--mantine-color-gray-0);
+  }
+
+  [data-mantine-color-scheme="light"] & {
+    background-color: var(--mantine-color-dark-6);
+  }
+}
+
+.text {
+  font-size: var(--mantine-fontSizes-sm);
+}

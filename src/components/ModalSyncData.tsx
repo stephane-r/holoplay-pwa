@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  MediaQuery,
-  Text,
-  TextInput,
-  useMantineTheme,
-} from "@mantine/core";
+import { Box, Button, Flex, Text, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
 import useDigitInput from "react-digit-input";
@@ -24,6 +16,7 @@ import { useSetPlaylists } from "../providers/Playlist";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
+import classes from "./ModalSyncData.module.css";
 
 interface ModalSyncDataProps {
   opened: boolean;
@@ -51,7 +44,6 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
     const [enabled, setEnabled] = useState(false);
     const setFavorite = useSetFavorite();
     const setPlaylists = useSetPlaylists();
-    const theme = useMantineTheme();
 
     const { isLoading } = useQuery("sync", async () => syncData(value), {
       enabled,
@@ -110,14 +102,11 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
         centered
         size="lg"
         title={t("modal.sync.title")}
-        overlayProps={{
-          blur: 3,
-        }}
       >
         <Form onSubmit={() => handleSubmit()}>
           <Text mb="lg">{t("modal.sync.text")}</Text>
           <Flex gap={12} justify="center" align="center" pt="xl" pb="xl">
-            <Box style={{ maxWidth: 46, textAlign: "center" }}>
+            <Box className={classes.column}>
               <TextInput
                 size="lg"
                 data-autofocus
@@ -125,7 +114,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
                 inputMode="decimal"
               />
             </Box>
-            <Box style={{ maxWidth: 46, textAlign: "center" }}>
+            <Box className={classes.column}>
               <TextInput
                 size="lg"
                 data-autofocus
@@ -133,7 +122,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
                 inputMode="decimal"
               />
             </Box>
-            <Box style={{ maxWidth: 46, textAlign: "center" }}>
+            <Box className={classes.column}>
               <TextInput
                 size="lg"
                 data-autofocus
@@ -142,7 +131,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
               />
             </Box>
             <Box>-</Box>
-            <Box style={{ maxWidth: 46, textAlign: "center" }}>
+            <Box className={classes.column}>
               <TextInput
                 size="lg"
                 data-autofocus
@@ -150,7 +139,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
                 inputMode="decimal"
               />
             </Box>
-            <Box style={{ maxWidth: 46, textAlign: "center" }}>
+            <Box className={classes.column}>
               <TextInput
                 size="lg"
                 data-autofocus
@@ -158,7 +147,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
                 inputMode="decimal"
               />
             </Box>
-            <Box style={{ maxWidth: 46, textAlign: "center" }}>
+            <Box className={classes.column}>
               <TextInput
                 size="lg"
                 data-autofocus
@@ -168,16 +157,11 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
             </Box>
           </Flex>
           <Flex gap={8} justify="flex-end" mt="xl">
-            <MediaQuery
-              query={`(max-width: ${theme.breakpoints.xs})`}
-              styles={{ display: "none" }}
-            >
-              <Box>
-                <Button onClick={() => onClose()} color="gray">
-                  {t("button.cancel")}
-                </Button>
-              </Box>
-            </MediaQuery>
+            <Box hiddenFrom="xs">
+              <Button onClick={() => onClose()} color="gray">
+                {t("button.cancel")}
+              </Button>
+            </Box>
             <Button
               type="submit"
               loading={isLoading}

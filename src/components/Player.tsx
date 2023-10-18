@@ -8,7 +8,6 @@ import {
   ScrollArea,
   Space,
   Text,
-  createStyles,
 } from "@mantine/core";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 import {
@@ -32,6 +31,7 @@ import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
 import { ButtonRepeat } from "./ButtonRepeat";
 import { ButtonShare } from "./ButtonShare";
+import classes from "./Player.module.css";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
@@ -39,55 +39,7 @@ import { PlayerProgress } from "./PlayerProgress";
 import { VerticalSlider } from "./VerticalSlider";
 import { VideoList } from "./VideoList";
 
-const useStyles = createStyles((theme) => ({
-  container: {
-    position: "absolute",
-    zIndex: 3,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    boxShadow: "10px 0 10px rgb(0 0 0 / 20%)",
-  },
-  content: {
-    padding: theme.spacing.sm,
-
-    [`@media (min-width: ${theme.breakpoints.lg})`]: {
-      padding: theme.spacing.xl,
-    },
-  },
-  videoInformationsContainer: {
-    maxWidth: 100,
-
-    [`@media (min-width: ${theme.breakpoints.sm})`]: {
-      maxWidth: 320,
-      overflow: "hidden",
-    },
-
-    [`@media (min-width: ${theme.breakpoints.md})`]: {
-      maxWidth: 260,
-    },
-
-    [`@media (min-width: ${theme.breakpoints.lg})`]: {
-      maxWidth: 320,
-    },
-
-    [`@media (min-width: 2100px)`]: {
-      maxWidth: 440,
-    },
-  },
-  thumbnail: {
-    flex: "0 0 50px",
-    height: 50,
-    borderRadius: theme.radius.md,
-
-    [`@media (max-width: ${theme.breakpoints.lg})`]: {
-      display: "none",
-    },
-  },
-}));
-
 export const Player = memo(() => {
-  const { classes } = useStyles();
   const showPlayerBar = useMediaQuery("(max-width: 2140px)");
   const { isMedium, isLarge, isLessThanLarge, isXlarge } = useDevices();
 
@@ -142,7 +94,6 @@ export const Player = memo(() => {
 });
 
 const VideoInformations = memo(() => {
-  const { classes } = useStyles();
   const { video, thumbnailUrl } = usePlayerVideo();
 
   useDocumentTitle(video?.title as string);

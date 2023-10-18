@@ -9,8 +9,6 @@ import {
   Space,
   Text,
   Title,
-  createStyles,
-  rem,
 } from "@mantine/core";
 import { useViewportSize } from "@mantine/hooks";
 import { IconChevronUp } from "@tabler/icons-react";
@@ -20,33 +18,12 @@ import { useTranslation } from "react-i18next";
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
 import { DrawerPlayerVideo } from "./DrawerPlayer";
+import classes from "./MobilePlayer.module.css";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
 import { VideoList } from "./VideoList";
 
-const useStyles = createStyles((theme) => ({
-  container: {
-    position: "absolute",
-    bottom: rem(50),
-    paddingBottom: rem(10),
-    left: 0,
-    right: 0,
-    zIndex: 2,
-  },
-  content: {
-    padding: theme.spacing.xs,
-    paddingRight: theme.spacing.md,
-    paddingLeft: theme.spacing.md,
-    gap: theme.spacing.xs,
-    textAlign: "center",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-}));
-
 export const MobilePlayer = memo(() => {
-  const { classes } = useStyles();
-
   return (
     <Box className={classes.container}>
       <PlayerBackground />

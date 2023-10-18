@@ -106,7 +106,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
       return (
         <Menu.Item
           onClick={onClick}
-          icon={
+          leftSection={
             isFavorite ? (
               <IconHeartFilled style={{ color: theme.colors.pink[8] }} />
             ) : (

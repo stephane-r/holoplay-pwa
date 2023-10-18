@@ -1,12 +1,4 @@
-import {
-  ActionIcon,
-  Box,
-  CloseButton,
-  Tooltip,
-  createStyles,
-  getStylesRef,
-  rem,
-} from "@mantine/core";
+import { ActionIcon, Box, CloseButton, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
   IconChevronDown,
@@ -27,48 +19,7 @@ import {
 import { useSetPlayerMode } from "../providers/PlayerMode";
 import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility";
 import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
-
-const useStyles = createStyles((theme) => ({
-  box: {
-    "&:hover": {
-      [`& .${getStylesRef("button ")}`]: {
-        opacity: 1,
-        top: rem(8),
-      },
-    },
-  },
-  button: {
-    ref: getStylesRef("button"),
-    position: "absolute",
-    top: rem(8),
-    color: "black",
-    background: "white",
-    zIndex: 5,
-
-    "&:hover": {
-      color: "black",
-      background: "white",
-    },
-
-    [`@media (min-width: ${theme.breakpoints.lg})`]: {
-      opacity: 0,
-      transition: "0.2s",
-      top: rem(-22),
-    },
-  },
-  buttonClose: {
-    left: rem(8),
-  },
-  buttonHide: {
-    left: rem(44),
-  },
-  buttonMove: {
-    right: rem(8),
-  },
-  buttonInfo: {
-    right: rem(44),
-  },
-}));
+import classes from "./VideoIframe.module.css";
 
 interface VideoIframeProps {
   width: number;
@@ -77,7 +28,6 @@ interface VideoIframeProps {
 
 export const VideoIframe: React.FC<VideoIframeProps> = memo(
   ({ width, height }) => {
-    const { classes } = useStyles();
     const { video } = usePlayerVideo();
     const playerState = usePlayerState();
 
@@ -178,7 +128,6 @@ const Video = ({ loop, src }: { loop: boolean; src: string }) => {
 };
 
 const ButtonClose = memo(() => {
-  const { classes } = useStyles();
   const setPlayerMode = useSetPlayerMode();
   const playerAudio = usePlayerAudio();
 
@@ -201,7 +150,6 @@ const ButtonClose = memo(() => {
 });
 
 const ButtonHide = memo(() => {
-  const { classes } = useStyles();
   const setVideoIframeVisibility = useSetVideoIframeVisibility();
 
   return (
@@ -217,7 +165,6 @@ const ButtonHide = memo(() => {
 
 const ButtonInformation = memo(() => {
   const [opened, { open, close }] = useDisclosure(false);
-  const { classes } = useStyles();
 
   return (
     <>
@@ -235,8 +182,6 @@ const ButtonInformation = memo(() => {
 });
 
 const ButtonMove = memo(() => {
-  const { classes } = useStyles();
-
   return (
     <ActionIcon
       className={`${classes.buttonMove} ${classes.button}`}

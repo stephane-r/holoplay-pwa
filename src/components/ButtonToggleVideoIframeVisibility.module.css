@@ -1,0 +1,20 @@
+.button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    z-index: 5;
+    transition: 0.2s;    
+}
+
+@media (min-width: em(2140px)) {
+    .button {
+        top: auto;
+        right: calc(50% - rem(20px));
+        bottom: 0;
+        border-top-right-radius: var(--mantine-radius-md);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}

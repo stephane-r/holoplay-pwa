@@ -1,4 +1,4 @@
-import { Divider, Space, createStyles } from "@mantine/core";
+import { Divider, Space } from "@mantine/core";
 import { Box } from "@mantine/core";
 import {
   IconHistory,
@@ -10,16 +10,8 @@ import {
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
+import classes from "./MobileNavigation.module.css";
 import { MobileNavbarLink } from "./NavbarLink";
-
-const useStyles = createStyles((theme) => ({
-  container: {
-    background:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-  },
-}));
 
 interface MobileNavigationProps {
   onClose: () => void;
@@ -27,7 +19,6 @@ interface MobileNavigationProps {
 
 export const MobileNavigation: React.FC<MobileNavigationProps> = memo(
   ({ onClose }) => {
-    const { classes } = useStyles();
     const { t } = useTranslation();
 
     return (

@@ -5,7 +5,6 @@ import {
   LoadingOverlay,
   Text,
   UnstyledButton,
-  createStyles,
 } from "@mantine/core";
 import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
 import hexToRgba from "hex-to-rgba";
@@ -15,30 +14,7 @@ import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlayerAudio, usePlayerVideo } from "../providers/Player";
 import { VideoThumbnail, Video as VideoType } from "../types/interfaces/Video";
 import { Image } from "./Image";
-
-const useStyles = createStyles((theme) => ({
-  container: {
-    position: "relative",
-    borderRadius: theme.radius.md,
-    transition: "0.2s",
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[5]
-          : theme.colors.gray[0],
-    },
-  },
-  image: {
-    width: "100%",
-    height: 75,
-    maxWidth: 100,
-    borderRadius: theme.radius.md,
-
-    [`@media (max-width: ${theme.breakpoints.sm})`]: {
-      display: "none",
-    },
-  },
-}));
+import classes from "./Video.module.css";
 
 interface VideoProps {
   video: VideoType;
@@ -47,7 +23,6 @@ interface VideoProps {
 
 export const Video: React.FC<VideoProps> = memo(
   ({ video, withThumbnail = true }) => {
-    const { classes } = useStyles();
     const { video: playedVideo, primaryColor } = usePlayerVideo();
     const { handlePlay, loading } = usePlayVideo();
     const playerAudio = usePlayerAudio();
@@ -92,8 +67,8 @@ export const Video: React.FC<VideoProps> = memo(
                 />
               </Box>
             ) : null}
-            <Text size="sm" lineClamp={1} weight={isPlaying ? 600 : undefined}>
-              {video.title}
+            <Text size="sm" lineClamp={1}>
+              {isPlaying ? <strong>{video.title}</strong> : video.title}
             </Text>
           </Flex>
           {isPlaying ? null : (

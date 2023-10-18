@@ -1,0 +1,27 @@
+.container {
+  position: relative;
+  border-radius: var(--mantine-radius-md);
+  transition: 0.2s;
+
+  [data-mantine-color-scheme="light"] & {
+    &:hover {
+      background-color: var(--mantine-color-gray-0);
+    }
+  }
+  [data-mantine-color-scheme="dark"] & {
+    &:hover {
+      background-color: var(--mantine-color-dark-5);
+    }
+  }
+}
+
+.image {
+  width: 100%;
+  height: rem(75px);
+  max-width: rem(100px);
+  border-radius: var(--mantine-radius-md);
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    display: none;
+  }
+}

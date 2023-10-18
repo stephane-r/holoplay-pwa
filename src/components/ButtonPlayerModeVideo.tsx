@@ -28,7 +28,7 @@ export const ButtonPlayerModeVideo: React.FC<ButtonPlayerModeVideoProps> = memo(
 
     if (render === "menu") {
       return (
-        <Menu.Item onClick={handleClick} icon={<IconVideo />}>
+        <Menu.Item onClick={handleClick} leftSection={<IconVideo />}>
           Video mode
         </Menu.Item>
       );
