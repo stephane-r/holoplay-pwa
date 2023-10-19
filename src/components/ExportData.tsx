@@ -1,4 +1,4 @@
-import { Box, Button, Flex } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
