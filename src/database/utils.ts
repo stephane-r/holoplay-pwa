@@ -40,13 +40,9 @@ export const importPlaylist = (playlist: CardPlaylist): void => {
 };
 
 export const getPlaylists = (): Playlist[] => {
-  const favoritePlaylist = getFavoritePlaylist();
-  return [
-    ...db.queryAll("playlists", {
-      query: (row: Playlist) => row.title !== "Favorites",
-    }),
-    ...favoritePlaylist.videos.filter((v) => v.type === "playlist"),
-  ];
+  return db.queryAll("playlists", {
+    query: (row: Playlist) => row.title !== "Favorites",
+  });
 };
 
 export const getAllPlaylists = (): CardPlaylist[] => {

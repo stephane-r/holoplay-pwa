@@ -18,8 +18,6 @@ const SetPlaylistContext = createContext<
 export const PlaylistProvider: FC<PropsWithChildren> = ({ children }) => {
   const [playlists, setPlaylists] = useState(getPlaylists());
 
-  console.log(playlists);
-
   const value = useMemo(
     () => ({
       playlists,
