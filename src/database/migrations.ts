@@ -42,4 +42,13 @@ export default (() => {
       );
     } catch {}
   }
+
+  if (!migrationsName.includes("18102023_migrate_formate_storage_data")) {
+    try {
+      require("./18102023_migrate_formate_storage_data").default();
+      // saveMigration(
+      //   "18102023_migrate_formate_storage_data",
+      // );
+    } catch {}
+  }
 })();

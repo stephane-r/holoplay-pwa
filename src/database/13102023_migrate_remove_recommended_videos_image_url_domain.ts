@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { db } from ".";
 import { Playlist } from "../types/interfaces/Playlist";
 import { cleanVideoThumbnailsUrl } from "../utils/cleanVideoThumbnailsUrl";

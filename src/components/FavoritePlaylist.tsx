@@ -6,13 +6,14 @@ import {
   IconUser,
   IconVideo,
 } from "@tabler/icons-react";
-import { memo } from "react";
+import { FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { usePaginateData } from "../hooks/usePaginateData";
 import { useFavorite } from "../providers/Favorite";
-import { isLiveStream } from "./Card";
+import { Card, CardVideo } from "../types/interfaces/Card";
 import { CardList } from "./CardList";
+import { isLiveStream } from "./VideoCard";
 
 export const FavoritePlaylist = memo(() => {
   const favorite = useFavorite();
@@ -33,7 +34,7 @@ export const FavoritePlaylist = memo(() => {
       (video.type === "video" || video.type === "scheduled") &&
       video.lengthSeconds > 0,
   );
-  const livestream = data.filter((video) => isLiveStream(video));
+  const livestream = data.filter((video) => isLiveStream(video as CardVideo));
   const playlists = data.filter((video) => video.type === "playlist");
   const channels = data.filter((video) => video.type === "channel");
 
@@ -78,7 +79,11 @@ export const FavoritePlaylist = memo(() => {
   );
 });
 
-const DataList = memo(({ data: initialData }: any) => {
+interface DataListProps {
+  data: Card[];
+}
+
+const DataList: FC<DataListProps> = memo(({ data: initialData }) => {
   const { data, ref } = usePaginateData(initialData);
 
   return (

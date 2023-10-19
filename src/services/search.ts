@@ -1,7 +1,7 @@
 import qs from "qs";
 
+import { Card } from "../types/interfaces/Card";
 import { Search } from "../types/interfaces/Search";
-import { Video } from "../types/interfaces/Video";
 import { getCurrentInstance } from "../utils/getCurrentInstance";
 
 interface SearchParams extends Search {
@@ -11,7 +11,7 @@ interface SearchParams extends Search {
 export const search = async ({
   sortBy: sort_by,
   ...params
-}: SearchParams): Promise<Video[]> => {
+}: SearchParams): Promise<Card[]> => {
   const instance = getCurrentInstance();
   let uri = null;
 

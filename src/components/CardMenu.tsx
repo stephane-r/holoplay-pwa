@@ -10,15 +10,15 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
-import { Video } from "../types/interfaces/Video";
+import { CardVideo } from "../types/interfaces/Card";
 import { ModalAddToPlaylist } from "./ModalAddToPlaylist";
 import { ModalDeleteFromPlaylist } from "./ModalDeleteFromPlaylist";
 
 interface CardMenuProps {
-  video: Video;
+  card: CardVideo;
 }
 
-export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
+export const CardMenu: React.FC<CardMenuProps> = memo(({ card }) => {
   const [addToPlaylistModalOpened, setAddToPlaylistModalOpened] =
     useState(false);
   const [deleteFromPlaylistModalOpened, setDeleteFromPlaylistModalOpened] =
@@ -68,12 +68,12 @@ export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
       <ModalAddToPlaylist
         opened={addToPlaylistModalOpened}
         onClose={() => setAddToPlaylistModalOpened(false)}
-        video={video}
+        video={card}
       />
       <ModalDeleteFromPlaylist
         opened={deleteFromPlaylistModalOpened}
         onClose={() => setDeleteFromPlaylistModalOpened(false)}
-        video={video}
+        video={card}
       />
     </>
   );

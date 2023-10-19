@@ -7,14 +7,14 @@ import { db } from "../database";
 import { getPlaylist, getPlaylists } from "../database/utils";
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
 import { useSetPlaylists } from "../providers/Playlist";
+import { CardVideo } from "../types/interfaces/Card";
 import { Playlist } from "../types/interfaces/Playlist";
-import { Video } from "../types/interfaces/Video";
 import { Modal } from "./Modal";
 
 interface ModalDeleteFromPlaylistProps {
   opened: boolean;
   onClose: () => void;
-  video: Video;
+  video: CardVideo;
 }
 
 export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
@@ -35,7 +35,7 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
         throw Error(t("Playlist not found") as string);
       }
 
-      const updatedVideos = playlist.videos.filter(
+      const updatedVideos = (playlist.videos as CardVideo[]).filter(
         (v) => v.videoId !== video.videoId,
       );
 

@@ -3,12 +3,12 @@ import { IconDotsVertical, IconEdit, IconTrash } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Playlist } from "../types/interfaces/Playlist";
+import { CardPlaylist } from "../types/interfaces/Card";
 import { ModalDeletePlaylist } from "./ModalDeletePlaylist";
 import { ModalUpdatePlaylist } from "./ModalUpdatePlaylist";
 
 interface PlaylistCardMenuProps {
-  playlist: Playlist;
+  playlist: CardPlaylist;
 }
 
 export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
@@ -29,6 +29,8 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
           <Menu.Target>
             <ActionIcon
               onClick={() => setMenuOpened(true)}
+              variant="transparent"
+              color="gray"
               style={{ marginLeft: "auto", marginRight: -8 }}
             >
               <IconDotsVertical size={18} />

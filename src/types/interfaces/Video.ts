@@ -1,4 +1,4 @@
-type QualityTypes =
+export type ThumbnailQualityTypes =
   | "maxres"
   | "maxresdefault"
   | "sddefault"
@@ -14,7 +14,7 @@ type VideoTypes = "video" | "playlist" | "channel" | "scheduled" | "livestream";
 export interface VideoThumbnail {
   width: number;
   height: number;
-  quality: QualityTypes;
+  quality: ThumbnailQualityTypes;
   url: string;
 }
 
@@ -42,6 +42,7 @@ export interface Video {
   type: VideoTypes;
   adaptiveFormats: AdaptiveFormat[];
   videoThumbnails: VideoThumbnail[];
+  thumbnail: string;
   recommendedVideos: Video[];
   allowRatings: boolean;
   author: string;

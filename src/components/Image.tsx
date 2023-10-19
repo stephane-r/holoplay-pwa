@@ -2,7 +2,7 @@ import { Skeleton } from "@mantine/core";
 import { FC, ImgHTMLAttributes, memo, useState } from "react";
 
 export const Image: FC<ImgHTMLAttributes<HTMLImageElement>> = memo(
-  ({ className, alt, ...props }) => {
+  ({ src, className, alt, ...props }) => {
     const [loading, setLoading] = useState(true);
 
     return (
@@ -17,7 +17,7 @@ export const Image: FC<ImgHTMLAttributes<HTMLImageElement>> = memo(
           className={className}
         />
         <img
-          {...props}
+          src={src}
           alt={alt}
           className={className}
           style={

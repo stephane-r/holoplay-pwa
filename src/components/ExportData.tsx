@@ -4,7 +4,7 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { getAllPlaylists } from "../database/utils";
-import { Playlist } from "../types/interfaces/Playlist";
+import { CardPlaylist } from "../types/interfaces/Card";
 import { generateAndDownloadFile } from "../utils/generateAndDownloadFile";
 import { TransferList, TransferListData } from "./TransferList";
 
@@ -13,7 +13,7 @@ const loadPlaylistData = (playlistsTitle: string[]) => {
   return playlists.filter((p) => playlistsTitle.includes(p.title));
 };
 
-const formatePlaylistsToExport = (playlists: Playlist[]) => {
+const formatePlaylistsToExport = (playlists: CardPlaylist[]) => {
   return playlists.map((p) => ({
     ...p,
     videos: p.videos.map((v) => v.videoId),

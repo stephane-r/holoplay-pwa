@@ -1,12 +1,12 @@
 import qs from "qs";
 
 import { TrendingFilters } from "../providers/TrendingFilters";
-import { Video } from "../types/interfaces/Video";
+import { CardVideo } from "../types/interfaces/Card";
 import { getCurrentInstance } from "../utils/getCurrentInstance";
 
 export const getTrendings = async (
   params: TrendingFilters,
-): Promise<Video[]> => {
+): Promise<CardVideo[]> => {
   const apiUrl = getCurrentInstance().uri;
   const request = await fetch(
     `${apiUrl}/api/v1/trending?${qs.stringify(params)}`,

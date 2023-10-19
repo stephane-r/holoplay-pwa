@@ -6,6 +6,7 @@ import { CardList } from "../components/CardList";
 import { PageHeader } from "../components/PageHeader";
 import { useGetPlaylist } from "../hooks/useGetPlaylist";
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
+import { CardVideo } from "../types/interfaces/Card";
 
 export const PlaylistDetailPage = memo(() => {
   return (
@@ -34,7 +35,7 @@ const PageContainer = memo(() => {
           </Text>
         </Alert>
       ) : (
-        <CardList data={playlist.videos} />
+        <CardList data={playlist.videos as CardVideo[]} />
       )}
     </>
   );

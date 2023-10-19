@@ -31,7 +31,8 @@ import { getPlaylists } from "../database/utils";
 import { useSetFavorite } from "../providers/Favorite";
 import { useSetPlaylists } from "../providers/Playlist";
 import { getVideo } from "../services/video";
-import { Playlist } from "../types/interfaces/Playlist";
+import { Card, CardVideo } from "../types/interfaces/Card";
+import { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
 import { TransferList, TransferListData } from "./TransferList";
 
@@ -145,12 +146,12 @@ const loadPlaylistsFromFileData = (
 ) => playlists.filter((p) => playlistsTitle.includes(p.title));
 
 type FetchVideosData = {
-  video: Video;
+  video: Card;
   url: string;
 }[];
 
 const getVideosData = async (
-  videos: Video[],
+  videos: Card[],
 ): Promise<{
   validData: FetchVideosData;
   invalidData: FetchVideosData;
@@ -189,7 +190,9 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
           importedFileData,
           importData,
         );
-        const favoritePlaylist = playlists.find((p) => p.title === "Favorites");
+        const favoritePlaylist = playlists.find(
+          (p) => p.title === "Favorites",
+        ) as FavoritePlaylist;
         const userPlaylists = playlists.filter((p) => p.title !== "Favorites");
 
         if (favoritePlaylist) {
@@ -200,10 +203,15 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
 
         if (userPlaylists.length > 0) {
           userPlaylists.map(async (playlist) => {
-            const { validData: videos } = await getVideosData(playlist.videos);
+            const { validData: videos } = await getVideosData(
+              playlist.videos as CardVideo[],
+            );
             importPlaylist({
+              type: "playlist",
+              playlistId: playlist.playlistId,
+              ID: playlist.ID,
               title: playlist.title,
-              videos: videos.map(({ video }) => video),
+              videos: videos.map(({ video }) => video) as CardVideo[],
               videoCount: videos.length,
             });
             setPlaylists(getPlaylists());

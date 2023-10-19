@@ -1,4 +1,6 @@
 import {
+  FC,
+  PropsWithChildren,
   createContext,
   useCallback,
   useContext,
@@ -8,22 +10,18 @@ import {
 
 import { db } from "../database";
 import { getVideosHistory } from "../database/utils";
+import { CardVideo } from "../types/interfaces/Card";
 import { Video } from "../types/interfaces/Video";
+import { formatedCardVideo } from "../utils/formatData";
 
-const HistoryContext = createContext<Video[]>([]);
+const HistoryContext = createContext<CardVideo[]>([]);
 const SetHistoryContext = createContext<(video: Video) => void>(() => {});
 
-interface HistoryProviderProps {
-  children: React.ReactNode;
-}
-
-export const HistoryProvider: React.FC<HistoryProviderProps> = ({
-  children,
-}) => {
-  const [history, setHistory] = useState<Video[]>(getVideosHistory());
+export const HistoryProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [history, setHistory] = useState<CardVideo[]>(getVideosHistory());
 
   const handleSetHistory = useCallback((video: Video) => {
-    db.insert("history", video);
+    db.insert("history", formatedCardVideo(video));
     db.commit();
     setHistory(getVideosHistory());
   }, []);

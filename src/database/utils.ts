@@ -1,37 +1,34 @@
 import { db } from ".";
-import { Playlist } from "../types/interfaces/Playlist";
+import { getCardId } from "../components/ButtonFavorite";
+import { Card, CardPlaylist, CardVideo } from "../types/interfaces/Card";
+import { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
 import { SearchHistory } from "../types/interfaces/Search";
 import { Settings } from "../types/interfaces/Settings";
-import { Video } from "../types/interfaces/Video";
 
 export const getSettings = (): Settings => {
   return db.queryAll("settings", { query: { ID: 1 } })[0];
 };
 
-export const getFavoritePlaylist = (): Playlist => {
+export const getFavoritePlaylist = (): FavoritePlaylist => {
   return db.queryAll("playlists", { query: { title: "Favorites" } })[0];
 };
 
-const removeDuplicateVideoId = (videos: Video[]): Video[] => {
-  return videos.filter(
+const removeDuplicateVideoId = (cards: Card[]): Card[] => {
+  return cards.filter(
     (value, index, self) =>
-      index === self.findIndex((t) => t.videoId === value.videoId),
+      index === self.findIndex((t) => getCardId(t) === getCardId(value)),
   );
 };
 
-export const importVideosToFavorites = (importedVideos: Video[]): void => {
-  db.update("playlists", { title: "Favorites" }, (raw: Playlist) => ({
+export const importVideosToFavorites = (importedCards: Card[]): void => {
+  db.update("playlists", { title: "Favorites" }, (raw: FavoritePlaylist) => ({
     ...raw,
-    videos: removeDuplicateVideoId([...importedVideos, ...raw.videos]),
+    videos: removeDuplicateVideoId([...importedCards, ...raw.videos]),
   }));
   db.commit();
 };
 
-export const importPlaylist = (playlist: {
-  title: string;
-  videos: Video[];
-  videoCount: number;
-}): void => {
+export const importPlaylist = (playlist: CardPlaylist): void => {
   db.insert("playlists", {
     createdAt: new Date().toISOString(),
     title: playlist.title,
@@ -43,16 +40,20 @@ export const importPlaylist = (playlist: {
 };
 
 export const getPlaylists = (): Playlist[] => {
-  return db.queryAll("playlists", {
-    query: (row: Playlist) => row.title !== "Favorites",
-  });
+  const favoritePlaylist = getFavoritePlaylist();
+  return [
+    ...db.queryAll("playlists", {
+      query: (row: Playlist) => row.title !== "Favorites",
+    }),
+    ...favoritePlaylist.videos.filter((v) => v.type === "playlist"),
+  ];
 };
 
-export const getAllPlaylists = (): Playlist[] => {
+export const getAllPlaylists = (): CardPlaylist[] => {
   return db.queryAll("playlists");
 };
 
-export const getLocalPlaylists = (): Playlist[] => {
+export const getLocalPlaylists = (): CardPlaylist[] => {
   return db.queryAll("playlists", {
     query: (row: Playlist) => row.title !== "Favorites" && !row.playlistId,
   });
@@ -62,13 +63,13 @@ export const getPlaylist = (playlistId: number): Playlist => {
   return db.queryAll("playlists", { query: { ID: playlistId } })[0];
 };
 
-export const getVideosHistory = (): Video[] => {
+export const getVideosHistory = (): CardVideo[] => {
   return db.queryAll("history", {
     sort: [["ID", "DESC"]],
   });
 };
 
-export const getLastVideoPlayed = (): Video => {
+export const getLastVideoPlayed = (): CardVideo => {
   return getVideosHistory()[0];
 };
 

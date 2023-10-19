@@ -6,13 +6,13 @@ import { useTranslation } from "react-i18next";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
-import { Playlist } from "../types/interfaces/Playlist";
+import { CardPlaylist } from "../types/interfaces/Card";
 import { Modal } from "./Modal";
 
 interface ModalDeletePlaylistProps {
   opened: boolean;
   onClose: () => void;
-  playlist: Playlist;
+  playlist: CardPlaylist;
 }
 
 export const ModalDeletePlaylist: React.FC<ModalDeletePlaylistProps> = memo(

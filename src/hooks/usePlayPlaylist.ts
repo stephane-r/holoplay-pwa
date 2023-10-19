@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import { getPlaylist as getLocalPlaylist } from "../database/utils";
 import { getPlaylist as getRemotePlaylist } from "../services/playlist";
+import { Video } from "../types/interfaces/Video";
 import { usePlayVideo } from "./usePlayVideo";
 
 export const usePlayPlaylist = () => {
@@ -17,9 +18,9 @@ export const usePlayPlaylist = () => {
       const data = isLocalPlaylist
         ? getLocalPlaylist(playlistId as number)
         : await getRemotePlaylist(playlistId as string);
-      const [firstVideo] = data.videos;
+      const [firstVideo] = data.videos as Video[];
 
-      play(firstVideo.videoId, data.videos);
+      play(firstVideo.videoId, data.videos as Video[]);
     } catch (error) {
       notifications.show({
         title: "Error",

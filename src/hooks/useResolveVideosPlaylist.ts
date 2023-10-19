@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import {
   getFavoritePlaylist,
   getPlaylist as getLocalPlaylist,
-  getVideosHistory,
 } from "../database/utils";
 import { queryClient } from "../queryClient";
 import { Playlist } from "../types/interfaces/Playlist";
@@ -20,12 +19,12 @@ export const useResolveVideosPlaylist = () => {
       const isLocalPlaylist = Number(playlistId);
 
       if (isLocalPlaylist) {
-        videos = getLocalPlaylist(Number(playlistId)).videos;
+        videos = getLocalPlaylist(Number(playlistId)).videos as Video[];
       } else {
         const remotePlaylist = queryClient.getQueriesData(
           `playlist-${playlistId}`,
         )[0][1] as Playlist;
-        videos = remotePlaylist.videos;
+        videos = remotePlaylist.videos as Video[];
       }
     }
     if (location.pathname.includes("/channels/")) {
@@ -38,7 +37,7 @@ export const useResolveVideosPlaylist = () => {
     if (location.pathname === "/favorites") {
       videos = getFavoritePlaylist().videos.filter(
         (video) => video.type === "video",
-      );
+      ) as Video[];
     }
     if (location.pathname === "/most-popular") {
       videos = queryClient.getQueriesData("most-popular")[0][1] as Video[];
@@ -49,9 +48,9 @@ export const useResolveVideosPlaylist = () => {
     // if (location.pathname === "/search") {
     //   videos = queryClient.getQueriesData("search")[0][1] as Video[];
     // }
-    if (location.pathname === "/history") {
-      videos = getVideosHistory();
-    }
+    // if (location.pathname === "/history") {
+    //   videos = getVideosHistory();
+    // }
 
     return videos;
   };
