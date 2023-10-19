@@ -137,7 +137,7 @@ export const ButtonVolume = memo(() => {
   return (
     <Popover shadow="md">
       <Popover.Target>
-        <ActionIcon>
+        <ActionIcon color="transparent">
           <IconVolume size={20} />
         </ActionIcon>
       </Popover.Target>
@@ -170,7 +170,7 @@ const PlayerPlaylist = memo(() => {
           <VideoList videos={videosPlaylist} />
         </ScrollArea>
       </Drawer>
-      <ActionIcon onClick={() => setOpened(true)}>
+      <ActionIcon color="transparent" onClick={() => setOpened(true)}>
         <IconPlaylist size={20} />
       </ActionIcon>
     </>

@@ -49,7 +49,7 @@ export const ButtonShare: React.FC<ButtonDownloadProps> = memo(
     return (
       <Menu shadow="md" width={220}>
         <Menu.Target>
-          <ActionIcon title={t("button.share.video")}>
+          <ActionIcon color="transparent" title={t("button.share.video")}>
             <IconShare size={iconSize} />
           </ActionIcon>
         </Menu.Target>
