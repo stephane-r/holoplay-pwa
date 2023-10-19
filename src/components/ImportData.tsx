@@ -196,7 +196,7 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
         const userPlaylists = playlists.filter((p) => p.title !== "Favorites");
 
         if (favoritePlaylist) {
-          const { validData } = await getVideosData(favoritePlaylist.videos);
+          const { validData } = await getVideosData(favoritePlaylist.cards);
           importVideosToFavorites(validData.map(({ video }) => video));
           setFavorite(getFavoritePlaylist());
         }

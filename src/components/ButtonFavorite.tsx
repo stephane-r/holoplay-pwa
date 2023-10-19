@@ -20,7 +20,10 @@ import {
   CardVideo,
 } from "../types/interfaces/Card";
 import { Channel } from "../types/interfaces/Channel";
-import { Playlist } from "../types/interfaces/Playlist";
+import {
+  FavoritePlaylist as Favorite,
+  Playlist,
+} from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
 import {
   formatedCardChannel,
@@ -82,12 +85,12 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
       return null;
     }
 
-    const isFavorite = favorite.videos.find(
-      (favVideo) => getCardId(favVideo) === getCardId(card),
+    const isFavorite = favorite.cards.find(
+      (favCard) => getCardId(favCard) === getCardId(card),
     );
 
-    const updateAndCommit = async (updatedFavoritePlaylist: Playlist) => {
-      await db.update(
+    const updateAndCommit = (updatedFavoritePlaylist: Favorite) => {
+      db.update(
         "playlists",
         { title: "Favorites" },
         () => updatedFavoritePlaylist,
@@ -110,7 +113,7 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
 
       updateAndCommit({
         ...favorite,
-        videos: [formatedCard, ...favorite.videos],
+        cards: [formatedCard, ...favorite.cards],
       });
 
       notifications.show({
@@ -122,8 +125,8 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     const handleDelete = () => {
       updateAndCommit({
         ...favorite,
-        videos: favorite.videos.filter(
-          (favVideo) => getCardId(favVideo) !== getCardId(card),
+        cards: favorite.cards.filter(
+          (favCard) => getCardId(favCard) !== getCardId(card),
         ),
       });
 

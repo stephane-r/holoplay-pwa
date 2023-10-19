@@ -1,4 +1,4 @@
-import { Card, CardVideo } from "./Card";
+import { Card } from "./Card";
 import { Video } from "./Video";
 
 export interface Playlist {
@@ -11,7 +11,7 @@ export interface Playlist {
   playlistThumbnail: string;
 }
 
-export interface FavoritePlaylist extends Omit<Playlist, "videos" | "title"> {
+export interface FavoritePlaylist extends Omit<Playlist, "title"> {
   title: "Favorites";
-  videos: Card[];
+  cards: Card[];
 }

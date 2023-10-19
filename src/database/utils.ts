@@ -23,7 +23,7 @@ const removeDuplicateVideoId = (cards: Card[]): Card[] => {
 export const importVideosToFavorites = (importedCards: Card[]): void => {
   db.update("playlists", { title: "Favorites" }, (raw: FavoritePlaylist) => ({
     ...raw,
-    videos: removeDuplicateVideoId([...importedCards, ...raw.videos]),
+    videos: removeDuplicateVideoId([...importedCards, ...raw.cards]),
   }));
   db.commit();
 };

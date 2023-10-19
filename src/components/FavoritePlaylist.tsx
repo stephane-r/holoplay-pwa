@@ -19,7 +19,7 @@ export const FavoritePlaylist = memo(() => {
   const favorite = useFavorite();
   const { t } = useTranslation();
 
-  const data = favorite.videos;
+  const data = favorite.cards;
 
   if (!data.length) {
     return (
@@ -30,13 +30,13 @@ export const FavoritePlaylist = memo(() => {
   }
 
   const videos = data.filter(
-    (video) =>
-      (video.type === "video" || video.type === "scheduled") &&
-      video.lengthSeconds > 0,
+    (card) =>
+      (card.type === "video" || card.type === "scheduled") &&
+      card.lengthSeconds > 0,
   );
-  const livestream = data.filter((video) => isLiveStream(video as CardVideo));
-  const playlists = data.filter((video) => video.type === "playlist");
-  const channels = data.filter((video) => video.type === "channel");
+  const livestream = data.filter((card) => isLiveStream(card as CardVideo));
+  const playlists = data.filter((card) => card.type === "playlist");
+  const channels = data.filter((card) => card.type === "channel");
 
   return (
     <Tabs defaultValue="all">

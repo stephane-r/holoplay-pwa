@@ -7,7 +7,7 @@ import { HorizontalGridList } from "./HorizontalGridList";
 
 export const RecentFavorites = memo(() => {
   const favorite = useFavorite();
-  const data = favorite.videos.slice(0, 10);
+  const data = favorite.cards.slice(0, 10);
   const { t } = useTranslation();
 
   return (
