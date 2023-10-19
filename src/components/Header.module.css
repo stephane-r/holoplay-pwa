@@ -4,6 +4,6 @@
     position: sticky;
     top: 0;
     backdrop-filter: blur(8px);
-    z-index: 4;
+    z-index: 5;
     padding: rem(16px);
 }

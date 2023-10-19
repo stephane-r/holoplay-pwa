@@ -45,7 +45,10 @@ const ButtonOpenDrawer = memo(() => {
 
   return (
     <>
-      <ActionIcon onClick={() => setOpen((state) => !state)}>
+      <ActionIcon
+        color="transparent"
+        onClick={() => setOpen((state) => !state)}
+      >
         <IconChevronUp size={18} />
       </ActionIcon>
       <Drawer
