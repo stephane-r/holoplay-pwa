@@ -1,23 +1,18 @@
-import { ActionIcon, createStyles } from "@mantine/core";
+import { ActionIcon } from "@mantine/core";
 import { IconBrandGithub } from "@tabler/icons-react";
 import { memo } from "react";
 
-const useStyles = createStyles((theme) => ({
-  button: {
-    height: 36,
-    width: 36,
-  },
-}));
-
 export const GithubActionIcon = memo(() => {
-  const { classes } = useStyles();
-
   return (
     <ActionIcon
       component="a"
+      color="gray"
       href="https://github.com/stephane-r/holoplay-pwa"
       target="_blank"
-      className={classes.button}
+      style={{
+        width: 36,
+        height: 36,
+      }}
       radius="md"
       variant="filled"
     >

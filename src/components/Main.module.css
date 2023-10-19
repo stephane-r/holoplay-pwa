@@ -1,0 +1,12 @@
+.main {
+  flex: 1;
+  padding: rem(80px) rem(20px);
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    min-height: calc(100vh - rem(128px));
+  }
+
+  @media (min-width: $mantine-breakpoint-md) {
+    padding: rem(16px) rem(28px) rem(24px);
+  }
+}

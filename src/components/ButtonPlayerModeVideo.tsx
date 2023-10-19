@@ -1,4 +1,4 @@
-import { ActionIcon, Menu, Tooltip } from "@mantine/core";
+import { ActionIcon, Menu } from "@mantine/core";
 import { IconVideo } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,21 +28,21 @@ export const ButtonPlayerModeVideo: React.FC<ButtonPlayerModeVideoProps> = memo(
 
     if (render === "menu") {
       return (
-        <Menu.Item onClick={handleClick} icon={<IconVideo />}>
+        <Menu.Item onClick={handleClick} leftSection={<IconVideo />}>
           Video mode
         </Menu.Item>
       );
     }
 
     return (
-      <Tooltip label={t("video.mode")}>
-        <ActionIcon
-          onClick={handleClick}
-          variant={playerMode === "video" ? "filled" : undefined}
-        >
-          <IconVideo size={iconSize} />
-        </ActionIcon>
-      </Tooltip>
+      <ActionIcon
+        onClick={handleClick}
+        color="transparent"
+        title={t("video.mode")}
+        variant={playerMode === "video" ? "filled" : undefined}
+      >
+        <IconVideo size={iconSize} />
+      </ActionIcon>
     );
   },
 );

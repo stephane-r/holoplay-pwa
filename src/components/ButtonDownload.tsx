@@ -24,7 +24,7 @@ export const ButtonDownload: React.FC<ButtonDownloadProps> = memo(
     return (
       <Menu>
         <Menu.Target>
-          <ActionIcon title={t("download.sound")}>
+          <ActionIcon color="transparent" title={t("download.sound")}>
             <IconDownload size={iconSize} />
           </ActionIcon>
         </Menu.Target>

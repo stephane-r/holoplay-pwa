@@ -7,7 +7,6 @@ import {
   Space,
   Text,
   Title,
-  createStyles,
 } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { memo } from "react";
@@ -21,6 +20,7 @@ import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
 import { ButtonRepeat } from "./ButtonRepeat";
 import { ButtonShare } from "./ButtonShare";
+import classes from "./DrawerPlayer.module.css";
 import { ButtonVolume } from "./Player";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
@@ -28,37 +28,7 @@ import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 import { PlayerProgress } from "./PlayerProgress";
 import { VideoList } from "./VideoList";
 
-const useStyles = createStyles((theme) => ({
-  card: {
-    position: "sticky",
-    top: 0,
-    height: "100vh",
-    transition: ".2s",
-  },
-  scrollArea: {
-    height: "calc(100vh - 500px)",
-  },
-  thumbnail: {
-    maxWidth: "100%",
-    borderRadius: theme.radius.md,
-    marginBottom: theme.spacing.xl,
-
-    [`@media (min-width: ${theme.breakpoints.sm})`]: {
-      maxWidth: 320,
-    },
-  },
-  progressContainer: {
-    width: "100%",
-
-    [`@media (min-width: ${theme.breakpoints.sm})`]: {
-      paddingLeft: theme.spacing.xl,
-      paddingRight: theme.spacing.xl,
-    },
-  },
-}));
-
 export const DrawerPlayer = memo(() => {
-  const { classes } = useStyles();
   const playerUrl = usePlayerUrl();
   const playerPlaylist = usePlayerPlaylist();
   const { t } = useTranslation();
@@ -96,7 +66,6 @@ export const DrawerPlayer = memo(() => {
 });
 
 export const DrawerPlayerVideo = memo(() => {
-  const { classes } = useStyles();
   const { video } = usePlayerVideo() as { video: Video };
 
   return (
@@ -129,11 +98,9 @@ interface VideoInformationsProps {
   titleLineClamp?: number;
   hideDescription?: boolean;
 }
-
 const VideoInformations: React.FC<VideoInformationsProps> = memo(
   ({ titleLineClamp = 1, hideDescription = false }) => {
     const { video } = usePlayerVideo();
-    const { classes } = useStyles();
 
     useDocumentTitle(`${video?.title as string} - HoloPlay`);
 
@@ -149,14 +116,12 @@ const VideoInformations: React.FC<VideoInformationsProps> = memo(
       <Box style={{ textAlign: "center", maxWidth: 400 }}>
         <img src={image.url} alt={video.title} className={classes.thumbnail} />
         <div>
-          <Text color="white" weight={600} lineClamp={titleLineClamp}>
-            {video.title}
+          <Text c="white" lineClamp={1}>
+            <strong>{video.title}</strong>
           </Text>
-          {hideDescription ? null : (
-            <Text lineClamp={1} size="sm" maw="100%">
-              {video.description}
-            </Text>
-          )}
+          <Text lineClamp={1} size="sm">
+            {video.description}
+          </Text>
         </div>
       </Box>
     );

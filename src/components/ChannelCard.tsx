@@ -6,7 +6,6 @@ import {
   Title,
   Tooltip,
   UnstyledButton,
-  createStyles,
 } from "@mantine/core";
 import { IconDiscountCheckFilled } from "@tabler/icons-react";
 import { memo } from "react";
@@ -17,22 +16,13 @@ import { Channel } from "../types/interfaces/Channel";
 import { VideoThumbnail } from "../types/interfaces/Video";
 import { ButtonFavorite } from "./ButtonFavorite";
 import { CardImage } from "./CardImage";
-
-const useStyles = createStyles((theme) => ({
-  card: {
-    background:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-  },
-}));
+import classes from "./ChannelCard.module.css";
 
 interface ChannelCardProps {
   channel: Channel;
 }
 
 export const ChannelCard: React.FC<ChannelCardProps> = memo(({ channel }) => {
-  const { classes } = useStyles();
   const navigate = useStableNavigate();
   const { t } = useTranslation();
 
@@ -49,8 +39,8 @@ export const ChannelCard: React.FC<ChannelCardProps> = memo(({ channel }) => {
       <UnstyledButton style={{ width: "100%" }} onClick={goToChannel}>
         <CardImage image={image} title={channel.author} />
         <Flex align="center" gap={8}>
-          <Title order={3} mb="xs" mt="md" lineClamp={1}>
-            {channel.author}
+          <Title order={3} mb="xs" mt="md">
+            <Text lineClamp={1}>{channel.author}</Text>
           </Title>
           {channel.authorVerified ? (
             <Box mt={12}>
@@ -64,12 +54,14 @@ export const ChannelCard: React.FC<ChannelCardProps> = memo(({ channel }) => {
       </UnstyledButton>
       <Flex align="center" justify="space-between" mt="xs">
         <Box mt="xs">
-          <Text size="xs" weight={600} mb={4}>
-            {new Intl.NumberFormat().format(channel.subCount)}{" "}
-            {t("channel.subscribers")}
+          <Text size="xs" mb={4}>
+            <strong>
+              {new Intl.NumberFormat().format(channel.subCount)}{" "}
+              {t("channel.subscribers")}
+            </strong>
           </Text>
-          <Text size="xs" weight={600}>
-            {channel.videoCount} videos
+          <Text size="xs">
+            <strong>{channel.videoCount} videos</strong>
           </Text>
         </Box>
         {/* @ts-ignore */}

@@ -15,10 +15,12 @@ export const ButtonAddCustomInstance = memo(
         variant="subtle"
         ml="xs"
         color="blue"
-        leftIcon={<IconPlus size={14} />}
+        leftSection={<IconPlus size={14} />}
         onClick={onClick}
       >
-        <Text>{t("invidious.button.add")}</Text>
+        <Text size="xs">
+          <strong>{t("invidious.button.add")}</strong>
+        </Text>
       </Button>
     );
   },

@@ -40,19 +40,22 @@ export const FavoritePlaylist = memo(() => {
   return (
     <Tabs defaultValue="all">
       <Tabs.List mb="lg">
-        <Tabs.Tab value="all" icon={<IconHeart size={18} />}>
+        <Tabs.Tab value="all" leftSection={<IconHeart size={18} />}>
           {t("favorite.tab.all")}
         </Tabs.Tab>
-        <Tabs.Tab value="videos" icon={<IconVideo size={18} />}>
+        <Tabs.Tab value="videos" leftSection={<IconVideo size={18} />}>
           {t("favorite.tab.videos")} ({videos.length})
         </Tabs.Tab>
-        <Tabs.Tab value="livestream" icon={<IconPlayerRecord size={18} />}>
+        <Tabs.Tab
+          value="livestream"
+          leftSection={<IconPlayerRecord size={18} />}
+        >
           {t("favorite.tab.livestreams")} ({livestream.length})
         </Tabs.Tab>
-        <Tabs.Tab value="playlists" icon={<IconPlaylist size={18} />}>
+        <Tabs.Tab value="playlists" leftSection={<IconPlaylist size={18} />}>
           {t("favorite.tab.playlists")} ({playlists.length})
         </Tabs.Tab>
-        <Tabs.Tab value="channels" icon={<IconUser size={18} />}>
+        <Tabs.Tab value="channels" leftSection={<IconUser size={18} />}>
           {t("favorite.tab.channels")} ({channels.length})
         </Tabs.Tab>
       </Tabs.List>

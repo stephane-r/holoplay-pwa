@@ -1,49 +1,42 @@
 import {
   ActionIcon,
-  ColorScheme as ColorSchemeTypes,
   Group,
   Switch,
+  useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { IconMoonStars, IconSun } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
-export const ColorScheme = memo(() => {
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorSchemeTypes>({
-    key: "mantine-color-scheme",
-    defaultValue: "light",
-    getInitialValueInEffect: true,
-  });
-  const dark = colorScheme === "dark";
+import { useAppColorScheme } from "../hooks/useAppColorScheme";
 
-  const toggleColorScheme = (value?: ColorSchemeTypes) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+export const ColorScheme = memo(() => {
+  const { toggleColorScheme } = useMantineColorScheme();
+  const colorScheme = useAppColorScheme();
 
   return (
     <ActionIcon
       variant="filled"
       radius="md"
+      color="gray"
       style={{ height: 36, width: 36 }}
       onClick={() => toggleColorScheme()}
       title="Toggle color scheme"
     >
-      {dark ? <IconSun size={18} /> : <IconMoonStars size={18} />}
+      {colorScheme === "dark" ? (
+        <IconSun size={18} />
+      ) : (
+        <IconMoonStars size={18} />
+      )}
     </ActionIcon>
   );
 });
 
 export const SwitchColorScheme = memo(() => {
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorSchemeTypes>({
-    key: "mantine-color-scheme",
-    defaultValue: "light",
-    getInitialValueInEffect: true,
-  });
+  const { toggleColorScheme } = useMantineColorScheme();
+  const colorScheme = useAppColorScheme();
   const { t } = useTranslation();
-
-  const toggleColorScheme = (value?: ColorSchemeTypes) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
   const theme = useMantineTheme();
 
@@ -51,7 +44,7 @@ export const SwitchColorScheme = memo(() => {
     <Group onChange={() => toggleColorScheme()}>
       <Switch
         size="md"
-        color={theme.colorScheme === "dark" ? "gray" : "dark"}
+        color={colorScheme === "dark" ? "gray" : "dark"}
         label={t("settings.general.darkmode")}
         onLabel={
           <IconMoonStars

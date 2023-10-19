@@ -20,7 +20,7 @@ export const SearchFilters = memo(() => {
   return (
     <Menu width={250} position="bottom-end">
       <Menu.Target>
-        <ActionIcon variant="filled" radius="md" size={36}>
+        <ActionIcon variant="filled" radius="md" size={36} color="gray">
           <IconFilter size={20} />
         </ActionIcon>
       </Menu.Target>

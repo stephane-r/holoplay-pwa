@@ -39,12 +39,12 @@ const GeneralItem = memo(() => {
   });
 
   return (
-    <Accordion.Item value="general">
+    <Accordion.Item value="general" p={6}>
       <Accordion.Control>
-        <Group noWrap>
+        <Group>
           <div>
             <Text>{t("title")}</Text>
-            <Text size="sm" color="dimmed" weight={400}>
+            <Text size="sm" c="dimmed">
               {t("description")}
             </Text>
           </div>
@@ -68,12 +68,12 @@ const PlayerItem = memo(() => {
   });
 
   return (
-    <Accordion.Item value="player">
+    <Accordion.Item value="player" p={6}>
       <Accordion.Control>
-        <Group noWrap>
+        <Group>
           <div>
             <Text>{t("title")}</Text>
-            <Text size="sm" color="dimmed" weight={400}>
+            <Text size="sm" c="dimmed">
               {t("description")}
             </Text>
           </div>
@@ -99,12 +99,12 @@ const ImportExportDataItem = memo(() => {
   });
 
   return (
-    <Accordion.Item value="data">
+    <Accordion.Item value="data" p={6}>
       <Accordion.Control>
-        <Group noWrap>
+        <Group>
           <div>
             <Text>{t("title")}</Text>
-            <Text size="sm" color="dimmed" weight={400}>
+            <Text size="sm" c="dimmed">
               {t("description")}
             </Text>
           </div>

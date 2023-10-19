@@ -1,5 +1,6 @@
 import { Box, Button, Divider, Popover, Space } from "@mantine/core";
 import { IconHistory } from "@tabler/icons-react";
+import { FC } from "react";
 
 import { getSearchHistory } from "../database/utils";
 
@@ -9,7 +10,7 @@ interface SearcHistoryMenuProps {
   children: React.ReactNode;
 }
 
-export const SearcHistoryMenu: React.FC<SearcHistoryMenuProps> = ({
+export const SearcHistoryMenu: FC<SearcHistoryMenuProps> = ({
   opened,
   onSelect,
   children,
@@ -30,14 +31,13 @@ export const SearcHistoryMenu: React.FC<SearcHistoryMenuProps> = ({
               size="sm"
               variant="subtle"
               fullWidth
-              compact
               onClick={() => onSelect(item.term)}
               styles={() => ({
                 inner: {
                   justifyContent: "flex-start",
                 },
               })}
-              leftIcon={<IconHistory size={16} />}
+              leftSection={<IconHistory size={16} />}
             >
               {item.term}
             </Button>

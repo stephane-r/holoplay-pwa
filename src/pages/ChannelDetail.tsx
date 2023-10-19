@@ -29,10 +29,10 @@ const PageContainer = memo(() => {
       <PageHeader title={channel.author} canGoBack />
       <Tabs defaultValue="videos">
         <Tabs.List mb="lg">
-          <Tabs.Tab icon={<IconVideo size={18} />} value="videos">
+          <Tabs.Tab leftSection={<IconVideo size={18} />} value="videos">
             {t("search.filter.type.videos")}
           </Tabs.Tab>
-          <Tabs.Tab value="playlists" icon={<IconPlaylist size={18} />}>
+          <Tabs.Tab value="playlists" leftSection={<IconPlaylist size={18} />}>
             {t("search.filter.type.playlists")}
           </Tabs.Tab>
         </Tabs.List>

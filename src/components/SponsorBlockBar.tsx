@@ -1,25 +1,11 @@
-import { Flex, createStyles } from "@mantine/core";
+import { Flex } from "@mantine/core";
 import memoizeOne from "memoize-one";
 import { memo } from "react";
 
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
 import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
-
-const useStyles = createStyles((theme) => ({
-  container: {
-    zIndex: 2,
-    pointerEvents: "none",
-    borderRadius: 4,
-  },
-  segment: {
-    background:
-      theme.colorScheme === "dark"
-        ? theme.colors.indigo[0]
-        : theme.colors.orange[5],
-    height: 4,
-  },
-}));
+import classes from "./SponsorBlockBar.module.css";
 
 interface RangeSponsorBlockSegment extends SponsorBlockSegment {
   percent: string;
@@ -29,7 +15,6 @@ export const SponsorBlockBar = memo(() => {
   const settings = useSettings();
   const playerVideo = usePlayerVideo();
   const playerState = usePlayerState();
-  const { classes } = useStyles();
 
   if (
     !settings.sponsorBlock ||
@@ -45,14 +30,7 @@ export const SponsorBlockBar = memo(() => {
   );
 
   return (
-    <Flex
-      align="center"
-      pos="absolute"
-      top={2}
-      left={0}
-      w="100%"
-      className={classes.container}
-    >
+    <Flex className={classes.container}>
       {segments.map((segment, index) => (
         <div
           key={segment.percent}

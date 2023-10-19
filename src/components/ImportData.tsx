@@ -3,12 +3,12 @@ import {
   Button,
   Flex,
   Group,
-  TransferList as MTransferList,
   Text,
-  TransferListData,
+  useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
+import "@mantine/dropzone/styles.css";
 import { notifications } from "@mantine/notifications";
 import { IconFileBarcode, IconFileX, IconUpload } from "@tabler/icons-react";
 import { memo, useState } from "react";
@@ -24,6 +24,7 @@ import { useSetFavorite } from "../providers/Favorite";
 import { useSetPlaylists } from "../providers/Playlist";
 import { getVideo } from "../services/video";
 import { Video } from "../types/interfaces/Video";
+import { TransferList } from "./TransferList";
 
 export const formateToTransferList = (data: ImportDataType[]) => {
   return data
@@ -43,6 +44,7 @@ interface ImportDataType {
 
 export const ImportData = memo(() => {
   const theme = useMantineTheme();
+  const { colorScheme } = useMantineColorScheme();
   const [importedFileData, setImportedFileData] = useState<
     ImportDataType[] | null
   >(null);
@@ -64,7 +66,7 @@ export const ImportData = memo(() => {
   return (
     <Box mt="lg">
       {importedFileData ? (
-        <TransferList
+        <Test
           importedFileData={importedFileData}
           onClear={() => setImportedFileData(null)}
         />
@@ -76,9 +78,11 @@ export const ImportData = memo(() => {
           accept={["application/document", "application/json"]}
         >
           <Group
-            position="center"
-            spacing="xl"
-            style={{ minHeight: 220, pointerEvents: "none" }}
+            style={{
+              minHeight: 220,
+              pointerEvents: "none",
+              justifyContent: "center",
+            }}
           >
             <Dropzone.Accept>
               <IconUpload
@@ -86,7 +90,7 @@ export const ImportData = memo(() => {
                 stroke={1.5}
                 color={
                   theme.colors[theme.primaryColor][
-                    theme.colorScheme === "dark" ? 4 : 6
+                    colorScheme === "dark" ? 4 : 6
                   ]
                 }
               />
@@ -95,7 +99,7 @@ export const ImportData = memo(() => {
               <IconFileX
                 size="3.2rem"
                 stroke={1.5}
-                color={theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]}
+                color={theme.colors.red[colorScheme === "dark" ? 4 : 6]}
               />
             </Dropzone.Reject>
             <Dropzone.Idle>
@@ -113,7 +117,7 @@ export const ImportData = memo(() => {
   );
 });
 
-const TransferList = memo(
+const Test = memo(
   ({
     importedFileData,
     onClear,
@@ -124,7 +128,7 @@ const TransferList = memo(
     const setFavorite = useSetFavorite();
     const setPlaylists = useSetPlaylists();
     const [loading, setLoading] = useState(false);
-    const [importData, setImportData] = useState<TransferListData>([
+    const [importData, setImportData] = useState<any>([
       formateToTransferList(importedFileData),
       [],
     ]);
@@ -195,7 +199,8 @@ const TransferList = memo(
 
     return (
       <Box mt="lg">
-        <MTransferList
+        <TransferList
+          // @ts-ignore
           value={importData}
           onChange={setImportData}
           titles={[t("left"), t("right")]}

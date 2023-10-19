@@ -1,0 +1,21 @@
+.container {
+  position: absolute;
+  top: rem(2px);
+  left: 0;
+  width: 100%;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: var(--mantine-radius-sm);
+}
+
+.segment {
+  height: rem(4px);
+
+  [data-mantine-color-scheme="light"] & {
+    background: var(--mantine-color-orange-5);
+  }
+  [data-mantine-color-scheme="dark"] & {
+    background: var(--mantine-color-indigo-0);
+  }
+}

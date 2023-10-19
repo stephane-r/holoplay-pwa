@@ -7,7 +7,6 @@ import {
   Text,
   Title,
   Tooltip,
-  createStyles,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
@@ -21,53 +20,8 @@ import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
 import { Playlist } from "../types/interfaces/Playlist";
 import { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { ButtonFavorite } from "./ButtonFavorite";
+import classes from "./PlaylistCard.module.css";
 import { PlaylistCardMenu } from "./PlaylistCardMenu";
-
-const useStyles = createStyles((theme) => ({
-  card: {
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-    borderRadius: theme.radius.md,
-    padding: theme.spacing.xl,
-  },
-  video: {
-    backgroundColor: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).background,
-    color: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).color,
-    width: 28,
-    height: 28,
-    borderRadius: theme.radius.sm,
-    marginBottom: theme.spacing.sm,
-  },
-  more: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).background,
-    color: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).color,
-    width: 28,
-    height: 28,
-    borderRadius: theme.radius.sm,
-    marginBottom: theme.spacing.sm,
-  },
-}));
 
 interface PlaylistCardProps {
   playlist: Playlist;
@@ -75,7 +29,6 @@ interface PlaylistCardProps {
 
 export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
   ({ playlist }) => {
-    const { classes } = useStyles();
     const navigate = useStableNavigate();
 
     const goToPlaylist = () => {
@@ -107,11 +60,10 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
           order={3}
           mb="xs"
           mt="md"
-          lineClamp={1}
           onClick={goToPlaylist}
           style={{ cursor: "pointer" }}
         >
-          {playlist.title}
+          <Text lineClamp={1}>{playlist.title}</Text>
         </Title>
         <Badge
           color={isRemotePlaylist ? "blue" : "green"}
@@ -129,8 +81,8 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
           {playlist.videos.map((video) => video.title).join(", ")}
         </Text>
         <Flex align="center" justify="space-between" mt="xs">
-          <Text size="xs" weight={600}>
-            {playlist.videoCount} videos
+          <Text size="xs">
+            <strong>{playlist.videoCount} videos</strong>
           </Text>
           <Flex ml="auto" gap="xs">
             {playlist.videos.length ? (
@@ -159,8 +111,6 @@ interface VideosThumbnailProps {
 
 const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
   ({ videos, videoCount }) => {
-    const { classes } = useStyles();
-
     const displayVideos = videos.slice(-4);
     const restOfVideosCount = videoCount - displayVideos.length;
 
@@ -189,8 +139,8 @@ const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
               label={`${restOfVideosCount} more videos`}
               position="right"
             >
-              <Text size="xs" weight={600}>
-                +{restOfVideosCount}
+              <Text size="xs">
+                <strong>+{restOfVideosCount}</strong>
               </Text>
             </Tooltip>
           </Box>
