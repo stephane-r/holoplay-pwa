@@ -21,8 +21,10 @@ import { NavbarLink } from "../components/NavbarLink";
 
 const useStyles = createStyles((theme) => ({
   container: {
-    position: "sticky",
+    position: "absolute",
     bottom: 0,
+    left: 0,
+    right: 0,
     background: theme.fn.variant({
       variant: "light",
       color: theme.primaryColor,

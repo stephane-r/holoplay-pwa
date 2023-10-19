@@ -28,6 +28,11 @@ const useStyles = createStyles((theme) => ({
     [`@media (min-width: 1900px)`]: {
       maxWidth: 540,
     },
+    // iOS Safari zoom fix
+    // https://defensivecss.dev/tip/input-zoom-safari
+    input: {
+      fontSize: 16,
+    },
   },
   form: {
     flex: 1,

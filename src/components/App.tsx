@@ -1,4 +1,4 @@
-import { Box, Flex, ScrollArea, createStyles } from "@mantine/core";
+import { Box, Flex } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import i18n from "i18next";
 import { I18nextProvider } from "react-i18next";
@@ -6,6 +6,10 @@ import { QueryClientProvider } from "react-query";
 import { Outlet } from "react-router-dom";
 
 import { DrawerPlayerContainer } from "../containers/DrawerPlayer";
+import {
+  HeaderDesktopContainer,
+  HeaderMobileContainer,
+} from "../containers/Header";
 import { MobileNavigationContainer } from "../containers/MobileNavigation";
 import { NavigationContainer } from "../containers/Navigation";
 import { PlayerContainer } from "../containers/Player";
@@ -24,20 +28,12 @@ import { SettingsProvider } from "../providers/Settings";
 import { SpotlightProvider } from "../providers/Spotlight";
 import { TrendingFiltersProvider } from "../providers/TrendingFilters";
 import { queryClient } from "../queryClient";
+import { userAgent } from "../utils/userAgent";
+import "./App.css";
 import { AppUpdate } from "./AppUpdate";
-import { Header } from "./Header";
 import { Main } from "./Main";
 
-const useStyles = createStyles(() => ({
-  scrollArea: {
-    flex: 1,
-    height: "100vh",
-  },
-}));
-
 export const App = () => {
-  const { cx, classes } = useStyles();
-
   return (
     <I18nextProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
@@ -56,26 +52,20 @@ export const App = () => {
                                 <MantineProvider>
                                   <SpotlightProvider>
                                     <Notifications />
-                                    <Flex>
+                                    <Flex
+                                      className={`App ${userAgent.os.name}`}
+                                    >
                                       <NavigationContainer />
-                                      <ScrollArea
-                                        className={cx(classes.scrollArea)}
-                                        style={{
-                                          position: "static",
-                                        }} // Stay in inline-styles for now
-                                      >
-                                        <Flex>
-                                          <Box style={{ flex: 1, zIndex: 1 }}>
-                                            <Header />
-                                            <Main>
-                                              <Outlet />
-                                            </Main>
-                                            <MobileNavigationContainer />
-                                          </Box>
-                                          <DrawerPlayerContainer />
-                                        </Flex>
-                                        <PlayerContainer />
-                                      </ScrollArea>
+                                      <HeaderMobileContainer />
+                                      <Box className="App-Content">
+                                        <HeaderDesktopContainer />
+                                        <Main>
+                                          <Outlet />
+                                        </Main>
+                                      </Box>
+                                      <DrawerPlayerContainer />
+                                      <PlayerContainer />
+                                      <MobileNavigationContainer />
                                     </Flex>
                                   </SpotlightProvider>
                                 </MantineProvider>
