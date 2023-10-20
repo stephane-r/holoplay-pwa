@@ -82,6 +82,8 @@
   "button.share.video": "Share video",
   "button.cancel": "Cancel",
   "button.see-all": "See all",
+  "button.favorite.add": "Add to favorite",
+  "button.favorite.remove": "Remove from favorite",
   "live": "Live",
   "share.title": "Share",
   "share.holoplay.link": "Copy HoloPlay link",

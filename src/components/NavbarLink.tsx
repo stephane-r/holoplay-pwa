@@ -59,6 +59,7 @@ export const NavbarLink = memo(
           onClick={onClick ?? link.onClick}
           className={classes.link}
           data-active={link.active}
+          aria-label={label}
         >
           <Icon stroke={1.5} />
         </UnstyledButton>
