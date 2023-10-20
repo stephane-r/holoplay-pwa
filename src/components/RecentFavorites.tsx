@@ -14,7 +14,7 @@ export const RecentFavorites = memo(() => {
     <>
       <Title order={2}>{t("recente.favorites.title")}</Title>
       <Space h="lg" />
-      {!favorite.videos.length ? (
+      {!favorite.cards.length ? (
         <Alert title={t("recente.favorites.alert.title")}>
           <Text>{t("recente.favorites.alert.message")}</Text>
         </Alert>

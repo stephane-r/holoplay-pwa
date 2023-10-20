@@ -17,9 +17,11 @@ const SetFavoriteContext = createContext<
 >(() => {});
 
 export const FavoriteProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [favorite, setFavorite] = useState<FavoritePlaylist>(
-    getFavoritePlaylist(),
-  );
+  const favoritePlaylist = getFavoritePlaylist();
+  const [favorite, setFavorite] = useState<FavoritePlaylist>({
+    ...favoritePlaylist,
+    cards: favoritePlaylist.cards ?? [],
+  });
 
   const value = useMemo(() => ({ favorite, setFavorite }), [favorite]);
 
