@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+import { navigateTo } from "./utils";
+
 test("save card in favorites", async ({ page }) => {
   await page.goto("localhost:3000");
 
@@ -18,8 +20,7 @@ test("save card in favorites", async ({ page }) => {
   await expect(page.getByRole("alert")).toContainText(/Added to favorites/);
 
   // Go to Favorites page
-  await page.getByRole("button", { name: "Favorites" }).click();
-  await expect(page.getByRole("heading", { name: "Favorites" })).toBeVisible();
+  await navigateTo(page, "Favorites", "Favorites");
 
   // Check tab navigation
   await expect(page.getByRole("tablist").getByRole("tab")).toHaveCount(5);
