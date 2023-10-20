@@ -10,12 +10,13 @@ import { PlaylistCard } from "./PlaylistCard";
 import { VideoCard } from "./VideoCard";
 
 interface CardListProps {
+  label?: string;
   data: CardType[];
   scrollable?: boolean;
 }
 
 export const CardList: FC<CardListProps> = memo(
-  ({ data, scrollable = false }) => {
+  ({ label, data, scrollable = false }) => {
     const { currentInstance } = useSettings();
 
     if (!data.length) {
@@ -23,10 +24,15 @@ export const CardList: FC<CardListProps> = memo(
     }
 
     return (
-      <Box className={scrollable ? classes.flexGrid : classes.grid}>
+      <Box
+        aria-label={label}
+        role="list"
+        className={scrollable ? classes.flexGrid : classes.grid}
+      >
         {data.map((card, index) => (
           <Box
             key={`${document.location.pathname}—${getCardTitle(card)}-${index}`}
+            role="listitem"
             className={scrollable ? classes.flexColumn : classes.column}
           >
             {(() => {

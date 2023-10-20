@@ -7,17 +7,17 @@ import { CardList } from "./CardList";
 
 interface HorizontalGridListProps {
   data: Card[];
-  keyPrefix: string;
+  label?: string;
 }
 
 export const HorizontalGridList: FC<HorizontalGridListProps> = memo(
-  ({ data }) => {
+  ({ data, label }) => {
     const { ref, width } = useElementSize();
 
     return (
       <Box ref={ref} style={{ overflow: "hidden" }}>
         <div style={{ maxWidth: width }}>
-          <CardList data={data} scrollable />
+          <CardList label={label} data={data} scrollable />
         </div>
       </Box>
     );
