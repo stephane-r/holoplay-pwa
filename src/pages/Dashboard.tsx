@@ -1,4 +1,4 @@
-import { Box, Flex, Space, Title } from "@mantine/core";
+import { Flex, Space, Title } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
