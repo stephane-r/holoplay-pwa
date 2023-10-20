@@ -29,11 +29,16 @@ const PlaylistListContainer = memo(() => {
 
   if (!playlists.length) {
     return (
-      <Alert title={t("playlists.empty.alert.title")} color="blue" radius="md">
+      <Alert
+        data-testid="playlists-empty"
+        title={t("playlists.empty.alert.title")}
+        color="blue"
+        radius="md"
+      >
         {t("playlists.empty.alert.message")}
       </Alert>
     );
   }
 
-  return <CardList data={playlists as any} />;
+  return <CardList label="Playlists list" data={playlists as any} />;
 });

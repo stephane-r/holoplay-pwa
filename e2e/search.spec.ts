@@ -1,6 +1,6 @@
 import { Page, expect, test } from "@playwright/test";
 
-const search = async (page: Page, value: string) => {
+export const search = async (page: Page, value: string) => {
   // Check search bar visibility
   await expect(
     page.getByRole("form", { name: "Search bar form" }),
@@ -10,7 +10,7 @@ const search = async (page: Page, value: string) => {
   await listVisibility(page, value);
 };
 
-const selectSearchType = async (
+export const selectSearchType = async (
   page: Page,
   type: string,
   currentType: string = "Videos",

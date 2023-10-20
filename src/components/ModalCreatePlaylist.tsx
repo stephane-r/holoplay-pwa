@@ -45,7 +45,7 @@ export const ModalCreatePlaylist = memo(() => {
         size="lg"
         title={t("create.playlist.title")}
       >
-        <Form onSubmit={handleAddToPlaylist}>
+        <Form label="Form create playlist" onSubmit={handleAddToPlaylist}>
           <TextInput
             data-autofocus
             placeholder={t("modal.create.playlist.input.placeholder") as string}
@@ -64,6 +64,7 @@ export const ModalCreatePlaylist = memo(() => {
       </Modal>
       <Tooltip label={t("create.playlist.title")} position="left">
         <ActionIcon
+          aria-label="Open modal to create playlist"
           onClick={() => setOpened(true)}
           variant="filled"
           radius="xl"

@@ -60,6 +60,7 @@ export const NavbarLink = memo(
           className={classes.link}
           data-active={link.active}
           aria-label={label}
+          aria-selected={link.active}
         >
           <Icon stroke={1.5} />
         </UnstyledButton>
