@@ -9,4 +9,6 @@ test("default blocks are visible", async ({ page }) => {
   await expect(
     page.getByRole("list", { name: "Moods & genres" }).getByRole("listitem"),
   ).toHaveCount(113);
+
+  await expect(page).toHaveScreenshot();
 });
