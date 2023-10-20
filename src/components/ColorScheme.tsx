@@ -23,6 +23,7 @@ export const ColorScheme = memo(() => {
       style={{ height: 36, width: 36 }}
       onClick={() => toggleColorScheme()}
       title="Toggle color scheme"
+      aria-label="Toggle color scheme"
     >
       {colorScheme === "dark" ? (
         <IconSun size={18} />
