@@ -189,7 +189,7 @@ const MoreSubMenu = memo(() => {
   return (
     <Menu shadow="md" width={200} position="top">
       <Menu.Target>
-        <ActionIcon>
+        <ActionIcon variant="transparent" c="white">
           <IconDotsVertical />
         </ActionIcon>
       </Menu.Target>
