@@ -9,9 +9,15 @@ import {
 } from "../utils/formatData";
 
 const formatedPlaylists = () => {
-  const playlists = db.queryAll("playlists") as Playlist[];
+  if (!db.columnExists("playlists", "cards")) {
+    db.alterTable("history", "thumbnail", null);
+    db.commit();
+  }
 
-  return playlists.map((p) => {
+  const playlists = db.queryAll("playlists") as Playlist[];
+  const history = db.queryAll("history") as CardVideo[];
+
+  const updatedPlaylists = playlists.map((p) => {
     if ((p as FavoritePlaylist).title === "Favorites") {
       return {
         ...p,
@@ -38,15 +44,25 @@ const formatedPlaylists = () => {
       videos: formatedVideos,
     };
   });
+
+  const updatedHistory = history.map((v) => formatedCardVideo(v));
+
+  return {
+    playlists: updatedPlaylists,
+    history: updatedHistory,
+  };
 };
 
 const migration = () => {
   try {
-    const playlists = formatedPlaylists();
-    console.log(playlists);
+    const { playlists, history } = formatedPlaylists();
 
     for (const playlist of playlists) {
       db.update("playlists", { title: playlist.title }, () => playlist);
+    }
+
+    for (const video of history) {
+      db.update("history", () => video);
     }
 
     db.commit();

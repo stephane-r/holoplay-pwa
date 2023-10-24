@@ -59,10 +59,6 @@ export const formatedCardPlaylist = (
 export const formatedCardChannel = (
   channel: CardChannel | Channel,
 ): CardChannel => {
-  if (channel.thumbnail) {
-    return channel;
-  }
-
   return {
     type: channel.type,
     author: channel.author,
@@ -80,10 +76,6 @@ export const formatedCardChannel = (
 };
 
 export const formatedCardVideo = (video: CardVideo | Video): CardVideo => {
-  if (video.thumbnail) {
-    return video as CardVideo;
-  }
-
   return {
     videoId: video.videoId,
     title: video.title,
