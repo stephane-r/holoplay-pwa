@@ -1,14 +1,14 @@
 import { Button, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
 import { getPlaylist, getPlaylists } from "../database/utils";
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
 import { useSetPlaylists } from "../providers/Playlist";
-import { CardVideo } from "../types/interfaces/Card";
-import { Playlist } from "../types/interfaces/Playlist";
+import type { CardVideo } from "../types/interfaces/Card";
+import type { Playlist } from "../types/interfaces/Playlist";
 import { Modal } from "./Modal";
 
 interface ModalDeleteFromPlaylistProps {
@@ -17,8 +17,8 @@ interface ModalDeleteFromPlaylistProps {
   video: CardVideo;
 }
 
-export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
-  memo(({ opened, onClose, video }) => {
+export const ModalDeleteFromPlaylist: FC<ModalDeleteFromPlaylistProps> = memo(
+  ({ opened, onClose, video }) => {
     const setPlaylists = useSetPlaylists();
     const { playlistId } = useIsLocalPlaylist();
     const { t } = useTranslation();
@@ -86,4 +86,5 @@ export const ModalDeleteFromPlaylist: React.FC<ModalDeleteFromPlaylistProps> =
         </Flex>
       </Modal>
     );
-  });
+  },
+);

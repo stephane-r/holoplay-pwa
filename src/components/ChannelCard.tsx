@@ -8,12 +8,12 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { IconDiscountCheckFilled } from "@tabler/icons-react";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useStableNavigate } from "../providers/Navigate";
-import { CardChannel } from "../types/interfaces/Card";
-import { VideoThumbnail } from "../types/interfaces/Video";
+import type { CardChannel } from "../types/interfaces/Card";
+import type { VideoThumbnail } from "../types/interfaces/Video";
 import { ButtonFavorite } from "./ButtonFavorite";
 import { CardImage } from "./CardImage";
 import classes from "./ChannelCard.module.css";
@@ -23,7 +23,7 @@ interface ChannelCardProps {
   currentInstanceUri: string;
 }
 
-export const ChannelCard: React.FC<ChannelCardProps> = memo(
+export const ChannelCard: FC<ChannelCardProps> = memo(
   ({ channel, currentInstanceUri }) => {
     const navigate = useStableNavigate();
     const { t } = useTranslation();

@@ -1,5 +1,5 @@
 import { MantineProvider as Provider } from "@mantine/core";
-import { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 export const MantineProvider: FC<PropsWithChildren> = ({ children }) => {
   return (

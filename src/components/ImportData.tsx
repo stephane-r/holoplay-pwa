@@ -8,7 +8,7 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { Dropzone, FileRejection } from "@mantine/dropzone";
+import { Dropzone, type FileRejection } from "@mantine/dropzone";
 import "@mantine/dropzone/styles.css";
 import { notifications } from "@mantine/notifications";
 import {
@@ -19,7 +19,7 @@ import {
 } from "@tabler/icons-react";
 // @ts-ignore
 import { map as cappedAll } from "awaiting";
-import { FC, memo, useState } from "react";
+import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -31,10 +31,10 @@ import { getPlaylists } from "../database/utils";
 import { useSetFavorite } from "../providers/Favorite";
 import { useSetPlaylists } from "../providers/Playlist";
 import { getVideo } from "../services/video";
-import { Card, CardVideo } from "../types/interfaces/Card";
-import { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
-import { Video } from "../types/interfaces/Video";
-import { TransferList, TransferListData } from "./TransferList";
+import type { Card, CardVideo } from "../types/interfaces/Card";
+import type { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
+import type { Video } from "../types/interfaces/Video";
+import { TransferList, type TransferListData } from "./TransferList";
 
 export const ImportData = memo(() => {
   const theme = useMantineTheme();

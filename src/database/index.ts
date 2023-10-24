@@ -3,7 +3,7 @@ import localStorageDB from "localstoragedb";
 import { v4 as uuidv4 } from "uuid";
 
 import { sponsorBlockCategoriesValues } from "../components/SponsorBlockSettings";
-import { Settings } from "../types/interfaces/Settings";
+import type { Settings } from "../types/interfaces/Settings";
 
 const initDb = () => {
   const db = new localStorageDB("library", localStorage);

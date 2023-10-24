@@ -1,6 +1,8 @@
 import {
-  FC,
-  PropsWithChildren,
+  type Dispatch,
+  type FC,
+  type PropsWithChildren,
+  type SetStateAction,
   createContext,
   useContext,
   useMemo,
@@ -8,12 +10,12 @@ import {
 } from "react";
 
 import { getFavoritePlaylist } from "../database/utils";
-import { FavoritePlaylist } from "../types/interfaces/Playlist";
+import type { FavoritePlaylist } from "../types/interfaces/Playlist";
 
 // @ts-ignore
 const FavoriteContext = createContext<FavoritePlaylist>({});
 const SetFavoriteContext = createContext<
-  React.Dispatch<React.SetStateAction<FavoritePlaylist>>
+  Dispatch<SetStateAction<FavoritePlaylist>>
 >(() => {});
 
 export const FavoriteProvider: FC<PropsWithChildren> = ({ children }) => {

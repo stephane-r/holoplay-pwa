@@ -9,13 +9,13 @@ import {
   Title,
 } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
-import { CardVideo } from "../types/interfaces/Card";
-import { Video, VideoThumbnail } from "../types/interfaces/Video";
+import type { CardVideo } from "../types/interfaces/Card";
+import type { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { ButtonDownload } from "./ButtonDownload";
 import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
@@ -99,7 +99,7 @@ interface VideoInformationsProps {
   titleLineClamp?: number;
   hideDescription?: boolean;
 }
-const VideoInformations: React.FC<VideoInformationsProps> = memo(
+const VideoInformations: FC<VideoInformationsProps> = memo(
   ({ titleLineClamp = 1, hideDescription = false }) => {
     const { video } = usePlayerVideo();
 

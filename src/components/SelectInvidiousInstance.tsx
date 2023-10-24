@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
 import { useSetSettings, useSettings } from "../providers/Settings";
-import { Instance } from "../types/interfaces/Instance";
-import { Settings } from "../types/interfaces/Settings";
+import type { Instance } from "../types/interfaces/Instance";
+import type { Settings } from "../types/interfaces/Settings";
 import { ModalAddCustomInstance } from "./ModalAddCustomInstance";
 import { ModalDeleteCustomInstance } from "./ModalDeleteCustomInstance";
 

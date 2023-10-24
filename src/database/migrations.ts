@@ -1,5 +1,5 @@
 import { db } from ".";
-import { Migration } from "../types/interfaces/Migration";
+import type { Migration } from "../types/interfaces/Migration";
 
 const migrations = db.queryAll("migrations") as Migration[];
 

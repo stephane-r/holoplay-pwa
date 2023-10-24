@@ -9,7 +9,7 @@ import {
   useCombobox,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
-import { FC, memo, useState } from "react";
+import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import classes from "./TransferList.module.css";

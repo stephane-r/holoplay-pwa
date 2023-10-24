@@ -1,5 +1,5 @@
 import { Skeleton } from "@mantine/core";
-import { FC, ImgHTMLAttributes, memo, useState } from "react";
+import { type FC, type ImgHTMLAttributes, memo, useState } from "react";
 
 export const Image: FC<ImgHTMLAttributes<HTMLImageElement>> = memo(
   ({ src, className, alt, ...props }) => {

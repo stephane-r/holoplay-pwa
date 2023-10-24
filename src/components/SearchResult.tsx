@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 
 import { useSearchValues } from "../providers/Search";
 import { search } from "../services/search";
-import { Card } from "../types/interfaces/Card";
+import type { Card } from "../types/interfaces/Card";
 import { CardList } from "./CardList";
 
 export const SearchResult = memo(() => {

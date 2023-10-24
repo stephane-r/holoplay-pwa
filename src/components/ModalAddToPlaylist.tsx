@@ -8,14 +8,14 @@ import {
   TextInput,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { memo, useMemo, useState } from "react";
+import { type FC, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
-import { CardVideo } from "../types/interfaces/Card";
-import { Playlist } from "../types/interfaces/Playlist";
+import type { CardVideo } from "../types/interfaces/Card";
+import type { Playlist } from "../types/interfaces/Playlist";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
@@ -25,7 +25,7 @@ interface ModalAddToPlaylistProps {
   video: CardVideo;
 }
 
-export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
+export const ModalAddToPlaylist: FC<ModalAddToPlaylistProps> = memo(
   ({ opened, onClose, video }) => {
     const [selectedPlaylistTitle, setSelectedPlaylistTitle] = useState<
       string | null

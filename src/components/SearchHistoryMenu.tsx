@@ -1,13 +1,13 @@
 import { Box, Button, Divider, Popover, Space } from "@mantine/core";
 import { IconHistory } from "@tabler/icons-react";
-import { FC } from "react";
+import { type FC, type ReactNode } from "react";
 
 import { getSearchHistory } from "../database/utils";
 
 interface SearcHistoryMenuProps {
   opened: boolean;
   onSelect: (value: string) => void;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const SearcHistoryMenu: FC<SearcHistoryMenuProps> = ({

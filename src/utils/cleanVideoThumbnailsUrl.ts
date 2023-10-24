@@ -1,4 +1,4 @@
-import { Video } from "../types/interfaces/Video";
+import type { Video } from "../types/interfaces/Video";
 import { getThumbnailQuality } from "./formatData";
 
 const DOMAIN_REGEX =

@@ -4,7 +4,7 @@ import { memo } from "react";
 
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
-import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
+import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 import classes from "./SponsorBlockBar.module.css";
 
 interface RangeSponsorBlockSegment extends SponsorBlockSegment {

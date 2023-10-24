@@ -1,4 +1,4 @@
-import { VideoThumbnail as Thumbnail } from "./Video";
+import type { VideoThumbnail as Thumbnail } from "./Video";
 
 export type CardVideoTypes = "video" | "livestream" | "scheduled";
 

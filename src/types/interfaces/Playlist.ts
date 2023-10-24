@@ -1,5 +1,5 @@
-import { Card } from "./Card";
-import { Video } from "./Video";
+import type { Card } from "./Card";
+import type { Video } from "./Video";
 
 export interface Playlist {
   type: "playlist";

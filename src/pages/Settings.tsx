@@ -155,7 +155,7 @@ const ImportExportDataItem = memo(() => {
             { label: t("export"), value: "export" },
             { label: t("save"), value: "save" },
           ]}
-          onChange={(type: ImportExportTab) => setType(type)}
+          onChange={(type: string) => setType(type as ImportExportTab)}
         />
         {(() => {
           switch (type) {

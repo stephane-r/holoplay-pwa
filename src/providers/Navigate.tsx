@@ -1,12 +1,12 @@
 import {
-  FC,
-  MutableRefObject,
-  PropsWithChildren,
+  type FC,
+  type MutableRefObject,
+  type PropsWithChildren,
   createContext,
   useContext,
   useRef,
 } from "react";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { type NavigateFunction, useNavigate } from "react-router-dom";
 
 const StableNavigateContext =
   createContext<MutableRefObject<NavigateFunction> | null>(null);
