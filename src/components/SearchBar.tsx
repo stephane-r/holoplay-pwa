@@ -1,10 +1,4 @@
-import {
-  Flex,
-  Kbd,
-  TextInput,
-  createStyles,
-  useMantineTheme,
-} from "@mantine/core";
+import { Flex, Kbd, TextInput, useMantineTheme } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMediaQuery, useOs } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
@@ -15,33 +9,12 @@ import { db } from "../database";
 import { getSearchHistory } from "../database/utils";
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import { Form } from "./Form";
+import classes from "./SearchBar.module.css";
 import { SearcHistoryMenu } from "./SearchHistoryMenu";
-
-const useStyles = createStyles((theme) => ({
-  container: {
-    width: "100%",
-
-    [`@media (min-width: ${theme.breakpoints.sm})`]: {
-      maxWidth: 460,
-    },
-
-    [`@media (min-width: 1900px)`]: {
-      maxWidth: 540,
-    },
-  },
-  form: {
-    flex: 1,
-  },
-  kbd: {
-    height: 22,
-    lineHeight: "15px",
-  },
-}));
 
 export const SearchBar = memo(() => {
   const setSearchValues = useSetSearchValues();
   const searchValues = useSearchValues();
-  const { classes } = useStyles();
   const inputRef = useRef<null | HTMLInputElement>(null);
   const os = useOs();
   const theme = useMantineTheme();
@@ -100,7 +73,7 @@ export const SearchBar = memo(() => {
             <TextInput
               id="js-search-bar-input"
               ref={inputRef}
-              icon={<IconSearch size={15} />}
+              leftSection={<IconSearch size={15} />}
               placeholder={t("search.bar.placeholder") as string}
               radius="md"
               {...form.getInputProps("q")}

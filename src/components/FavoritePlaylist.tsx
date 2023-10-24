@@ -6,19 +6,20 @@ import {
   IconUser,
   IconVideo,
 } from "@tabler/icons-react";
-import { memo } from "react";
+import { FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { usePaginateData } from "../hooks/usePaginateData";
 import { useFavorite } from "../providers/Favorite";
-import { isLiveStream } from "./Card";
+import { Card, CardVideo } from "../types/interfaces/Card";
 import { CardList } from "./CardList";
+import { isLiveStream } from "./VideoCard";
 
 export const FavoritePlaylist = memo(() => {
   const favorite = useFavorite();
   const { t } = useTranslation();
 
-  const data = favorite.videos;
+  const data = favorite.cards;
 
   if (!data.length) {
     return (
@@ -29,30 +30,33 @@ export const FavoritePlaylist = memo(() => {
   }
 
   const videos = data.filter(
-    (video) =>
-      (video.type === "video" || video.type === "scheduled") &&
-      video.lengthSeconds > 0,
+    (card) =>
+      (card.type === "video" || card.type === "scheduled") &&
+      card.lengthSeconds > 0,
   );
-  const livestream = data.filter((video) => isLiveStream(video));
-  const playlists = data.filter((video) => video.type === "playlist");
-  const channels = data.filter((video) => video.type === "channel");
+  const livestream = data.filter((card) => isLiveStream(card as CardVideo));
+  const playlists = data.filter((card) => card.type === "playlist");
+  const channels = data.filter((card) => card.type === "channel");
 
   return (
     <Tabs defaultValue="all">
       <Tabs.List mb="lg">
-        <Tabs.Tab value="all" icon={<IconHeart size={18} />}>
+        <Tabs.Tab value="all" leftSection={<IconHeart size={18} />}>
           {t("favorite.tab.all")}
         </Tabs.Tab>
-        <Tabs.Tab value="videos" icon={<IconVideo size={18} />}>
+        <Tabs.Tab value="videos" leftSection={<IconVideo size={18} />}>
           {t("favorite.tab.videos")} ({videos.length})
         </Tabs.Tab>
-        <Tabs.Tab value="livestream" icon={<IconPlayerRecord size={18} />}>
+        <Tabs.Tab
+          value="livestream"
+          leftSection={<IconPlayerRecord size={18} />}
+        >
           {t("favorite.tab.livestreams")} ({livestream.length})
         </Tabs.Tab>
-        <Tabs.Tab value="playlists" icon={<IconPlaylist size={18} />}>
+        <Tabs.Tab value="playlists" leftSection={<IconPlaylist size={18} />}>
           {t("favorite.tab.playlists")} ({playlists.length})
         </Tabs.Tab>
-        <Tabs.Tab value="channels" icon={<IconUser size={18} />}>
+        <Tabs.Tab value="channels" leftSection={<IconUser size={18} />}>
           {t("favorite.tab.channels")} ({channels.length})
         </Tabs.Tab>
       </Tabs.List>
@@ -75,7 +79,11 @@ export const FavoritePlaylist = memo(() => {
   );
 });
 
-const DataList = memo(({ data: initialData }: any) => {
+interface DataListProps {
+  data: Card[];
+}
+
+const DataList: FC<DataListProps> = memo(({ data: initialData }) => {
   const { data, ref } = usePaginateData(initialData);
 
   return (

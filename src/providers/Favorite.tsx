@@ -1,21 +1,27 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  FC,
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 import { getFavoritePlaylist } from "../database/utils";
-import { Playlist } from "../types/interfaces/Playlist";
+import { FavoritePlaylist } from "../types/interfaces/Playlist";
 
-const FavoriteContext = createContext<Playlist>(getFavoritePlaylist());
+// @ts-ignore
+const FavoriteContext = createContext<FavoritePlaylist>({});
 const SetFavoriteContext = createContext<
-  React.Dispatch<React.SetStateAction<Playlist>>
+  React.Dispatch<React.SetStateAction<FavoritePlaylist>>
 >(() => {});
 
-interface FavoriteProviderProps {
-  children: React.ReactNode;
-}
-
-export const FavoriteProvider: React.FC<FavoriteProviderProps> = ({
-  children,
-}) => {
-  const [favorite, setFavorite] = useState<Playlist>(getFavoritePlaylist());
+export const FavoriteProvider: FC<PropsWithChildren> = ({ children }) => {
+  const favoritePlaylist = getFavoritePlaylist();
+  const [favorite, setFavorite] = useState<FavoritePlaylist>({
+    ...favoritePlaylist,
+    cards: favoritePlaylist.cards ?? [],
+  });
 
   const value = useMemo(() => ({ favorite, setFavorite }), [favorite]);
 

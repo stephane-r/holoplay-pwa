@@ -5,40 +5,18 @@ import {
   LoadingOverlay,
   Text,
   UnstyledButton,
-  createStyles,
 } from "@mantine/core";
 import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
 import hexToRgba from "hex-to-rgba";
-import { memo } from "react";
+import { FC, memo } from "react";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlayerAudio, usePlayerVideo } from "../providers/Player";
-import { VideoThumbnail, Video as VideoType } from "../types/interfaces/Video";
+import { useSettings } from "../providers/Settings";
+import { Video as VideoType } from "../types/interfaces/Video";
+import { getThumbnailQuality } from "../utils/formatData";
 import { Image } from "./Image";
-
-const useStyles = createStyles((theme) => ({
-  container: {
-    position: "relative",
-    borderRadius: theme.radius.md,
-    transition: "0.2s",
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[5]
-          : theme.colors.gray[0],
-    },
-  },
-  image: {
-    width: "100%",
-    height: 75,
-    maxWidth: 100,
-    borderRadius: theme.radius.md,
-
-    [`@media (max-width: ${theme.breakpoints.sm})`]: {
-      display: "none",
-    },
-  },
-}));
+import classes from "./Video.module.css";
 
 interface VideoProps {
   video: VideoType;
@@ -47,14 +25,15 @@ interface VideoProps {
 
 export const Video: React.FC<VideoProps> = memo(
   ({ video, withThumbnail = true }) => {
-    const { classes } = useStyles();
     const { video: playedVideo, primaryColor } = usePlayerVideo();
     const { handlePlay, loading } = usePlayVideo();
     const playerAudio = usePlayerAudio();
+    const { currentInstance } = useSettings();
 
-    const image = video.videoThumbnails.find(
-      (thumbnail) => thumbnail.quality === "default",
-    ) as VideoThumbnail;
+    const imageSrc =
+      video.thumbnail ?? getThumbnailQuality(video.videoThumbnails, "default");
+
+    console.log(imageSrc);
 
     const isPlaying = playedVideo?.videoId === video.videoId;
 
@@ -85,15 +64,15 @@ export const Video: React.FC<VideoProps> = memo(
           <Flex align="center" style={{ flex: 1 }} gap="md">
             {withThumbnail ? (
               <Box className={classes.image}>
-                <Image
-                  src={image.url}
-                  alt={video.title}
-                  className={classes.image}
+                <VideoThumbnail
+                  src={imageSrc}
+                  domain={currentInstance?.uri}
+                  title={video.title}
                 />
               </Box>
             ) : null}
-            <Text size="sm" lineClamp={1} weight={isPlaying ? 600 : undefined}>
-              {video.title}
+            <Text size="sm" lineClamp={1}>
+              {isPlaying ? <strong>{video.title}</strong> : video.title}
             </Text>
           </Flex>
           {isPlaying ? null : (
@@ -112,6 +91,28 @@ export const Video: React.FC<VideoProps> = memo(
           )}
         </Flex>
       </UnstyledButton>
+    );
+  },
+);
+
+interface VideoThumbnailProps {
+  src: string;
+  title: string;
+  domain?: string;
+}
+
+const VideoThumbnail: FC<VideoThumbnailProps> = memo(
+  ({ src, title, domain = "" }) => {
+    const domainUrl = src.startsWith("https") ? "" : domain;
+
+    return (
+      <Box className={classes.image}>
+        <Image
+          src={`${domainUrl}${src}`}
+          title={title}
+          className={classes.image}
+        />
+      </Box>
     );
   },
 );

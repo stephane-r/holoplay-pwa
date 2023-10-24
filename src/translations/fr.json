@@ -12,9 +12,11 @@
   "settings.general.invidious.delete": "Supprimer",
   "settings.general.invidious.button.add": "Ajouter un domaine personnalisé",
   "settings.general.language": "Langage",
-  "settings.general.language.description": "Selectionner la langue de l'application",
+  "settings.general.language.description": "Sélectionner la langue de l'application",
   "settings.general.language.alert.title": "Information",
   "settings.general.darkmode": "Mode sombre",
+  "settings.general.storage.available.storage": "Stockage disponible",
+  "settings.general.storage.usage": "Vous utilisez {{percentage}} du stockage disponible",
   "settings.player.title": "Player",
   "settings.player.description": "Paramètrage du player",
   "settings.player.video.mode.title": "Mode vidéo",
@@ -238,5 +240,6 @@
   "favorite.tab.playlists": "Playlists",
   "favorite.tab.channels": "Chaînes",
   "favorite.tab.empty": "Aucun favoris dans cette section.",
-  "genre.title": "Ambiances & genres"
+  "genre.title": "Ambiances & genres",
+  "loading": "Changement..."
 }

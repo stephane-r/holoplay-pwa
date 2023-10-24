@@ -10,15 +10,15 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
-import { Video } from "../types/interfaces/Video";
+import { CardVideo } from "../types/interfaces/Card";
 import { ModalAddToPlaylist } from "./ModalAddToPlaylist";
 import { ModalDeleteFromPlaylist } from "./ModalDeleteFromPlaylist";
 
 interface CardMenuProps {
-  video: Video;
+  card: CardVideo;
 }
 
-export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
+export const CardMenu: React.FC<CardMenuProps> = memo(({ card }) => {
   const [addToPlaylistModalOpened, setAddToPlaylistModalOpened] =
     useState(false);
   const [deleteFromPlaylistModalOpened, setDeleteFromPlaylistModalOpened] =
@@ -42,14 +42,14 @@ export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
                 <Menu.Item
                   onClick={() => setDeleteFromPlaylistModalOpened(true)}
                   color="red"
-                  icon={<IconTrash size={14} />}
+                  leftSection={<IconTrash size={14} />}
                 >
                   {t("menu.video.remove.playlist")}
                 </Menu.Item>
               ) : (
                 <Menu.Item
                   onClick={() => setAddToPlaylistModalOpened(true)}
-                  icon={<IconPlayerPlay size={14} />}
+                  leftSection={<IconPlayerPlay size={14} />}
                 >
                   {t("menu.video.add.playlist")}
                 </Menu.Item>
@@ -57,10 +57,10 @@ export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
             </>
           ) : null}
           <Menu.Label>{t("menu.video.other")}</Menu.Label>
-          <Menu.Item icon={<IconDownload size={14} />}>
+          <Menu.Item leftSection={<IconDownload size={14} />}>
             {t("menu.video.download")}
           </Menu.Item>
-          <Menu.Item icon={<IconShare size={14} />}>
+          <Menu.Item leftSection={<IconShare size={14} />}>
             {t("menu.video.share")}
           </Menu.Item>
         </Menu.Dropdown>
@@ -68,12 +68,12 @@ export const CardMenu: React.FC<CardMenuProps> = memo(({ video }) => {
       <ModalAddToPlaylist
         opened={addToPlaylistModalOpened}
         onClose={() => setAddToPlaylistModalOpened(false)}
-        video={video}
+        video={card}
       />
       <ModalDeleteFromPlaylist
         opened={deleteFromPlaylistModalOpened}
         onClose={() => setDeleteFromPlaylistModalOpened(false)}
-        video={video}
+        video={card}
       />
     </>
   );

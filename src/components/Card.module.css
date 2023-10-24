@@ -1,0 +1,67 @@
+.card {
+  background: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  border-radius: var(--mantine-radius-md);
+  padding: var(--mantine-spacing-sm) !important;
+}
+
+.cardActions {
+  margin-top: rem(14px);
+  justify-content: flex-end;
+  position: relative;
+  z-index: 3;
+}
+
+.cardImageOverlay {
+  z-index: 2;
+  position: relative;
+}
+
+.section {
+  padding-left: var(--mantine-spacing-sm);
+  padding-right: var(--mantine-spacing-sm);
+}
+
+.imageContainer {
+  overflow: hidden;
+  padding: var(--mantine-spacing-sm);
+  position: relative;
+  min-height: rem(152px);
+  border-radius: var(--mantine-radius-xs);
+}
+
+.image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-height: 110%;
+  border-radius: var(--mantine-radius-xs);
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.absoluteCardPress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+}
+
+.buttonPlaying {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  background: light-dark(rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0.7));
+}
+
+.videoTitle {
+  height: rem(50px);
+}
+
+.buttonPlay {
+  border-radius: var(--mantine-radius-md);
+  margin-right: auto;
+}

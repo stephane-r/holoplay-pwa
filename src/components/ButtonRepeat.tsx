@@ -30,7 +30,7 @@ export const ButtonRepeat: React.FC<ButtonRepeatProps> = memo(
     };
 
     return (
-      <ActionIcon onClick={handleClick}>
+      <ActionIcon color="transparent" onClick={handleClick} title="Repeat">
         {playerState.repeat ? (
           <IconRepeatOnce size={iconSize ?? undefined} />
         ) : (

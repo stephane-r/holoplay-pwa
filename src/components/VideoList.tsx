@@ -14,7 +14,7 @@ export const VideoList: React.FC<VideoListProps> = memo(({ videos }) => {
   return (
     <Box>
       {videos.map((video) => (
-        <Video key={video.videoId} video={video} />
+        <Video key={`video-list-${video.videoId}`} video={video} />
       ))}
     </Box>
   );

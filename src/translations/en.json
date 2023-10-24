@@ -13,9 +13,10 @@
   "settings.general.invidious.button.add": "Add custom domain",
   "settings.general.language": "Choose language",
   "settings.general.language.description": "Select app language",
-  "settings.general.language.alert": "For now, HoloPlay is only available in English language. French translation is comming soon. Also, you can contribute to new language.",
   "settings.general.language.alert.title": "Information",
   "settings.general.darkmode": "Use dark mode",
+  "settings.general.storage.available.storage": "Available storage",
+  "settings.general.storage.usage": "You've used {{percentage}} of the available storage",
   "settings.player.title": "Player",
   "settings.player.description": "Player settings",
   "settings.player.video.mode.title": "Video mode",
@@ -239,5 +240,6 @@
   "favorite.tab.playlists": "Playlists",
   "favorite.tab.channels": "Channels",
   "favorite.tab.empty": "No favorite in this section",
-  "genre.title": "Moods & genres"
+  "genre.title": "Moods & genres",
+  "loading": "Loading..."
 }

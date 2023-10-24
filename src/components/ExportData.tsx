@@ -1,53 +1,36 @@
-import {
-  Box,
-  Button,
-  Flex,
-  TransferList,
-  TransferListData,
-  TransferListItem,
-} from "@mantine/core";
+import { Box } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { memo, useState } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { getAllPlaylists } from "../database/utils";
-import { Playlist } from "../types/interfaces/Playlist";
+import { CardPlaylist } from "../types/interfaces/Card";
 import { generateAndDownloadFile } from "../utils/generateAndDownloadFile";
+import { TransferList, TransferListData } from "./TransferList";
 
-const loadPlaylistData = (data: TransferListItem[]) => {
+const loadPlaylistData = (playlistsTitle: string[]) => {
   const playlists = getAllPlaylists();
-  return data.map((playlist) =>
-    playlists.find((p) => p.playlistId ?? String(p.ID) === playlist.value),
-  );
+  return playlists.filter((p) => playlistsTitle.includes(p.title));
 };
 
-const formateToTransferList = (data: Playlist[]) => {
-  return data
-    .filter((item) => item.videos.length > 0)
-    .map((item) => ({
-      value: item.playlistId ?? String(item.ID),
-      label: `${item.title} (${item.videos.length} videos)`,
-    }))
-    .flat();
+const formatePlaylistsToExport = (playlists: CardPlaylist[]) => {
+  return playlists.map((p) => ({
+    ...p,
+    videos: p.videos.map((v) => v.videoId),
+  }));
 };
 
 export const ExportData = memo(() => {
+  const userData = getAllPlaylists().map((p) => p.title);
   const { t } = useTranslation("translation", {
     keyPrefix: "settings.data.export",
   });
-  const [data, setData] = useState<TransferListData>([
-    // @ts-ignore
-    formateToTransferList(
-      getAllPlaylists().map((p) => ({
-        ...p,
-        playlistName: p.title,
-      })),
-    ),
-    [],
-  ]);
 
-  const handleClick = () => {
-    generateAndDownloadFile(loadPlaylistData(data[1]));
+  const handleSubmit = (data: TransferListData) => {
+    const [, importData] = data;
+    const playlists = loadPlaylistData(importData);
+    const formatedPlaylists = formatePlaylistsToExport(playlists);
+    generateAndDownloadFile({ playlists: formatedPlaylists });
     notifications.show({
       title: t("notification.title"),
       message: t("notification.message"),
@@ -57,18 +40,10 @@ export const ExportData = memo(() => {
   return (
     <Box mt="lg">
       <TransferList
-        value={data}
-        onChange={setData}
-        titles={[t("left"), t("right")]}
-        breakpoint="sm"
-        searchPlaceholder={t("search.placeholder") as string}
-        nothingFound={t("search.nothing.found")}
+        data={userData}
+        handleSubmit={handleSubmit}
+        buttonSubmitLabel={t("button.submit")}
       />
-      <Flex justify="flex-end" mt="lg">
-        <Button onClick={handleClick} disabled={!data[1].length}>
-          {t("button.submit")}
-        </Button>
-      </Flex>
     </Box>
   );
 });

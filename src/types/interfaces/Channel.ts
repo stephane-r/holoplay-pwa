@@ -7,6 +7,7 @@ export interface Channel {
   authorUrl: string;
   authorVerified: boolean;
   authorThumbnails: VideoThumbnail[];
+  thumbnail: string;
   subCount: number;
   videoCount: number;
   description: string;

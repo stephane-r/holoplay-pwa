@@ -24,13 +24,13 @@ export const ButtonDownload: React.FC<ButtonDownloadProps> = memo(
     return (
       <Menu>
         <Menu.Target>
-          <ActionIcon title={t("download.sound")}>
+          <ActionIcon color="transparent" title={t("download.sound")}>
             <IconDownload size={iconSize} />
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown mah={400} style={{ overflow: "auto" }}>
           {video.adaptiveFormats.map((format) => (
-            <Menu.Item onClick={() => handleDownload()}>
+            <Menu.Item key={format.type} onClick={() => handleDownload()}>
               <span>
                 {format.type
                   .replace(";", ",")

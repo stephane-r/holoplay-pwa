@@ -1,4 +1,4 @@
-import { Center, Navbar, Stack, createStyles } from "@mantine/core";
+import { AppShell, Center, Stack } from "@mantine/core";
 import {
   IconHeart,
   IconHistory,
@@ -20,35 +20,21 @@ import { AppVersion } from "./AppVersion";
 import { ButtonSyncData } from "./ButtonSyncData";
 import { Logo } from "./Logo";
 import { NavbarLink } from "./NavbarLink";
+import classes from "./Navigation.module.css";
 import { PlayerSpace } from "./Player";
 
 export const NAVIGATION_WIDTH = 88;
 
-const useStyles = createStyles((theme) => ({
-  navbar: {
-    background:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-  },
-}));
-
 export const Navigation = memo(() => {
-  const { cx, classes } = useStyles();
   const { t } = useTranslation();
 
   return (
-    <Navbar
-      width={{ base: NAVIGATION_WIDTH }}
-      p="md"
-      zIndex={1}
-      className={cx(classes.navbar)}
-    >
+    <AppShell.Navbar w={{ base: NAVIGATION_WIDTH }} className={classes.navbar}>
       <Center>
         <Logo />
       </Center>
-      <Navbar.Section grow mt={32}>
-        <Stack justify="center" spacing={0}>
+      <AppShell.Section grow mt={24}>
+        <Stack justify="center" gap="sm">
           <NavbarLink
             icon={IconHome2}
             label={t("navigation.dashboard")}
@@ -77,9 +63,9 @@ export const Navigation = memo(() => {
             activePath="/history"
           />
         </Stack>
-      </Navbar.Section>
-      <Navbar.Section>
-        <Stack justify="center" spacing={0}>
+      </AppShell.Section>
+      <AppShell.Section>
+        <Stack justify="center" gap="sm">
           <ButtonSyncData />
           <NavbarLink
             icon={IconInfoCircle}
@@ -94,8 +80,8 @@ export const Navigation = memo(() => {
           <AppVersion align="center" />
         </Stack>
         <PlayerSpace />
-      </Navbar.Section>
-    </Navbar>
+      </AppShell.Section>
+    </AppShell.Navbar>
   );
 });
 

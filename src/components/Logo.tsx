@@ -1,13 +1,11 @@
-import { ColorScheme, UnstyledButton } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
+import { UnstyledButton } from "@mantine/core";
 import { memo } from "react";
 
+import { useAppColorScheme } from "../hooks/useAppColorScheme";
 import { useStableNavigate } from "../providers/Navigate";
 
 export const Logo = memo(() => {
-  const [colorScheme] = useLocalStorage<ColorScheme>({
-    key: "mantine-color-scheme",
-  });
+  const colorScheme = useAppColorScheme();
   const navigate = useStableNavigate();
 
   const isDarkMode = colorScheme === "dark";

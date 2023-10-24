@@ -13,7 +13,6 @@
   "settings.general.invidious.button.add": "好きなドメインを追加",
   "settings.general.language": "言語の選択",
   "settings.general.language.description": "アプリの言語を選択",
-  "settings.general.language.alert": "英語のほかフランス語でも利用できます。あなたの言語の翻訳を寄稿をお待ちしています。",
   "settings.general.language.alert.title": "情報",
   "settings.general.darkmode": "ダークモードを使用",
   "settings.player.title": "プレイヤー",

@@ -12,7 +12,7 @@ export const ButtonDeleteCustomInstance = memo(
     return (
       <Button
         disabled={disabled}
-        leftIcon={<IconTrash size={16} />}
+        leftSection={<IconTrash size={16} />}
         variant="subtle"
         h={24}
         p={4}

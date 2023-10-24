@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    justify-content: flex-end;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(8px);
+    z-index: 5;
+    padding: rem(16px);
+}

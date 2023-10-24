@@ -1,4 +1,4 @@
-import { Alert, LoadingOverlay, Text } from "@mantine/core";
+import { Alert, Text } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -25,11 +25,11 @@ export const Trending: React.FC<TrendingProps> = memo(
     const { t } = useTranslation();
 
     if (!query.data) {
-      return <LoadingOverlay visible />;
+      return <Text>{t("loading")}</Text>;
     }
 
     if (query.error) {
-      return <div>{t("error")}</div>;
+      return <Text>{t("error")}</Text>;
     }
 
     if (horizontal) {

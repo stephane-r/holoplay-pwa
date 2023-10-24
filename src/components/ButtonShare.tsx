@@ -49,7 +49,7 @@ export const ButtonShare: React.FC<ButtonDownloadProps> = memo(
     return (
       <Menu shadow="md" width={220}>
         <Menu.Target>
-          <ActionIcon title={t("button.share.video")}>
+          <ActionIcon color="transparent" title={t("button.share.video")}>
             <IconShare size={iconSize} />
           </ActionIcon>
         </Menu.Target>
@@ -57,19 +57,19 @@ export const ButtonShare: React.FC<ButtonDownloadProps> = memo(
           <Menu.Label>{t("share.title")}</Menu.Label>
           <Menu.Item
             onClick={() => handleClick("holoplay")}
-            icon={<IconCopy size={18} />}
+            leftSection={<IconCopy size={18} />}
           >
             {t("share.holoplay.link")}
           </Menu.Item>
           <Menu.Item
             onClick={() => handleClick("invidious")}
-            icon={<IconPlayerPlay size={18} />}
+            leftSection={<IconPlayerPlay size={18} />}
           >
             {t("share.invidious.link")}
           </Menu.Item>
           <Menu.Item
             onClick={() => handleClick("youtube")}
-            icon={<IconBrandYoutube size={18} />}
+            leftSection={<IconBrandYoutube size={18} />}
           >
             {t("share.youtube.link")}
           </Menu.Item>

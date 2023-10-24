@@ -1,39 +1,11 @@
-import {
-  Box,
-  Flex,
-  Space,
-  Text,
-  Title,
-  UnstyledButton,
-  createStyles,
-} from "@mantine/core";
+import { Box, Flex, Space, Text, Title, UnstyledButton } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import { genres } from "../utils/genres";
-
-const useStyles = createStyles((theme) => ({
-  item: {
-    width: 90,
-    height: 90,
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-    borderRadius: 10,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    padding: theme.spacing.xs,
-    transition: "background-color 0.2s",
-  },
-  text: {
-    fontSize: theme.fontSizes.sm,
-  },
-}));
+import classes from "./Genre.module.css";
 
 export const GenreList = memo(() => {
   const { t } = useTranslation();
@@ -61,7 +33,6 @@ const Genre = memo(
       colorHover: string;
     };
   }) => {
-    const { classes } = useStyles();
     const { hovered, ref } = useHover();
     const setSearchValues = useSetSearchValues();
     const searchValues = useSearchValues();

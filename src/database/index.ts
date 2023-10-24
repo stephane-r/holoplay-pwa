@@ -13,6 +13,7 @@ const initDb = () => {
       "playlistId",
       "createdAt",
       "title",
+      "cards",
       "videos",
       "videoCount",
       "type",
@@ -27,7 +28,7 @@ const initDb = () => {
     db.insert("playlists", {
       createdAt: new Date().toISOString(),
       title: "Favorites",
-      videos: [],
+      cards: [],
     });
     db.insert("settings", {
       createdAt: new Date().toISOString(),

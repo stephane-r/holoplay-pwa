@@ -29,10 +29,10 @@ const PageContainer = memo(() => {
       <PageHeader title={channel.author} canGoBack />
       <Tabs defaultValue="videos">
         <Tabs.List mb="lg">
-          <Tabs.Tab icon={<IconVideo size={18} />} value="videos">
+          <Tabs.Tab leftSection={<IconVideo size={18} />} value="videos">
             {t("search.filter.type.videos")}
           </Tabs.Tab>
-          <Tabs.Tab value="playlists" icon={<IconPlaylist size={18} />}>
+          <Tabs.Tab value="playlists" leftSection={<IconPlaylist size={18} />}>
             {t("search.filter.type.playlists")}
           </Tabs.Tab>
         </Tabs.List>
@@ -118,7 +118,7 @@ const VideosTab = memo(() => {
 
   return (
     <PaginateDataList
-      queryKey={`channel-${authorId}-videos`}
+      queryKey={`channels-${authorId}-videos`}
       fetcher={() => getChannelVideos(authorId as string, continuation)}
       onSuccess={handleSuccess}
       hasNextPage={Boolean(continuation)}
@@ -136,7 +136,7 @@ const PlaylistsTab = memo(() => {
 
   return (
     <PaginateDataList
-      queryKey={`channel-${authorId}-playlists`}
+      queryKey={`channels-${authorId}-playlists`}
       fetcher={() => getChannelPlaylists(authorId as string, continuation)}
       onSuccess={handleSuccess}
       hasNextPage={Boolean(continuation)}

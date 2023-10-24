@@ -1,11 +1,12 @@
 import {
   Accordion,
+  Box,
   Divider,
   Group,
   SegmentedControl,
   Text,
 } from "@mantine/core";
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ChangeLanguage } from "../components/ChangeLanguage";
@@ -17,6 +18,7 @@ import { SaveData } from "../components/SaveData";
 import { SelectInvidiousInstance } from "../components/SelectInvidiousInstance";
 import { SponsorBlockSettings } from "../components/SponsorBlockSettings";
 import { SwitchVideoMode } from "../components/SwitchVideoMode";
+import { useStorage } from "../hooks/useStorage";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();
@@ -39,12 +41,12 @@ const GeneralItem = memo(() => {
   });
 
   return (
-    <Accordion.Item value="general">
+    <Accordion.Item value="general" p={6}>
       <Accordion.Control>
-        <Group noWrap>
+        <Group>
           <div>
             <Text>{t("title")}</Text>
-            <Text size="sm" color="dimmed" weight={400}>
+            <Text size="sm" c="dimmed">
               {t("description")}
             </Text>
           </div>
@@ -57,8 +59,43 @@ const GeneralItem = memo(() => {
         <ChangeLanguage />
         <Divider mt="md" mb="lg" />
         <SwitchColorScheme />
+        <Divider mt="md" mb="lg" />
+        <StorageEstimate />
       </Accordion.Panel>
     </Accordion.Item>
+  );
+});
+
+const StorageEstimate = memo(() => {
+  const storage = useStorage();
+  const hasUsage = useMemo(
+    () => storage?.usage && storage?.usage > 0,
+    [storage],
+  );
+  const { t } = useTranslation();
+
+  if (!storage) {
+    return null;
+  }
+
+  return (
+    <Box>
+      <Text>
+        {t("settings.general.storage.available.storage")} :{" "}
+        <strong>{storage.formatedQuota}</strong>
+      </Text>
+      <Text>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: t("settings.general.storage.usage", {
+              percentage: `<strong>${storage.percentageUsed}%</strong> ${
+                hasUsage ? `(${storage.formatedUsage})` : ""
+              }`,
+            }),
+          }}
+        />
+      </Text>
+    </Box>
   );
 });
 
@@ -68,12 +105,12 @@ const PlayerItem = memo(() => {
   });
 
   return (
-    <Accordion.Item value="player">
+    <Accordion.Item value="player" p={6}>
       <Accordion.Control>
-        <Group noWrap>
+        <Group>
           <div>
             <Text>{t("title")}</Text>
-            <Text size="sm" color="dimmed" weight={400}>
+            <Text size="sm" c="dimmed">
               {t("description")}
             </Text>
           </div>
@@ -99,12 +136,12 @@ const ImportExportDataItem = memo(() => {
   });
 
   return (
-    <Accordion.Item value="data">
+    <Accordion.Item value="data" p={6}>
       <Accordion.Control>
-        <Group noWrap>
+        <Group>
           <div>
             <Text>{t("title")}</Text>
-            <Text size="sm" color="dimmed" weight={400}>
+            <Text size="sm" c="dimmed">
               {t("description")}
             </Text>
           </div>

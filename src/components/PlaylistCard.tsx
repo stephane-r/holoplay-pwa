@@ -7,75 +7,29 @@ import {
   Text,
   Title,
   Tooltip,
-  createStyles,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
-import { memo } from "react";
+import { FC, memo } from "react";
 
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
 import { useStableNavigate } from "../providers/Navigate";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
-import { Playlist } from "../types/interfaces/Playlist";
-import { Video, VideoThumbnail } from "../types/interfaces/Video";
+import { CardPlaylist, CardVideo } from "../types/interfaces/Card";
+import { getThumbnailQuality } from "../utils/formatData";
 import { ButtonFavorite } from "./ButtonFavorite";
+import classes from "./PlaylistCard.module.css";
 import { PlaylistCardMenu } from "./PlaylistCardMenu";
 
-const useStyles = createStyles((theme) => ({
-  card: {
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-    borderRadius: theme.radius.md,
-    padding: theme.spacing.xl,
-  },
-  video: {
-    backgroundColor: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).background,
-    color: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).color,
-    width: 28,
-    height: 28,
-    borderRadius: theme.radius.sm,
-    marginBottom: theme.spacing.sm,
-  },
-  more: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).background,
-    color: theme.fn.variant({
-      variant: "light",
-      color: theme.primaryColor,
-    }).color,
-    width: 28,
-    height: 28,
-    borderRadius: theme.radius.sm,
-    marginBottom: theme.spacing.sm,
-  },
-}));
-
 interface PlaylistCardProps {
-  playlist: Playlist;
+  playlist: CardPlaylist;
+  currentInstanceUri: string;
 }
 
 export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
-  ({ playlist }) => {
-    const { classes } = useStyles();
+  ({ playlist, currentInstanceUri }) => {
     const navigate = useStableNavigate();
 
     const goToPlaylist = () => {
@@ -97,6 +51,7 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
         <Flex gap={8}>
           {hasVideos ? (
             <VideosThumbnail
+              domain={currentInstanceUri}
               videos={playlist.videos}
               videoCount={playlist.videoCount}
             />
@@ -105,13 +60,18 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
         </Flex>
         <Title
           order={3}
-          mb="xs"
-          mt="md"
-          lineClamp={1}
           onClick={goToPlaylist}
-          style={{ cursor: "pointer" }}
+          className={classes.title}
+          mb="md"
+          mt="xs"
         >
-          {playlist.title}
+          <Text
+            style={{ fontSize: 22 }}
+            lineClamp={1}
+            className={classes.titleText}
+          >
+            <strong>{playlist.title}</strong>
+          </Text>
         </Title>
         <Badge
           color={isRemotePlaylist ? "blue" : "green"}
@@ -129,8 +89,8 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
           {playlist.videos.map((video) => video.title).join(", ")}
         </Text>
         <Flex align="center" justify="space-between" mt="xs">
-          <Text size="xs" weight={600}>
-            {playlist.videoCount} videos
+          <Text size="xs">
+            <strong>{playlist.videoCount} videos</strong>
           </Text>
           <Flex ml="auto" gap="xs">
             {playlist.videos.length ? (
@@ -143,8 +103,7 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
             {!isLocalPlaylist ? (
               <ButtonSaveToPlaylist playlist={playlist} />
             ) : null}
-            {/* @ts-ignore */}
-            <ButtonFavorite video={playlist} buttonSize={28} iconSize={14} />
+            <ButtonFavorite card={playlist} buttonSize={28} iconSize={14} />
           </Flex>
         </Flex>
       </Card>
@@ -153,14 +112,13 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
 );
 
 interface VideosThumbnailProps {
-  videos: Video[];
+  domain: string;
+  videos: CardVideo[];
   videoCount: number;
 }
 
 const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
-  ({ videos, videoCount }) => {
-    const { classes } = useStyles();
-
+  ({ domain, videos, videoCount }) => {
     const displayVideos = videos.slice(-4);
     const restOfVideosCount = videoCount - displayVideos.length;
 
@@ -176,9 +134,10 @@ const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
               key={video.videoId}
               className={classes.video}
               style={{
-                backgroundImage: `url(${getLowQualityThumbnail(
-                  video.videoThumbnails,
-                )})`,
+                backgroundImage: `url(${domain}${
+                  video.thumbnail ??
+                  getThumbnailQuality(video.videoThumbnails ?? [], "medium")
+                })`,
               }}
             />
           </Tooltip>
@@ -189,8 +148,8 @@ const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
               label={`${restOfVideosCount} more videos`}
               position="right"
             >
-              <Text size="xs" weight={600}>
-                +{restOfVideosCount}
+              <Text size="xs">
+                <strong>+{restOfVideosCount}</strong>
               </Text>
             </Tooltip>
           </Box>
@@ -200,62 +159,63 @@ const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
   },
 );
 
-const getLowQualityThumbnail = (thumbnails: VideoThumbnail[]) => {
-  const thumbnail = thumbnails.find(
-    (thumbnail) => thumbnail.quality === "medium",
-  );
+interface ButtonSaveToPlaylistProps {
+  playlist: CardPlaylist;
+}
 
-  return thumbnail ? thumbnail.url : "";
-};
+const ButtonSaveToPlaylist: FC<ButtonSaveToPlaylistProps> = memo(
+  ({ playlist }) => {
+    const setPlaylists = useSetPlaylists();
+    const playlists = usePlaylists();
 
-const ButtonSaveToPlaylist = memo(({ playlist }: { playlist: Playlist }) => {
-  const setPlaylists = useSetPlaylists();
-  const playlists = usePlaylists();
+    const isSavedPlaylist = playlists.find(
+      (p) => p.playlistId === playlist.playlistId,
+    );
 
-  const isSavedPlaylist = playlists.find(
-    (p) => p.playlistId === playlist.playlistId,
-  );
+    const handleClick = () => {
+      if (isSavedPlaylist) {
+        deletePlaylist();
+      } else {
+        savePlaylist();
+      }
+      db.commit();
+      setPlaylists(getPlaylists());
+    };
 
-  const handleClick = () => {
-    if (isSavedPlaylist) {
-      deletePlaylist();
-    } else {
-      savePlaylist();
-    }
-    db.commit();
-    setPlaylists(getPlaylists());
-  };
+    const savePlaylist = () => {
+      db.insert("playlists", playlist);
+      notifications.show({
+        title: "Playlist saved",
+        message: `${playlist.title} has been added to your playlists list`,
+      });
+    };
 
-  const savePlaylist = () => {
-    db.insert("playlists", playlist);
-    notifications.show({
-      title: "Playlist saved",
-      message: `${playlist.title} has been added to your playlists list`,
-    });
-  };
+    const deletePlaylist = () => {
+      db.deleteRows("playlists", {
+        playlistId: playlist.playlistId,
+      });
+      notifications.show({
+        title: "Playlist deleted",
+        message: `${playlist.title} has been deleted from your playlists list`,
+      });
+    };
 
-  const deletePlaylist = () => {
-    db.deleteRows("playlists", {
-      playlistId: playlist.playlistId,
-    });
-    notifications.show({
-      title: "Playlist deleted",
-      message: `${playlist.title} has been deleted from your playlists list`,
-    });
-  };
-
-  return (
-    <Tooltip
-      label={isSavedPlaylist ? "Delete from playlists" : "Save to playlists"}
-      position="left"
-      onClick={handleClick}
-    >
-      <ActionIcon variant={isSavedPlaylist ? "default" : "filled"} radius="md">
-        {isSavedPlaylist ? <IconCheck size={16} /> : <IconPlus size={16} />}
-      </ActionIcon>
-    </Tooltip>
-  );
-});
+    return (
+      <Tooltip
+        label={isSavedPlaylist ? "Delete from playlists" : "Save to playlists"}
+        position="left"
+        onClick={handleClick}
+      >
+        <ActionIcon
+          variant={isSavedPlaylist ? "default" : "filled"}
+          radius="md"
+        >
+          {isSavedPlaylist ? <IconCheck size={16} /> : <IconPlus size={16} />}
+        </ActionIcon>
+      </Tooltip>
+    );
+  },
+);
 
 const ButtonPlay = memo(({ playlistId }: { playlistId: number | string }) => {
   const { handlePlay } = usePlayPlaylist();

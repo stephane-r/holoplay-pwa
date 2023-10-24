@@ -1,0 +1,10 @@
+.container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: light-dark(rgba(231, 245, 255, 0.8), rgba(25, 113, 194, 0.2));
+    backdrop-filter: blur(8px);
+    z-index: 4;
+    border-top-left-radius: var(--mantine-radius-md);
+    border-top-right-radius: var(--mantine-radius-md);
+  }

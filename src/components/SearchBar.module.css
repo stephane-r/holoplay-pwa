@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    max-width: rem(460px);
+  }
+
+  @media (min-width: 1900px) {
+    max-width: rem(540px);
+  }
+}
+
+.form {
+  flex: 1;
+
+  input {
+    /* iOS Safari zoom fix : https://defensivecss.dev/tip/input-zoom-safari */
+    font-size: 16px;
+  }
+}
+
+.kbd {
+  height: rem(22px);
+  line-height: 15px;
+}

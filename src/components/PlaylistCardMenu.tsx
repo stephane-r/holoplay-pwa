@@ -3,12 +3,12 @@ import { IconDotsVertical, IconEdit, IconTrash } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Playlist } from "../types/interfaces/Playlist";
+import { CardPlaylist } from "../types/interfaces/Card";
 import { ModalDeletePlaylist } from "./ModalDeletePlaylist";
 import { ModalUpdatePlaylist } from "./ModalUpdatePlaylist";
 
 interface PlaylistCardMenuProps {
-  playlist: Playlist;
+  playlist: CardPlaylist;
 }
 
 export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
@@ -29,6 +29,8 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
           <Menu.Target>
             <ActionIcon
               onClick={() => setMenuOpened(true)}
+              variant="transparent"
+              color="gray"
               style={{ marginLeft: "auto", marginRight: -8 }}
             >
               <IconDotsVertical size={18} />
@@ -38,7 +40,7 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
             <Menu.Label>{t("playlist.nemu.title")}</Menu.Label>
             {!playlist.playlistId ? (
               <Menu.Item
-                icon={<IconEdit size={14} />}
+                leftSection={<IconEdit size={14} />}
                 onClick={() => setModalUpdateOpened(true)}
               >
                 {t("playlist.nemu.edit")}
@@ -46,7 +48,7 @@ export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
             ) : null}
             <Menu.Item
               color="red"
-              icon={<IconTrash size={14} />}
+              leftSection={<IconTrash size={14} />}
               onClick={() => setModalDeleteOpened(true)}
             >
               {t("playlist.nemu.delete")}

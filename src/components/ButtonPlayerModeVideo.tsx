@@ -1,4 +1,4 @@
-import { ActionIcon, Tooltip } from "@mantine/core";
+import { ActionIcon, Menu } from "@mantine/core";
 import { IconVideo } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,10 +8,11 @@ import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
 
 interface ButtonPlayerModeVideoProps {
   iconSize?: number;
+  render: "menu" | "button";
 }
 
 export const ButtonPlayerModeVideo: React.FC<ButtonPlayerModeVideoProps> = memo(
-  ({ iconSize }) => {
+  ({ iconSize, render = "button" }) => {
     const setPlayerMode = useSetPlayerMode();
     const playerMode = usePlayerMode();
     const playerAudio = usePlayerAudio();
@@ -25,15 +26,23 @@ export const ButtonPlayerModeVideo: React.FC<ButtonPlayerModeVideoProps> = memo(
       audio.pause();
     };
 
+    if (render === "menu") {
+      return (
+        <Menu.Item onClick={handleClick} leftSection={<IconVideo />}>
+          Video mode
+        </Menu.Item>
+      );
+    }
+
     return (
-      <Tooltip label={t("video.mode")}>
-        <ActionIcon
-          onClick={handleClick}
-          variant={playerMode === "video" ? "filled" : undefined}
-        >
-          <IconVideo size={iconSize} />
-        </ActionIcon>
-      </Tooltip>
+      <ActionIcon
+        onClick={handleClick}
+        color="transparent"
+        title={t("video.mode")}
+        variant={playerMode === "video" ? "filled" : undefined}
+      >
+        <IconVideo size={iconSize} />
+      </ActionIcon>
     );
   },
 );

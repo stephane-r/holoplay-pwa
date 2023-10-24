@@ -1,4 +1,4 @@
-import { useMantineTheme } from "@mantine/core";
+import { Box, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
 
@@ -21,13 +21,13 @@ export const PlayerContainer = memo(() => {
   if (!playerUrl) return null;
 
   return (
-    <>
+    <Box style={{ zIndex: 4 }}>
       <PlayerAudio />
       {settings.videoMode ? <PlayerMode /> : null}
       {settings.videoMode && playerMode === "video" ? (
         <VideoPlayerContainer />
       ) : null}
       {matches ? <MobilePlayer /> : <Player />}
-    </>
+    </Box>
   );
 });

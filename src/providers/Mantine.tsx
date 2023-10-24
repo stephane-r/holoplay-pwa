@@ -1,22 +1,11 @@
-import { ColorScheme, MantineProvider as Provider } from "@mantine/core";
-import { useColorScheme, useLocalStorage } from "@mantine/hooks";
+import { MantineProvider as Provider } from "@mantine/core";
+import { FC, PropsWithChildren } from "react";
 
-interface MantineProviderProps {
-  children: React.ReactNode;
-}
-
-export const MantineProvider: React.FC<MantineProviderProps> = ({
-  children,
-}) => {
-  const osColorScheme = useColorScheme();
-  const [colorScheme] = useLocalStorage<ColorScheme>({
-    key: "mantine-color-scheme",
-  });
-
+export const MantineProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Provider
+      defaultColorScheme="auto"
       theme={{
-        colorScheme: colorScheme ?? osColorScheme,
         breakpoints: {
           xs: "30em",
           sm: "50em",
@@ -25,8 +14,6 @@ export const MantineProvider: React.FC<MantineProviderProps> = ({
           xl: "90em",
         },
       }}
-      withGlobalStyles
-      withNormalizeCSS
     >
       {children}
     </Provider>

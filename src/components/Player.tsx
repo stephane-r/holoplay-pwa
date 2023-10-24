@@ -3,18 +3,22 @@ import {
   Box,
   Drawer,
   Flex,
+  Menu,
+  Popover,
   ScrollArea,
-  Slider,
   Space,
   Text,
-  createStyles,
-  useMantineTheme,
 } from "@mantine/core";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
-import { IconPlaylist, IconVolume } from "@tabler/icons-react";
+import {
+  IconDotsVertical,
+  IconPlaylist,
+  IconVolume,
+} from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useDevices } from "../hooks/useDevices";
 import {
   usePlayerAudio,
   usePlayerState,
@@ -27,105 +31,60 @@ import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
 import { ButtonRepeat } from "./ButtonRepeat";
 import { ButtonShare } from "./ButtonShare";
+import classes from "./Player.module.css";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 import { PlayerProgress } from "./PlayerProgress";
+import { VerticalSlider } from "./VerticalSlider";
 import { VideoList } from "./VideoList";
 
-const useStyles = createStyles((theme) => ({
-  container: {
-    position: "absolute",
-    zIndex: 3,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    boxShadow: "10px 0 10px rgb(0 0 0 / 20%)",
-  },
-  content: {
-    padding: theme.spacing.sm,
-
-    [`@media (min-width: ${theme.breakpoints.lg})`]: {
-      padding: theme.spacing.xl,
-    },
-  },
-  videoInformationsContainer: {
-    maxWidth: 100,
-
-    [`@media (min-width: ${theme.breakpoints.sm})`]: {
-      maxWidth: 320,
-      overflow: "hidden",
-    },
-
-    [`@media (min-width: ${theme.breakpoints.md})`]: {
-      maxWidth: 280,
-    },
-
-    [`@media (min-width: ${theme.breakpoints.lg})`]: {
-      maxWidth: 320,
-    },
-
-    [`@media (min-width: 2100px)`]: {
-      maxWidth: 440,
-    },
-  },
-  volume: {},
-  thumbnail: {
-    flex: "0 0 50px",
-    height: 50,
-    borderRadius: theme.radius.md,
-
-    [`@media (max-width: ${theme.breakpoints.lg})`]: {
-      display: "none",
-    },
-  },
-}));
-
 export const Player = memo(() => {
-  const { classes } = useStyles();
-  const matches = useMediaQuery("(max-width: 2140px)");
-  const theme = useMantineTheme();
-  const showProgressBar = useMediaQuery(`(min-width: ${theme.breakpoints.md})`);
-  const showVolumeBar = useMediaQuery(`(min-width: ${theme.breakpoints.xl})`);
+  const showPlayerBar = useMediaQuery("(max-width: 2140px)");
+  const { isMedium, isLarge, isLessThanLarge, isXlarge } = useDevices();
 
   return (
     <Box
       className={classes.container}
-      style={{ display: matches ? "block" : "none" }}
+      style={{ display: showPlayerBar ? "block" : "none" }}
     >
       <Flex align="center" className={classes.content}>
         <PlayerLoadingOverlay />
-        {matches ? (
+        {showPlayerBar ? (
           <>
             <PlayerBackground />
             <VideoInformations />
-            <Space w={60} />
+            <Space w={isXlarge ? 60 : 30} />
             <Flex align="center" style={{ flex: 1 }}>
               <PlayerActions />
-              <Space w={60} />
-              {showProgressBar ? (
+              <Space w={isLessThanLarge ? 30 : 60} />
+              {isMedium ? (
                 <>
                   <PlayerProgress />
-                  <Space w={60} />
+                  <Space w={isLarge ? 60 : 30} />
                 </>
               ) : null}
               <ButtonRepeat iconSize={20} />
-              <Space w="lg" />
+              <Space w={20} />
               <ButtonDownload iconSize={20} />
-              <Space w="lg" />
+              <Space w={20} />
               <ButtonShare iconSize={20} />
-              <Space w="lg" />
-              <ButtonPlayerModeVideo />
-              <Space w="lg" />
-              <ButtonFavorite iconSize={20} variant="transparent" />
-              {showVolumeBar ? (
+              {isLarge ? (
                 <>
                   <Space w={20} />
-                  <PlayerVolume />
+                  <ButtonFavorite iconSize={20} variant="transparent" />
                 </>
               ) : null}
-              <Space w={40} />
+              <Space w={20} />
+              <ButtonVolume />
+              <Space w={20} />
               <PlayerPlaylist />
+              {isLessThanLarge ? (
+                <>
+                  <Space w={20} />
+                  <MoreSubMenu />
+                </>
+              ) : null}
             </Flex>
           </>
         ) : null}
@@ -135,10 +94,11 @@ export const Player = memo(() => {
 });
 
 const VideoInformations = memo(() => {
-  const { classes } = useStyles();
   const { video, thumbnailUrl } = usePlayerVideo();
 
   useDocumentTitle(video?.title as string);
+
+  if (!video) return null;
 
   return (
     <Flex
@@ -152,20 +112,19 @@ const VideoInformations = memo(() => {
         }}
         className={classes.thumbnail}
       />
-      <Box maw="100%">
-        <Text color="white" lineClamp={1}>
-          {video?.title}
+      <Box maw="100%" pr="lg">
+        <Text color="white" lineClamp={1} title={video.title}>
+          {video.title}
         </Text>
         <Text color="white" size="sm" lineClamp={1}>
-          {video?.description}
+          {video.description}
         </Text>
       </Box>
     </Flex>
   );
 });
 
-const PlayerVolume = memo(() => {
-  const { classes } = useStyles();
+export const ButtonVolume = memo(() => {
   const playerState = usePlayerState();
   const playerAudio = usePlayerAudio();
 
@@ -176,22 +135,19 @@ const PlayerVolume = memo(() => {
   };
 
   return (
-    <Flex align="center" gap="sm" w={140} className={classes.volume}>
-      <ActionIcon>
-        <IconVolume size={20} />
-      </ActionIcon>
-      <Box style={{ flex: 1 }}>
-        <Slider
+    <Popover shadow="md">
+      <Popover.Target>
+        <ActionIcon color="transparent">
+          <IconVolume size={20} />
+        </ActionIcon>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <VerticalSlider
           value={playerState.volume * 100}
-          size="xs"
-          styles={{
-            thumb: { display: "none" },
-            bar: { background: "white" },
-          }}
           onChangeEnd={handleChangeEnd}
         />
-      </Box>
-    </Flex>
+      </Popover.Dropdown>
+    </Popover>
   );
 });
 
@@ -214,7 +170,7 @@ const PlayerPlaylist = memo(() => {
           <VideoList videos={videosPlaylist} />
         </ScrollArea>
       </Drawer>
-      <ActionIcon onClick={() => setOpened(true)}>
+      <ActionIcon color="transparent" onClick={() => setOpened(true)}>
         <IconPlaylist size={20} />
       </ActionIcon>
     </>
@@ -227,4 +183,20 @@ export const PlayerSpace = memo(() => {
   const height = playerUrl && matches ? 98 : 0;
 
   return <Box style={{ height }} />;
+});
+
+const MoreSubMenu = memo(() => {
+  return (
+    <Menu shadow="md" width={200} position="top">
+      <Menu.Target>
+        <ActionIcon>
+          <IconDotsVertical />
+        </ActionIcon>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <ButtonPlayerModeVideo render="menu" />
+        <ButtonFavorite render="menu" />
+      </Menu.Dropdown>
+    </Menu>
+  );
 });

@@ -14,23 +14,22 @@ import { useTranslation } from "react-i18next";
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
+import { CardVideo } from "../types/interfaces/Card";
 import { Playlist } from "../types/interfaces/Playlist";
-import { Video } from "../types/interfaces/Video";
-import { formatToOptionsCollection } from "../utils/formatToOptions";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
 interface ModalAddToPlaylistProps {
   opened: boolean;
   onClose: () => void;
-  video: Video;
+  video: CardVideo;
 }
 
 export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
   ({ opened, onClose, video }) => {
-    const [selectedPlaylistId, setSelectedPlaylistId] = useState<string | null>(
-      null,
-    );
+    const [selectedPlaylistTitle, setSelectedPlaylistTitle] = useState<
+      string | null
+    >(null);
     const [newPlaylistTitle, setNewPlaylistTitle] = useState("");
     const playlists = usePlaylists();
     const setPlaylists = useSetPlaylists();
@@ -40,7 +39,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
     const playlistsIsEmpty = playlists.length === 0;
 
     const handleAddToPlaylist = () => {
-      if (selectedPlaylistId) {
+      if (selectedPlaylistTitle) {
         updatePlaylist();
       } else {
         createNewPlaylist();
@@ -58,7 +57,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
 
     const updatePlaylist = () => {
       const selectedPlaylist = playlists.find(
-        (playlist) => playlist.ID === Number(selectedPlaylistId),
+        (playlist) => playlist.title === selectedPlaylistTitle,
       );
 
       if (!selectedPlaylist) {
@@ -73,7 +72,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
 
       db.update(
         "playlists",
-        { ID: Number(selectedPlaylistId) },
+        { title: selectedPlaylistTitle },
         (playlist: Playlist) => ({
           ...playlist,
           videos: [video, ...playlist.videos],
@@ -94,14 +93,14 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
 
     const disabled = useMemo(() => {
       if (
-        selectedPlaylistId ||
-        (!selectedPlaylistId && newPlaylistTitle.length > 0)
+        selectedPlaylistTitle ||
+        (!selectedPlaylistTitle && newPlaylistTitle.length > 0)
       ) {
         return false;
       }
 
       return true;
-    }, [selectedPlaylistId, newPlaylistTitle]);
+    }, [selectedPlaylistTitle, newPlaylistTitle]);
 
     return (
       <>
@@ -122,10 +121,10 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
                   placeholder={
                     t("modal.video.playlist.your.playlist") as string
                   }
-                  data={formatToOptionsCollection(localPlaylist)}
-                  onChange={setSelectedPlaylistId}
+                  data={localPlaylist.map((p) => p.title)}
+                  onChange={setSelectedPlaylistTitle}
                 />
-                {!selectedPlaylistId ? (
+                {!selectedPlaylistTitle ? (
                   <>
                     <Space h={24} />
                     <Divider />
@@ -135,7 +134,7 @@ export const ModalAddToPlaylist: React.FC<ModalAddToPlaylistProps> = memo(
                 ) : null}
               </>
             ) : null}
-            {!selectedPlaylistId ? (
+            {!selectedPlaylistTitle ? (
               <>
                 {playlistsIsEmpty ? (
                   <Text>{t("modal.video.playlist.selected.text")}</Text>
