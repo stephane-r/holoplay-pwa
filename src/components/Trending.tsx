@@ -1,4 +1,4 @@
-import { Alert, LoadingOverlay, Text } from "@mantine/core";
+import { Alert, Text } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
