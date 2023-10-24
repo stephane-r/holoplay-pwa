@@ -1,6 +1,6 @@
 import { LoadingOverlay, Paper, Tabs } from "@mantine/core";
 import { IconPlaylist, IconVideo } from "@tabler/icons-react";
-import { memo, useEffect, useState } from "react";
+import { type FC, memo, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "react-query";
@@ -59,7 +59,7 @@ interface PaginateDataListProps {
   hasNextPage?: boolean;
 }
 
-const PaginateDataList: React.FC<PaginateDataListProps> = memo(
+const PaginateDataList: FC<PaginateDataListProps> = memo(
   ({ queryKey, fetcher, onSuccess, hasNextPage }) => {
     const { ref, inView } = useInView();
     const [page, setPage] = useState(1);

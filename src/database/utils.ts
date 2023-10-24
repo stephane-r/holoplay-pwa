@@ -1,9 +1,9 @@
 import { db } from ".";
 import { getCardId } from "../components/ButtonFavorite";
-import { Card, CardPlaylist, CardVideo } from "../types/interfaces/Card";
-import { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
-import { SearchHistory } from "../types/interfaces/Search";
-import { Settings } from "../types/interfaces/Settings";
+import type { Card, CardPlaylist, CardVideo } from "../types/interfaces/Card";
+import type { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
+import type { SearchHistory } from "../types/interfaces/Search";
+import type { Settings } from "../types/interfaces/Settings";
 
 export const getSettings = (): Settings => {
   return db.queryAll("settings", { query: { ID: 1 } })[0];

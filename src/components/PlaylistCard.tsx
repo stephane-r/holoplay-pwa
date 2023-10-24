@@ -10,14 +10,14 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
-import { FC, memo } from "react";
+import { type FC, memo } from "react";
 
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
 import { useStableNavigate } from "../providers/Navigate";
 import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
-import { CardPlaylist, CardVideo } from "../types/interfaces/Card";
+import type { CardPlaylist, CardVideo } from "../types/interfaces/Card";
 import { getThumbnailQuality } from "../utils/formatData";
 import { ButtonFavorite } from "./ButtonFavorite";
 import classes from "./PlaylistCard.module.css";
@@ -28,7 +28,7 @@ interface PlaylistCardProps {
   currentInstanceUri: string;
 }
 
-export const PlaylistCard: React.FC<PlaylistCardProps> = memo(
+export const PlaylistCard: FC<PlaylistCardProps> = memo(
   ({ playlist, currentInstanceUri }) => {
     const navigate = useStableNavigate();
 
@@ -117,7 +117,7 @@ interface VideosThumbnailProps {
   videoCount: number;
 }
 
-const VideosThumbnail: React.FC<VideosThumbnailProps> = memo(
+const VideosThumbnail: FC<VideosThumbnailProps> = memo(
   ({ domain, videos, videoCount }) => {
     const displayVideos = videos.slice(-4);
     const restOfVideosCount = videoCount - displayVideos.length;

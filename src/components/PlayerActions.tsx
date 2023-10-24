@@ -1,11 +1,11 @@
-import { ActionIcon, ActionIconProps, Flex } from "@mantine/core";
+import { ActionIcon, type ActionIconProps, Flex } from "@mantine/core";
 import {
   IconPlayerPause,
   IconPlayerPlay,
   IconPlayerTrackNext,
   IconPlayerTrackPrev,
 } from "@tabler/icons-react";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
@@ -18,7 +18,7 @@ interface PlayerActionsProps {
   showTrackNext?: boolean;
 }
 
-export const PlayerActions: React.FC<PlayerActionsProps> = memo(
+export const PlayerActions: FC<PlayerActionsProps> = memo(
   ({ showTrackPrevious = true, showTrackNext = true }) => {
     const playerMode = usePlayerMode();
     const iconPlayPauseOnly = !showTrackPrevious && !showTrackNext;
@@ -48,7 +48,7 @@ interface ButtonNextVideoProps extends ActionIconProps {
   iconSize?: number;
 }
 
-export const ButtonPlayPause: React.FC<ButtonNextVideoProps> = memo(
+export const ButtonPlayPause: FC<ButtonNextVideoProps> = memo(
   ({ size, radius, iconSize }) => {
     const playerState = usePlayerState();
     const playerAudio = usePlayerAudio();

@@ -14,7 +14,7 @@ import {
   IconPlayerPause,
   IconPlayerPlay,
 } from "@tabler/icons-react";
-import React, { FC, memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
@@ -23,7 +23,7 @@ import {
   usePlayerState,
   usePlayerVideo,
 } from "../providers/Player";
-import { CardVideo } from "../types/interfaces/Card";
+import type { CardVideo } from "../types/interfaces/Card";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 import { getThumbnailQuality } from "../utils/formatData";
 import { ButtonFavorite } from "./ButtonFavorite";

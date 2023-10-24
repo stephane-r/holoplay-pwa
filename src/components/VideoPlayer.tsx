@@ -1,6 +1,6 @@
 import { useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { MotionStyle, motion } from "framer-motion";
+import { type MotionStyle, motion } from "framer-motion";
 import { memo, useMemo, useRef } from "react";
 
 import { useVideoIframeVisibility } from "../providers/VideoIframeVisibility";

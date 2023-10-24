@@ -1,6 +1,8 @@
 import {
-  FC,
-  PropsWithChildren,
+  type Dispatch,
+  type FC,
+  type PropsWithChildren,
+  type SetStateAction,
   createContext,
   useContext,
   useMemo,
@@ -8,12 +10,12 @@ import {
 } from "react";
 
 import { getPlaylists } from "../database/utils";
-import { Playlist } from "../types/interfaces/Playlist";
+import type { Playlist } from "../types/interfaces/Playlist";
 
 const PlaylistContext = createContext<Playlist[]>([]);
-const SetPlaylistContext = createContext<
-  React.Dispatch<React.SetStateAction<Playlist[]>>
->(() => {});
+const SetPlaylistContext = createContext<Dispatch<SetStateAction<Playlist[]>>>(
+  () => {},
+);
 
 export const PlaylistProvider: FC<PropsWithChildren> = ({ children }) => {
   const [playlists, setPlaylists] = useState(getPlaylists());

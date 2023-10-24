@@ -1,5 +1,5 @@
 import { getSettings } from "../database/utils";
-import { Instance } from "../types/interfaces/Instance";
+import type { Instance } from "../types/interfaces/Instance";
 
 export const getCurrentInstance = (): Instance => {
   const settings = getSettings();

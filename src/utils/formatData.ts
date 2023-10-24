@@ -1,13 +1,13 @@
-import {
+import type {
   CardChannel,
   CardPlaylist,
   CardPlaylistVideo,
   CardVideo,
   CardVideoTypes,
 } from "../types/interfaces/Card";
-import { Channel } from "../types/interfaces/Channel";
-import { Playlist } from "../types/interfaces/Playlist";
-import {
+import type { Channel } from "../types/interfaces/Channel";
+import type { Playlist } from "../types/interfaces/Playlist";
+import type {
   ThumbnailQualityTypes,
   Video,
   VideoThumbnail,

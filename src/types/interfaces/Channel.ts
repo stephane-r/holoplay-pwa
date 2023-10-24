@@ -1,4 +1,4 @@
-import { VideoThumbnail } from "./Video";
+import type { VideoThumbnail } from "./Video";
 
 export interface Channel {
   type: "channel";

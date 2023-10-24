@@ -6,12 +6,12 @@ import {
   IconUser,
   IconVideo,
 } from "@tabler/icons-react";
-import { FC, memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { usePaginateData } from "../hooks/usePaginateData";
 import { useFavorite } from "../providers/Favorite";
-import { Card, CardVideo } from "../types/interfaces/Card";
+import type { Card, CardVideo } from "../types/interfaces/Card";
 import { CardList } from "./CardList";
 import { isLiveStream } from "./VideoCard";
 

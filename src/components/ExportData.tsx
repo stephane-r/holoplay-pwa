@@ -4,9 +4,9 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { getAllPlaylists } from "../database/utils";
-import { CardPlaylist } from "../types/interfaces/Card";
+import type { CardPlaylist } from "../types/interfaces/Card";
 import { generateAndDownloadFile } from "../utils/generateAndDownloadFile";
-import { TransferList, TransferListData } from "./TransferList";
+import { TransferList, type TransferListData } from "./TransferList";
 
 const loadPlaylistData = (playlistsTitle: string[]) => {
   const playlists = getAllPlaylists();

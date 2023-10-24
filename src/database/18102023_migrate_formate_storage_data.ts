@@ -1,6 +1,10 @@
 import { db } from ".";
-import { CardChannel, CardPlaylist, CardVideo } from "../types/interfaces/Card";
-import { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
+import type {
+  CardChannel,
+  CardPlaylist,
+  CardVideo,
+} from "../types/interfaces/Card";
+import type { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
 import {
   formatedCardChannel,
   formatedCardPlaylist,

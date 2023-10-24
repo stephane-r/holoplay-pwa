@@ -1,8 +1,8 @@
 import qs from "qs";
 
-import { Channel } from "../types/interfaces/Channel";
-import { Playlist } from "../types/interfaces/Playlist";
-import { Video } from "../types/interfaces/Video";
+import type { Channel } from "../types/interfaces/Channel";
+import type { Playlist } from "../types/interfaces/Playlist";
+import type { Video } from "../types/interfaces/Video";
 import { getCurrentInstance } from "../utils/getCurrentInstance";
 
 export const getChannel = async (authorId: string): Promise<Channel> => {

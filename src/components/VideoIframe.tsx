@@ -5,7 +5,7 @@ import {
   IconHandMove,
   IconInfoCircle,
 } from "@tabler/icons-react";
-import { memo, useCallback, useEffect, useMemo, useRef } from "react";
+import { type FC, memo, useCallback, useEffect, useMemo, useRef } from "react";
 import videojs from "video.js";
 import Player from "video.js/dist/types/player";
 import "video.js/dist/video-js.css";
@@ -26,31 +26,29 @@ interface VideoIframeProps {
   height: number;
 }
 
-export const VideoIframe: React.FC<VideoIframeProps> = memo(
-  ({ width, height }) => {
-    const { video } = usePlayerVideo();
-    const playerState = usePlayerState();
+export const VideoIframe: FC<VideoIframeProps> = memo(({ width, height }) => {
+  const { video } = usePlayerVideo();
+  const playerState = usePlayerState();
 
-    if (!video) {
-      return null;
-    }
+  if (!video) {
+    return null;
+  }
 
-    return (
-      <Box className={classes.box}>
-        <ButtonMove />
-        <ButtonHide />
-        <ButtonInformation />
-        <ButtonClose />
-        <Video
-          loop={playerState.repeat}
-          src={`https://www.youtube-nocookie.com/embed/${
-            video.videoId
-          }&start=${Math.floor(playerState.currentTime as number)}`}
-        />
-      </Box>
-    );
-  },
-);
+  return (
+    <Box className={classes.box}>
+      <ButtonMove />
+      <ButtonHide />
+      <ButtonInformation />
+      <ButtonClose />
+      <Video
+        loop={playerState.repeat}
+        src={`https://www.youtube-nocookie.com/embed/${
+          video.videoId
+        }&start=${Math.floor(playerState.currentTime as number)}`}
+      />
+    </Box>
+  );
+});
 
 const Video = ({ loop, src }: { loop: boolean; src: string }) => {
   const videoRef = useRef();

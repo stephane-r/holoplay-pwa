@@ -1,13 +1,13 @@
 import { Button, Flex, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { memo, useState } from "react";
+import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
-import { CardPlaylist } from "../types/interfaces/Card";
-import { Playlist } from "../types/interfaces/Playlist";
+import type { CardPlaylist } from "../types/interfaces/Card";
+import type { Playlist } from "../types/interfaces/Playlist";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
@@ -17,7 +17,7 @@ interface ModalUpdatePlaylistProps {
   playlist: CardPlaylist;
 }
 
-export const ModalUpdatePlaylist: React.FC<ModalUpdatePlaylistProps> = memo(
+export const ModalUpdatePlaylist: FC<ModalUpdatePlaylistProps> = memo(
   ({ opened, onClose, playlist }) => {
     const [playlistTitle, setPlaylistTitle] = useState(playlist.title);
     const setPlaylists = useSetPlaylists();

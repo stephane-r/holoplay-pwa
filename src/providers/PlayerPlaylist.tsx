@@ -1,19 +1,22 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  type Dispatch,
+  type FC,
+  type PropsWithChildren,
+  type SetStateAction,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
-import { Video } from "../types/interfaces/Video";
+import type { Video } from "../types/interfaces/Video";
 
 const PlayerPlaylistContext = createContext<Video[]>([]);
 const SetPlayerPlaylistContext = createContext<
-  React.Dispatch<React.SetStateAction<Video[]>>
+  Dispatch<SetStateAction<Video[]>>
 >(() => {});
 
-interface PlayerPlaylistProviderProps {
-  children: React.ReactNode;
-}
-
-export const PlayerPlaylistProvider: React.FC<PlayerPlaylistProviderProps> = ({
-  children,
-}) => {
+export const PlayerPlaylistProvider: FC<PropsWithChildren> = ({ children }) => {
   const [videos, setVideos] = useState<Video[]>([]);
 
   const value = useMemo(

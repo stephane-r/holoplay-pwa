@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { queryClient } from "../queryClient";
 import { getChannel } from "../services/channel";
-import { Channel } from "../types/interfaces/Channel";
+import type { Channel } from "../types/interfaces/Channel";
 
 export const useGetChannel = (authorId: string) => {
   const [channel, setChannel] = useState<Channel | null>(null);

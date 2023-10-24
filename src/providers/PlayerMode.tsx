@@ -1,4 +1,11 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  type FC,
+  type PropsWithChildren,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 export type PlayerMode = "audio" | "video";
 
@@ -7,13 +14,7 @@ const SetPlayerModeContext = createContext<(mode: PlayerMode) => void>(
   () => {},
 );
 
-interface PlayerModeProviderProps {
-  children: React.ReactNode;
-}
-
-export const PlayerModeProvider: React.FC<PlayerModeProviderProps> = ({
-  children,
-}) => {
+export const PlayerModeProvider: FC<PropsWithChildren> = ({ children }) => {
   const [mode, setMode] = useState<PlayerMode>("audio");
 
   const value = useMemo(

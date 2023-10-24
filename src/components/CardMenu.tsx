@@ -6,11 +6,11 @@ import {
   IconShare,
   IconTrash,
 } from "@tabler/icons-react";
-import { memo, useState } from "react";
+import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
-import { CardVideo } from "../types/interfaces/Card";
+import type { CardVideo } from "../types/interfaces/Card";
 import { ModalAddToPlaylist } from "./ModalAddToPlaylist";
 import { ModalDeleteFromPlaylist } from "./ModalDeleteFromPlaylist";
 
@@ -18,7 +18,7 @@ interface CardMenuProps {
   card: CardVideo;
 }
 
-export const CardMenu: React.FC<CardMenuProps> = memo(({ card }) => {
+export const CardMenu: FC<CardMenuProps> = memo(({ card }) => {
   const [addToPlaylistModalOpened, setAddToPlaylistModalOpened] =
     useState(false);
   const [deleteFromPlaylistModalOpened, setDeleteFromPlaylistModalOpened] =

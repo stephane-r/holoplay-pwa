@@ -1,5 +1,5 @@
 import { Alert, Text } from "@mantine/core";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 
@@ -11,7 +11,7 @@ interface PopularProps {
   horizontal?: boolean;
 }
 
-export const Popular: React.FC<PopularProps> = memo(({ horizontal }) => {
+export const Popular: FC<PopularProps> = memo(({ horizontal }) => {
   const query = useQuery("most-popular", () => getPopuplars());
   const { t } = useTranslation();
 

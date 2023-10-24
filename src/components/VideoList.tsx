@@ -1,14 +1,14 @@
 import { Box } from "@mantine/core";
-import { memo } from "react";
+import { type FC, memo } from "react";
 
-import { Video as VideoType } from "../types/interfaces/Video";
+import type { Video as VideoType } from "../types/interfaces/Video";
 import { Video } from "./Video";
 
 interface VideoListProps {
   videos: VideoType[];
 }
 
-export const VideoList: React.FC<VideoListProps> = memo(({ videos }) => {
+export const VideoList: FC<VideoListProps> = memo(({ videos }) => {
   if (!videos) return null;
 
   return (

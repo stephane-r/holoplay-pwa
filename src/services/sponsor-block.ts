@@ -1,5 +1,5 @@
 import { getSettings } from "../database/utils";
-import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
+import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 
 interface Data {
   segments: SponsorBlockSegment[];

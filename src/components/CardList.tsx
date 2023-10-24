@@ -1,8 +1,8 @@
 import { Box } from "@mantine/core";
-import { FC, memo } from "react";
+import { type FC, memo } from "react";
 
 import { useSettings } from "../providers/Settings";
-import { Card as CardType } from "../types/interfaces/Card";
+import type { Card as CardType } from "../types/interfaces/Card";
 import { getCardTitle } from "./ButtonFavorite";
 import classes from "./CardList.module.css";
 import { ChannelCard } from "./ChannelCard";

@@ -1,5 +1,7 @@
 import qs from "qs";
 import {
+  type FC,
+  type PropsWithChildren,
   createContext,
   useCallback,
   useContext,
@@ -8,7 +10,7 @@ import {
 } from "react";
 import { useQuery } from "react-query";
 
-import { TrendingFilterType } from "../components/TrendingFilters";
+import type { TrendingFilterType } from "../components/TrendingFilters";
 import { useStableNavigate } from "./Navigate";
 
 export interface TrendingFilters {
@@ -24,10 +26,6 @@ const initialState: TrendingFilters = {
 const TrendingFiltersValuesContext =
   createContext<TrendingFilters>(initialState);
 const SetTrendingFiltersValuesContext = createContext<any>(null);
-
-interface ProviderProps {
-  children: React.ReactNode;
-}
 
 const getInitialParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -51,7 +49,7 @@ interface GeoLocation {
   region: string;
 }
 
-export const TrendingFiltersProvider: React.FC<ProviderProps> = ({
+export const TrendingFiltersProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   const [value, setValue] = useState<TrendingFilters>(getInitialParams());

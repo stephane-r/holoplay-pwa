@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { getPlaylist as getLocalPlaylist } from "../database/utils";
 import { getPlaylist as getRemotePlaylist } from "../services/playlist";
-import { Video } from "../types/interfaces/Video";
+import type { Video } from "../types/interfaces/Video";
 import { usePlayVideo } from "./usePlayVideo";
 
 export const usePlayPlaylist = () => {

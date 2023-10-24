@@ -1,6 +1,6 @@
 import {
-  FC,
-  PropsWithChildren,
+  type FC,
+  type PropsWithChildren,
   createContext,
   useCallback,
   useContext,
@@ -10,8 +10,8 @@ import {
 
 import { db } from "../database";
 import { getVideosHistory } from "../database/utils";
-import { CardVideo } from "../types/interfaces/Card";
-import { Video } from "../types/interfaces/Video";
+import type { CardVideo } from "../types/interfaces/Card";
+import type { Video } from "../types/interfaces/Video";
 import { formatedCardVideo } from "../utils/formatData";
 
 const HistoryContext = createContext<CardVideo[]>([]);
