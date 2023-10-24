@@ -42,7 +42,7 @@ export const PlayerMode = memo(() => {
     }
 
     return () => clear();
-  });
+  }, [clear, start, video]);
 
   return null;
 });
