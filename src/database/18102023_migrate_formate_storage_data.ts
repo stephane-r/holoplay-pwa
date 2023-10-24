@@ -10,7 +10,7 @@ import {
 
 const formatedPlaylists = () => {
   if (!db.columnExists("playlists", "cards")) {
-    db.alterTable("history", "thumbnail", null);
+    db.alterTable("history", "thumbnail", "");
     db.commit();
   }
 

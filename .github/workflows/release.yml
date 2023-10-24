@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
@@ -40,14 +40,6 @@ jobs:
       - name: Push tag version
         run: |
           git push origin v${{ steps.package-version.outputs.current-version }}
-
-      - name: Merge develop in main
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          from_branch: develop
-          target_branch: main
-          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update CHANGELOG
         id: changelog
@@ -73,3 +65,11 @@ jobs:
           branch: develop
           commit_message: "docs: update CHANGELOG.md for v${{ steps.package-version.outputs.current-version }}"
           file_pattern: CHANGELOG.md
+
+      - name: Merge develop in main
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: develop
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
