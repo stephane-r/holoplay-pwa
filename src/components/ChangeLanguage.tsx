@@ -19,7 +19,7 @@ export const ChangeLanguage = memo(() => {
       label={t("language")}
       description={t("language.description")}
       value={i18next.language}
-      onChange={handleChange}
+      onChange={(lang) => handleChange(lang as Languages)}
       data={languagesValues}
     />
   );
