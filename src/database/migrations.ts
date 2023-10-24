@@ -42,4 +42,20 @@ export default (() => {
       );
     } catch {}
   }
+
+  if (!migrationsName.includes("18102023_migrate_formate_storage_data")) {
+    try {
+      require("./18102023_migrate_formate_storage_data").default();
+      saveMigration("18102023_migrate_formate_storage_data");
+    } catch {}
+  }
+
+  if (
+    !migrationsName.includes("19102023_migrate_playlist_favorite_cards_key")
+  ) {
+    try {
+      require("./19102023_migrate_playlist_favorite_cards_key").default();
+      saveMigration("19102023_migrate_playlist_favorite_cards_key");
+    } catch {}
+  }
 })();

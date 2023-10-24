@@ -1,10 +1,11 @@
 import chunk from "lodash/chunk";
-import { Video } from "../types/interfaces/Video";
-import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
-export const usePaginateData = (videos: Video[]) => {
-  const chunkedData = chunk(videos, 10);
+import { Card } from "../types/interfaces/Card";
+
+export const usePaginateData = (cards: Card[]) => {
+  const chunkedData = chunk(cards, 10);
   const [page, setPage] = useState(0);
   const [data, setData] = useState(chunkedData[page]);
   const { ref, inView } = useInView();

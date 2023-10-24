@@ -1,4 +1,11 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  FC,
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 import { getPlaylists } from "../database/utils";
 import { Playlist } from "../types/interfaces/Playlist";
@@ -8,13 +15,7 @@ const SetPlaylistContext = createContext<
   React.Dispatch<React.SetStateAction<Playlist[]>>
 >(() => {});
 
-interface PlaylistProviderProps {
-  children: React.ReactNode;
-}
-
-export const PlaylistProvider: React.FC<PlaylistProviderProps> = ({
-  children,
-}) => {
+export const PlaylistProvider: FC<PropsWithChildren> = ({ children }) => {
   const [playlists, setPlaylists] = useState(getPlaylists());
 
   const value = useMemo(

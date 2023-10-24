@@ -13,32 +13,61 @@ import { db } from "../database";
 import { getFavoritePlaylist } from "../database/utils";
 import { useFavorite, useSetFavorite } from "../providers/Favorite";
 import { usePlayerVideo } from "../providers/Player";
-import { Playlist } from "../types/interfaces/Playlist";
+import {
+  Card,
+  CardChannel,
+  CardPlaylist,
+  CardVideo,
+} from "../types/interfaces/Card";
+import { Channel } from "../types/interfaces/Channel";
+import {
+  FavoritePlaylist as Favorite,
+  Playlist,
+} from "../types/interfaces/Playlist";
 import { Video } from "../types/interfaces/Video";
-import { cleanVideoThumbnailsUrl } from "../utils/cleanVideoThumbnailsUrl";
+import {
+  formatedCardChannel,
+  formatedCardPlaylist,
+  formatedCardVideo,
+} from "../utils/formatData";
+
+type ButtonFavoriteCard = Card | Video | Playlist | Channel;
+type FavoriteChannel = CardChannel | Channel;
+type FavoritePlaylist = CardPlaylist | Playlist;
+type FavoriteVideo = CardVideo | Video;
 
 interface ButtonFavoriteProps extends ActionIconProps {
-  video?: Video;
+  card?: ButtonFavoriteCard;
   iconSize?: number;
   buttonSize?: number;
   render?: "menu";
 }
 
-const getItemId = (item: Video) => {
+export const getCardId = (item: ButtonFavoriteCard) => {
+  if ((item as FavoritePlaylist)?.playlistId) {
+    return (item as FavoritePlaylist).playlistId;
+  }
+  if (
+    (item as FavoriteChannel)?.authorId &&
+    (item as FavoriteChannel).type === "channel"
+  ) {
+    return (item as FavoriteChannel).authorId;
+  }
+  return (item as FavoriteVideo)?.videoId;
+};
+
+export const getCardTitle = (item: ButtonFavoriteCard) => {
   switch (item.type) {
     case "channel":
-      return item.authorId;
-    case "playlist":
-      // @ts-ignore
-      return item.playlistId;
+      return item.author;
     default:
-      return item.videoId;
+      return item.title;
   }
 };
 
 export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
   ({
-    video: parentVideo,
+    card: parentCard,
     iconSize = 18,
     variant = "default",
     buttonSize = 36,
@@ -50,13 +79,17 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     const { t } = useTranslation();
     const theme = useMantineTheme();
 
-    const video = parentVideo ?? (currentVideo as Video);
+    const card = parentCard ?? (currentVideo as Video);
 
-    const isFavorite = favorite.videos.find(
-      (favVideo) => getItemId(favVideo) === getItemId(video),
+    if (!card) {
+      return null;
+    }
+
+    const isFavorite = favorite.cards.find(
+      (favCard) => getCardId(favCard) === getCardId(card),
     );
 
-    const updateAndCommit = (updatedFavoritePlaylist: Playlist) => {
+    const updateAndCommit = (updatedFavoritePlaylist: Favorite) => {
       db.update(
         "playlists",
         { title: "Favorites" },
@@ -67,16 +100,24 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     };
 
     const handleAdd = () => {
+      const formatedCard = (() => {
+        switch (card.type) {
+          case "channel":
+            return formatedCardChannel(card as FavoriteChannel);
+          case "playlist":
+            return formatedCardPlaylist(card as FavoritePlaylist);
+          default:
+            return formatedCardVideo(card);
+        }
+      })();
+
       updateAndCommit({
         ...favorite,
-        videos: [
-          cleanVideoThumbnailsUrl({ ...video, videoId: getItemId(video) }),
-          ...favorite.videos,
-        ],
+        cards: [formatedCard, ...favorite.cards],
       });
 
       notifications.show({
-        title: video.title ?? video.author,
+        title: getCardTitle(card),
         message: t("favorite.add.success.message"),
       });
     };
@@ -84,13 +125,13 @@ export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
     const handleDelete = () => {
       updateAndCommit({
         ...favorite,
-        videos: favorite.videos.filter(
-          (favVideo) => getItemId(favVideo) !== getItemId(video),
+        cards: favorite.cards.filter(
+          (favCard) => getCardId(favCard) !== getCardId(card),
         ),
       });
 
       notifications.show({
-        title: video.title ?? video.author,
+        title: getCardTitle(card),
         message: t("favorite.remove.success.message"),
       });
     };

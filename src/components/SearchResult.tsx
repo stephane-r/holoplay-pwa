@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 
 import { useSearchValues } from "../providers/Search";
 import { search } from "../services/search";
-import { Video } from "../types/interfaces/Video";
+import { Card } from "../types/interfaces/Card";
 import { CardList } from "./CardList";
 
 export const SearchResult = memo(() => {
@@ -15,7 +15,7 @@ export const SearchResult = memo(() => {
   const { ref, inView } = useInView();
   const [page, setPage] = useState(1);
   const [enabled, setEnabled] = useState(searchValues.q.length > 0);
-  const [videos, setVideos] = useState<Video[]>([]);
+  const [cards, setCards] = useState<Card[]>([]);
   const { t } = useTranslation();
 
   const { isFetching } = useQuery(
@@ -23,10 +23,7 @@ export const SearchResult = memo(() => {
     async () => search({ ...currentSearchValues, page }),
     {
       onSuccess: (data) => {
-        setVideos((previousVideos) => [
-          ...previousVideos,
-          ...(data as Video[]),
-        ]);
+        setCards((previousVideos) => [...previousVideos, ...(data as Card[])]);
         setPage((page) => page + 1);
         setEnabled(false);
       },
@@ -37,7 +34,7 @@ export const SearchResult = memo(() => {
   useEffect(() => {
     if (JSON.stringify(searchValues) !== JSON.stringify(currentSearchValues)) {
       setSearchValues(currentSearchValues);
-      setVideos([]);
+      setCards([]);
       setPage(1);
       setEnabled(true);
     }
@@ -56,8 +53,8 @@ export const SearchResult = memo(() => {
 
   return (
     <Paper>
-      {videos.length > 0 ? (
-        <CardList data={videos} />
+      {cards.length > 0 ? (
+        <CardList data={cards} />
       ) : (
         <LoadingOverlay visible />
       )}

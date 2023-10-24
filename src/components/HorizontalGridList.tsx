@@ -2,11 +2,11 @@ import { Box } from "@mantine/core";
 import { useElementSize } from "@mantine/hooks";
 import { memo } from "react";
 
-import { Video } from "../types/interfaces/Video";
+import { Card } from "../types/interfaces/Card";
 import { CardList } from "./CardList";
 
 interface HorizontalGridListProps {
-  data: Video[];
+  data: Card[];
   keyPrefix: string;
 }
 

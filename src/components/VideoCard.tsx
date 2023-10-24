@@ -14,7 +14,7 @@ import {
   IconPlayerPause,
   IconPlayerPlay,
 } from "@tabler/icons-react";
-import React, { memo } from "react";
+import React, { FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
@@ -23,31 +23,31 @@ import {
   usePlayerState,
   usePlayerVideo,
 } from "../providers/Player";
-import { useSettings } from "../providers/Settings";
-import { Video, VideoThumbnail } from "../types/interfaces/Video";
+import { CardVideo } from "../types/interfaces/Card";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
+import { getThumbnailQuality } from "../utils/formatData";
 import { ButtonFavorite } from "./ButtonFavorite";
 import classes from "./Card.module.css";
 import { CardImage } from "./CardImage";
 import { CardMenu } from "./CardMenu";
 
-interface CardProps {
-  video: Video;
+interface VideoCardProps {
+  video: CardVideo;
   component?: "div" | "li";
+  currentInstanceUri: string;
 }
 
-export const isLiveStream = (video: Video) =>
+export const isLiveStream = (video: CardVideo) =>
   video.type === "livestream" || video.liveNow || video.lengthSeconds === 0;
 
-export const Card: React.FC<CardProps> = memo(
-  ({ video, component = "div" }) => {
+export const VideoCard: FC<VideoCardProps> = memo(
+  ({ video, component = "div", currentInstanceUri }) => {
     const { handlePlay, loading } = usePlayVideo();
     const { t } = useTranslation();
-    const { currentInstance } = useSettings();
 
-    const image = video.videoThumbnails.find(
-      (thumbnail) => thumbnail.quality === "maxresdefault",
-    ) as VideoThumbnail;
+    const image =
+      video.thumbnail ??
+      getThumbnailQuality(video.videoThumbnails ?? [], "maxresdefault");
 
     return (
       <MCard
@@ -64,8 +64,8 @@ export const Card: React.FC<CardProps> = memo(
           onClick={() => handlePlay(video.videoId)}
         >
           <CardImage
-            image={image}
-            domain={currentInstance?.uri}
+            src={image}
+            domain={currentInstanceUri}
             title={video.title}
           >
             <Flex align="center" gap="xs" className={classes.cardImageOverlay}>
@@ -96,8 +96,8 @@ export const Card: React.FC<CardProps> = memo(
             onClick={() => handlePlay(video.videoId)}
             videoId={video.videoId}
           />
-          <ButtonFavorite video={video} />
-          <CardMenu video={video} />
+          <ButtonFavorite card={video} />
+          <CardMenu card={video} />
         </Group>
       </MCard>
     );

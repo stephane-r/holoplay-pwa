@@ -27,7 +27,6 @@ export const NAVIGATION_WIDTH = 88;
 
 export const Navigation = memo(() => {
   const { t } = useTranslation();
-  console.log(classes);
 
   return (
     <AppShell.Navbar w={{ base: NAVIGATION_WIDTH }} className={classes.navbar}>

@@ -13,7 +13,7 @@ import {
 import { getPlaylists } from "../database/utils";
 import { useSetFavorite } from "../providers/Favorite";
 import { useSetPlaylists } from "../providers/Playlist";
-import { Playlist } from "../types/interfaces/Playlist";
+import { Card, CardPlaylist } from "../types/interfaces/Card";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 import classes from "./ModalSyncData.module.css";
@@ -23,7 +23,7 @@ interface ModalSyncDataProps {
   onClose: () => void;
 }
 
-const syncData = async (code: string): Promise<Playlist[]> => {
+const syncData = async (code: string): Promise<CardPlaylist[]> => {
   const request = await fetch(
     `${process.env.REACT_APP_API_URL}/api/sync/${code}`,
   );
@@ -62,7 +62,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
       },
     });
 
-    const importData = async (data: Playlist[]) => {
+    const importData = async (data: CardPlaylist[]) => {
       const favoritesPlaylist = data.find(
         (playlist) => playlist.title === "Favorites",
       );
@@ -71,7 +71,7 @@ export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
       );
 
       if (favoritesPlaylist) {
-        importVideosToFavorites(favoritesPlaylist.videos);
+        importVideosToFavorites(favoritesPlaylist.videos as Card[]);
         setFavorite(getFavoritePlaylist());
       }
 
