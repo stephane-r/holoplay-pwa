@@ -10,6 +10,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.10.1] - 2023-10-24
+### :bug: Bug Fixes
+- [`98b5726`](https://github.com/stephane-r/holoplay-pwa/commit/98b5726b5da6f79ade7ef12e9711de88f4bccb44) - set empty string on default thumbnail
+
+### :wrench: Chores
+- [`05a35b2`](https://github.com/stephane-r/holoplay-pwa/commit/05a35b2f2202e0cedf9b03132198fb19d8c993d4) - **ci**: update release jobs
+
+
 ## [v1.10.0] - 2023-10-24
 ### :sparkles: New Features
 - [`824e814`](https://github.com/stephane-r/holoplay-pwa/commit/824e814b3dae8fc4d0485c92755ebea8d6bcb42c) - load channel videos as playlist
@@ -161,3 +169,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.9.6]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.5...v1.9.6
 [v1.9.12]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.6...v1.9.12
 [v1.10.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.12...v1.10.0
+[v1.10.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.0...v1.10.1
