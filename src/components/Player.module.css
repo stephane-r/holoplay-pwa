@@ -1,16 +1,25 @@
 .container {
+  display: block;
   position: absolute;
   z-index: 3;
   right: 0;
   bottom: 0;
   left: 0;
   box-shadow: 10px 0 10px rgb(0 0 0 / 20%);
+
+  &[data-visible="false"] {
+    display: none;
+  }
 }
 
 .content {
   padding: var(--mantine-spacing-sm);
 
   @media (min-width: $mantine-breakpoint-lg) {
+    padding: var(--mantine-spacing-lg);
+  }
+
+  @media (min-width: $mantine-breakpoint-xl) {
     padding: var(--mantine-spacing-xl);
   }
 }
@@ -42,6 +51,32 @@
   border-radius: var(--mantine-radius-md);
 
   @media (max-width: $mantine-breakpoint-lg) {
+    display: none;
+  }
+}
+
+.spacer {
+  height: 0;
+  
+  @media (min-width: $mantine-breakpoint-md) {
+    &[data-visible="true"] {
+      height: rem(78px);
+    }
+  }
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    &[data-visible="true"] {
+      height: rem(98px);
+    }
+  }
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    &[data-visible="true"] {
+      height: rem(128px);
+    }
+  }
+
+  @media (min-width: rem(2140)) {
     display: none;
   }
 }

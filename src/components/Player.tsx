@@ -46,7 +46,7 @@ export const Player = memo(() => {
   return (
     <Box
       className={classes.container}
-      style={{ display: showPlayerBar ? "block" : "none" }}
+      data-visible={showPlayerBar}
     >
       <Flex align="center" className={classes.content}>
         <PlayerLoadingOverlay />
@@ -179,10 +179,8 @@ const PlayerPlaylist = memo(() => {
 
 export const PlayerSpace = memo(() => {
   const playerUrl = usePlayerUrl();
-  const matches = useMediaQuery("(max-width: 2140px)");
-  const height = playerUrl && matches ? 98 : 0;
 
-  return <Box style={{ height }} />;
+  return <Box className={classes.spacer} data-visible={Boolean(playerUrl)} />;
 });
 
 const MoreSubMenu = memo(() => {
