@@ -240,5 +240,6 @@
   "favorite.tab.playlists": "Playlists",
   "favorite.tab.channels": "Chaînes",
   "favorite.tab.empty": "Aucun favoris dans cette section.",
-  "genre.title": "Ambiances & genres"
+  "genre.title": "Ambiances & genres",
+  "loading": "Changement..."
 }

@@ -240,5 +240,6 @@
   "favorite.tab.playlists": "Playlists",
   "favorite.tab.channels": "Channels",
   "favorite.tab.empty": "No favorite in this section",
-  "genre.title": "Moods & genres"
+  "genre.title": "Moods & genres",
+  "loading": "Loading..."
 }
