@@ -1,47 +1,47 @@
 .container {
-    position: absolute;
-    z-index: 3;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    box-shadow: 10px 0 10px rgb(0 0 0 / 20%);
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: 10px 0 10px rgb(0 0 0 / 20%);
 }
 
 .content {
-    padding: var(--mantine-spacing-sm);
+  padding: var(--mantine-spacing-sm);
 
-    @media (min-width: $mantine-breakpoint-lg) {
-        padding: var(--mantine-spacing-xl);
-    }
+  @media (min-width: $mantine-breakpoint-lg) {
+    padding: var(--mantine-spacing-xl);
+  }
 }
 
 .videoInformationsContainer {
-    max-width: rem(100px);
+  max-width: rem(100px);
 
-    @media (min-width: $mantine-breakpoint-sm}) {
-      max-width: rem(320px);
-      overflow: hidden;
-    }
+  @media (min-width: $mantine-breakpoint-sm) {
+    max-width: rem(320px);
+    overflow: hidden;
+  }
 
-    @media (min-width: $mantine-breakpoint-md}) {
-      max-width: rem(260px);
-    }
+  @media (min-width: $mantine-breakpoint-md) {
+    max-width: rem(260px);
+  }
 
-    @media (min-width: $mantine-breakpoint-lg}) {
-      max-width: rem(320px);
-    }
+  @media (min-width: $mantine-breakpoint-lg) {
+    max-width: rem(320px);
+  }
 
-    @media (min-width: 2100px) {
-      max-width: rem(440px);
-    }
+  @media (min-width: 2100px) {
+    max-width: rem(440px);
+  }
 }
 
 .thumbnail {
-    flex: 0 0 50px;
-    height: rem(50px);
-    border-radius: var(--mantine-radius-md);
+  flex: 0 0 50px;
+  height: rem(50px);
+  border-radius: var(--mantine-radius-md);
 
-    @media (max-width: $mantine-breakpoint-lg) {
-      display: none;
-    }
+  @media (max-width: $mantine-breakpoint-lg) {
+    display: none;
+  }
 }
