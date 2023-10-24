@@ -13,7 +13,6 @@
   "settings.general.invidious.button.add": "Eigene Domain hinzufügen",
   "settings.general.language": "Sprache auswählen",
   "settings.general.language.description": "App-Sprache auswählen",
-  "settings.general.language.alert": "Nach jetzigen Stand, ist Holoplay nur in der Englischen Sprache verfügbar. Eine Übersetzung ins französische kommt demnächst. Du kannst HoloPlay auch gerne in eine neue Sprache übersetzen und so das Projekt unterstützen!",
   "settings.general.language.alert.title": "Information",
   "settings.general.darkmode": "Nutze Dunkelmodus",
   "settings.player.title": "Player",
