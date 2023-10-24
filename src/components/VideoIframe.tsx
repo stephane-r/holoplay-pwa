@@ -1,8 +1,7 @@
 import { ActionIcon, Box, CloseButton, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
-  IconChevronDown,
-  IconHandMove,
+  IconChevronRight,
   IconInfoCircle,
 } from "@tabler/icons-react";
 import { type FC, memo, useCallback, useEffect, useMemo, useRef } from "react";
@@ -21,12 +20,7 @@ import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility"
 import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 import classes from "./VideoIframe.module.css";
 
-interface VideoIframeProps {
-  width: number;
-  height: number;
-}
-
-export const VideoIframe: FC<VideoIframeProps> = memo(({ width, height }) => {
+export const VideoIframe = memo(() => {
   const { video } = usePlayerVideo();
   const playerState = usePlayerState();
 
@@ -36,7 +30,6 @@ export const VideoIframe: FC<VideoIframeProps> = memo(({ width, height }) => {
 
   return (
     <Box className={classes.box}>
-      <ButtonMove />
       <ButtonHide />
       <ButtonInformation />
       <ButtonClose />
@@ -156,7 +149,7 @@ const ButtonHide = memo(() => {
       title="Hide"
       onClick={() => setVideoIframeVisibility(false)}
     >
-      <IconChevronDown />
+      <IconChevronRight />
     </ActionIcon>
   );
 });
@@ -176,16 +169,5 @@ const ButtonInformation = memo(() => {
       </Tooltip>
       <ModalVideoIframeInformation opened={opened} onClose={close} />
     </>
-  );
-});
-
-const ButtonMove = memo(() => {
-  return (
-    <ActionIcon
-      className={`${classes.buttonMove} ${classes.button}`}
-      title="Drag"
-    >
-      <IconHandMove />
-    </ActionIcon>
   );
 });

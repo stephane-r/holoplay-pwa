@@ -1,0 +1,37 @@
+.container {
+  position: absolute;
+  bottom: rem(160px);
+  right: rem(20px);
+  width: rem(300px);
+  height: rem(150px);
+  z-index: 4;
+  pointer-events: all;
+  transition: .2s;
+
+  &[data-visible="false"] {
+    transform: translate3d(320px, 0, 0);
+  }
+
+  @media (min-width: $mantine-breakpoint-md) {
+    bottom: rem(130px);
+    right: rem(40px);
+    width: rem(400px);
+    height: rem(200px);
+
+    &[data-visible="false"] {
+      transform: translate3d(440px, 0, 0);
+    }
+  }
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    bottom: rem(180px);
+  }
+
+  @media (min-width: em(2140)) {
+    bottom: rem(70px);
+    right: rem(550px);
+  }
+
+  /* &[data-visible="true"] {
+  } */
+}
