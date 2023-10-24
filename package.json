@@ -29,7 +29,6 @@
     "@types/uuid": "^9.0.6",
     "awaiting": "^3.0.0",
     "country-list": "^2.3.0",
-    "framer-motion": "^10.16.4",
     "hex-to-rgba": "^2.0.1",
     "i18next": "^23.6.0",
     "i18next-browser-languagedetector": "^7.1.0",
