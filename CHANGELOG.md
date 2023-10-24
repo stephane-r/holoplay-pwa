@@ -10,6 +10,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.10.0] - 2023-10-24
+### :sparkles: New Features
+- [`824e814`](https://github.com/stephane-r/holoplay-pwa/commit/824e814b3dae8fc4d0485c92755ebea8d6bcb42c) - load channel videos as playlist
+- [`1739332`](https://github.com/stephane-r/holoplay-pwa/commit/1739332b0907e2f6b724590ede378ff2c0c48fa3) - ajust some player UI details on medium screen
+- [`ee28028`](https://github.com/stephane-r/holoplay-pwa/commit/ee280288137a96b809eef86fe5b09da21c0d6bf4) - ajust UI after upgrade Mantine
+- [`a7c9035`](https://github.com/stephane-r/holoplay-pwa/commit/a7c9035a1f2d7844a0f189cd13c5eee94177d3db) - ajust responsive UI
+- [`a7beb3e`](https://github.com/stephane-r/holoplay-pwa/commit/a7beb3ea4b88cce99785cfd31955f499b3c61818) - **settings**: show storage usage on device
+- [`865b4e7`](https://github.com/stephane-r/holoplay-pwa/commit/865b4e77519fe6a3a28283ef2ba3b4ee8c757dca) - **i18n**: remove useless key
+
+### :bug: Bug Fixes
+- [`64b11d1`](https://github.com/stephane-r/holoplay-pwa/commit/64b11d17c229725f19754411e48888d4b1c212b1) - add missing and wrong key props on components
+- [`bce6c79`](https://github.com/stephane-r/holoplay-pwa/commit/bce6c7982371ce1456ae6a8003f19c40ec7fc0c3) - remove domain from recommended video URL
+- [`40e209f`](https://github.com/stephane-r/holoplay-pwa/commit/40e209fba67de412f4797a3cc3c0d12bb56225fe) - content is outside player container
+- [`da34f19`](https://github.com/stephane-r/holoplay-pwa/commit/da34f195d48574b207ad0be32fc55293ed932b29) - **player**: remove horizontal scrollbar on DrawerPlayer
+- [`9233904`](https://github.com/stephane-r/holoplay-pwa/commit/92339048d4dae9b8bc7ede47689f03706197e5b7) - fixing App layout scrolling on touch device
+- [`69fa299`](https://github.com/stephane-r/holoplay-pwa/commit/69fa299d713dbc4d211b25be492caff5305e09b9) - **linter**: remove useless import
+- [`6400c59`](https://github.com/stephane-r/holoplay-pwa/commit/6400c59b5a0e1c010673b2a300fa0ae4fb2accba) - remove unwanted playlist in UI
+- [`d1a1cd5`](https://github.com/stephane-r/holoplay-pwa/commit/d1a1cd5c356dd2713a7e985a237f5b05c8f6fc84) - add missing cards key on Favorites
+- [`104cd2b`](https://github.com/stephane-r/holoplay-pwa/commit/104cd2bb085a5eb2e470a8f7f729a2a85f7bc1a2) - add cards on playlists schema
+- [`a203d99`](https://github.com/stephane-r/holoplay-pwa/commit/a203d990aa5e06fdff8cd1674811211124c9e168) - removing LoadingOverlay from Trending and Popular components
+- [`b88f258`](https://github.com/stephane-r/holoplay-pwa/commit/b88f258b9396e1cc2c1488790eebe5082ab54027) - **linter**: remove useless import
+
+### :recycle: Refactors
+- [`96152a3`](https://github.com/stephane-r/holoplay-pwa/commit/96152a31012bd88f63f80035b3f09674028b6dc7) - refactor export and import data
+- [`574f6ed`](https://github.com/stephane-r/holoplay-pwa/commit/574f6ede5e35ce3716e6888c26d71c284986a717) - add new Card type and save smaller data in localstorage
+- [`e49bab5`](https://github.com/stephane-r/holoplay-pwa/commit/e49bab516af69affb479500adf2af20daf175845) - **favorites**: move videos key to cards
+
+### :wrench: Chores
+- [`d4eb3ef`](https://github.com/stephane-r/holoplay-pwa/commit/d4eb3effe2d2135c91a2dfc46d2eb9f789c0842b) - **ci**: update CI config
+- [`7fc1d16`](https://github.com/stephane-r/holoplay-pwa/commit/7fc1d16d792c5e9fc5adb9ebff4715c039a10fc1) - **docs**: update README
+- [`855bd2e`](https://github.com/stephane-r/holoplay-pwa/commit/855bd2e9712bae18058d163848baff86e99d46e8) - add ua-parser-js dependency
+- [`b378ff3`](https://github.com/stephane-r/holoplay-pwa/commit/b378ff39c2a394651def1705f8264e705a4cd849) - upgrade dependencies
+- [`0966fe4`](https://github.com/stephane-r/holoplay-pwa/commit/0966fe4e61ca49cefe985582f5bdf64a8e210e5b) - upgrade Mantine to v7
+- [`edb26b9`](https://github.com/stephane-r/holoplay-pwa/commit/edb26b9bc5c77782c41aeff7814d5a0e4074507c) - upgrade dependencies
+- [`3d25840`](https://github.com/stephane-r/holoplay-pwa/commit/3d2584018b7d7fa37739494108ef3da568e52974) - add awaiting dependency
+- [`a605d17`](https://github.com/stephane-r/holoplay-pwa/commit/a605d17e67f6c9c1e2c209a9eadd6029b65d287e) - add pretty-bytes dependency
+
+
 ## [v1.9.12] - 2023-10-13
 ### :sparkles: New Features
 - [`0aa3cde`](https://github.com/stephane-r/holoplay-pwa/commit/0aa3cde7e4a917e9b05fedc262948ca31cce1dcb) - **dashboard**: change blocks order
@@ -122,3 +160,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.9.4]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.3...v1.9.4
 [v1.9.6]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.5...v1.9.6
 [v1.9.12]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.6...v1.9.12
+[v1.10.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.12...v1.10.0
