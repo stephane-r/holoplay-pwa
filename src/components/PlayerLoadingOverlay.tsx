@@ -8,9 +8,13 @@ export const PlayerLoadingOverlay = memo(() => {
   const playerState = usePlayerState();
   const playerMode = usePlayerMode();
 
-  if (playerMode === "video") {
+  if (playerMode === "video" || !playerState.loading) {
     return null;
   }
 
-  return <LoadingOverlay visible={playerState.loading} />;
+  return (
+    <div aria-label="Player loading" role="status">
+      <LoadingOverlay aria-label="Player loading" visible />
+    </div>
+  );
 });

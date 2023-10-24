@@ -1,46 +1,6 @@
-import { Page, expect, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-export const search = async (page: Page, value: string) => {
-  // Check search bar visibility
-  await expect(
-    page.getByRole("form", { name: "Search bar form" }),
-  ).toBeVisible();
-  await page.getByPlaceholder("What do you want hear today?").fill(value);
-  await page.getByPlaceholder("What do you want hear today?").press("Enter");
-  await listVisibility(page, value);
-};
-
-export const selectSearchType = async (
-  page: Page,
-  type: string,
-  currentType: string = "Videos",
-) => {
-  await page.getByRole("button", { name: "Open search filters" }).click();
-  await expect(
-    page.getByRole("menu", { name: "Search filters" }),
-  ).toBeVisible();
-  await page
-    .getByRole("menu", { name: "Search filters" })
-    .getByRole("textbox", { name: "Type filter" })
-    .click();
-  await expect(page.getByRole("listbox")).toBeVisible();
-  await expect(
-    page.getByRole("listbox").getByRole("option", { selected: true }),
-  ).toContainText(currentType);
-  await page.getByRole("listbox").getByRole("option", { name: type }).click();
-};
-
-const listVisibility = async (page: Page, label: string) => {
-  await expect(
-    page.getByRole("heading", { name: `Search results : ${label}` }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("list", { name: `Search result list ${label}` }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("list", { name: `Search result list ${label}` }),
-  ).not.toBeEmpty();
-};
+import { search } from "./utils";
 
 test.describe.serial("search", () => {
   test("search an artist", async ({ page }) => {

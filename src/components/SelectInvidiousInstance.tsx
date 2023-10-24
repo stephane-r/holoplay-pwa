@@ -19,7 +19,7 @@ export const SelectInvidiousInstance = memo(() => {
     settings.customInstances && settings.customInstances.length > 0;
 
   return (
-    <Table highlightOnHover>
+    <Table role="list" aria-label="Invidious instances list" highlightOnHover>
       <Table.Thead>
         <Table.Tr>
           <Table.Th>
@@ -89,7 +89,11 @@ const TableRow = memo(
     };
 
     return (
-      <Table.Tr>
+      <Table.Tr
+        role="listitem"
+        aria-label={instance.domain}
+        aria-current={isCurrent}
+      >
         <Table.Td>
           {instance.flag} {instance.domain}
           {isCurrent ? (
@@ -109,9 +113,10 @@ const TableRow = memo(
           ) : null}
         </Table.Td>
         <Table.Td>{instance.type}</Table.Td>
-        <Table.Td>
+        <Table.Td data-testid="use">
           <Switch
             checked={isCurrent}
+            aria-label={t("invidious.use")}
             label={t("invidious.use")}
             onChange={() => handleInstanceChange("currentInstance", instance)}
           />

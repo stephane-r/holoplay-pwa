@@ -1,7 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-import { search, selectSearchType } from "./search.spec";
-import { checkNotification, navigateTo } from "./utils";
+import {
+  checkNotification,
+  navigateTo,
+  search,
+  selectSearchType,
+} from "./utils";
 
 const createPlaylist = async (page, title: string) => {
   await navigateTo(page, "Playlists", "Playlists");
