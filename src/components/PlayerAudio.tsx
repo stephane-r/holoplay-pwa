@@ -9,9 +9,11 @@ import {
   usePlayerUrl,
   useSetPlayerState,
 } from "../providers/Player";
-import { usePlayerMode } from "../providers/PlayerMode";
+import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
 import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
+import { showNotification } from "@mantine/notifications";
+import { useTranslation } from "react-i18next";
 
 export const PlayerAudio = memo(() => {
   const playerAudio = usePlayerAudio();
@@ -21,6 +23,8 @@ export const PlayerAudio = memo(() => {
   const { videosIds } = usePreviousNextVideos();
   const playerMode = usePlayerMode();
   const playerState = usePlayerState();
+  const setPlayerMode = useSetPlayerMode();
+  const { t } = useTranslation();
 
   const handlePause = () => {
     setPlayerState((previousState) => ({
@@ -71,6 +75,18 @@ export const PlayerAudio = memo(() => {
     }));
   };
 
+  const handleError = () => {
+    setPlayerState((previousState) => ({
+      ...previousState,
+      loading: false,
+    }));
+    setPlayerMode("video");
+    showNotification({
+      title: t("error"),
+      message: t("player.mode.audio.error.message"),
+    });
+  }
+
   return (
     <Box style={{ display: "none" }} aria-hidden="true">
       <ReactAudioPlayer
@@ -79,6 +95,7 @@ export const PlayerAudio = memo(() => {
         autoPlay={playerMode === "audio"}
         controls
         listenInterval={100}
+        onError={handleError}
         onPause={handlePause}
         onPlay={handlePlay}
         onCanPlay={handleCanPlay}
