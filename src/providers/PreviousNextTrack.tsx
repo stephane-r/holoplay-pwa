@@ -1,4 +1,13 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  type Dispatch,
+  type FC,
+  type PropsWithChildren,
+  type SetStateAction,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 
 type VideosIds = {
   previousVideoId: string | null;
@@ -14,20 +23,16 @@ const PreviousNextVideosContext = createContext<{
   },
 });
 const SetPreviousNextVideosContext = createContext<
-  React.Dispatch<
-    React.SetStateAction<{
+  Dispatch<
+    SetStateAction<{
       videosIds: VideosIds;
     }>
   >
 >(() => {});
 
-interface PreviousNextTrackProviderProps {
-  children: React.ReactNode;
-}
-
-export const PreviousNextTrackProvider: React.FC<
-  PreviousNextTrackProviderProps
-> = ({ children }) => {
+export const PreviousNextTrackProvider: FC<PropsWithChildren> = ({
+  children,
+}) => {
   const [videosIds, setPreviousVideoId] = useState<{
     videosIds: VideosIds;
   }>({

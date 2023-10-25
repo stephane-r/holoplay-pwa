@@ -13,7 +13,7 @@ import { useSetPreviousNextVideos } from "../providers/PreviousNextTrack";
 import { useSettings } from "../providers/Settings";
 import { getSponsorBlockSegments } from "../services/sponsor-block";
 import { getVideo } from "../services/video";
-import { Video, VideoThumbnail } from "../types/interfaces/Video";
+import type { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { colorExtractor } from "../utils/colorExtractor";
 import { useResolveVideosPlaylist } from "./useResolveVideosPlaylist";
 

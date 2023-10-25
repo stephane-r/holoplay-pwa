@@ -5,7 +5,7 @@ import {
   usePlayerState,
   usePlayerVideo,
 } from "../providers/Player";
-import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
+import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 
 const inRange = (num: number, min: number, max: number) =>
   num >= min && num <= max;

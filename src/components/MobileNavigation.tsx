@@ -7,7 +7,7 @@ import {
   IconTrendingUp,
   IconUsers,
 } from "@tabler/icons-react";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import classes from "./MobileNavigation.module.css";
@@ -17,7 +17,7 @@ interface MobileNavigationProps {
   onClose: () => void;
 }
 
-export const MobileNavigation: React.FC<MobileNavigationProps> = memo(
+export const MobileNavigation: FC<MobileNavigationProps> = memo(
   ({ onClose }) => {
     const { t } = useTranslation();
 

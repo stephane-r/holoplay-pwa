@@ -1,4 +1,4 @@
-import { Instance } from "./Instance";
+import type { Instance } from "./Instance";
 
 export interface Settings {
   instances: Instance[];

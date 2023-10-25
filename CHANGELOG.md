@@ -10,6 +10,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.10.2] - 2023-10-25
+### :sparkles: New Features
+- [`969384f`](https://github.com/stephane-r/holoplay-pwa/commit/969384f689749a479d99d5fdd39e3ef335861fe0) - **player**: ajust CSS button variant
+
+### :bug: Bug Fixes
+- [`f3b32c6`](https://github.com/stephane-r/holoplay-pwa/commit/f3b32c6e511dbe00620fbe6d54859941ad91f3fe) - add missing dependencies on useEffect hook
+- [`4cd6d82`](https://github.com/stephane-r/holoplay-pwa/commit/4cd6d82dc5206b2702a3ea39fde2a4c946ed725f) - **css**: fixing wrong format on CSS file
+- [`d6b31dc`](https://github.com/stephane-r/holoplay-pwa/commit/d6b31dcc0780210160f7ce4a90cccb9b27f3db4e) - **linter**: remove useless import
+
+### :recycle: Refactors
+- [`aee836d`](https://github.com/stephane-r/holoplay-pwa/commit/aee836d95b9bbe9b1e85b1cd38fd173ec4213fee) - **videoPlayer**: simplify video player visiblity
+- [`4db2b9c`](https://github.com/stephane-r/holoplay-pwa/commit/4db2b9cdfc8f93aa1aa08a7d700d83b84ed6392c) - **player**: ajust Player CSS
+
+### :wrench: Chores
+- [`381d631`](https://github.com/stephane-r/holoplay-pwa/commit/381d631b4b882ac0c81a7c7b73487590bdaa40bc) - upgrade dependencies
+- [`414e7f4`](https://github.com/stephane-r/holoplay-pwa/commit/414e7f49cfc18c12639810684a1dfe9ae14c6510) - upgrade TypeScript version
+- [`e567e4a`](https://github.com/stephane-r/holoplay-pwa/commit/e567e4abebcb0c8bb832445f907b028450769a8b) - add npmrc file
+- [`a55ddae`](https://github.com/stephane-r/holoplay-pwa/commit/a55ddae348fb18fad0c66a214e374962bb3a1002) - remove framer-motion dependency
+
+
 ## [v1.10.1] - 2023-10-24
 ### :bug: Bug Fixes
 - [`98b5726`](https://github.com/stephane-r/holoplay-pwa/commit/98b5726b5da6f79ade7ef12e9711de88f4bccb44) - set empty string on default thumbnail
@@ -170,3 +190,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.9.12]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.6...v1.9.12
 [v1.10.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.9.12...v1.10.0
 [v1.10.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.0...v1.10.1
+[v1.10.2]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.1...v1.10.2

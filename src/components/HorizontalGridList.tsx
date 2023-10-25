@@ -1,8 +1,8 @@
 import { Box } from "@mantine/core";
 import { useElementSize } from "@mantine/hooks";
-import { memo } from "react";
+import { type FC, memo } from "react";
 
-import { Card } from "../types/interfaces/Card";
+import type { Card } from "../types/interfaces/Card";
 import { CardList } from "./CardList";
 
 interface HorizontalGridListProps {
@@ -10,7 +10,7 @@ interface HorizontalGridListProps {
   keyPrefix: string;
 }
 
-export const HorizontalGridList: React.FC<HorizontalGridListProps> = memo(
+export const HorizontalGridList: FC<HorizontalGridListProps> = memo(
   ({ data }) => {
     const { ref, width } = useElementSize();
 

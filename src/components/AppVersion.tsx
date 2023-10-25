@@ -1,5 +1,5 @@
 import { Badge, Space, Text } from "@mantine/core";
-import { FC, memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import pkg from "../../package.json";

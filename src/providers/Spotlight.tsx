@@ -1,4 +1,4 @@
-import { Spotlight, SpotlightActionData } from "@mantine/spotlight";
+import { Spotlight, type SpotlightActionData } from "@mantine/spotlight";
 import {
   IconHeart,
   IconHistory,
@@ -8,7 +8,13 @@ import {
   IconTrendingUp,
   IconUsers,
 } from "@tabler/icons-react";
-import { FC, PropsWithChildren, useCallback, useMemo, useState } from "react";
+import {
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 
 import { useStableNavigate } from "./Navigate";
 import { useSearchValues, useSetSearchValues } from "./Search";

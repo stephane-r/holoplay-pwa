@@ -1,4 +1,4 @@
-import { CardVideo } from "../types/interfaces/Card";
+import type { CardVideo } from "../types/interfaces/Card";
 import { getCurrentInstance } from "../utils/getCurrentInstance";
 
 export const getPopuplars = async (): Promise<CardVideo[]> => {

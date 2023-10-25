@@ -1,5 +1,9 @@
-import { Modal as MModal, ModalProps, useMantineTheme } from "@mantine/core";
-import { FC, ReactNode } from "react";
+import {
+  Modal as MModal,
+  type ModalProps,
+  useMantineTheme,
+} from "@mantine/core";
+import { type FC, type ReactNode } from "react";
 
 import { useAppColorScheme } from "../hooks/useAppColorScheme";
 

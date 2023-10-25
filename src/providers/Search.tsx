@@ -1,7 +1,14 @@
 import qs from "qs";
-import { createContext, useContext, useMemo, useState } from "react";
-
 import {
+  type FC,
+  type PropsWithChildren,
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+
+import type {
   Search,
   SearchDate,
   SearchDuration,
@@ -23,10 +30,6 @@ const initialState: Search = {
 const SearchValueContext = createContext<Search>(initialState);
 const SetSearchValueContext = createContext<any>(null);
 
-interface SearchProviderrProps {
-  children: React.ReactNode;
-}
-
 const getSearchParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
   return {
@@ -40,9 +43,7 @@ const getSearchParams = () => {
   };
 };
 
-export const SearchProvider: React.FC<SearchProviderrProps> = ({
-  children,
-}) => {
+export const SearchProvider: FC<PropsWithChildren> = ({ children }) => {
   const [value, setValue] = useState<Search>(getSearchParams());
 
   const params = useMemo(

@@ -1,7 +1,7 @@
 import qs from "qs";
 
-import { Card } from "../types/interfaces/Card";
-import { Search } from "../types/interfaces/Search";
+import type { Card } from "../types/interfaces/Card";
+import type { Search } from "../types/interfaces/Search";
 import { getCurrentInstance } from "../utils/getCurrentInstance";
 
 interface SearchParams extends Search {

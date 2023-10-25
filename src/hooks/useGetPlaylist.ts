@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePlaylists } from "../providers/Playlist";
 import { queryClient } from "../queryClient";
 import { getPlaylist } from "../services/playlist";
-import { Playlist } from "../types/interfaces/Playlist";
+import type { Playlist } from "../types/interfaces/Playlist";
 
 export const useGetPlaylist = (playlistId: string | number) => {
   const playlists = usePlaylists();

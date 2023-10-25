@@ -1,14 +1,15 @@
 import { Flex, Space, Title } from "@mantine/core";
+import type { FC, ReactNode } from "react";
 
 import { ButtonHistoryBack } from "./ButtonHistoryBack";
 
 interface PageHeaderProps {
   title: string;
   canGoBack?: boolean;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-export const PageHeader: React.FC<PageHeaderProps> = ({
+export const PageHeader: FC<PageHeaderProps> = ({
   title,
   canGoBack = false,
   children,

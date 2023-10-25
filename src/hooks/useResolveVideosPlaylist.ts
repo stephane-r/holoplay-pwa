@@ -5,8 +5,8 @@ import {
   getPlaylist as getLocalPlaylist,
 } from "../database/utils";
 import { queryClient } from "../queryClient";
-import { Playlist } from "../types/interfaces/Playlist";
-import { Video } from "../types/interfaces/Video";
+import type { Playlist } from "../types/interfaces/Playlist";
+import type { Video } from "../types/interfaces/Video";
 
 export const useResolveVideosPlaylist = () => {
   const location = useLocation();

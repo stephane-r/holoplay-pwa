@@ -1,12 +1,12 @@
 import { Button, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
 import { useSetPlaylists } from "../providers/Playlist";
-import { CardPlaylist } from "../types/interfaces/Card";
+import type { CardPlaylist } from "../types/interfaces/Card";
 import { Modal } from "./Modal";
 
 interface ModalDeletePlaylistProps {
@@ -15,7 +15,7 @@ interface ModalDeletePlaylistProps {
   playlist: CardPlaylist;
 }
 
-export const ModalDeletePlaylist: React.FC<ModalDeletePlaylistProps> = memo(
+export const ModalDeletePlaylist: FC<ModalDeletePlaylistProps> = memo(
   ({ opened, onClose, playlist }) => {
     const setPlaylists = useSetPlaylists();
     const { t } = useTranslation();

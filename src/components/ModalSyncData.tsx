@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Text, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { memo, useState } from "react";
+import { type FC, memo, useState } from "react";
 import useDigitInput from "react-digit-input";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -13,7 +13,7 @@ import {
 import { getPlaylists } from "../database/utils";
 import { useSetFavorite } from "../providers/Favorite";
 import { useSetPlaylists } from "../providers/Playlist";
-import { Card, CardPlaylist } from "../types/interfaces/Card";
+import type { Card, CardPlaylist } from "../types/interfaces/Card";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 import classes from "./ModalSyncData.module.css";
@@ -31,7 +31,7 @@ const syncData = async (code: string): Promise<CardPlaylist[]> => {
   return data;
 };
 
-export const ModalSyncData: React.FC<ModalSyncDataProps> = memo(
+export const ModalSyncData: FC<ModalSyncDataProps> = memo(
   ({ opened, onClose }) => {
     const [value, onChange] = useState("");
     const { t } = useTranslation();

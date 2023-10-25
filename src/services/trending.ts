@@ -1,7 +1,7 @@
 import qs from "qs";
 
-import { TrendingFilters } from "../providers/TrendingFilters";
-import { CardVideo } from "../types/interfaces/Card";
+import type { TrendingFilters } from "../providers/TrendingFilters";
+import type { CardVideo } from "../types/interfaces/Card";
 import { getCurrentInstance } from "../utils/getCurrentInstance";
 
 export const getTrendings = async (

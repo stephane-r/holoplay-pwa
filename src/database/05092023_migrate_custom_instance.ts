@@ -1,5 +1,5 @@
 import { db } from ".";
-import { Settings } from "../types/interfaces/Settings";
+import type { Settings } from "../types/interfaces/Settings";
 
 const migration = () => {
   const settings = db.queryAll("settings", { query: { ID: 1 } })[0] as Settings;

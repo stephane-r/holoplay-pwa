@@ -1,6 +1,6 @@
 import { Group } from "@mantine/core";
 import { useMove } from "@mantine/hooks";
-import { memo, useState } from "react";
+import { type FC, memo, useState } from "react";
 
 import classes from "./VerticalSlider.module.css";
 
@@ -9,7 +9,7 @@ interface VerticalSliderProps {
   onChangeEnd: (value: number) => void;
 }
 
-export const VerticalSlider: React.FC<VerticalSliderProps> = memo(
+export const VerticalSlider: FC<VerticalSliderProps> = memo(
   ({ value, onChangeEnd }) => {
     const [localValue, setLocalValue] = useState(0.2);
     const { ref } = useMove(({ y }) => handleChangeEnd(1 - y));

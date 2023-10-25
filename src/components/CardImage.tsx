@@ -1,4 +1,5 @@
 import { Flex } from "@mantine/core";
+import type { FC, ReactNode } from "react";
 
 import classes from "./CardImage.module.css";
 import { Image } from "./Image";
@@ -7,10 +8,10 @@ interface CardImageProps {
   src: string;
   title: string;
   domain?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-export const CardImage: React.FC<CardImageProps> = ({
+export const CardImage: FC<CardImageProps> = ({
   src,
   title,
   domain = "",

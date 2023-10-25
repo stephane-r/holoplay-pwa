@@ -1,30 +1,30 @@
 import {
   ActionIcon,
-  ActionIconProps,
+  type ActionIconProps,
   Menu,
   useMantineTheme,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
 import { getFavoritePlaylist } from "../database/utils";
 import { useFavorite, useSetFavorite } from "../providers/Favorite";
 import { usePlayerVideo } from "../providers/Player";
-import {
+import type {
   Card,
   CardChannel,
   CardPlaylist,
   CardVideo,
 } from "../types/interfaces/Card";
-import { Channel } from "../types/interfaces/Channel";
-import {
+import type { Channel } from "../types/interfaces/Channel";
+import type {
   FavoritePlaylist as Favorite,
   Playlist,
 } from "../types/interfaces/Playlist";
-import { Video } from "../types/interfaces/Video";
+import type { Video } from "../types/interfaces/Video";
 import {
   formatedCardChannel,
   formatedCardPlaylist,
@@ -65,7 +65,7 @@ export const getCardTitle = (item: ButtonFavoriteCard) => {
   }
 };
 
-export const ButtonFavorite: React.FC<ButtonFavoriteProps> = memo(
+export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
   ({
     card: parentCard,
     iconSize = 18,

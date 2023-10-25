@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
 import { useSetSettings, useSettings } from "../providers/Settings";
-import { Settings } from "../types/interfaces/Settings";
+import type { Settings } from "../types/interfaces/Settings";
 
 export const sponsorBlockCategoriesValues = [
   {

@@ -1,8 +1,19 @@
-import { createContext, useContext, useMemo, useRef, useState } from "react";
+import {
+  type Dispatch,
+  type FC,
+  type MutableRefObject,
+  type PropsWithChildren,
+  type SetStateAction,
+  createContext,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-import { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
-import { Video } from "../types/interfaces/Video";
-import { ColorInfo } from "../utils/colorExtractor";
+import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
+import type { Video } from "../types/interfaces/Video";
+import type { ColorInfo } from "../utils/colorExtractor";
 
 interface PlayerVideo {
   video: Video | null;
@@ -44,27 +55,21 @@ export const initialPlayerState: PlayerState = {
   loading: true,
 };
 
-const PlayerAudioContext = createContext<React.MutableRefObject<null> | null>(
-  null,
-);
+const PlayerAudioContext = createContext<MutableRefObject<null> | null>(null);
 const PlayerUrlContext = createContext<string | null>(null);
 const SetPlayerUrlContext = createContext<
-  React.Dispatch<React.SetStateAction<string | null>>
+  Dispatch<SetStateAction<string | null>>
 >(() => {});
 const PlayerVideoContext = createContext<PlayerVideo>(initialPlayerVideoState);
 const SetPlayerVideoContext = createContext<
-  React.Dispatch<React.SetStateAction<PlayerVideo>>
+  Dispatch<SetStateAction<PlayerVideo>>
 >(() => {});
 const PlayerStateContext = createContext<PlayerState>(initialPlayerState);
 const SetPlayerStateContext = createContext<
-  React.Dispatch<React.SetStateAction<PlayerState>>
+  Dispatch<SetStateAction<PlayerState>>
 >(() => {});
 
-interface PlayerProviderProps {
-  children: React.ReactNode;
-}
-
-export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
+export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   const [video, setVideo] = useState<PlayerVideo>(initialPlayerVideoState);
   const [url, setUrl] = useState<string | null>(null);
   const [playerStatus, setPlayerStatus] =

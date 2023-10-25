@@ -1,8 +1,7 @@
 import { ActionIcon, Box, CloseButton, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
-  IconChevronDown,
-  IconHandMove,
+  IconChevronRight,
   IconInfoCircle,
 } from "@tabler/icons-react";
 import { memo, useCallback, useEffect, useMemo, useRef } from "react";
@@ -21,36 +20,28 @@ import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility"
 import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 import classes from "./VideoIframe.module.css";
 
-interface VideoIframeProps {
-  width: number;
-  height: number;
-}
+export const VideoIframe = memo(() => {
+  const { video } = usePlayerVideo();
+  const playerState = usePlayerState();
 
-export const VideoIframe: React.FC<VideoIframeProps> = memo(
-  ({ width, height }) => {
-    const { video } = usePlayerVideo();
-    const playerState = usePlayerState();
+  if (!video) {
+    return null;
+  }
 
-    if (!video) {
-      return null;
-    }
-
-    return (
-      <Box className={classes.box}>
-        <ButtonMove />
-        <ButtonHide />
-        <ButtonInformation />
-        <ButtonClose />
-        <Video
-          loop={playerState.repeat}
-          src={`https://www.youtube-nocookie.com/embed/${
-            video.videoId
-          }&start=${Math.floor(playerState.currentTime as number)}`}
-        />
-      </Box>
-    );
-  },
-);
+  return (
+    <Box className={classes.box}>
+      <ButtonHide />
+      <ButtonInformation />
+      <ButtonClose />
+      <Video
+        loop={playerState.repeat}
+        src={`https://www.youtube-nocookie.com/embed/${
+          video.videoId
+        }&start=${Math.floor(playerState.currentTime as number)}`}
+      />
+    </Box>
+  );
+});
 
 const Video = ({ loop, src }: { loop: boolean; src: string }) => {
   const videoRef = useRef();
@@ -158,7 +149,7 @@ const ButtonHide = memo(() => {
       title="Hide"
       onClick={() => setVideoIframeVisibility(false)}
     >
-      <IconChevronDown />
+      <IconChevronRight />
     </ActionIcon>
   );
 });
@@ -178,16 +169,5 @@ const ButtonInformation = memo(() => {
       </Tooltip>
       <ModalVideoIframeInformation opened={opened} onClose={close} />
     </>
-  );
-});
-
-const ButtonMove = memo(() => {
-  return (
-    <ActionIcon
-      className={`${classes.buttonMove} ${classes.button}`}
-      title="Drag"
-    >
-      <IconHandMove />
-    </ActionIcon>
   );
 });

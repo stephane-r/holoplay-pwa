@@ -1,5 +1,5 @@
 import { getSettings } from "../database/utils";
-import { AdaptiveFormat, Video } from "../types/interfaces/Video";
+import type { AdaptiveFormat, Video } from "../types/interfaces/Video";
 
 export const getVideo = async (
   videoId: string,

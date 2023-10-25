@@ -34,10 +34,6 @@
   left: rem(44px);
 }
 
-.buttonMove {
-  right: rem(8px);
-}
-
 .buttonInfo {
-  right: rem(44px);
+  right: rem(8px);
 }

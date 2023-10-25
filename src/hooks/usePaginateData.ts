@@ -2,7 +2,7 @@ import chunk from "lodash/chunk";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-import { Card } from "../types/interfaces/Card";
+import type { Card } from "../types/interfaces/Card";
 
 export const usePaginateData = (cards: Card[]) => {
   const chunkedData = chunk(cards, 10);

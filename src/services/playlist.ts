@@ -1,4 +1,4 @@
-import { Playlist } from "../types/interfaces/Playlist";
+import type { Playlist } from "../types/interfaces/Playlist";
 import { getCurrentInstance } from "../utils/getCurrentInstance";
 
 export const getPlaylist = async (playlistId: string): Promise<Playlist> => {

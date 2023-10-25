@@ -1,4 +1,4 @@
-import { Instance } from "../types/interfaces/Instance";
+import type { Instance } from "../types/interfaces/Instance";
 
 export const fetchInvidiousInstances = async () => {
   const request = await fetch("https://api.invidious.io/instances.json");

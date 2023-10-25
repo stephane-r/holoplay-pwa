@@ -1,4 +1,8 @@
 import {
+  type Dispatch,
+  type FC,
+  type PropsWithChildren,
+  type SetStateAction,
   createContext,
   useCallback,
   useContext,
@@ -13,20 +17,14 @@ import {
   fetchInvidiousInstances,
   filterAndParseInstances,
 } from "../services/instances";
-import { Settings } from "../types/interfaces/Settings";
+import type { Settings } from "../types/interfaces/Settings";
 
 const SettingsContext = createContext<null | {
   settings: Settings;
-  setSettings: React.Dispatch<React.SetStateAction<Settings>>;
+  setSettings: Dispatch<SetStateAction<Settings>>;
 }>(null);
 
-interface SettingsProviderProps {
-  children: React.ReactNode;
-}
-
-export const SettingsProvider: React.FC<SettingsProviderProps> = ({
-  children,
-}) => {
+export const SettingsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [settings, setSettings] = useState<Settings>({
     ...getSettings(),
     instances: [],
@@ -95,8 +93,8 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
 export const useSettings = () =>
   useContext(SettingsContext)?.settings as Settings;
 export const useSetSettings = () =>
-  useContext(SettingsContext)?.setSettings as React.Dispatch<
-    React.SetStateAction<Settings>
+  useContext(SettingsContext)?.setSettings as Dispatch<
+    SetStateAction<Settings>
   >;
 
 const generateRandomInteger = (min = 1, max: number) =>

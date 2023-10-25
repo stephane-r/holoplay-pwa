@@ -1,5 +1,5 @@
 import { Text, Title } from "@mantine/core";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Modal } from "./Modal";
@@ -9,7 +9,7 @@ interface ModalVideoIframeInformationProps {
   onClose: () => void;
 }
 
-export const ModalVideoIframeInformation: React.FC<ModalVideoIframeInformationProps> =
+export const ModalVideoIframeInformation: FC<ModalVideoIframeInformationProps> =
   memo(({ opened, onClose }) => {
     const { t } = useTranslation();
 

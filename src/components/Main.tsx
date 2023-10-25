@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 import classes from "./Main.module.css";
 import { PlayerSpace } from "./Player";

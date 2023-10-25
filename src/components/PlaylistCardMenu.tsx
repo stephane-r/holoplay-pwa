@@ -1,9 +1,9 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import { IconDotsVertical, IconEdit, IconTrash } from "@tabler/icons-react";
-import { memo, useState } from "react";
+import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { CardPlaylist } from "../types/interfaces/Card";
+import type { CardPlaylist } from "../types/interfaces/Card";
 import { ModalDeletePlaylist } from "./ModalDeletePlaylist";
 import { ModalUpdatePlaylist } from "./ModalUpdatePlaylist";
 
@@ -11,7 +11,7 @@ interface PlaylistCardMenuProps {
   playlist: CardPlaylist;
 }
 
-export const PlaylistCardMenu: React.FC<PlaylistCardMenuProps> = memo(
+export const PlaylistCardMenu: FC<PlaylistCardMenuProps> = memo(
   ({ playlist }) => {
     const [menuOpened, setMenuOpened] = useState(false);
     const [modalUpdateOpened, setModalUpdateOpened] = useState(false);
