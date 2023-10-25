@@ -61,7 +61,7 @@ export const PlayerAudio = memo(() => {
     }));
   };
 
-  const handleVolumeChanged = (event: any) => {
+  const handleVolumeChanged = (event: Event) => {
     setPlayerState((previousState) => ({
       ...previousState,
       volume: (event.target as HTMLAudioElement).volume,
