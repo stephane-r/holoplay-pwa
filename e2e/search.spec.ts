@@ -1,10 +1,12 @@
 import { expect, test } from "@playwright/test";
 
-import { search } from "./utils";
+import { listVisibility, search, selectSearchType, selectedInstance } from "./utils";
 
 test.describe.serial("search", () => {
   test("search an artist", async ({ page }) => {
     await page.goto("localhost:3000");
+
+    await selectedInstance(page, "invidious.fdn.fr");
 
     await search(page, "Eminem");
     await search(page, "Dubstep");
@@ -43,7 +45,7 @@ test.describe.serial("search", () => {
     await page.goto("localhost:3000");
 
     await search(page, "Defqon 2018");
-    await selectSearchType(page, "Playlists");
+    await selectSearchType(page, "playlist");
     await listVisibility(page, "Defqon 2018");
   });
 });

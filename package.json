@@ -9,7 +9,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "postinstall": "cp .env.dist .env",
+    "postinstall": "cp .env.dist .env && playwright install",
     "start": "craco start",
     "build": "craco build",
     "ts:check": "tsc",

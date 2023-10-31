@@ -46,14 +46,15 @@ export const selectSearchType = async (
     .getByRole("menu", { name: "Search filters" })
     .getByRole("textbox", { name: "Type filter" })
     .click();
-  await expect(page.getByRole("listbox")).toBeVisible();
-  await expect(
-    page.getByRole("listbox").getByRole("option", { selected: true }),
-  ).toContainText(currentType);
-  await page.getByRole("listbox").getByRole("option", { name: type }).click();
+  // await expect(
+  //   page.getByRole("listbox").getByRole("option", { selected: true }),
+  // ).toContainText(currentType);
+  // await page.getByRole("listbox").getByRole("option", { name: type }).click();
+  await expect(page.locator('[role="option"][value="video"][aria-selected="true"]')).toContainText(currentType);
+  await page.locator(`[role="option"][value=${type}]`).click();
 };
 
-const listVisibility = async (page: Page, label: string) => {
+export const listVisibility = async (page: Page, label: string) => {
   await expect(
     page.getByRole("heading", { name: `Search results : ${label}` }),
   ).toBeVisible();

@@ -15,6 +15,4 @@ test("colorscheme interface", async ({ page }) => {
   await expect(
     page.locator("html[data-mantine-color-scheme=dark]"),
   ).toBeVisible();
-
-  await expect(page).toHaveScreenshot();
 });

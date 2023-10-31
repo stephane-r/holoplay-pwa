@@ -5,9 +5,11 @@ import {
   navigateTo,
   search,
   selectSearchType,
+  selectedInstance,
 } from "./utils";
 
 const createPlaylist = async (page, title: string) => {
+  await selectedInstance(page, "invidious.fdn.fr");
   await navigateTo(page, "Playlists", "Playlists");
 
   // Open modal to create playlist
@@ -85,7 +87,7 @@ test.describe.serial("playlists", () => {
       .getByRole("form", { name: "Form add to playlist" })
       .getByPlaceholder("Your playlist")
       .click();
-    await page.getByRole("option", { name: "My first playlist" }).click();
+    await page.locator('[value="My first playlist"]').click();
     await expect(
       page
         .getByRole("form", { name: "Form add to playlist" })
@@ -105,7 +107,7 @@ test.describe.serial("playlists", () => {
     await expect(page.getByRole("listitem")).toContainText("1 videos");
 
     // Save remote playlist to user playlists
-    await selectSearchType(page, "Playlists");
+    await selectSearchType(page, "playlist");
     await search(page, "Tomorrowland 2018");
 
     await page
@@ -167,9 +169,7 @@ test.describe.serial("playlists", () => {
       .click();
 
     // Verify notification visibility
-    await expect(page.getByRole("alert")).toContainText(
-      /Awesome playlist updated has been updated/,
-    );
+    await checkNotification(page, /Awesome playlist updated has been updated/);
 
     await page.reload();
 
