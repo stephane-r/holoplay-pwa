@@ -112,6 +112,7 @@ docker run -d -p 3000:3000 holoplay
 - [React-Query](https://react-query.tanstack.com/)
 - [Mantine](https://mantine.dev)
 - [TypeScript](https://www.typescriptlang.org/)
+- [Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap)
 
 And others libraries, see [package.json](./package.json). Thank you to all contributors of these libraries 🔥 !
 
