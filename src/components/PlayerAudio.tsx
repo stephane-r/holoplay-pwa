@@ -14,6 +14,7 @@ import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 import { showNotification } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
+import { useHotkeys } from "@mantine/hooks";
 
 export const PlayerAudio = memo(() => {
   const playerAudio = usePlayerAudio();
@@ -25,6 +26,23 @@ export const PlayerAudio = memo(() => {
   const playerState = usePlayerState();
   const setPlayerMode = useSetPlayerMode();
   const { t } = useTranslation();
+
+  const handlePressSpace = () => {
+    // @ts-ignore
+    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+
+    if (playerState.paused) {
+      audio.play();
+      handlePlay();
+    } else {
+      audio.pause();
+      handlePause();
+    }
+  }
+
+  useHotkeys([
+    ['space', handlePressSpace],
+  ]);
 
   const handlePause = () => {
     setPlayerState((previousState) => ({
