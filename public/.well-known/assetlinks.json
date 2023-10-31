@@ -1,0 +1,8 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.holoplay.app.twa",
+      "sha256_cert_fingerprints": ["49:58:42:88:22:AC:82:20:8E:2E:50:2A:15:AB:C9:BD:28:00:00:18:C1:70:D1:A1:2E:44:42:0B:B6:A5:D8:F5"]
+    }
+  }]

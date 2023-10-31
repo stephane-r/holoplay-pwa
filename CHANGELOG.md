@@ -10,6 +10,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.10.4] - 2023-10-31
+### :bug: Bug Fixes
+- [`5da01c3`](https://github.com/stephane-r/holoplay-pwa/commit/5da01c33019846c6644c7ae7e48b4738e0dac0ac) - **linter**: update types
+
+### :wrench: Chores
+- [`e39a46e`](https://github.com/stephane-r/holoplay-pwa/commit/e39a46e59b8b6ac4526d157b1de0ba17be89d2ec) - **ci**: add hadolint step
+- [`d34d9c9`](https://github.com/stephane-r/holoplay-pwa/commit/d34d9c9626e8e9aa5c40dde8a955aef0488e357f) - update manifest and add assetlinks for TWA
+
+
 ## [v1.10.3] - 2023-10-25
 ### :bug: Bug Fixes
 - [`b2811ef`](https://github.com/stephane-r/holoplay-pwa/commit/b2811efc5fb6e43d3d9b1e1d3269b1bc8020e5fa) - add error handler on Audio Player
@@ -197,3 +206,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.10.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.0...v1.10.1
 [v1.10.2]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.1...v1.10.2
 [v1.10.3]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.2...v1.10.3
+[v1.10.4]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.3...v1.10.4
