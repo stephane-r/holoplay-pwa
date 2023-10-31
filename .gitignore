@@ -31,3 +31,4 @@ android/app/build
 android/.gradle
 android/app-release-*
 android/*.keystore
+android/.idea
