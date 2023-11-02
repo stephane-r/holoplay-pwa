@@ -8,6 +8,14 @@
   },
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "postinstall": "cp .env.dist .env",
+    "start": "craco start",
+    "build": "craco build",
+    "ts:check": "tsc",
+    "lint": "eslint src",
+    "format": "prettier --write ./src"
+  },
   "dependencies": {
     "@codemotion/color-thief": "^2.0.5",
     "@emotion/react": "^11.11.1",
@@ -55,13 +63,6 @@
     "video.js": "^8.6.1",
     "videojs-youtube": "^3.0.1",
     "web-vitals": "^3.5.0"
-  },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "ts:check": "tsc",
-    "lint": "eslint src",
-    "format": "prettier --write ./src"
   },
   "eslintConfig": {
     "extends": [
