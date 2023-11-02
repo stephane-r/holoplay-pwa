@@ -98,8 +98,16 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Home',
+                to: '/docs/holoplay',
+              },
+              {
+                label: 'Invidious',
+                to: '/docs/invidious',
+              },
+              {
+                label: 'Getting Started',
+                to: '/docs/category/getting-started',
               },
             ],
           },
@@ -108,7 +116,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/stephane-r/holoplay-pwa',
               },
             ],
           },
@@ -116,11 +124,7 @@ const config = {
             title: 'Build with',
             items: [
               {
-                label: 'Blog',
-                to: '/docs',
-              },
-              {
-                label: 'GitHub',
+                label: 'Docusaurus',
                 href: 'https://github.com/facebook/docusaurus',
               },
             ],
