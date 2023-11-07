@@ -9,4 +9,5 @@ export interface Settings {
   deviceId: string;
   sponsorBlock: boolean;
   sponsorBlockCategories: string[];
+  analytics: boolean;
 }
