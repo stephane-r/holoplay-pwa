@@ -34,6 +34,7 @@ import { userAgent } from "../utils/userAgent";
 import "./App.css";
 import { AppUpdate } from "./AppUpdate";
 import { Main } from "./Main";
+import { Scripts } from "./Script";
 
 export const App = () => {
   return (
@@ -66,6 +67,7 @@ export const App = () => {
                                     <DrawerPlayerContainer />
                                     <PlayerContainer />
                                     <MobileNavigationContainer />
+                                    <Scripts />
                                   </Flex>
                                 </AppShell>
                               </MantineProvider>

@@ -25,3 +25,10 @@ yarn-error.log*
 # Haha, no.
 TODO.md
 .env
+
+# Android
+android/app/build
+android/.gradle
+android/app-release-*
+android/*.keystore
+android/.idea

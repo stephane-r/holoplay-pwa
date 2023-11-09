@@ -19,6 +19,7 @@ import { SelectInvidiousInstance } from "../components/SelectInvidiousInstance";
 import { SponsorBlockSettings } from "../components/SponsorBlockSettings";
 import { SwitchVideoMode } from "../components/SwitchVideoMode";
 import { useStorage } from "../hooks/useStorage";
+import { SwitchPlausibleAnalytics } from "../components/SwitchPlausibleAnalytics";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();
@@ -59,12 +60,26 @@ const GeneralItem = memo(() => {
         <ChangeLanguage />
         <Divider mt="md" mb="lg" />
         <SwitchColorScheme />
+        <AnalyticsItem />
         <Divider mt="md" mb="lg" />
         <StorageEstimate />
       </Accordion.Panel>
     </Accordion.Item>
   );
 });
+
+const AnalyticsItem = memo(() => {
+  if (process.env.REACT_APP_PLAUSIBLE_ANALYTICS !== "true") {
+    return null;
+  }
+
+  return (
+    <>
+      <Divider mt="md" mb="lg" />
+      <SwitchPlausibleAnalytics />
+    </>
+  )
+})
 
 const StorageEstimate = memo(() => {
   const storage = useStorage();

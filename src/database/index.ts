@@ -90,6 +90,16 @@ const initDb = () => {
     db.commit();
   }
 
+  if (!db.columnExists("settings", "analytics")) {
+    db.alterTable("settings", "analytics", true);
+    db.commit();
+
+    db.update("settings", { ID: 1 }, (data: Settings) => ({
+      analytics: true
+    }));
+    db.commit();
+  }
+
   if (!db.tableExists("migrations")) {
     db.createTable("migrations", ["createdAt", "name"]);
   }
