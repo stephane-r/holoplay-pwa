@@ -20,7 +20,7 @@ export const useStorage = (): Storage | null => {
             quota,
             formatedQuota: prettyBytes(quota),
             formatedUsage: prettyBytes(usage),
-            percentageUsed: (usage / quota) * 100,
+            percentageUsed: Number(((usage / quota) * 100).toFixed(2)),
             remaining: quota - usage,
           });
         }
