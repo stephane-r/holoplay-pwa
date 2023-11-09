@@ -10,6 +10,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.10.5] - 2023-11-09
+### :sparkles: New Features
+- [`03b3f7f`](https://github.com/stephane-r/holoplay-pwa/commit/03b3f7fb163daac35b1b639c304c5cefdb6e3e01) - **player**: pause state on space key pressed
+- [`b18df0e`](https://github.com/stephane-r/holoplay-pwa/commit/b18df0e6ca54060bcd73f8fe92e751c738ca2f35) - **settings**: user can disabled plausible analytics
+
+### :bug: Bug Fixes
+- [`23baa16`](https://github.com/stephane-r/holoplay-pwa/commit/23baa162f48753d2a67b725e39fd2535f528b332) - **settings**: round storage number to 2 decimal places
+
+### :wrench: Chores
+- [`e618658`](https://github.com/stephane-r/holoplay-pwa/commit/e6186588d333b0164407f2f269af94a9a05487d8) - **android**: generate Android project
+- [`46297b5`](https://github.com/stephane-r/holoplay-pwa/commit/46297b52a29de2a14e3a3d416fb64471dae41e1a) - **android**: use Google JSON Digital Asset Links
+- [`2e3c261`](https://github.com/stephane-r/holoplay-pwa/commit/2e3c261f17700a5e51d2fa6f8d747fca8efeaf2e) - add idea folder on gitignore
+
+
 ## [v1.10.4] - 2023-10-31
 ### :bug: Bug Fixes
 - [`5da01c3`](https://github.com/stephane-r/holoplay-pwa/commit/5da01c33019846c6644c7ae7e48b4738e0dac0ac) - **linter**: update types
@@ -207,3 +221,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.10.2]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.1...v1.10.2
 [v1.10.3]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.2...v1.10.3
 [v1.10.4]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.3...v1.10.4
+[v1.10.5]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.4...v1.10.5
