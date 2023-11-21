@@ -1,0 +1,52 @@
+---
+sidebar_position: 2
+---
+
+# Hosting
+
+HoloPlay can be easy deployed as a static website on **your own server** or service like [Vercel](https://vercel.com/), [Cloudeflare](https://www.cloudflare.com) or [Github Pages](https://pages.github.com/).
+
+Their are three ways to host HoloPlay :
+
+## Build from source
+
+You can build HoloPlay by cloning the [Github repository](https://github.com/stephane-r/holoplay-pwa).
+
+:::info
+You need [Node.js](https://nodejs.org/en/) to build it
+:::
+
+First, install project dependencies :
+
+```bash
+npm i
+```
+
+Then, build the project :
+
+```bash
+npm run build
+```
+
+The build source is located in the `build` folder. You can now deploy it on your server and serve this folder as a static website.
+
+## Download the latest Github Release
+
+You can download the latest build from [Github Release](https://github.com/stephane-r/holoplay-pwa/releases) and deploy it on your server.
+
+This is the same steps from the previous method, but builded on the Github CI.
+
+## Docker
+
+All release are builded as a Docker image and pushed to [Docker Hub](https://hub.docker.com/r/spout8301/holoplay). This is the method used to setup HoloPlay with [CasaOs App Store](https://github.com/WisdomSky/CasaOS-LinuxServer-AppStore). 
+
+```bash
+docker run -d -p 3000:3000 spout8301/holoplay:latest
+```
+
+Or locally:
+
+```bash
+docker build -t holoplay .
+docker run -d -p 3000:3000 holoplay
+```

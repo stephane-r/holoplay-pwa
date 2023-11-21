@@ -1,0 +1,24 @@
+---
+sidebar_position: 4
+title: Analytics
+---
+
+# Plausible Analytics
+
+HoloPlay use public [Plausible Analytics](https://plausible.holoplay.io/holoplay.io) instance.
+
+## What is Plausible Analytics?
+
+> [Plausible](https://plausible.io/) is intuitive, lightweight and open source web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. Made and hosted in the EU, powered by European-owned cloud infrastructure 🇪🇺
+
+## Disable Plausible Analytics
+
+Plausible can be disable from **Settings** screen :
+
+![Plausible Analytics](/img/plausible-analytics.png)
+
+For self-hosting instance, Plausible can be removed directly from [build step](/docs/introduction/hosting#build-from-source) by editing `.env` file :
+
+```bash
+REACT_APP_PLAUSIBLE_ANALYTICS=false
+```
