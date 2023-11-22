@@ -17,6 +17,11 @@
   "settings.general.darkmode": "ダークモードを使用",
   "settings.player.title": "プレイヤー",
   "settings.player.description": "プレイヤーの設定",
+  "settings.general.storage.available.storage": "空き容量",
+  "settings.general.analytics.label": "Plausible アナリティクス",
+  "settings.general.analytics.info": "Plausible はオープンソースの使いやすいサイト分析です。クッキーを使わず GDPRやCCPA、PECRにも準拠",
+  "settings.general.analytics.link": "HoloPlay の Plausible 分析を見る",
+  "settings.general.storage.usage": "空き容量に対して以下を使用中 {{percentage}} ",
   "settings.player.video.mode.title": "動画モード",
   "settings.player.video.mode.label": "動画モードは音声の取得先の変更中にエラーが発生した際に表示される iframe です。プレイヤーから手動で表示することもできます。",
   "settings.player.sponsorBlock.title": "スポンサーブロック",
@@ -238,5 +243,6 @@
   "favorite.tab.playlists": "再生リスト",
   "favorite.tab.channels": "チャンネル",
   "favorite.tab.empty": "この分類のお気に入りなし",
-  "genre.title": "ムードとジャンル"
+  "genre.title": "ムードとジャンル",
+  "loading": "読み込み中..."
 }
