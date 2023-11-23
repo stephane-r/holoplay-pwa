@@ -1,6 +1,6 @@
 import { Alert, LoadingOverlay, Text } from "@mantine/core";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { CardList } from "../components/CardList";
 import { PageHeader } from "../components/PageHeader";
@@ -19,7 +19,7 @@ export const PlaylistDetailPage = memo(() => {
 const PageContainer = memo(() => {
   const { playlistId } = useIsLocalPlaylist();
   const { playlist } = useGetPlaylist(playlistId as string | number);
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   if (!playlist) {
     return <LoadingOverlay visible />;

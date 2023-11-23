@@ -11,7 +11,7 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useSearchUrl } from "../hooks/useSearchUrl";
 import { useStableNavigate } from "../providers/Navigate";
@@ -26,7 +26,7 @@ import { PlayerSpace } from "./Player";
 export const NAVIGATION_WIDTH = 88;
 
 export const Navigation = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <AppShell.Navbar w={{ base: NAVIGATION_WIDTH }} className={classes.navbar}>
@@ -88,7 +88,7 @@ export const Navigation = memo(() => {
 const SearchLink = memo(() => {
   const navigate = useStableNavigate();
   const url = useSearchUrl();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <NavbarLink
@@ -103,7 +103,7 @@ const SearchLink = memo(() => {
 const TrendingLink = memo(() => {
   const navigate = useStableNavigate();
   const url = useTrendingUrl();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <NavbarLink

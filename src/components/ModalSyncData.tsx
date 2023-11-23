@@ -2,7 +2,7 @@ import { Box, Button, Flex, Text, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { type FC, memo, useState } from "react";
 import useDigitInput from "react-digit-input";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useQuery } from "react-query";
 
 import {
@@ -34,7 +34,7 @@ const syncData = async (code: string): Promise<CardPlaylist[]> => {
 export const ModalSyncData: FC<ModalSyncDataProps> = memo(
   ({ opened, onClose }) => {
     const [value, onChange] = useState("");
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
     const digits = useDigitInput({
       acceptedCharacters: /^[0-9]$/,
       length: 6,

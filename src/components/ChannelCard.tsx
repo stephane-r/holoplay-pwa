@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { IconDiscountCheckFilled } from "@tabler/icons-react";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useStableNavigate } from "../providers/Navigate";
 import type { CardChannel } from "../types/interfaces/Card";
@@ -26,7 +26,7 @@ interface ChannelCardProps {
 export const ChannelCard: FC<ChannelCardProps> = memo(
   ({ channel, currentInstanceUri }) => {
     const navigate = useStableNavigate();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const goToChannel = () => {
       navigate(`/channels/${channel.authorId}`);

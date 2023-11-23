@@ -8,7 +8,7 @@ import {
   IconSearch,
 } from "@tabler/icons-react";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { MobileNavigation } from "../components/MobileNavigation";
 import { NavbarLink } from "../components/NavbarLink";
@@ -17,7 +17,7 @@ import classes from "./MobileNavigation.module.css";
 export const MobileNavigationContainer = memo(() => {
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   if (!matches) return null;
 

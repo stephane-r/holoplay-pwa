@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
@@ -32,7 +32,7 @@ import { VideoList } from "./VideoList";
 export const DrawerPlayer = memo(() => {
   const playerUrl = usePlayerUrl();
   const playerPlaylist = usePlayerPlaylist();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const cardStyles = {
     width: playerUrl ? 500 : 0,

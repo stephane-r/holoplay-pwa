@@ -7,7 +7,7 @@ import {
 } from "@mantine/core";
 import { IconMoonStars, IconSun } from "@tabler/icons-react";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useAppColorScheme } from "../hooks/useAppColorScheme";
 
@@ -36,7 +36,7 @@ export const ColorScheme = memo(() => {
 export const SwitchColorScheme = memo(() => {
   const { toggleColorScheme } = useMantineColorScheme();
   const colorScheme = useAppColorScheme();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const theme = useMantineTheme();
 

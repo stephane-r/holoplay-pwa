@@ -1,7 +1,7 @@
 import { Button, Flex, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { type FC, memo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
@@ -21,7 +21,7 @@ export const ModalUpdatePlaylist: FC<ModalUpdatePlaylistProps> = memo(
   ({ opened, onClose, playlist }) => {
     const [playlistTitle, setPlaylistTitle] = useState(playlist.title);
     const setPlaylists = useSetPlaylists();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const handleUpdatePlaylist = () => {
       db.update("playlists", { ID: playlist.ID }, (data: Playlist) => ({

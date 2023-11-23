@@ -1,6 +1,6 @@
 import { Flex, Space, Title } from "@mantine/core";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { GenreList } from "../components/Genre";
 import { LinkSeeAll } from "../components/LinkSeeAll";
@@ -12,7 +12,7 @@ import { Trending } from "../components/Trending";
 import { useVideoShareListener } from "../hooks/useVideoShareListener";
 
 export const DashboardPage = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   useVideoShareListener();
 

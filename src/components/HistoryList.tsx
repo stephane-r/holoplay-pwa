@@ -1,6 +1,6 @@
 import { Alert, Text } from "@mantine/core";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useHistory } from "../providers/History";
 import { CardList } from "./CardList";
@@ -23,7 +23,7 @@ export const HistoryList = memo(() => {
 });
 
 const Empty = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <Alert title={t("history.empty.title")}>

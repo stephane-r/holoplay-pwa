@@ -1,6 +1,6 @@
 import { Alert, Box, Flex } from "@mantine/core";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { CardList } from "../components/CardList";
 import { ModalCreatePlaylist } from "../components/ModalCreatePlaylist";
@@ -8,7 +8,7 @@ import { PageHeader } from "../components/PageHeader";
 import { usePlaylists } from "../providers/Playlist";
 
 export const PlaylistsPage = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <div>
@@ -25,7 +25,7 @@ export const PlaylistsPage = memo(() => {
 
 const PlaylistListContainer = memo(() => {
   const playlists = usePlaylists();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   if (!playlists.length) {
     return (

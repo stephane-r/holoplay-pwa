@@ -1,6 +1,6 @@
 import { Alert, Space, Text, Title } from "@mantine/core";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useHistory } from "../providers/History";
 import { HorizontalGridList } from "./HorizontalGridList";
@@ -8,7 +8,7 @@ import { HorizontalGridList } from "./HorizontalGridList";
 export const RecentlyPlay = memo(() => {
   const videos = useHistory();
   const data = videos.slice(0, 10);
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <>

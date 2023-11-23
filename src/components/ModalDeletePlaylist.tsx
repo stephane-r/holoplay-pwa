@@ -1,7 +1,7 @@
 import { Button, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
@@ -18,7 +18,7 @@ interface ModalDeletePlaylistProps {
 export const ModalDeletePlaylist: FC<ModalDeletePlaylistProps> = memo(
   ({ opened, onClose, playlist }) => {
     const setPlaylists = useSetPlaylists();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const handleDeletePlaylist = () => {
       db.deleteRows("playlists", {

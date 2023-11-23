@@ -1,12 +1,12 @@
 import { IconCloudDownload } from "@tabler/icons-react";
 import { memo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { ModalSyncData } from "./ModalSyncData";
 import { NavbarLink } from "./NavbarLink";
 
 export const ButtonSyncData = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const [opened, setOpened] = useState(false);
 
   const handleClose = () => {

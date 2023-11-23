@@ -1,14 +1,14 @@
 import { memo } from "react"
 import { useSetSettings, useSettings } from "../providers/Settings";
 import { Alert, Switch } from "@mantine/core";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { db } from "../database";
 import type { Settings } from "../types/interfaces/Settings";
 
 export const SwitchPlausibleAnalytics = memo(() => {
   const settings = useSettings();
   const setSettings = useSetSettings();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const handleChange = () => {
     const analytics = !settings.analytics;

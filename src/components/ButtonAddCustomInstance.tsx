@@ -1,7 +1,7 @@
 import { Button, Text } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 export const ButtonAddCustomInstance = memo(
   ({ onClick }: { onClick: () => void }) => {

@@ -1,7 +1,7 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import { IconVideo } from "@tabler/icons-react";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { usePlayerAudio } from "../providers/Player";
 import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
@@ -16,7 +16,7 @@ export const ButtonPlayerModeVideo: FC<ButtonPlayerModeVideoProps> = memo(
     const setPlayerMode = useSetPlayerMode();
     const playerMode = usePlayerMode();
     const playerAudio = usePlayerAudio();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const handleClick = () => {
       setPlayerMode("video");

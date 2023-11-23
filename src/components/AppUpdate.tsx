@@ -1,12 +1,12 @@
 import { notifications } from "@mantine/notifications";
 import { memo, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useServiceWorker } from "../hooks/useServiceWorker";
 
 export const AppUpdate = memo(() => {
   const { waitingWorker, showReload, reloadPage } = useServiceWorker();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     if (showReload && waitingWorker) {

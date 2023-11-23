@@ -7,7 +7,7 @@ import {
 import { notifications } from "@mantine/notifications";
 import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { db } from "../database";
 import { getFavoritePlaylist } from "../database/utils";
@@ -76,7 +76,7 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
     const favorite = useFavorite();
     const setFavorite = useSetFavorite();
     const { video: currentVideo } = usePlayerVideo();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
     const theme = useMantineTheme();
 
     const card = parentCard ?? (currentVideo as Video);

@@ -13,7 +13,7 @@ import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
 import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 import { showNotification } from "@mantine/notifications";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useHotkeys } from "@mantine/hooks";
 
 export const PlayerAudio = memo(() => {
@@ -25,7 +25,7 @@ export const PlayerAudio = memo(() => {
   const playerMode = usePlayerMode();
   const playerState = usePlayerState();
   const setPlayerMode = useSetPlayerMode();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const handlePressSpace = () => {
     // @ts-ignore

@@ -2,7 +2,7 @@ import { Select } from "@mantine/core";
 // @ts-ignore
 import { getCode, getName } from "country-list";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import {
   useSetTrendingFiltersValues,
@@ -13,7 +13,7 @@ import { countriesCode } from "../utils/countriesCode";
 export type TrendingFilterType = "music" | "gaming" | "news" | "movies";
 
 export const TrendingFilters = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const trendingFiltersValues = useTrendingFiltersValues();
   const setTrendingFiltersValues = useSetTrendingFiltersValues();
 

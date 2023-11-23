@@ -7,7 +7,7 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { type FC, memo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
 import type { CardVideo } from "../types/interfaces/Card";
@@ -24,7 +24,7 @@ export const CardMenu: FC<CardMenuProps> = memo(({ card }) => {
   const [deleteFromPlaylistModalOpened, setDeleteFromPlaylistModalOpened] =
     useState(false);
   const { isRemotePlaylistDetail, isLocalPlaylist } = useIsLocalPlaylist();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <>

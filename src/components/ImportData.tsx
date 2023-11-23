@@ -20,7 +20,7 @@ import {
 // @ts-ignore
 import { map as cappedAll } from "awaiting";
 import { type FC, memo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import {
   getFavoritePlaylist,

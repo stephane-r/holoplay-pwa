@@ -1,7 +1,7 @@
 import { Button, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { db } from "../database";
 import { useSetSettings, useSettings } from "../providers/Settings";

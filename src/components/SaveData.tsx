@@ -1,7 +1,7 @@
 import { Alert, Box, Button, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useQuery } from "react-query";
 
 import { getAllPlaylists } from "../database/utils";

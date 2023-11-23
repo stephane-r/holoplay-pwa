@@ -13,7 +13,7 @@ import {
 import { useViewportSize } from "@mantine/hooks";
 import { IconChevronUp } from "@tabler/icons-react";
 import { memo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
@@ -40,7 +40,7 @@ export const MobilePlayer = memo(() => {
 const ButtonOpenDrawer = memo(() => {
   const [isOpen, setOpen] = useState(false);
   const videos = usePlayerPlaylist();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const { height } = useViewportSize();
 
   return (

@@ -2,7 +2,7 @@ import { ActionIcon, Button, Flex, TextInput, Tooltip } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconPlus } from "@tabler/icons-react";
 import { memo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
@@ -14,7 +14,7 @@ export const ModalCreatePlaylist = memo(() => {
   const [opened, setOpened] = useState(false);
   const [playlistTitle, setPlaylistTitle] = useState("");
   const setPlaylists = useSetPlaylists();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const handleAddToPlaylist = () => {
     db.insert("playlists", {

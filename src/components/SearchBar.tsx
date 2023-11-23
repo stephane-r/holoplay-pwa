@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form";
 import { useMediaQuery, useOs } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
 import { memo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { db } from "../database";
 import { getSearchHistory } from "../database/utils";
@@ -19,7 +19,7 @@ export const SearchBar = memo(() => {
   const os = useOs();
   const theme = useMantineTheme();
   const isLg = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`);
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const [menuOpened, setMenuOpened] = useState(false);
 
   const isMacos = os === "macos";

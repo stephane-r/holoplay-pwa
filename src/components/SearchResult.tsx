@@ -1,6 +1,6 @@
 import { Alert, LoadingOverlay, Paper } from "@mantine/core";
 import { memo, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "react-query";
 
@@ -16,7 +16,7 @@ export const SearchResult = memo(() => {
   const [page, setPage] = useState(1);
   const [enabled, setEnabled] = useState(searchValues.q.length > 0);
   const [cards, setCards] = useState<Card[]>([]);
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const { isFetching } = useQuery(
     `search-${currentSearchValues.q}-${currentSearchValues.type}-${page}`,

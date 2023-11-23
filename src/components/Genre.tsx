@@ -1,14 +1,14 @@
 import { Box, Flex, Space, Text, Title, UnstyledButton } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import { genres } from "../utils/genres";
 import classes from "./Genre.module.css";
 
 export const GenreList = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <>

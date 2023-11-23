@@ -15,7 +15,7 @@ import {
   IconPlayerPlay,
 } from "@tabler/icons-react";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
@@ -43,7 +43,7 @@ export const isLiveStream = (video: CardVideo) =>
 export const VideoCard: FC<VideoCardProps> = memo(
   ({ video, component = "div", currentInstanceUri }) => {
     const { handlePlay, loading } = usePlayVideo();
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const image =
       video.thumbnail ??
@@ -127,7 +127,7 @@ const ButtonPlayPause = memo(
 );
 
 const ButtonPlay = memo(({ onClick }: { onClick: () => void }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <ActionIcon
@@ -146,7 +146,7 @@ const ButtonPlay = memo(({ onClick }: { onClick: () => void }) => {
 const ButtonAudioPlayPause = memo(() => {
   const playerAudio = usePlayerAudio();
   const playerState = usePlayerState();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const handlePlayPause = () => {
     // @ts-ignore

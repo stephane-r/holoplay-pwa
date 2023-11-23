@@ -1,6 +1,6 @@
 import { Badge, Space, Text } from "@mantine/core";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import pkg from "../../package.json";
 
@@ -9,7 +9,7 @@ interface AppVersionProps {
 }
 
 export const AppVersion: FC<AppVersionProps> = memo(({ align = "left" }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <Text

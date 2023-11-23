@@ -1,6 +1,6 @@
 import { Alert, Space, Text, Title } from "@mantine/core";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useFavorite } from "../providers/Favorite";
 import { HorizontalGridList } from "./HorizontalGridList";
@@ -8,7 +8,7 @@ import { HorizontalGridList } from "./HorizontalGridList";
 export const RecentFavorites = memo(() => {
   const favorite = useFavorite();
   const data = favorite.cards.slice(0, 10);
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <>

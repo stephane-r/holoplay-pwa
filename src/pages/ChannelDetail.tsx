@@ -1,7 +1,7 @@
 import { LoadingOverlay, Paper, Tabs } from "@mantine/core";
 import { IconPlaylist, IconVideo } from "@tabler/icons-react";
 import { type FC, memo, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -18,7 +18,7 @@ export const ChannelDetailPage = memo(() => {
 const PageContainer = memo(() => {
   const { authorId } = useParams();
   const { channel } = useGetChannel(authorId as string);
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   if (!channel) {
     return <LoadingOverlay visible />;

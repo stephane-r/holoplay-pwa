@@ -1,7 +1,7 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
 
@@ -12,7 +12,7 @@ interface ButtonDownloadProps {
 export const ButtonDownload: FC<ButtonDownloadProps> = memo(({ iconSize }) => {
   const { video } = usePlayerVideo();
   const playerUrl = usePlayerUrl();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   if (!video) return null;
 

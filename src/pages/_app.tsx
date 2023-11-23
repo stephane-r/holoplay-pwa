@@ -10,18 +10,21 @@ import { QueryClientProvider } from "react-query";
 import { queryClient } from "../queryClient";
 import { Notifications } from "@mantine/notifications";
 import { SpotlightProvider } from "../providers/Spotlight";
+import { appWithTranslation } from 'next-i18next';
  
-export default function MyApp({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-    <MantineProvider>
-    <Notifications />
-    <AppShell>
-      <SpotlightProvider />
-      <ColorSchemeScript />
-      <Component {...pageProps} />
-    </AppShell>
-    </MantineProvider>
+      <MantineProvider>
+        <Notifications />
+        <AppShell>
+          <SpotlightProvider />
+          <ColorSchemeScript />
+          <Component {...pageProps} />
+        </AppShell>
+      </MantineProvider>
     </QueryClientProvider>
   )
 }
+
+export default appWithTranslation(App);

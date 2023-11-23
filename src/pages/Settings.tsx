@@ -7,7 +7,7 @@ import {
   Text,
 } from "@mantine/core";
 import { memo, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { ChangeLanguage } from "../components/ChangeLanguage";
 import { SwitchColorScheme } from "../components/ColorScheme";
@@ -22,7 +22,7 @@ import { useStorage } from "../hooks/useStorage";
 import { SwitchPlausibleAnalytics } from "../components/SwitchPlausibleAnalytics";
 
 export const SettingsPage = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <div>
@@ -87,7 +87,7 @@ const StorageEstimate = memo(() => {
     () => storage?.usage && storage?.usage > 0,
     [storage],
   );
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   if (!storage) {
     return null;

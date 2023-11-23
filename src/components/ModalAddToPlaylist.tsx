@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { type FC, memo, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { db } from "../database";
 import { getPlaylists } from "../database/utils";
@@ -34,7 +34,7 @@ export const ModalAddToPlaylist: FC<ModalAddToPlaylistProps> = memo(
     const playlists = usePlaylists();
     const setPlaylists = useSetPlaylists();
     const localPlaylist = playlists.filter((p) => !p.playlistId);
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     const playlistsIsEmpty = playlists.length === 0;
 

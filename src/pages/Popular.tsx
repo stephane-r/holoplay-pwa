@@ -1,11 +1,11 @@
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { PageHeader } from "../components/PageHeader";
 import { Popular } from "../components/Popular";
 
 export const PopularPage = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <div>

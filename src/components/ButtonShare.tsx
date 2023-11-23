@@ -8,7 +8,7 @@ import {
   IconShare,
 } from "@tabler/icons-react";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
@@ -24,7 +24,7 @@ export const ButtonShare: FC<ButtonDownloadProps> = memo(({ iconSize }) => {
   const { video } = usePlayerVideo() as { video: Video };
   const clipboard = useClipboard();
   const settings = useSettings();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const formateVideoUrl = (type: ShareType) => {
     switch (type) {

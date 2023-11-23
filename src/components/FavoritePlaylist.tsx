@@ -7,7 +7,7 @@ import {
   IconVideo,
 } from "@tabler/icons-react";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { usePaginateData } from "../hooks/usePaginateData";
 import { useFavorite } from "../providers/Favorite";
@@ -17,7 +17,7 @@ import { isLiveStream } from "./VideoCard";
 
 export const FavoritePlaylist = memo(() => {
   const favorite = useFavorite();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const data = favorite.cards;
 
@@ -95,7 +95,7 @@ const DataList: FC<DataListProps> = memo(({ data: initialData }) => {
 });
 
 const Empty = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <Alert title={t("favorite.empty.title")}>

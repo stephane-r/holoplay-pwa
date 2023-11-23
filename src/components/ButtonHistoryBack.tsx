@@ -1,13 +1,13 @@
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useStableNavigate } from "../providers/Navigate";
 
 export const ButtonHistoryBack = memo(() => {
   const navigate = useStableNavigate();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   const handleClick = () => {
     navigate(-1);

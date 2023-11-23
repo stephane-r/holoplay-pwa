@@ -1,5 +1,5 @@
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { Link } from "react-router-dom";
 
 import classes from "./LinkSeeAll.module.css";
@@ -9,7 +9,7 @@ interface LinkSeeAllProps {
 }
 
 export const LinkSeeAll: FC<LinkSeeAllProps> = memo(({ to }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <Link to={to} className={classes.link}>

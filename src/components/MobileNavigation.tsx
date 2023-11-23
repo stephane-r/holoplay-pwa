@@ -8,7 +8,7 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import classes from "./MobileNavigation.module.css";
 import { MobileNavbarLink } from "./NavbarLink";
@@ -19,7 +19,7 @@ interface MobileNavigationProps {
 
 export const MobileNavigation: FC<MobileNavigationProps> = memo(
   ({ onClose }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation("common");
 
     return (
       <Box className={classes.container} role="navigation">

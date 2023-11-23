@@ -1,7 +1,7 @@
 import { Select } from "@mantine/core";
 import i18next from "i18next";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { type Languages, languagesValues } from "../translations";
 

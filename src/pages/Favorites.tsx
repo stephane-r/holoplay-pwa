@@ -1,11 +1,11 @@
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { FavoritePlaylist } from "../components/FavoritePlaylist";
 import { PageHeader } from "../components/PageHeader";
 
 export const FavoritesPage = memo(() => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <div>

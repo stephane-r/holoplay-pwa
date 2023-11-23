@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Menu, SegmentedControl, Select } from "@mantine/core";
 import { IconFilter } from "@tabler/icons-react";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import type {
@@ -15,7 +15,7 @@ import type {
 export const SearchFilters = memo(() => {
   const setSearchValues = useSetSearchValues();
   const searchValues = useSearchValues();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <Menu width={250} position="bottom-end">

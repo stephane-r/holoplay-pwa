@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { PageHeader } from "../components/PageHeader";
 import { SearchResult } from "../components/SearchResult";
@@ -16,7 +16,7 @@ export const SearchPage = memo(() => {
 
 const PageHeaderContainer = memo(() => {
   const searchValues = useSearchValues();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <PageHeader

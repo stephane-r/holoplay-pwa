@@ -1,6 +1,6 @@
 import { Alert, Text } from "@mantine/core";
 import { type FC, memo } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { useQuery } from "react-query";
 
 import { useTrendingFiltersValues } from "../providers/TrendingFilters";
@@ -21,7 +21,7 @@ export const Trending: FC<TrendingProps> = memo(({ horizontal = false }) => {
       enabled: Boolean(trendingFiltersValues.region),
     },
   );
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   if (!query.data) {
     return <Text>{t("loading")}</Text>;

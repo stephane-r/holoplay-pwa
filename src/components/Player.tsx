@@ -16,7 +16,7 @@ import {
   IconVolume,
 } from "@tabler/icons-react";
 import { memo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 import { useDevices } from "../hooks/useDevices";
 import {
@@ -154,7 +154,7 @@ export const ButtonVolume = memo(() => {
 const PlayerPlaylist = memo(() => {
   const [opened, setOpened] = useState(false);
   const videosPlaylist = usePlayerPlaylist();
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
 
   return (
     <>
