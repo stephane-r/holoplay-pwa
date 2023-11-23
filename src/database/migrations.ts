@@ -1,17 +1,21 @@
 import { db } from ".";
 import type { Migration } from "../types/interfaces/Migration";
 
-const migrations = db.queryAll("migrations") as Migration[];
-
-const saveMigration = (name: string) => {
-  db.insert("migrations", {
-    name,
-    createdAt: new Date().toISOString(),
-  });
-  db.commit();
-};
-
 export default (() => {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  const migrations = db.queryAll("migrations") as Migration[];
+  
+  const saveMigration = (name: string) => {
+    db.insert("migrations", {
+      name,
+      createdAt: new Date().toISOString(),
+    });
+    db.commit();
+  };
+
   const migrationsName = migrations.map((migration) => migration.name);
 
   if (!migrationsName.includes("05092023_migrate_custom_instance")) {
