@@ -1,12 +1,13 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 export const useIsLocalPlaylist = () => {
   const { playlistId } = useParams<{ playlistId: string }>();
-  const location = useLocation();
+  const router = useRouter();
   const isLocalPlaylist =
-    location.pathname.includes("/playlists/") && Number(playlistId);
+    router.pathname.includes("/playlists/") && Number(playlistId);
   const isRemotePlaylistDetail =
-    location.pathname.includes("/playlists/") && !Number(playlistId);
+    router.pathname.includes("/playlists/") && !Number(playlistId);
 
   return {
     playlistId,

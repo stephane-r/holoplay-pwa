@@ -13,13 +13,13 @@ import {
 
 import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 import type { Video } from "../types/interfaces/Video";
-import type { ColorInfo } from "../utils/colorExtractor";
+// import type { ColorInfo } from "../utils/colorExtractor";
 
 interface PlayerVideo {
   video: Video | null;
   sponsorBlockSegments: SponsorBlockSegment[] | null;
   thumbnailUrl: string | null;
-  primaryColor: ColorInfo | null;
+  primaryColor: any | null;
 }
 
 const initialPlayerVideoState = {

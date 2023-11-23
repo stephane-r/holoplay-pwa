@@ -1,5 +1,4 @@
-import { useLocation } from "react-router-dom";
-
+import { useRouter } from "next/router";
 import {
   getFavoritePlaylist,
   getPlaylist as getLocalPlaylist,
@@ -9,12 +8,12 @@ import type { Playlist } from "../types/interfaces/Playlist";
 import type { Video } from "../types/interfaces/Video";
 
 export const useResolveVideosPlaylist = () => {
-  const location = useLocation();
+  const router = useRouter();
 
   const getVideosPlaylist = () => {
     let videos: Video[] | null = null;
 
-    if (location.pathname.includes("/playlists/")) {
+    if (router.pathname.includes("/playlists/")) {
       const [, , playlistId] = window.location.pathname.split("/");
       const isLocalPlaylist = Number(playlistId);
 
@@ -27,22 +26,22 @@ export const useResolveVideosPlaylist = () => {
         videos = remotePlaylist.videos as Video[];
       }
     }
-    if (location.pathname.includes("/channels/")) {
+    if (router.pathname.includes("/channels/")) {
       const [, , authorId] = window.location.pathname.split("/");
       const query = queryClient.getQueriesData(
         `channels-${authorId}-videos-1`,
       )[0][1] as { data: Video[] };
       videos = query.data;
     }
-    if (location.pathname === "/favorites") {
+    if (router.pathname === "/favorites") {
       videos = getFavoritePlaylist().cards.filter(
         (card) => card.type === "video",
       ) as Video[];
     }
-    if (location.pathname === "/most-popular") {
+    if (router.pathname === "/most-popular") {
       videos = queryClient.getQueriesData("most-popular")[0][1] as Video[];
     }
-    if (location.pathname === "/trending") {
+    if (router.pathname === "/trending") {
       videos = queryClient.getQueriesData("trending")[0][1] as Video[];
     }
     // if (location.pathname === "/search") {

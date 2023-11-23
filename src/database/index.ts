@@ -6,6 +6,10 @@ import { sponsorBlockCategoriesValues } from "../components/SponsorBlockSettings
 import type { Settings } from "../types/interfaces/Settings";
 
 const initDb = () => {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
   const db = new localStorageDB("library", localStorage);
 
   if (db.isNew()) {

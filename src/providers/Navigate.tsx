@@ -27,8 +27,8 @@ export const useStableNavigate = (): NavigateFunction => {
     StableNavigateContext,
   ) as MutableRefObject<NavigateFunction>;
 
-  if (navigateRef.current === null)
+  if (navigateRef?.current === null)
     throw new Error("StableNavigate context is not initialized");
 
-  return navigateRef.current;
+  return navigateRef?.current;
 };

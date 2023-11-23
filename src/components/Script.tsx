@@ -6,7 +6,7 @@ const PLAUSIBLE_INSTANCE_SCRIPT_URL = "https://plausible.holoplay.io/js/script.j
 
 export const Scripts = memo(() => {
   const settings = useSettings();
-  const analyticsEnabled = useMemo(() => process.env.REACT_APP_PLAUSIBLE_ANALYTICS === "true" && settings.analytics, [settings.analytics]);
+  const analyticsEnabled = useMemo(() => process.env.REACT_APP_PLAUSIBLE_ANALYTICS === "true" && settings?.analytics, [settings?.analytics]);
   useScript(analyticsEnabled ? PLAUSIBLE_INSTANCE_SCRIPT_URL : null);
   return null
 });

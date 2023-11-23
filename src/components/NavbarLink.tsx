@@ -6,10 +6,10 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
-import { useLocation } from "react-router-dom";
 
 import { useStableNavigate } from "../providers/Navigate";
 import classes from "./NavbarLink.module.css";
+import { useRouter } from "next/router";
 
 export type RoutePath =
   | "/"
@@ -32,7 +32,7 @@ interface NavbarLinkProps {
 
 const useNavbarLink = (routeName: string, callback?: () => void) => {
   const navigate = useStableNavigate();
-  const location = useLocation();
+  const router = useRouter();
 
   return {
     onClick: () => {
@@ -41,7 +41,7 @@ const useNavbarLink = (routeName: string, callback?: () => void) => {
         callback();
       }
     },
-    active: location.pathname === routeName,
+    active: router.pathname === routeName,
   };
 };
 

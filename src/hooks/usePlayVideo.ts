@@ -14,7 +14,7 @@ import { useSettings } from "../providers/Settings";
 import { getSponsorBlockSegments } from "../services/sponsor-block";
 import { getVideo } from "../services/video";
 import type { Video, VideoThumbnail } from "../types/interfaces/Video";
-import { colorExtractor } from "../utils/colorExtractor";
+// import { colorExtractor } from "../utils/colorExtractor";
 import { useResolveVideosPlaylist } from "./useResolveVideosPlaylist";
 
 const DEFAULT_PRIMARY_COLOR = {
@@ -72,9 +72,9 @@ export const usePlayVideo = () => {
           ?.uri}${videoThumbnailUrl}`;
       }
 
-      const colors = await colorExtractor
-        .extractColor(videoThumbnailUrl)
-        .catch(console.log);
+      // const colors = await colorExtractor
+      //   .extractColor(videoThumbnailUrl)
+      //   .catch(console.log);
 
       if (getLastVideoPlayed()?.videoId !== videoId) {
         setHistory(data.video);
@@ -84,7 +84,7 @@ export const usePlayVideo = () => {
       setPlayerVideo({
         video: data.video,
         thumbnailUrl: videoThumbnailUrl,
-        primaryColor: colors ? colors[0] : DEFAULT_PRIMARY_COLOR,
+        primaryColor: DEFAULT_PRIMARY_COLOR,
         sponsorBlockSegments: sponsorBlockSegments.segments,
       });
       setPlayerState((previousState) => ({
