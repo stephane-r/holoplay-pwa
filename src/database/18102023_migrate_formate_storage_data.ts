@@ -21,35 +21,36 @@ const formatedPlaylists = () => {
   const playlists = db.queryAll("playlists") as Playlist[];
   const history = db.queryAll("history") as CardVideo[];
 
-  const updatedPlaylists = playlists.map((p) => {
-    if ((p as FavoritePlaylist).title === "Favorites") {
+  const updatedPlaylists =
+    playlists.map((p) => {
+      if ((p as FavoritePlaylist).title === "Favorites") {
+        return {
+          ...p,
+          videos: (p as FavoritePlaylist).videos?.map((card) => {
+            switch (card.type) {
+              case "channel":
+                return formatedCardChannel(card as CardChannel);
+              case "playlist":
+                return formatedCardPlaylist(card as CardPlaylist);
+              default:
+                return formatedCardVideo(card as CardVideo);
+            }
+          }),
+        };
+      }
+
+      const videos = p.videos.slice(0, 4);
+      const formatedVideos = videos.map((video) =>
+        formatedPlaylistCardVideo(video as CardVideo),
+      );
+
       return {
         ...p,
-        videos: (p as FavoritePlaylist).videos.map((card) => {
-          switch (card.type) {
-            case "channel":
-              return formatedCardChannel(card as CardChannel);
-            case "playlist":
-              return formatedCardPlaylist(card as CardPlaylist);
-            default:
-              return formatedCardVideo(card as CardVideo);
-          }
-        }),
+        videos: formatedVideos,
       };
-    }
+    }) ?? null;
 
-    const videos = p.videos.slice(0, 4);
-    const formatedVideos = videos.map((video) =>
-      formatedPlaylistCardVideo(video as CardVideo),
-    );
-
-    return {
-      ...p,
-      videos: formatedVideos,
-    };
-  });
-
-  const updatedHistory = history.map((v) => formatedCardVideo(v));
+  const updatedHistory = history.map((v) => formatedCardVideo(v)) ?? null;
 
   return {
     playlists: updatedPlaylists,
@@ -61,12 +62,16 @@ const migration = () => {
   try {
     const { playlists, history } = formatedPlaylists();
 
-    for (const playlist of playlists) {
-      db.update("playlists", { title: playlist.title }, () => playlist);
+    if (playlists) {
+      for (const playlist of playlists) {
+        db.update("playlists", { title: playlist.title }, () => playlist);
+      }
     }
 
-    for (const video of history) {
-      db.update("history", () => video);
+    if (history) {
+      for (const video of history) {
+        db.update("history", () => video);
+      }
     }
 
     db.commit();

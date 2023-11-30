@@ -9,17 +9,19 @@ const migration = () => {
   })[0] as Playlist;
 
   try {
-    const updatedVideos = favoritePlaylist.videos.map((video) => {
+    const updatedVideos = favoritePlaylist.videos?.map((video) => {
       if (video.videoThumbnails) {
         return cleanVideoThumbnailsUrl(video);
       }
       return video;
     });
 
-    favoritePlaylist.videos = updatedVideos;
+    if (updatedVideos) {
+      favoritePlaylist.videos = updatedVideos;
 
-    db.update("playlists", { title: "Favorites" }, () => favoritePlaylist);
-    db.commit();
+      db.update("playlists", { title: "Favorites" }, () => favoritePlaylist);
+      db.commit();
+    }
   } catch (error) {
     console.log(error);
   }
