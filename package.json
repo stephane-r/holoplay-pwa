@@ -35,7 +35,6 @@
     "@types/react": "^18.2.38",
     "@types/react-dom": "^18.2.16",
     "@types/uuid": "^9.0.7",
-    "awaiting": "^3.0.0",
     "country-list": "^2.3.0",
     "hex-to-rgba": "^2.0.1",
     "i18next": "^23.7.6",

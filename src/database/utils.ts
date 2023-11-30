@@ -13,7 +13,7 @@ export const getFavoritePlaylist = (): FavoritePlaylist => {
   return db.queryAll("playlists", { query: { title: "Favorites" } })[0];
 };
 
-const removeDuplicateVideoId = (cards: Card[]): Card[] => {
+export const removeDuplicateVideoId = (cards: Card[]): Card[] => {
   return cards.filter(
     (value, index, self) =>
       index === self.findIndex((t) => getCardId(t) === getCardId(value)),
@@ -23,7 +23,7 @@ const removeDuplicateVideoId = (cards: Card[]): Card[] => {
 export const importVideosToFavorites = (importedCards: Card[]): void => {
   db.update("playlists", { title: "Favorites" }, (raw: FavoritePlaylist) => ({
     ...raw,
-    videos: removeDuplicateVideoId([...importedCards, ...raw.cards]),
+    cards: removeDuplicateVideoId([...importedCards, ...(raw.cards ?? [])]),
   }));
   db.commit();
 };
@@ -36,6 +36,14 @@ export const importPlaylist = (playlist: CardPlaylist): void => {
     videoCount: playlist.videoCount,
     type: "playlist",
   });
+  db.commit();
+};
+
+export const updatePlaylistVideos = (title: string, videos: CardVideo[]) => {
+  db.update("playlists", { title }, (raw: Playlist) => ({
+    ...raw,
+    videos,
+  }));
   db.commit();
 };
 
