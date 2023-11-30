@@ -124,14 +124,13 @@ export const ImportData = memo(() => {
 });
 
 const AlertImportInfos = memo(() => {
+  const { t } = useTranslation();
+
   return (
     <Alert mb="lg">
       <Flex gap="xs">
         <IconInfoCircle />
-        <Text size="md">
-          Only <strong>Invidious</strong> and <strong>HoloPlay</strong> export
-          file can be imported for now.
-        </Text>
+        <Text size="md">{t("settings.data.import.alert")}</Text>
       </Flex>
     </Alert>
   );
