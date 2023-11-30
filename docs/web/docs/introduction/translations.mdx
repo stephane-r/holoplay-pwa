@@ -1,0 +1,51 @@
+---
+sidebar_position: 5
+---
+
+# Translations
+
+Several people have translated HoloPlay into different languages :
+
+- 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English (default)
+- 🇫🇷 French
+- 🇯🇵 Japanese
+- 🇷🇺 Russian
+- 🇩🇪 German
+
+Thank you to all of them for their contribution 🙏
+
+## Add new language
+
+Add your own language by submitting a pull request to the [HoloPlay App repository](https://github.com/stephane-r/holoplay-pwa/pulls).
+
+1. Create your new language file in `src/translations` by copying the `en.json` file
+2. Translate the content of the file
+3. Then, load your new language in `src/translations/index.ts` :
+
+```ts
+...
+// 1. Import your JSON file
+import fr from './fr.json';
+
+// 2. Add your language code
+export type Languages = ... | "fr-FR";
+
+// 3. Add your language to the list (list of languages in the settings screen)
+export const languagesValues = [
+  ...
+  {
+    value: "fr-FR",
+    label: "French",
+  },
+];
+
+// 4. Add your language to the i18n resources
+export const resources = {
+  ...
+  fr: {
+    translation: fr,
+  },
+};
+```
+
+That's it ! 🎉 

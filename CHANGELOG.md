@@ -10,6 +10,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.10.6] - 2023-11-30
+### :sparkles: New Features
+- [`f4dce4b`](https://github.com/stephane-r/holoplay-pwa/commit/f4dce4bcd948670c11f5eba35180638baca831ed) - add eslint and prettier
+
+### :bug: Bug Fixes
+- [`530ae62`](https://github.com/stephane-r/holoplay-pwa/commit/530ae6234be3bef6b86b6d027389a8d12ba6457a) - **export**: remove useless formated on playlists
+
+### :wrench: Chores
+- [`e4b8676`](https://github.com/stephane-r/holoplay-pwa/commit/e4b867641d83caf4b9a211493bbf887e1d0ee0d9) - update dependencies
+
+
 ## [v1.10.5] - 2023-11-09
 ### :sparkles: New Features
 - [`03b3f7f`](https://github.com/stephane-r/holoplay-pwa/commit/03b3f7fb163daac35b1b639c304c5cefdb6e3e01) - **player**: pause state on space key pressed
@@ -222,3 +233,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.10.3]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.2...v1.10.3
 [v1.10.4]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.3...v1.10.4
 [v1.10.5]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.4...v1.10.5
+[v1.10.6]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.5...v1.10.6
