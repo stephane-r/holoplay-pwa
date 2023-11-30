@@ -10,6 +10,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.10.7] - 2023-11-30
+### :bug: Bug Fixes
+- [`9fbeade`](https://github.com/stephane-r/holoplay-pwa/commit/9fbeade97b8915f9d9bdaa279711cd18dcfa91e7) - adding fallback for useless data
+
+### :recycle: Refactors
+- [`2cc6a14`](https://github.com/stephane-r/holoplay-pwa/commit/2cc6a14be049887463a950855897e9b767bac17e) - simplify import/export data
+
+### :wrench: Chores
+- [`49c2d85`](https://github.com/stephane-r/holoplay-pwa/commit/49c2d858431399b7c2d5ba0f3baaa9cd95cfd244) - remove useless awaiting dependency
+- [`cd14a28`](https://github.com/stephane-r/holoplay-pwa/commit/cd14a281a7457c165b64185911cd6aca13ad715e) - add missing translations
+
+
 ## [v1.10.6] - 2023-11-30
 ### :sparkles: New Features
 - [`f4dce4b`](https://github.com/stephane-r/holoplay-pwa/commit/f4dce4bcd948670c11f5eba35180638baca831ed) - add eslint and prettier
@@ -234,3 +246,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.10.4]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.3...v1.10.4
 [v1.10.5]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.4...v1.10.5
 [v1.10.6]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.5...v1.10.6
+[v1.10.7]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.6...v1.10.7

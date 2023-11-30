@@ -21,8 +21,7 @@ export const ExportData = memo(() => {
   const handleSubmit = (data: TransferListData) => {
     const [, importData] = data;
     const playlists = loadPlaylistData(importData);
-    const formatedPlaylists = playlists;
-    generateAndDownloadFile({ playlists: formatedPlaylists });
+    generateAndDownloadFile({ playlists });
     notifications.show({
       title: t("notification.title"),
       message: t("notification.message"),

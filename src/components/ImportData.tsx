@@ -17,8 +17,6 @@ import {
   IconInfoCircle,
   IconUpload,
 } from "@tabler/icons-react";
-// @ts-ignore
-import { map as cappedAll } from "awaiting";
 import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -26,14 +24,18 @@ import {
   getFavoritePlaylist,
   importPlaylist,
   importVideosToFavorites,
+  updatePlaylistVideos,
 } from "../database/utils";
 import { getPlaylists } from "../database/utils";
-import { useSetFavorite } from "../providers/Favorite";
-import { useSetPlaylists } from "../providers/Playlist";
-import { getVideo } from "../services/video";
-import type { Card, CardVideo } from "../types/interfaces/Card";
+import { useFavorite, useSetFavorite } from "../providers/Favorite";
+import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
+import type { CardVideo } from "../types/interfaces/Card";
 import type { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
-import type { Video } from "../types/interfaces/Video";
+import {
+  getArrayDifference,
+  getPlaylistId,
+  getUpdatedPlaylists,
+} from "../utils/getArrayDifference";
 import { TransferList, type TransferListData } from "./TransferList";
 
 export const ImportData = memo(() => {
@@ -122,14 +124,13 @@ export const ImportData = memo(() => {
 });
 
 const AlertImportInfos = memo(() => {
+  const { t } = useTranslation();
+
   return (
     <Alert mb="lg">
       <Flex gap="xs">
         <IconInfoCircle />
-        <Text size="md">
-          Only <strong>Invidious</strong> and <strong>HoloPlay</strong> export
-          file can be imported for now.
-        </Text>
+        <Text size="md">{t("settings.data.import.alert")}</Text>
       </Flex>
     </Alert>
   );
@@ -145,35 +146,10 @@ const loadPlaylistsFromFileData = (
   playlistsTitle: string[],
 ) => playlists.filter((p) => playlistsTitle.includes(p.title));
 
-type FetchVideosData = {
-  video: Card;
-  url: string;
-}[];
-
-const getVideosData = async (
-  videos: Card[],
-): Promise<{
-  validData: FetchVideosData;
-  invalidData: FetchVideosData;
-}> => {
-  const data = (await cappedAll(videos, 5, (video: Video) =>
-    getVideo(video.videoId),
-  )) as FetchVideosData;
-  const validData = data.filter(
-    ({ url }) => url !== undefined,
-  ) as FetchVideosData;
-  const invalidData = data.filter(
-    ({ url }) => url === undefined,
-  ) as FetchVideosData;
-
-  return {
-    validData,
-    invalidData,
-  };
-};
-
 const TransferListContainer: FC<TransferListContainerProps> = memo(
   ({ data: importedFileData, onClear }) => {
+    const currentFavoritePlaylist = useFavorite();
+    const currentPlaylists = usePlaylists();
     const setFavorite = useSetFavorite();
     const setPlaylists = useSetPlaylists();
     const [loading, setLoading] = useState(false);
@@ -190,32 +166,59 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
           importedFileData,
           importData,
         );
-        const favoritePlaylist = playlists.find(
+        const importedFavoritePlaylist = playlists.find(
           (p) => p.title === "Favorites",
         ) as FavoritePlaylist;
-        const userPlaylists = playlists.filter((p) => p.title !== "Favorites");
+        const importedPlaylists = playlists.filter(
+          (p) => p.title !== "Favorites",
+        );
 
-        if (favoritePlaylist) {
-          const { validData } = await getVideosData(favoritePlaylist.cards);
-          importVideosToFavorites(validData.map(({ video }) => video));
-          setFavorite(getFavoritePlaylist());
+        if (importedFavoritePlaylist) {
+          const newCards = getArrayDifference(
+            currentFavoritePlaylist.cards,
+            importedFavoritePlaylist.cards,
+          );
+
+          if (newCards.length > 0) {
+            importVideosToFavorites(newCards);
+            setFavorite(getFavoritePlaylist());
+          }
         }
 
-        if (userPlaylists.length > 0) {
-          userPlaylists.map(async (playlist) => {
-            const { validData: videos } = await getVideosData(
-              playlist.videos as CardVideo[],
-            );
-            importPlaylist({
-              type: "playlist",
-              playlistId: playlist.playlistId,
-              ID: playlist.ID,
-              title: playlist.title,
-              videos: videos.map(({ video }) => video) as CardVideo[],
-              videoCount: videos.length,
-            });
-            setPlaylists(getPlaylists());
-          });
+        if (importedPlaylists.length > 0) {
+          const newPlaylists = getArrayDifference(
+            currentPlaylists,
+            importedPlaylists,
+            getPlaylistId,
+          );
+          const updatedPlaylists = getUpdatedPlaylists(
+            currentPlaylists,
+            importedPlaylists,
+          ) as Playlist[];
+
+          if (newPlaylists.length > 0) {
+            for (const playlist of newPlaylists) {
+              importPlaylist({
+                type: "playlist",
+                playlistId: playlist.playlistId ?? undefined,
+                ID: playlist.ID ?? undefined,
+                title: playlist.title,
+                videos: playlist.videos as CardVideo[],
+                videoCount: playlist.videos.length,
+              });
+            }
+          }
+
+          if (updatedPlaylists.length > 0) {
+            for (const playlist of updatedPlaylists) {
+              updatePlaylistVideos(
+                playlist.title,
+                playlist.videos as CardVideo[],
+              );
+            }
+          }
+
+          setPlaylists(getPlaylists());
         }
 
         notifications.show({
@@ -223,6 +226,7 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
           message: t("notification.message"),
         });
       } catch (error) {
+        console.log(error);
         notifications.show({
           title: t("notification.error.title"),
           message: t("notification.error.message"),

@@ -41,6 +41,7 @@
   "settings.data.import.notification.message": "Data imported successfully",
   "settings.data.import.notification.error.title": "Error",
   "settings.data.import.notification.error.message": "An error has occurred while importing your data",
+  "settings.data.import.alert": "Only Invidious and HoloPlay export file can be imported for now. Other sources like Freetube will be added soon",
   "settings.data.export": "Export",
   "settings.data.export.left": "Your playlist",
   "settings.data.export.right": "Export playlists",
