@@ -10,6 +10,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.11.0] - 2023-12-01
+### :sparkles: New Features
+- [`a89a960`](https://github.com/stephane-r/holoplay-pwa/commit/a89a960bcfd6ed8b11d7dd193dccb415d910286d) - **export**: add possibility to change default filename *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`11bfd39`](https://github.com/stephane-r/holoplay-pwa/commit/11bfd398c745dd9f2b6f2b9cbf7f4d490b0266c6) - **export**: show last export date *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :wrench: Chores
+- [`cca6b4d`](https://github.com/stephane-r/holoplay-pwa/commit/cca6b4d72f336bfaa9cc207ca6faf4c216305d86) - add date-fns dependency *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`baff6ce`](https://github.com/stephane-r/holoplay-pwa/commit/baff6ce23ed65fa04941e4769b3eb6a6e870a84c) - upgrade dependencies *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+
 ## [v1.10.7] - 2023-11-30
 ### :bug: Bug Fixes
 - [`9fbeade`](https://github.com/stephane-r/holoplay-pwa/commit/9fbeade97b8915f9d9bdaa279711cd18dcfa91e7) - adding fallback for useless data
@@ -247,3 +257,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.10.5]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.4...v1.10.5
 [v1.10.6]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.5...v1.10.6
 [v1.10.7]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.6...v1.10.7
+[v1.11.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.7...v1.11.0
