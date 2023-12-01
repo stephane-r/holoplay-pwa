@@ -10,4 +10,6 @@ export interface Settings {
   sponsorBlock: boolean;
   sponsorBlockCategories: string[];
   analytics: boolean;
+  exportFileName: string | null;
+  exportLastDate: string | null;
 }

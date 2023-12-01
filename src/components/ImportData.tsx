@@ -36,7 +36,7 @@ import {
   getPlaylistId,
   getUpdatedPlaylists,
 } from "../utils/getArrayDifference";
-import { TransferList, type TransferListData } from "./TransferList";
+import { TransferList } from "./TransferList";
 
 export const ImportData = memo(() => {
   const theme = useMantineTheme();
@@ -127,7 +127,7 @@ const AlertImportInfos = memo(() => {
   const { t } = useTranslation();
 
   return (
-    <Alert mb="lg">
+    <Alert title="Information" mb="lg">
       <Flex gap="xs">
         <IconInfoCircle />
         <Text size="md">{t("settings.data.import.alert")}</Text>
@@ -157,11 +157,10 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
       keyPrefix: "settings.data.import",
     });
 
-    const handleSubmit = async (transferListData: TransferListData) => {
+    const handleSubmit = async (importData: string[]) => {
       setLoading(true);
 
       try {
-        const [, importData] = transferListData;
         const playlists = loadPlaylistsFromFileData(
           importedFileData,
           importData,
