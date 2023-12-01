@@ -23,6 +23,7 @@ export const ExportData = memo(() => {
 
   const handleDownloadFile = useCallback(
     (fileName: string) => {
+      setOpened(false);
       const playlists = loadPlaylistData(exportData);
       generateAndDownloadFile({ playlists }, fileName);
       notifications.show({
