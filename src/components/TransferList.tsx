@@ -18,7 +18,7 @@ export type TransferListData = [string[], string[]];
 
 interface TransferListProps {
   data: string[];
-  handleSubmit: (data: TransferListData) => void;
+  handleSubmit: (data: string[]) => void;
   buttonSubmitLabel: string;
 }
 
@@ -57,7 +57,10 @@ export const TransferList: FC<TransferListProps> = memo(
           />
         </Flex>
         <Flex justify="flex-end" mt="lg">
-          <Button onClick={() => handleSubmit(data)} disabled={!data[1].length}>
+          <Button
+            onClick={() => handleSubmit(data[1])}
+            disabled={!data[1].length}
+          >
             {buttonSubmitLabel}
           </Button>
         </Flex>
