@@ -237,6 +237,8 @@
   "modal.video.iframe.information.text1": "HoloPlay can play an Invidious source in Audio only mode or via a video iframe. By default, the video mode is used in the event of an error loading an audio source. If there is an error, the iframe opens automatically. It is also possible to activate the video mode manually from the Player.",
   "modal.video.iframe.information.text2": "URL used on the iframe",
   "modal.video.iframe.information.text3": "This feature can be disable from the application settings screen.",
+  "modal.export.filename.title": "Export",
+  "modal.export.filename.label": "Export file name",
   "video.mode": "Video mode",
   "favorite.tab.all": "All",
   "favorite.tab.videos": "Videos",

@@ -18,15 +18,26 @@ import {
   filterAndParseInstances,
 } from "../services/instances";
 import type { Settings } from "../types/interfaces/Settings";
+import { stringValueIsEmpty } from "../utils/stringValueIsEmpty";
 
 const SettingsContext = createContext<null | {
   settings: Settings;
   setSettings: Dispatch<SetStateAction<Settings>>;
 }>(null);
 
+const INITIAL_SETTINGS = getSettings();
+
 export const SettingsProvider: FC<PropsWithChildren> = ({ children }) => {
+  const exportFileName = useMemo(
+    () =>
+      stringValueIsEmpty(INITIAL_SETTINGS.exportFileName as string)
+        ? null
+        : INITIAL_SETTINGS.exportFileName,
+    [],
+  );
   const [settings, setSettings] = useState<Settings>({
-    ...getSettings(),
+    ...INITIAL_SETTINGS,
+    exportFileName,
     instances: [],
   });
 

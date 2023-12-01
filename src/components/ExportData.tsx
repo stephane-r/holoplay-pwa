@@ -1,32 +1,40 @@
 import { Box } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { memo } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { getAllPlaylists } from "../database/utils";
 import { generateAndDownloadFile } from "../utils/generateAndDownloadFile";
-import { TransferList, type TransferListData } from "./TransferList";
+import { ModalExportFilename } from "./ModalExportFilename";
+import { TransferList } from "./TransferList";
 
-const loadPlaylistData = (playlistsTitle: string[]) => {
-  const playlists = getAllPlaylists();
-  return playlists.filter((p) => playlistsTitle.includes(p.title));
-};
+const loadPlaylistData = (playlistsTitle: string[]) =>
+  getAllPlaylists().filter((p) => playlistsTitle.includes(p.title));
 
 export const ExportData = memo(() => {
-  const userData = getAllPlaylists().map((p) => p.title);
+  const [opened, setOpened] = useState(false);
   const { t } = useTranslation("translation", {
     keyPrefix: "settings.data.export",
   });
+  const [exportData, setExportData] = useState<string[]>([]);
+  const userData = useMemo(() => getAllPlaylists().map((p) => p.title), []);
 
-  const handleSubmit = (data: TransferListData) => {
-    const [, importData] = data;
-    const playlists = loadPlaylistData(importData);
-    generateAndDownloadFile({ playlists });
-    notifications.show({
-      title: t("notification.title"),
-      message: t("notification.message"),
-    });
-  };
+  const handleDownloadFile = useCallback(
+    (fileName: string) => {
+      const playlists = loadPlaylistData(exportData);
+      generateAndDownloadFile({ playlists }, fileName);
+      notifications.show({
+        title: t("notification.title"),
+        message: t("notification.message"),
+      });
+    },
+    [exportData, t],
+  );
+
+  const handleSubmit = useCallback((importData: string[]) => {
+    setExportData(importData);
+    setOpened(true);
+  }, []);
 
   return (
     <Box mt="lg">
@@ -34,6 +42,11 @@ export const ExportData = memo(() => {
         data={userData}
         handleSubmit={handleSubmit}
         buttonSubmitLabel={t("button.submit")}
+      />
+      <ModalExportFilename
+        opened={opened}
+        onClose={() => setOpened(false)}
+        onSubmit={handleDownloadFile}
       />
     </Box>
   );

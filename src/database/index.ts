@@ -90,6 +90,11 @@ const initDb = () => {
     db.commit();
   }
 
+  if (!db.columnExists("settings", "exportFileName")) {
+    db.alterTable("settings", "exportFileName", "");
+    db.commit();
+  }
+
   if (!db.columnExists("settings", "analytics")) {
     db.alterTable("settings", "analytics", true);
     db.commit();
