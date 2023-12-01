@@ -92,30 +92,6 @@ const RenderList: FC<RenderListProps> = memo(
       );
     };
 
-    const items = options
-      .filter((item) =>
-        item.toLowerCase().includes(search.toLowerCase().trim()),
-      )
-      .map((item) => (
-        <Combobox.Option
-          value={item}
-          key={item}
-          active={value.includes(item)}
-          onMouseOver={() => combobox.resetSelectedOption()}
-        >
-          <Group gap="sm">
-            <Checkbox
-              checked={value.includes(item)}
-              onChange={() => {}}
-              aria-hidden
-              tabIndex={-1}
-              style={{ pointerEvents: "none" }}
-            />
-            <span>{item}</span>
-          </Group>
-        </Combobox.Option>
-      ));
-
     return (
       <div className={classes.renderList} data-type={type}>
         <Combobox store={combobox} onOptionSubmit={handleValueSelect}>
@@ -146,8 +122,18 @@ const RenderList: FC<RenderListProps> = memo(
           </Combobox.EventsTarget>
           <div className={classes.list}>
             <Combobox.Options>
-              {items.length > 0 ? (
-                items
+              {options.length > 0 ? (
+                options
+                  .filter((item) =>
+                    item.toLowerCase().includes(search.toLowerCase().trim()),
+                  )
+                  .map((item) => (
+                    <RenderListItem
+                      item={item}
+                      activeValue={value.includes(item)}
+                      onMouseOver={() => combobox.resetSelectedOption()}
+                    />
+                  ))
               ) : (
                 <Combobox.Empty>{t("search.nothing.found")}</Combobox.Empty>
               )}
@@ -155,6 +141,36 @@ const RenderList: FC<RenderListProps> = memo(
           </div>
         </Combobox>
       </div>
+    );
+  },
+);
+
+interface RenderListItemProps {
+  item: string;
+  activeValue: boolean;
+  onMouseOver(): void;
+}
+
+const RenderListItem: FC<RenderListItemProps> = memo(
+  ({ item, activeValue, onMouseOver }) => {
+    return (
+      <Combobox.Option
+        value={item}
+        key={item}
+        active={activeValue}
+        onMouseOver={onMouseOver}
+      >
+        <Group gap="sm">
+          <Checkbox
+            checked={activeValue}
+            onChange={() => {}}
+            aria-hidden
+            tabIndex={-1}
+            style={{ pointerEvents: "none" }}
+          />
+          <span>{item}</span>
+        </Group>
+      </Combobox.Option>
     );
   },
 );
