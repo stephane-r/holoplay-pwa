@@ -11,4 +11,5 @@ export interface Settings {
   sponsorBlockCategories: string[];
   analytics: boolean;
   exportFileName: string | null;
+  exportLastDate: string | null;
 }
