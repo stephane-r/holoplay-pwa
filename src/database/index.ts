@@ -95,12 +95,17 @@ const initDb = () => {
     db.commit();
   }
 
+  if (!db.columnExists("settings", "exportLastDate")) {
+    db.alterTable("settings", "exportLastDate", "");
+    db.commit();
+  }
+
   if (!db.columnExists("settings", "analytics")) {
     db.alterTable("settings", "analytics", true);
     db.commit();
 
     db.update("settings", { ID: 1 }, (data: Settings) => ({
-      analytics: true
+      analytics: true,
     }));
     db.commit();
   }

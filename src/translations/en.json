@@ -50,6 +50,7 @@
   "settings.data.export.button.submit": "Export my data",
   "settings.data.export.notification.title": "Export data",
   "settings.data.export.notification.message": "Your data has been exported",
+  "settings.data.export.last.date": "Last export date",
   "settings.data.save": "Save",
   "settings.data.save.text": "Save your data and sync from other device",
   "settings.data.save.notification.title": "Data saved",

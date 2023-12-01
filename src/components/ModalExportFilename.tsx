@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
 import { useSetSettings, useSettings } from "../providers/Settings";
-import type { Settings } from "../types/interfaces/Settings";
 import { Modal } from "./Modal";
 
 const getDefaultExportFileName = () =>
@@ -28,13 +27,17 @@ export const ModalExportFilename: FC<ModalExportFilenameProps> = memo(
 
     const handleSubmit = () => {
       if (fileName !== getDefaultExportFileName()) {
-        db.update("settings", { ID: 1 }, (data: Settings) => ({
+        const settingsUpdated = {
           exportFileName: fileName,
+          exportLastDate: new Date().toISOString(),
+        };
+        db.update("settings", { ID: 1 }, () => ({
+          ...settingsUpdated,
         }));
         db.commit();
         setSettings((previousState) => ({
           ...previousState,
-          filename: fileName,
+          ...settingsUpdated,
         }));
       }
 
