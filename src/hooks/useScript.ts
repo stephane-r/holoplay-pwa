@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 
 // Source: https://usehooks-ts.com/react-hook/use-script
 
-export type UseScriptStatus = 'idle' | 'loading' | 'ready' | 'error'
-export interface UseScriptOptions {
+type UseScriptStatus = 'idle' | 'loading' | 'ready' | 'error'
+
+interface UseScriptOptions {
   shouldPreventLoad?: boolean
   removeOnUnmount?: boolean
 }

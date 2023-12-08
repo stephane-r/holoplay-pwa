@@ -57,12 +57,6 @@ export const getAllPlaylists = (): CardPlaylist[] => {
   return db.queryAll("playlists");
 };
 
-export const getLocalPlaylists = (): CardPlaylist[] => {
-  return db.queryAll("playlists", {
-    query: (row: Playlist) => row.title !== "Favorites" && !row.playlistId,
-  });
-};
-
 export const getPlaylist = (playlistId: number): Playlist => {
   return db.queryAll("playlists", { query: { ID: playlistId } })[0];
 };

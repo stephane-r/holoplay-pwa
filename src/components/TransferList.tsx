@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 
 import classes from "./TransferList.module.css";
 
-export type TransferListData = [string[], string[]];
+type TransferListData = [string[], string[]];
 
 interface TransferListProps {
   data: string[];

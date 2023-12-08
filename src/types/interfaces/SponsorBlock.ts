@@ -1,4 +1,4 @@
-export type SponsorBlockCategory =
+type SponsorBlockCategory =
   | "sponsor"
   | "intro"
   | "outro"
