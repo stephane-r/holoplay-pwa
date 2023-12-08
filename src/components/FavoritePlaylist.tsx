@@ -61,19 +61,35 @@ export const FavoritePlaylist = memo(() => {
         </Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="all" pt="xs">
-        <DataList data={data} />
+        <DataList label="Favorites list" data={data} />
       </Tabs.Panel>
       <Tabs.Panel value="videos" pt="xs">
-        {!videos.length ? <Empty /> : <DataList data={videos} />}
+        {!videos.length ? (
+          <Empty />
+        ) : (
+          <DataList label="Favorites videos list" data={videos} />
+        )}
       </Tabs.Panel>
       <Tabs.Panel value="livestream" pt="xs">
-        {!livestream.length ? <Empty /> : <DataList data={livestream} />}
+        {!livestream.length ? (
+          <Empty />
+        ) : (
+          <DataList label="Favorites livestream list" data={livestream} />
+        )}
       </Tabs.Panel>
       <Tabs.Panel value="playlists" pt="xs">
-        {!playlists.length ? <Empty /> : <DataList data={playlists} />}
+        {!playlists.length ? (
+          <Empty />
+        ) : (
+          <DataList label="Favorites playlists list" data={playlists} />
+        )}
       </Tabs.Panel>
       <Tabs.Panel value="channels" pt="xs">
-        {!channels.length ? <Empty /> : <DataList data={channels} />}
+        {!channels.length ? (
+          <Empty />
+        ) : (
+          <DataList label="Favorites channels list" data={channels} />
+        )}
       </Tabs.Panel>
     </Tabs>
   );
@@ -81,14 +97,15 @@ export const FavoritePlaylist = memo(() => {
 
 interface DataListProps {
   data: Card[];
+  label?: string;
 }
 
-const DataList: FC<DataListProps> = memo(({ data: initialData }) => {
+const DataList: FC<DataListProps> = memo(({ label, data: initialData }) => {
   const { data, ref } = usePaginateData(initialData);
 
   return (
     <>
-      <CardList data={data} />
+      <CardList label={label} data={data} />
       <button ref={ref} style={{ opacity: 0 }} />
     </>
   );

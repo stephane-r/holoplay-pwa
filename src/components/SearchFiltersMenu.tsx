@@ -20,11 +20,17 @@ export const SearchFilters = memo(() => {
   return (
     <Menu width={250} position="bottom-end">
       <Menu.Target>
-        <ActionIcon variant="filled" radius="md" size={36} color="gray">
+        <ActionIcon
+          aria-label="Open search filters"
+          variant="filled"
+          radius="md"
+          size={36}
+          color="gray"
+        >
           <IconFilter size={20} />
         </ActionIcon>
       </Menu.Target>
-      <Menu.Dropdown>
+      <Menu.Dropdown aria-label="Search filters">
         <Menu.Label>{t("search.filter.source.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <SegmentedControl
@@ -51,6 +57,7 @@ export const SearchFilters = memo(() => {
         <Menu.Label>{t("search.filter.type.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <Select
+            aria-label="Type filter"
             value={searchValues.type}
             data={[
               { value: "video", label: t("search.filter.type.videos") },

@@ -14,7 +14,7 @@ export const GenreList = memo(() => {
     <>
       <Title order={2}>{t("genre.title")}</Title>
       <Space h="lg" />
-      <Flex gap={20} wrap="wrap">
+      <Flex role="list" aria-label={t("genre.title")} gap={20} wrap="wrap">
         {genres.map((genre) => (
           <Genre key={genre.name} genre={genre} />
         ))}
@@ -42,8 +42,10 @@ const Genre = memo(
     };
 
     return (
-      <UnstyledButton onClick={handleClick}>
-        <Box
+      <Box role="listitem">
+        <UnstyledButton
+          onClick={handleClick}
+          // @ts-ignore
           ref={ref}
           className={classes.item}
           style={{
@@ -52,8 +54,8 @@ const Genre = memo(
           }}
         >
           <Text className={classes.text}>{genre.name}</Text>
-        </Box>
-      </UnstyledButton>
+        </UnstyledButton>
+      </Box>
     );
   },
 );

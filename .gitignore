@@ -32,3 +32,9 @@ android/.gradle
 android/app-release-*
 android/*.keystore
 android/.idea
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/screenshots

@@ -15,11 +15,14 @@ export const RecentlyPlay = memo(() => {
       <Title order={2}>{t("recently.play.title")}</Title>
       <Space h="lg" />
       {!videos.length ? (
-        <Alert title={t("recently.play.alert.title")}>
+        <Alert
+          data-testid="recently-play-empty"
+          title={t("recently.play.alert.title")}
+        >
           <Text>{t("recently.play.alert.message")}</Text>
         </Alert>
       ) : (
-        <HorizontalGridList data={data} keyPrefix="recently-play" />
+        <HorizontalGridList data={data} label="Recently play" />
       )}
     </>
   );

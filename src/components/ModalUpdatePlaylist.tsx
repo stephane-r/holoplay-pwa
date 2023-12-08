@@ -51,7 +51,10 @@ export const ModalUpdatePlaylist: FC<ModalUpdatePlaylistProps> = memo(
           blur: 3,
         }}
       >
-        <Form onSubmit={() => handleUpdatePlaylist()}>
+        <Form
+          label="Form update playlist"
+          onSubmit={() => handleUpdatePlaylist()}
+        >
           <TextInput
             data-autofocus
             placeholder={t("modal.playlist.update.input.placeholder") as string}
@@ -59,15 +62,15 @@ export const ModalUpdatePlaylist: FC<ModalUpdatePlaylistProps> = memo(
             value={playlistTitle}
             onChange={(event) => setPlaylistTitle(event.target.value)}
           />
+          <Flex gap={8} justify="flex-end" mt="xl">
+            <Button onClick={() => onClose()} color="gray">
+              {t("button.cancel")}
+            </Button>
+            <Button type="submit" disabled={playlistTitle?.length === 0}>
+              {t("modal.playlist.update.button.submit")}
+            </Button>
+          </Flex>
         </Form>
-        <Flex gap={8} justify="flex-end" mt="xl">
-          <Button onClick={() => onClose()} color="gray">
-            {t("button.cancel")}
-          </Button>
-          <Button type="submit" disabled={playlistTitle?.length === 0}>
-            {t("modal.playlist.update.button.submit")}
-          </Button>
-        </Flex>
       </Modal>
     );
   },

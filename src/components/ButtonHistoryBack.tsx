@@ -15,7 +15,13 @@ export const ButtonHistoryBack = memo(() => {
 
   return (
     <Tooltip label={t("button.back")} position="right">
-      <ActionIcon variant="filled" radius="xl" size="lg" onClick={handleClick}>
+      <ActionIcon
+        aria-label="Back to previous page"
+        variant="filled"
+        radius="xl"
+        size="lg"
+        onClick={handleClick}
+      >
         <IconArrowLeft size={20} />
       </ActionIcon>
     </Tooltip>

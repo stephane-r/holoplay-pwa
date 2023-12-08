@@ -15,6 +15,7 @@ const initDb = () => {
       "title",
       "cards",
       "videos",
+      "cards",
       "videoCount",
       "type",
     ]);

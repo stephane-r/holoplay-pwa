@@ -1,4 +1,4 @@
-import { Button, Flex, Text } from "@mantine/core";
+import { Box, Button, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
@@ -47,18 +47,20 @@ export const ModalDeletePlaylist: FC<ModalDeletePlaylistProps> = memo(
           blur: 3,
         }}
       >
-        <Text>
-          {t("modal.playlist.delete.text")} <strong>{playlist.title}</strong>{" "}
-          {t("modal.playlist.delete.text2")} ?
-        </Text>
-        <Flex gap={8} justify="flex-end" mt="xl">
-          <Button onClick={() => onClose()} color="gray">
-            {t("button.cancel")}
-          </Button>
-          <Button onClick={handleDeletePlaylist} color="red">
-            {t("modal.playlist.delete.button.submit")}
-          </Button>
-        </Flex>
+        <Box role="form" aria-label={t("modal.playlist.delete.button.submit")}>
+          <Text>
+            {t("modal.playlist.delete.text")} <strong>{playlist.title}</strong>{" "}
+            {t("modal.playlist.delete.text2")} ?
+          </Text>
+          <Flex gap={8} justify="flex-end" mt="xl">
+            <Button onClick={() => onClose()} color="gray">
+              {t("button.cancel")}
+            </Button>
+            <Button onClick={handleDeletePlaylist} color="red">
+              {t("modal.playlist.delete.button.submit")}
+            </Button>
+          </Flex>
+        </Box>
       </Modal>
     );
   },

@@ -45,6 +45,8 @@ export const Player = memo(() => {
 
   return (
     <Box
+      role="dialog"
+      aria-label="Player"
       className={classes.container}
       data-visible={showPlayerBar}
     >

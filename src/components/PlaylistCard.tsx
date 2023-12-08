@@ -207,6 +207,9 @@ const ButtonSaveToPlaylist: FC<ButtonSaveToPlaylistProps> = memo(
         onClick={handleClick}
       >
         <ActionIcon
+          aria-label={
+            isSavedPlaylist ? "Delete from playlists" : "Save to playlists"
+          }
           variant={isSavedPlaylist ? "default" : "filled"}
           radius="md"
         >

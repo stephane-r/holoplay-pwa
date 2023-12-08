@@ -62,6 +62,7 @@ export const SearchBar = memo(() => {
   return (
     <Flex align="center" gap={16} className={classes.container}>
       <Form
+        label="Search bar form"
         className={classes.form}
         onSubmit={form.onSubmit((values) => handleSubmit(values))}
       >

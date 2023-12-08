@@ -24,7 +24,11 @@ export const SearcHistoryMenu: FC<SearcHistoryMenuProps> = ({
   return (
     <Popover opened={opened} width="target">
       <Popover.Target>{children}</Popover.Target>
-      <Popover.Dropdown p={4}>
+      <Popover.Dropdown
+        data-testid="Search history submenu"
+        aria-label="Search history submenu"
+        p={4}
+      >
         {data.map((item, index) => (
           <Box key={item.term}>
             <Button

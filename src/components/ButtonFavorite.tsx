@@ -167,6 +167,9 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
         radius="md"
         size={buttonSize}
         onClick={onClick}
+        aria-label={t(
+          isFavorite ? "button.favorite.remove" : "button.favorite.add",
+        )}
       >
         <IconHeart color="pink" size={iconSize} stroke={1.5} />
       </ActionIcon>
