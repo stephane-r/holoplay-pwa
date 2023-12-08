@@ -9,7 +9,7 @@ import {
   useCombobox,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
-import { type FC, memo, useState } from "react";
+import { type ChangeEvent, type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import classes from "./TransferList.module.css";
@@ -84,6 +84,10 @@ const RenderList: FC<RenderListProps> = memo(
     const [value, setValue] = useState<string[]>([]);
     const [search, setSearch] = useState("");
 
+    const handleSelectAll = (event: ChangeEvent<HTMLInputElement>) => {
+      setValue(event.target.checked ? options.map((item) => item) : []);
+    };
+
     const handleValueSelect = (selectedValue: string) => {
       setValue((current) =>
         current.includes(selectedValue)
@@ -98,8 +102,10 @@ const RenderList: FC<RenderListProps> = memo(
           <Combobox.EventsTarget>
             <Group wrap="nowrap" gap={0} className={classes.controls}>
               <TextInput
+                leftSection={<Checkbox onChange={handleSelectAll} />}
                 placeholder={t("search.placeholder")}
                 classNames={{ input: classes.input }}
+                style={{ flex: 1 }}
                 value={search}
                 onChange={(event) => {
                   setSearch(event.currentTarget.value);
