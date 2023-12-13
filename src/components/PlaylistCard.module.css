@@ -1,5 +1,8 @@
 .card {
-  background: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  background: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-6)
+  );
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
   border-radius: var(--mantine-radius-md);
   padding: rem(24px) !important;

@@ -1,8 +1,9 @@
-import { memo } from "react"
-import { useSetSettings, useSettings } from "../providers/Settings";
 import { Alert, Switch } from "@mantine/core";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
+
 import { db } from "../database";
+import { useSetSettings, useSettings } from "../providers/Settings";
 import type { Settings } from "../types/interfaces/Settings";
 
 export const SwitchPlausibleAnalytics = memo(() => {
@@ -13,19 +14,26 @@ export const SwitchPlausibleAnalytics = memo(() => {
   const handleChange = () => {
     const analytics = !settings.analytics;
     db.update("settings", { ID: 1 }, (data: Settings) => ({
-      analytics
+      analytics,
     }));
     db.commit();
     setSettings((previousState) => ({
       ...previousState,
       analytics,
     }));
-  }
+  };
 
   return (
     <>
       <Alert mb="lg">
-        {t('settings.general.analytics.info')} <a href="https://plausible.holoplay.io/holoplay.io" target="_blank" rel="noreferrer">{t('settings.general.analytics.link')}</a>
+        {t("settings.general.analytics.info")}{" "}
+        <a
+          href="https://plausible.holoplay.io/holoplay.io"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {t("settings.general.analytics.link")}
+        </a>
       </Alert>
       <Switch
         size="md"
@@ -34,5 +42,5 @@ export const SwitchPlausibleAnalytics = memo(() => {
         onChange={handleChange}
       />
     </>
-  )
+  );
 });

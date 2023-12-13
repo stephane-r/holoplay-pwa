@@ -1,29 +1,29 @@
 .card {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    transition: .2s;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  transition: 0.2s;
 }
 
 .scrollArea {
-    height: calc(100vh - rem(500px));
+  height: calc(100vh - rem(500px));
 }
 
 .thumbnail {
-    max-width: 100%;
-    border-radius: var(--mantine-radius-md);
-    margin-bottom: var(--mantine-spacing-xl);
+  max-width: 100%;
+  border-radius: var(--mantine-radius-md);
+  margin-bottom: var(--mantine-spacing-xl);
 
-    @media (min-width: $mantine-breakpoint-sm) {
-      max-width: rem(320px);
-    }
+  @media (min-width: $mantine-breakpoint-sm) {
+    max-width: rem(320px);
+  }
 }
 
 .progressContainer {
-    width: 100%;
+  width: 100%;
 
-    @media (min-width: $mantine-breakpoint-sm) {
-      padding-left: var(--mantine-spacing-xl);
-      padding-right: var(--mantine-spacing-xl);
-    }
+  @media (min-width: $mantine-breakpoint-sm) {
+    padding-left: var(--mantine-spacing-xl);
+    padding-right: var(--mantine-spacing-xl);
+  }
 }

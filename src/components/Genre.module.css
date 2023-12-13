@@ -1,7 +1,10 @@
 .item {
   width: rem(90px);
   height: rem(90px);
-  background: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  background: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-6)
+  );
   border-radius: 10px;
   display: flex;
   align-items: center;

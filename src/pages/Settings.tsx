@@ -17,9 +17,9 @@ import { PageHeader } from "../components/PageHeader";
 import { SaveData } from "../components/SaveData";
 import { SelectInvidiousInstance } from "../components/SelectInvidiousInstance";
 import { SponsorBlockSettings } from "../components/SponsorBlockSettings";
+import { SwitchPlausibleAnalytics } from "../components/SwitchPlausibleAnalytics";
 import { SwitchVideoMode } from "../components/SwitchVideoMode";
 import { useStorage } from "../hooks/useStorage";
-import { SwitchPlausibleAnalytics } from "../components/SwitchPlausibleAnalytics";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();
@@ -78,8 +78,8 @@ const AnalyticsItem = memo(() => {
       <Divider mt="md" mb="lg" />
       <SwitchPlausibleAnalytics />
     </>
-  )
-})
+  );
+});
 
 const StorageEstimate = memo(() => {
   const storage = useStorage();

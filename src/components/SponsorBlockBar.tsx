@@ -40,8 +40,8 @@ export const SponsorBlockBar = memo(() => {
               index === 0
                 ? "4px 0 0 4px"
                 : index + 1 === segments.length
-                ? "0 4px 4px 0"
-                : 0,
+                  ? "0 4px 4px 0"
+                  : 0,
             width: segment.percent,
           }}
         />

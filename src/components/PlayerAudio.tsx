@@ -1,6 +1,9 @@
 import { Box } from "@mantine/core";
+import { useHotkeys } from "@mantine/hooks";
+import { showNotification } from "@mantine/notifications";
 import { memo } from "react";
 import ReactAudioPlayer from "react-audio-player";
+import { useTranslation } from "react-i18next";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
@@ -12,9 +15,6 @@ import {
 import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
 import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
-import { showNotification } from "@mantine/notifications";
-import { useTranslation } from "react-i18next";
-import { useHotkeys } from "@mantine/hooks";
 
 export const PlayerAudio = memo(() => {
   const playerAudio = usePlayerAudio();
@@ -38,11 +38,9 @@ export const PlayerAudio = memo(() => {
       audio.pause();
       handlePause();
     }
-  }
+  };
 
-  useHotkeys([
-    ['space', handlePressSpace],
-  ]);
+  useHotkeys([["space", handlePressSpace]]);
 
   const handlePause = () => {
     setPlayerState((previousState) => ({
@@ -103,7 +101,7 @@ export const PlayerAudio = memo(() => {
       title: t("error"),
       message: t("player.mode.audio.error.message"),
     });
-  }
+  };
 
   return (
     <Box style={{ display: "none" }} aria-hidden="true">
