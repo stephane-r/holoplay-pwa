@@ -40,10 +40,7 @@ export const Trending: FC<TrendingProps> = memo(({ horizontal = false }) => {
       );
     }
     return (
-      <HorizontalGridList
-        data={query.data.slice(0, 10)}
-        label="Trending"
-      />
+      <HorizontalGridList data={query.data.slice(0, 10)} label="Trending" />
     );
   }
 

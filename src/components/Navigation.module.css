@@ -1,6 +1,9 @@
 .navbar {
   position: relative;
-  background: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  background: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-6)
+  );
   padding: var(--mantine-spacing-md);
   z-index: 1;
 }
