@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-export type PlayerMode = "audio" | "video";
+type PlayerMode = "audio" | "video";
 
 const PlayerModeContext = createContext<PlayerMode>("audio");
 const SetPlayerModeContext = createContext<(mode: PlayerMode) => void>(

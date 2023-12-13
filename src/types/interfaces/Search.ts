@@ -8,14 +8,6 @@ export type SearchDuration = "all" | "short" | "medium" | "long";
 export type SearchDate = "all" | "hour" | "today" | "week" | "month" | "year";
 export type SearchService = "invidious" | "youtube_music";
 
-export interface SearchParams {
-  q: String;
-  type: SearchTypes;
-  sortBy: SearchSortBy;
-  date: SearchDate;
-  duration: SearchDuration;
-}
-
 export interface Search {
   q: string;
   type: SearchTypes;

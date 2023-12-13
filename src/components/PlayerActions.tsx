@@ -48,7 +48,7 @@ interface ButtonNextVideoProps extends ActionIconProps {
   iconSize?: number;
 }
 
-export const ButtonPlayPause: FC<ButtonNextVideoProps> = memo(
+const ButtonPlayPause: FC<ButtonNextVideoProps> = memo(
   ({ size, radius, iconSize }) => {
     const playerState = usePlayerState();
     const playerAudio = usePlayerAudio();

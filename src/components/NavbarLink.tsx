@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 import { useStableNavigate } from "../providers/Navigate";
 import classes from "./NavbarLink.module.css";
 
-export type RoutePath =
+type RoutePath =
   | "/"
   | "/search"
   | "/favorites"

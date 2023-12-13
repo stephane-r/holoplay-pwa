@@ -33,7 +33,7 @@ export const languagesValues = [
   },
 ];
 
-export const resources = {
+const resources = {
   en: {
     translation: en,
   },
