@@ -1,6 +1,7 @@
 {
   "settings.general.title": "General",
   "settings.general.description": "Instance Invidious, langage et mode sombre",
+  "settings.general.device.uuid": "Identifiant de l'appareil (uuid)",
   "settings.general.invidious.description": "Modifier les paramètres d'instances Invidious et ajouter des instances personnaliser",
   "settings.general.invidious.domain": "Domaine",
   "settings.general.invidious.type": "Type",

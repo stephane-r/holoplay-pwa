@@ -20,6 +20,7 @@ import { SponsorBlockSettings } from "../components/SponsorBlockSettings";
 import { SwitchPlausibleAnalytics } from "../components/SwitchPlausibleAnalytics";
 import { SwitchVideoMode } from "../components/SwitchVideoMode";
 import { useStorage } from "../hooks/useStorage";
+import { useSettings } from "../providers/Settings";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();
@@ -54,6 +55,8 @@ const GeneralItem = memo(() => {
         </Group>
       </Accordion.Control>
       <Accordion.Panel>
+        <DeviceUuid />
+        <Divider mt="md" mb="lg" />
         <Text mb="md">{t("invidious.description")}</Text>
         <SelectInvidiousInstance />
         <Divider mt="md" mb="lg" />
@@ -65,6 +68,20 @@ const GeneralItem = memo(() => {
         <StorageEstimate />
       </Accordion.Panel>
     </Accordion.Item>
+  );
+});
+
+const DeviceUuid = memo(() => {
+  const settings = useSettings();
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <Text>{t("settings.general.device.uuid")}</Text>
+      <Text>
+        <strong>{settings.deviceId}</strong>
+      </Text>
+    </>
   );
 });
 

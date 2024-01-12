@@ -1,6 +1,7 @@
 {
   "settings.general.title": "General",
   "settings.general.description": "Invidious instance, locale and dark mode",
+  "settings.general.device.uuid": "Device Uuid",
   "settings.general.invidious.description": "Edit the Invidious instance settings and add your custom instance",
   "settings.general.invidious.domain": "Domain",
   "settings.general.invidious.type": "Type",
