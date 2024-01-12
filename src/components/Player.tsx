@@ -26,6 +26,7 @@ import {
   usePlayerVideo,
 } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
+import { ButtonDevicesAvailable } from "./ButtonDevicesAvailable";
 import { ButtonDownload } from "./ButtonDownload";
 import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
@@ -66,6 +67,8 @@ export const Player = memo(() => {
                   <Space w={isLarge ? 60 : 30} />
                 </>
               ) : null}
+              <ButtonDevicesAvailable variant="icon" />
+              <Space w={20} />
               <ButtonRepeat iconSize={20} />
               <Space w={20} />
               <ButtonDownload iconSize={20} />

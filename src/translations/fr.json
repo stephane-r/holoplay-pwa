@@ -273,5 +273,12 @@
   "modal.device.edit.notification.message": "Appareil modifié",
   "modal.device.delete.title": "Supprimer l'appareil",
   "modal.device.delete.notification.title": "Appareil",
-  "modal.device.delete.notification.message": "L'appareil a été supprimé"
+  "modal.device.delete.notification.message": "L'appareil a été supprimé",
+  "remote.device.text_one": "appareil disponible",
+  "remote.device.text_other": "appareils disponibles",
+  "remote.device.button.tooltip": "Appareils",
+  "remote.device.send.notification.title": "Lecture à distance",
+  "remote.device.send.notification.message": "La lecture à distance a été envoyée",
+  "remote.device.receive.notification.title": "Lecture à distance détectée",
+  "remote.device.receive.notification.message": "La vidéo va être lancée sur votre appareil"
 }

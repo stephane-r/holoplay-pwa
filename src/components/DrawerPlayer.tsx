@@ -16,6 +16,7 @@ import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
 import type { CardVideo } from "../types/interfaces/Card";
 import type { Video, VideoThumbnail } from "../types/interfaces/Video";
+import { ButtonDevicesAvailable } from "./ButtonDevicesAvailable";
 import { ButtonDownload } from "./ButtonDownload";
 import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
@@ -73,7 +74,9 @@ export const DrawerPlayerVideo = memo(() => {
     <>
       <Flex justify="center" align="center" direction="column">
         <VideoInformations hideDescription titleLineClamp={2} />
-        <Space h="xl" />
+        <Space h="md" />
+        <ButtonDevicesAvailable variant="text" />
+        <Space h="md" />
         <Flex gap="md">
           <ButtonDownload iconSize={16} />
           <ButtonShare iconSize={16} />

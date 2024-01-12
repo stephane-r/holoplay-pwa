@@ -17,7 +17,7 @@ import {
   fetchInvidiousInstances,
   filterAndParseInstances,
 } from "../services/instances";
-import type { Settings } from "../types/interfaces/Settings";
+import type { RemoteDevice, Settings } from "../types/interfaces/Settings";
 import { stringValueIsEmpty } from "../utils/stringValueIsEmpty";
 
 const SettingsContext = createContext<null | {
@@ -107,6 +107,8 @@ export const useSetSettings = () =>
   useContext(SettingsContext)?.setSettings as Dispatch<
     SetStateAction<Settings>
   >;
+export const useRemoteDevices = () =>
+  useContext(SettingsContext)?.settings.devices as RemoteDevice[];
 
 const generateRandomInteger = (min = 1, max: number) =>
   Math.floor(min + Math.random() * (max - min + 1));

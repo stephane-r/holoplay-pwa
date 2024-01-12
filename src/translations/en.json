@@ -273,5 +273,12 @@
   "modal.device.edit.notification.message": "Device updated",
   "modal.device.delete.title": "Remove device",
   "modal.device.delete.notification.title": "Device",
-  "modal.device.delete.notification.message": "Device removed"
+  "modal.device.delete.notification.message": "Device removed",
+  "remote.device.text_one": "device available",
+  "remote.device.text_other": "devices available",
+  "remote.device.button.tooltip": "Devices",
+  "remote.device.send.notification.title": "Remote playback",
+  "remote.device.send.notification.message": "Remote playback is sending to your device",
+  "remote.device.receive.notification.title": "Remote playback detected",
+  "remote.device.receive.notification.message": "The video will be played on your device"
 }
