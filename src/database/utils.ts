@@ -6,7 +6,11 @@ import type { SearchHistory } from "../types/interfaces/Search";
 import type { Settings } from "../types/interfaces/Settings";
 
 export const getSettings = (): Settings => {
-  return db.queryAll("settings", { query: { ID: 1 } })[0];
+  const settings = db.queryAll("settings", { query: { ID: 1 } })[0];
+  return {
+    ...settings,
+    devices: settings.devices ?? [],
+  };
 };
 
 export const getFavoritePlaylist = (): FavoritePlaylist => {

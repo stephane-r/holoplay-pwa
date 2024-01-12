@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import { ChangeLanguage } from "../components/ChangeLanguage";
 import { SwitchColorScheme } from "../components/ColorScheme";
+import { DevicesList } from "../components/DeviceList";
 import { ExportData } from "../components/ExportData";
 import { ImportData } from "../components/ImportData";
 import { PageHeader } from "../components/PageHeader";
@@ -32,6 +33,7 @@ export const SettingsPage = memo(() => {
         <GeneralItem />
         <PlayerItem />
         <ImportExportDataItem />
+        <DevicesItem />
       </Accordion>
     </div>
   );
@@ -201,6 +203,30 @@ const ImportExportDataItem = memo(() => {
               return null;
           }
         })()}
+      </Accordion.Panel>
+    </Accordion.Item>
+  );
+});
+
+const DevicesItem = memo(() => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "settings.devices",
+  });
+
+  return (
+    <Accordion.Item value="devices" p={6}>
+      <Accordion.Control>
+        <Group>
+          <div>
+            <Text>{t("title")}</Text>
+            <Text size="sm" c="dimmed">
+              {t("description")}
+            </Text>
+          </div>
+        </Group>
+      </Accordion.Control>
+      <Accordion.Panel>
+        <DevicesList />
       </Accordion.Panel>
     </Accordion.Item>
   );
