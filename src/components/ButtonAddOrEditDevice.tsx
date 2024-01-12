@@ -1,4 +1,11 @@
-import { ActionIcon, Button, Flex, Space, TextInput } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Flex,
+  Select,
+  Space,
+  TextInput,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
@@ -7,7 +14,11 @@ import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
 import { useSetSettings, useSettings } from "../providers/Settings";
-import type { RemoteDevice, Settings } from "../types/interfaces/Settings";
+import type {
+  RemoteDevice,
+  RemoteDeviceType,
+  Settings,
+} from "../types/interfaces/Settings";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
@@ -15,18 +26,23 @@ interface ButtonAddOrEditDeviceProps {
   initialValues?: {
     id: string;
     name: string;
+    type: RemoteDeviceType;
   };
 }
 
 interface FormData {
   id: string;
   name: string;
+  type: RemoteDeviceType;
 }
 
 const INITIAL_VALUES = {
   id: "",
   name: "",
+  type: "desktop",
 } as FormData;
+
+const REMOTE_DEVICES_ICONS_LABEL = ["desktop", "tablet", "mobile"];
 
 export const ButtonAddOrEditDevice: FC<ButtonAddOrEditDeviceProps> = memo(
   ({ initialValues }) => {
@@ -79,7 +95,6 @@ export const ButtonAddOrEditDevice: FC<ButtonAddOrEditDeviceProps> = memo(
         color: "green",
       });
 
-      form.reset();
       setOpened(false);
     };
 
@@ -132,6 +147,12 @@ export const ButtonAddOrEditDevice: FC<ButtonAddOrEditDeviceProps> = memo(
               placeholder={t("modal.device.add.input.name.placeholder")}
               label={t("modal.device.add.input.name.label")}
               {...form.getInputProps("name")}
+            />
+            <Space h="sm" />
+            <Select
+              label={t("modal.device.add.select.type.label")}
+              data={REMOTE_DEVICES_ICONS_LABEL}
+              {...form.getInputProps("type")}
             />
             <Flex gap={8} justify="flex-end" mt="xl">
               <Button onClick={() => setOpened(false)} color="gray">

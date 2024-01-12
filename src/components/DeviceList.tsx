@@ -1,9 +1,17 @@
 import { Alert, Flex, Table, Text } from "@mantine/core";
+import {
+  IconDeviceDesktop,
+  IconDeviceMobile,
+  IconDeviceTablet,
+} from "@tabler/icons-react";
 import { type FC, memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useSettings } from "../providers/Settings";
-import type { RemoteDevice } from "../types/interfaces/Settings";
+import type {
+  RemoteDevice,
+  RemoteDeviceType,
+} from "../types/interfaces/Settings";
 import { ButtonAddOrEditDevice } from "./ButtonAddOrEditDevice";
 import { ButtonDeleteDevice } from "./ButtonDeleteDevice";
 
@@ -28,8 +36,8 @@ export const DevicesList = memo(() => {
       <Table role="list" aria-label="Devices list" highlightOnHover mb="md">
         <Table.Thead>
           <Table.Tr>
-            <Table.Th w="30%">Name</Table.Th>
-            <Table.Th w="50%">ID</Table.Th>
+            <Table.Th w="20%">Name</Table.Th>
+            <Table.Th w="60%">UUID</Table.Th>
             <Table.Th w="20%" style={{ textAlign: "right" }}>
               Actions
             </Table.Th>
@@ -46,6 +54,19 @@ export const DevicesList = memo(() => {
   );
 });
 
+const DeviceTypeIcon = {
+  desktop: IconDeviceDesktop,
+  tablet: IconDeviceTablet,
+  mobile: IconDeviceMobile,
+};
+
+export const DeviceIcon = memo(
+  ({ type, size }: { type: RemoteDeviceType; size?: number }) => {
+    const Icon = DeviceTypeIcon[type];
+    return <Icon size={size} />;
+  },
+);
+
 interface DeviceItemProps {
   device: RemoteDevice;
 }
@@ -54,7 +75,12 @@ const DeviceItem: FC<DeviceItemProps> = memo(({ device }) => {
   return (
     <Table.Tr>
       <Table.Td>
-        <strong>{device.name}</strong>
+        <strong>
+          <Flex align="center" gap="sm">
+            <DeviceIcon type={device.type} />
+            {device.name}
+          </Flex>
+        </strong>
       </Table.Td>
       <Table.Td>
         <strong>{device.id}</strong>

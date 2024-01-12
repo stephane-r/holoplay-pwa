@@ -1,8 +1,11 @@
 import type { Instance } from "./Instance";
 
+export type RemoteDeviceType = "desktop" | "tablet" | "mobile";
+
 export interface RemoteDevice {
   id: string;
   name: string;
+  type: "desktop" | "tablet" | "mobile";
   createdAt: string;
   updatedAt: string;
 }

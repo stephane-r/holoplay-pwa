@@ -1,6 +1,6 @@
 import { ActionIcon, Box, Button, Menu, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconDeviceDesktop, IconPlayerPlay } from "@tabler/icons-react";
+import { IconDeviceDesktop } from "@tabler/icons-react";
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -8,6 +8,7 @@ import { usePlayerAudio, usePlayerVideo } from "../providers/Player";
 import { useRemoteDevices } from "../providers/Settings";
 import { sendToRemoteDevice } from "../services/remotePlay";
 import type { RemoteDevice } from "../types/interfaces/Settings";
+import { DeviceIcon } from "./DeviceList";
 
 interface ButtonDevicesAvailableProps {
   variant: "icon" | "text";
@@ -65,7 +66,7 @@ export const ButtonDevicesAvailable: FC<ButtonDevicesAvailableProps> = memo(
           <Menu.Dropdown>
             {remoteDevices.map((device) => (
               <Menu.Item
-                leftSection={<IconPlayerPlay size={14} />}
+                leftSection={<DeviceIcon type={device.type} size={16} />}
                 onClick={() => handleRemotePlay(device)}
               >
                 <Text size="sm" lineClamp={1}>

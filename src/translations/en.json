@@ -268,6 +268,7 @@
   "modal.device.add.input.id.description": "The Device identifier (uuid) is available in the settings (General tab) of the application on the device you wish to add",
   "modal.device.add.input.name.label": "Name",
   "modal.device.add.input.name.placeholder": "Device name",
+  "modal.device.add.select.type.label": "Device type",
   "modal.device.add.notification.message": "Device added",
   "modal.device.edit.title": "Update device",
   "modal.device.edit.notification.message": "Device updated",
