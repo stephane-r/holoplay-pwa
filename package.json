@@ -1,6 +1,6 @@
 {
   "name": "holoplay-pwa",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "author": "Stéphane Richin",
   "repository": {
     "type": "git",
@@ -9,27 +9,24 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "postinstall": "cp .env.dist .env",
+    "postinstall": "cp .env.dist .env && playwright install",
     "start": "craco start",
     "build": "craco build",
     "ts:check": "tsc",
     "lint": "eslint src",
-    "format": "prettier --write ./src"
+    "format": "prettier --write ./src",
+    "e2e:start": "playwright test --config ./playwright.config.ts --ui",
+    "generate:genre": "node ./scripts/generate-genre.js",
+    "knip": "knip"
   },
   "dependencies": {
-    "@codemotion/color-thief": "^2.0.5",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
     "@mantine/core": "^7.2.2",
     "@mantine/dropzone": "^7.2.2",
     "@mantine/form": "^7.2.2",
     "@mantine/hooks": "^7.2.2",
-    "@mantine/modals": "^7.2.2",
     "@mantine/notifications": "^7.2.2",
     "@mantine/spotlight": "^7.2.2",
-    "@tabler/icons": "^2.42.0",
     "@tabler/icons-react": "^2.42.0",
-    "@types/jest": "^29.5.10",
     "@types/lodash": "^4.14.202",
     "@types/node": "^20.10.1",
     "@types/react": "^18.2.39",
@@ -64,12 +61,6 @@
     "videojs-youtube": "^3.0.1",
     "web-vitals": "^3.5.0"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -86,11 +77,11 @@
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
     "@craco/craco": "^7.1.0",
-    "@craco/types": "^7.1.0",
+    "@playwright/test": "^1.39.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "eslint": "^8.54.0",
-    "eslint-plugin-prettier": "^5.0.1",
     "husky": "^8.0.3",
+    "knip": "^3.6.0",
     "prettier": "^3.1.0",
     "typescript": "^5.3.2",
     "uniqolor": "^1.1.0"

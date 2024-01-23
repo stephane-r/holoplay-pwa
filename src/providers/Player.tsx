@@ -11,6 +11,7 @@ import {
   useState,
 } from "react";
 
+import { useRemotePlay } from "../hooks/useRemotePlay";
 import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 import type { Video } from "../types/interfaces/Video";
 import type { ColorInfo } from "../utils/colorExtractor";
@@ -111,6 +112,7 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
                   value={playerState.setPlayerStatus}
                 >
                   {children}
+                  <RemotePlayHook />
                 </SetPlayerStateContext.Provider>
               </PlayerStateContext.Provider>
             </SetPlayerVideoContext.Provider>
@@ -119,6 +121,11 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
       </PlayerUrlContext.Provider>
     </PlayerAudioContext.Provider>
   );
+};
+
+const RemotePlayHook = () => {
+  useRemotePlay();
+  return null;
 };
 
 export const usePlayerUrl = () => useContext(PlayerUrlContext);

@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 import { useStableNavigate } from "../providers/Navigate";
 import classes from "./NavbarLink.module.css";
 
-export type RoutePath =
+type RoutePath =
   | "/"
   | "/search"
   | "/favorites"
@@ -59,6 +59,8 @@ export const NavbarLink = memo(
           onClick={onClick ?? link.onClick}
           className={classes.link}
           data-active={link.active}
+          aria-label={label}
+          aria-selected={link.active}
         >
           <Icon stroke={1.5} />
         </UnstyledButton>

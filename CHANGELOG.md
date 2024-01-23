@@ -10,6 +10,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.12.0] - 2024-01-23
+### :sparkles: New Features
+- [`81de186`](https://github.com/stephane-r/holoplay-pwa/commit/81de186f54081cbb515c67124d6100baa69a20b0) - **export**: possibility to select all data *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`a4544e9`](https://github.com/stephane-r/holoplay-pwa/commit/a4544e98c4b064b6ec3637563b191df7116a69bd) - display device uuid on general setting item *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`024022d`](https://github.com/stephane-r/holoplay-pwa/commit/024022de3717a1d4e49c643a5d969efeed2c496d) - **devices**: add devices list on client database *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`b3dc3f3`](https://github.com/stephane-r/holoplay-pwa/commit/b3dc3f3b24372a0eddf3263a9ef768706d021d34) - **devices**: add, edit and delete devices from settings screen *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`3fb286c`](https://github.com/stephane-r/holoplay-pwa/commit/3fb286c83901f7c1cc58be2591b09be00b65b563) - **player**: send videoId to play to remote device *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`58956a5`](https://github.com/stephane-r/holoplay-pwa/commit/58956a5d20a3487a787224f0116c95d1825e2dfd) - **devices**: add type for display device type icon *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :bug: Bug Fixes
+- [`aa9ba79`](https://github.com/stephane-r/holoplay-pwa/commit/aa9ba7997e3b47fb6acabaed4b617e5e24f0cee2) - **export**: close modal on valid filename
+
+### :recycle: Refactors
+- [`88997a2`](https://github.com/stephane-r/holoplay-pwa/commit/88997a2875258fdcae60934f2f108ad248a84569) - memoized render list
+
+### :white_check_mark: Tests
+- [`ea8fff0`](https://github.com/stephane-r/holoplay-pwa/commit/ea8fff0400793688545d123f0074195d74d16461) - **e2e**: setup playwright
+- [`b4b6660`](https://github.com/stephane-r/holoplay-pwa/commit/b4b66604e19186bb0745a2945e6e97a2f24390a9) - **e2e**: add dashboard tests
+- [`74de6e9`](https://github.com/stephane-r/holoplay-pwa/commit/74de6e911525f5da20fb5d1dc7715b9dfe2c8e90) - **e2e**: add favorites tests
+- [`07b0661`](https://github.com/stephane-r/holoplay-pwa/commit/07b0661108db5390186a2464f431b8161aa8f38c) - **e2e**: create dashboard snapshot
+- [`faca780`](https://github.com/stephane-r/holoplay-pwa/commit/faca78027f53b732206c299e4dd693520d998772) - **e2e**: add navigateTo utils function
+- [`486400b`](https://github.com/stephane-r/holoplay-pwa/commit/486400bc8a204655f77fc9010586eddb8bf39d72) - **e2e**: add search tests
+- [`ec0adf3`](https://github.com/stephane-r/holoplay-pwa/commit/ec0adf317b13c10c91bb3fa589ad68c2bc4ffb1b) - **e2e**: add playlists tests
+- [`fb2a27d`](https://github.com/stephane-r/holoplay-pwa/commit/fb2a27d153f82da91847ab567227194c436e7e3b) - **e2e**: add colorscheme tests
+- [`1cf58bd`](https://github.com/stephane-r/holoplay-pwa/commit/1cf58bdb9dab0ec2b994d6d6eb9415ad6eb1f37a) - **e2e**: add player tests
+- [`a82b098`](https://github.com/stephane-r/holoplay-pwa/commit/a82b0981f188e7d1be525f2daab39d83adc4fbd6) - **e2e**: update e2e tests
+
+### :wrench: Chores
+- [`a9927e9`](https://github.com/stephane-r/holoplay-pwa/commit/a9927e9f5b65b96258cc62bbd6120a1f241c087b) - **ci**: add playwright steps
+- [`0deb3eb`](https://github.com/stephane-r/holoplay-pwa/commit/0deb3ebc503eff90443feeb99bf7a7a9bebaced4) - **ci**: update code-quality jobs
+- [`50d77d9`](https://github.com/stephane-r/holoplay-pwa/commit/50d77d9a4cbba846da78a769225c81e55e1df8b8) - add knip dependency *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`360bf02`](https://github.com/stephane-r/holoplay-pwa/commit/360bf02ca9cfc38ac0ec3d66152261178fc59246) - setup knip and fix warning *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`f17c10c`](https://github.com/stephane-r/holoplay-pwa/commit/f17c10c5dd2e159cdee9ed5317c21277f597b362) - **prettier**: run format script *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+
 ## [v1.11.0] - 2023-12-01
 ### :sparkles: New Features
 - [`a89a960`](https://github.com/stephane-r/holoplay-pwa/commit/a89a960bcfd6ed8b11d7dd193dccb415d910286d) - **export**: add possibility to change default filename *(commit by [@stephane-r](https://github.com/stephane-r))*
@@ -258,3 +293,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.10.6]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.5...v1.10.6
 [v1.10.7]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.6...v1.10.7
 [v1.11.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.7...v1.11.0
+[v1.12.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.11.0...v1.12.0

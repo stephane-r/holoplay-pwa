@@ -15,11 +15,14 @@ export const RecentFavorites = memo(() => {
       <Title order={2}>{t("recente.favorites.title")}</Title>
       <Space h="lg" />
       {!favorite.cards.length ? (
-        <Alert title={t("recente.favorites.alert.title")}>
+        <Alert
+          data-testid="recent-favorites"
+          title={t("recente.favorites.alert.title")}
+        >
           <Text>{t("recente.favorites.alert.message")}</Text>
         </Alert>
       ) : (
-        <HorizontalGridList data={data} keyPrefix="recent-favorites" />
+        <HorizontalGridList data={data} label="Recent favorites" />
       )}
     </>
   );

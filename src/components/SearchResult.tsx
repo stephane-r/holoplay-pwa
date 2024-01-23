@@ -54,7 +54,7 @@ export const SearchResult = memo(() => {
   return (
     <Paper>
       {cards.length > 0 ? (
-        <CardList data={cards} />
+        <CardList label={`Search result list ${searchValues.q}`} data={cards} />
       ) : (
         <LoadingOverlay visible />
       )}

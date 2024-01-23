@@ -111,7 +111,7 @@ export const ModalAddToPlaylist: FC<ModalAddToPlaylistProps> = memo(
           size="lg"
           title={t("modal.video.playlist.title")}
         >
-          <Form onSubmit={handleAddToPlaylist}>
+          <Form label="Form add to playlist" onSubmit={handleAddToPlaylist}>
             {!playlistsIsEmpty ? (
               <>
                 <Text>{t("modal.video.playlist.your.text")}</Text>
@@ -119,7 +119,7 @@ export const ModalAddToPlaylist: FC<ModalAddToPlaylistProps> = memo(
                 <Select
                   label={t("modal.video.playlist.your.label")}
                   placeholder={
-                    t("modal.video.playlist.your.playlist") as string
+                    t("modal.video.playlist.your.placeholder") as string
                   }
                   data={localPlaylist.map((p) => p.title)}
                   onChange={setSelectedPlaylistTitle}

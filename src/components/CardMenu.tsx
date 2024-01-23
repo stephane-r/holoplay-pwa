@@ -28,7 +28,7 @@ export const CardMenu: FC<CardMenuProps> = memo(({ card }) => {
 
   return (
     <>
-      <Menu shadow="md" width={200}>
+      <Menu aria-label="Card menu" shadow="md" width={200}>
         <Menu.Target>
           <ActionIcon variant="default" radius="md" size={36}>
             <IconPlus size={18} stroke={1.5} />
@@ -43,6 +43,7 @@ export const CardMenu: FC<CardMenuProps> = memo(({ card }) => {
                   onClick={() => setDeleteFromPlaylistModalOpened(true)}
                   color="red"
                   leftSection={<IconTrash size={14} />}
+                  aria-label={t("menu.video.remove.playlist")}
                 >
                   {t("menu.video.remove.playlist")}
                 </Menu.Item>
@@ -50,6 +51,7 @@ export const CardMenu: FC<CardMenuProps> = memo(({ card }) => {
                 <Menu.Item
                   onClick={() => setAddToPlaylistModalOpened(true)}
                   leftSection={<IconPlayerPlay size={14} />}
+                  aria-label={t("menu.video.add.playlist")}
                 >
                   {t("menu.video.add.playlist")}
                 </Menu.Item>

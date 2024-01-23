@@ -57,7 +57,7 @@
 
 .spacer {
   height: 0;
-  
+
   @media (min-width: $mantine-breakpoint-md) {
     &[data-visible="true"] {
       height: rem(78px);

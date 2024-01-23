@@ -6,7 +6,7 @@
   height: rem(150px);
   z-index: 4;
   pointer-events: all;
-  transition: .2s;
+  transition: 0.2s;
 
   &[data-visible="false"] {
     transform: translate3d(320px, 0, 0);

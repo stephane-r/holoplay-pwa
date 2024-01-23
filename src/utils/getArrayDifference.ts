@@ -2,7 +2,7 @@ import { removeDuplicateVideoId } from "../database/utils";
 import type { Card, CardVideo } from "../types/interfaces/Card";
 import type { Playlist } from "../types/interfaces/Playlist";
 
-export const getCardId = <T>(card: T): string | number =>
+const getCardId = <T>(card: T): string | number =>
   // @ts-ignore
   card.ID || card.videoId || card.playlistId || card.authorId;
 

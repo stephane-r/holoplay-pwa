@@ -1,9 +1,9 @@
 import { memo } from "react";
-import classes from './VideoPlayer.module.css';
 
 import { useVideoIframeVisibility } from "../providers/VideoIframeVisibility";
 import { ButtonToggleVideoIframeVisibility } from "./ButtonToggleVideoIframeVisibility";
 import { VideoIframe } from "./VideoIframe";
+import classes from "./VideoPlayer.module.css";
 
 export const VideoPlayer = memo(() => {
   const videoIframeVisibility = useVideoIframeVisibility();

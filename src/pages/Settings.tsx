@@ -11,15 +11,17 @@ import { useTranslation } from "react-i18next";
 
 import { ChangeLanguage } from "../components/ChangeLanguage";
 import { SwitchColorScheme } from "../components/ColorScheme";
+import { DevicesList } from "../components/DeviceList";
 import { ExportData } from "../components/ExportData";
 import { ImportData } from "../components/ImportData";
 import { PageHeader } from "../components/PageHeader";
 import { SaveData } from "../components/SaveData";
 import { SelectInvidiousInstance } from "../components/SelectInvidiousInstance";
 import { SponsorBlockSettings } from "../components/SponsorBlockSettings";
+import { SwitchPlausibleAnalytics } from "../components/SwitchPlausibleAnalytics";
 import { SwitchVideoMode } from "../components/SwitchVideoMode";
 import { useStorage } from "../hooks/useStorage";
-import { SwitchPlausibleAnalytics } from "../components/SwitchPlausibleAnalytics";
+import { useSettings } from "../providers/Settings";
 
 export const SettingsPage = memo(() => {
   const { t } = useTranslation();
@@ -31,6 +33,7 @@ export const SettingsPage = memo(() => {
         <GeneralItem />
         <PlayerItem />
         <ImportExportDataItem />
+        <DevicesItem />
       </Accordion>
     </div>
   );
@@ -54,6 +57,8 @@ const GeneralItem = memo(() => {
         </Group>
       </Accordion.Control>
       <Accordion.Panel>
+        <DeviceUuid />
+        <Divider mt="md" mb="lg" />
         <Text mb="md">{t("invidious.description")}</Text>
         <SelectInvidiousInstance />
         <Divider mt="md" mb="lg" />
@@ -68,6 +73,20 @@ const GeneralItem = memo(() => {
   );
 });
 
+const DeviceUuid = memo(() => {
+  const settings = useSettings();
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <Text>{t("settings.general.device.uuid")}</Text>
+      <Text>
+        <strong>{settings.deviceId}</strong>
+      </Text>
+    </>
+  );
+});
+
 const AnalyticsItem = memo(() => {
   if (process.env.REACT_APP_PLAUSIBLE_ANALYTICS !== "true") {
     return null;
@@ -78,8 +97,8 @@ const AnalyticsItem = memo(() => {
       <Divider mt="md" mb="lg" />
       <SwitchPlausibleAnalytics />
     </>
-  )
-})
+  );
+});
 
 const StorageEstimate = memo(() => {
   const storage = useStorage();
@@ -184,6 +203,30 @@ const ImportExportDataItem = memo(() => {
               return null;
           }
         })()}
+      </Accordion.Panel>
+    </Accordion.Item>
+  );
+});
+
+const DevicesItem = memo(() => {
+  const { t } = useTranslation("translation", {
+    keyPrefix: "settings.devices",
+  });
+
+  return (
+    <Accordion.Item value="devices" p={6}>
+      <Accordion.Control>
+        <Group>
+          <div>
+            <Text>{t("title")}</Text>
+            <Text size="sm" c="dimmed">
+              {t("description")}
+            </Text>
+          </div>
+        </Group>
+      </Accordion.Control>
+      <Accordion.Panel>
+        <DevicesList />
       </Accordion.Panel>
     </Accordion.Item>
   );

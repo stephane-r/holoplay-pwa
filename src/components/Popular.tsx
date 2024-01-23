@@ -32,10 +32,7 @@ export const Popular: FC<PopularProps> = memo(({ horizontal }) => {
       );
     }
     return (
-      <HorizontalGridList
-        data={query.data.slice(0, 10)}
-        keyPrefix="horizontal-popular"
-      />
+      <HorizontalGridList data={query.data.slice(0, 10)} label="Most Popular" />
     );
   }
 

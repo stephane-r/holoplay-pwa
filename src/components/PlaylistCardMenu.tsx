@@ -25,6 +25,7 @@ export const PlaylistCardMenu: FC<PlaylistCardMenuProps> = memo(
           onChange={setMenuOpened}
           shadow="md"
           width={200}
+          aria-label="Open playlist menu"
         >
           <Menu.Target>
             <ActionIcon

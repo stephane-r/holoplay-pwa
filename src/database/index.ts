@@ -15,6 +15,7 @@ const initDb = () => {
       "title",
       "cards",
       "videos",
+      "cards",
       "videoCount",
       "type",
     ]);
@@ -23,6 +24,7 @@ const initDb = () => {
       "currentInstance",
       "defaultInstance",
       "customInstances",
+      "devices",
     ]);
 
     db.insert("playlists", {
@@ -35,6 +37,7 @@ const initDb = () => {
       currentInstance: null,
       defaultInstance: null,
       customInstances: [],
+      devices: [],
     });
 
     db.commit();
@@ -107,6 +110,11 @@ const initDb = () => {
     db.update("settings", { ID: 1 }, (data: Settings) => ({
       analytics: true,
     }));
+    db.commit();
+  }
+
+  if (!db.columnExists("settings", "devices")) {
+    db.alterTable("settings", "devices", []);
     db.commit();
   }
 

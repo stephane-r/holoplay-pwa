@@ -23,13 +23,17 @@ import { NavbarLink } from "./NavbarLink";
 import classes from "./Navigation.module.css";
 import { PlayerSpace } from "./Player";
 
-export const NAVIGATION_WIDTH = 88;
+const NAVIGATION_WIDTH = 88;
 
 export const Navigation = memo(() => {
   const { t } = useTranslation();
 
   return (
-    <AppShell.Navbar w={{ base: NAVIGATION_WIDTH }} className={classes.navbar}>
+    <AppShell.Navbar
+      aria-label="App navigation"
+      w={{ base: NAVIGATION_WIDTH }}
+      className={classes.navbar}
+    >
       <Center>
         <Logo />
       </Center>

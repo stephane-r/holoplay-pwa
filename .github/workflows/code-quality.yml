@@ -17,3 +17,34 @@ jobs:
       - run: npm run lint
       - run: npm run ts:check
       - run: npm run build
+
+      - name: Cache build folder
+        id: cache-build
+        uses: actions/cache/save@v3
+        with:
+          path: ${{ github.workspace }}/build
+          key: ${{ github.sha }}-build
+  tests:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/cache/restore@v3
+        id: restore-build
+        with:
+          path: ${{ github.workspace }}/build
+          key: ${{ github.sha }}-build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm i
+      - run: npx playwright install --with-deps
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
