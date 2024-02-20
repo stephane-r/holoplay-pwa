@@ -1,5 +1,5 @@
 import { Button, Flex, TextInput } from "@mantine/core";
-import format from "date-fns/format";
+import { format } from "date-fns";
 import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 

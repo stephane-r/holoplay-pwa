@@ -6,7 +6,7 @@ test.describe.serial("player", () => {
   test.skip("play video", async ({ page }) => {
     await page.goto("localhost:3000");
 
-    await selectedInstance(page, "invidious.fdn.fr");
+    await selectedInstance(page, "invidious.projectsegfau.lt");
 
     await page.reload();
 

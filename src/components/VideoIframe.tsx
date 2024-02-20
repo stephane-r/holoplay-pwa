@@ -7,12 +7,14 @@ import Player from "video.js/dist/types/player";
 import "video.js/dist/video-js.css";
 import "videojs-youtube";
 
+import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
   usePlayerAudio,
   usePlayerState,
   usePlayerVideo,
 } from "../providers/Player";
 import { useSetPlayerMode } from "../providers/PlayerMode";
+import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility";
 import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 import classes from "./VideoIframe.module.css";
@@ -44,6 +46,9 @@ const Video = ({ loop, src }: { loop: boolean; src: string }) => {
   const videoRef = useRef();
   const playerRef = useRef<Player>();
   const playerAudio = usePlayerAudio();
+  const { videosIds } = usePreviousNextVideos();
+  const { handlePlay: play } = usePlayVideo();
+  const setPlayerMode = useSetPlayerMode();
 
   const onReady = useCallback(
     (player: Player) => {
@@ -55,6 +60,15 @@ const Video = ({ loop, src }: { loop: boolean; src: string }) => {
     },
     [playerAudio],
   );
+
+  const onEnded = useCallback(() => {
+    // @ts-ignore
+    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+    if (!audio.loop && videosIds.nextVideoId) {
+      setPlayerMode("audio");
+      play(videosIds.nextVideoId);
+    }
+  }, [play, playerAudio, setPlayerMode, videosIds.nextVideoId]);
 
   const options = useMemo(
     () => ({
@@ -89,12 +103,16 @@ const Video = ({ loop, src }: { loop: boolean; src: string }) => {
       const player = (playerRef.current = videojs(videoElement, options, () => {
         onReady(player);
       }));
+
+      player.on("ended", () => {
+        onEnded();
+      });
     } else {
       const player = playerRef.current as any;
       player.autoplay(options.autoplay);
       player.src(options.sources);
     }
-  }, [onReady, options, videoRef]);
+  }, [onEnded, onReady, options, videoRef]);
 
   useEffect(() => {
     const player = playerRef.current;

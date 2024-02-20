@@ -9,7 +9,7 @@ import {
 } from "./utils";
 
 const createPlaylist = async (page, title: string) => {
-  await selectedInstance(page, "invidious.fdn.fr");
+  await selectedInstance(page, "invidious.projectsegfau.lt");
   await navigateTo(page, "Playlists", "Playlists");
 
   // Open modal to create playlist

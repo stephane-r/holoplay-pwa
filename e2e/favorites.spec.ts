@@ -4,7 +4,7 @@ import { navigateTo, selectedInstance } from "./utils";
 
 test("save card in favorites", async ({ page }) => {
   await page.goto("localhost:3000");
-  await selectedInstance(page, "invidious.fdn.fr");
+  await selectedInstance(page, "invidious.projectsegfau.lt");
 
   // Go to Trending page
   await page.getByRole("button", { name: "Trending" }).click();

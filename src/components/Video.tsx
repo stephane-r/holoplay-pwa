@@ -32,8 +32,6 @@ export const Video: FC<VideoProps> = memo(({ video, withThumbnail = true }) => {
   const imageSrc =
     video.thumbnail ?? getThumbnailQuality(video.videoThumbnails, "default");
 
-  console.log(imageSrc);
-
   const isPlaying = playedVideo?.videoId === video.videoId;
 
   const handleClick = () => {

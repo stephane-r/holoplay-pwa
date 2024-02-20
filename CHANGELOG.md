@@ -10,6 +10,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.12.1] - 2024-02-20
+### :bug: Bug Fixes
+- [`4aea351`](https://github.com/stephane-r/holoplay-pwa/commit/4aea351749bac3f44fc364bd3a3016631fa53805) - remove useless log *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`7d5be4a`](https://github.com/stephane-r/holoplay-pwa/commit/7d5be4aa658af4cec784d3062721cde5311c62ae) - play next sound on video mod *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`fbaa185`](https://github.com/stephane-r/holoplay-pwa/commit/fbaa1850ce51e90d26476c68692887358d67a317) - wrong list grid render *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :white_check_mark: Tests
+- [`7b65731`](https://github.com/stephane-r/holoplay-pwa/commit/7b65731c81f456c66d5cc104675c0a68b8d2531c) - **e2e**: update default instance invidious *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :wrench: Chores
+- [`1a983ce`](https://github.com/stephane-r/holoplay-pwa/commit/1a983cefe039aa34bbc66508cea7aea635e6a267) - update dependencies *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`abb516b`](https://github.com/stephane-r/holoplay-pwa/commit/abb516b56330bcc8449a2da1406cf9ec2d541f1d) - add esbuild *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`f35c976`](https://github.com/stephane-r/holoplay-pwa/commit/f35c97642474de10f0e07c2629e5757e0d2f497d) - update dependencies *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+
 ## [v1.12.0] - 2024-01-23
 ### :sparkles: New Features
 - [`81de186`](https://github.com/stephane-r/holoplay-pwa/commit/81de186f54081cbb515c67124d6100baa69a20b0) - **export**: possibility to select all data *(commit by [@stephane-r](https://github.com/stephane-r))*
@@ -294,3 +309,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.10.7]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.6...v1.10.7
 [v1.11.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.10.7...v1.11.0
 [v1.12.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.11.0...v1.12.0
+[v1.12.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.0...v1.12.1
