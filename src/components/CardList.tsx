@@ -1,4 +1,4 @@
-import { Box } from "@mantine/core";
+import { Box, Grid } from "@mantine/core";
 import { type FC, memo } from "react";
 
 import { useSettings } from "../providers/Settings";
@@ -23,17 +23,21 @@ export const CardList: FC<CardListProps> = memo(
       return null;
     }
 
+    const ListComponent = scrollable ? Box : Grid;
+    const ItemComponent = scrollable ? Box : Grid.Col;
+
     return (
-      <Box
+      <ListComponent
         aria-label={label}
         role="list"
-        className={scrollable ? classes.flexGrid : classes.grid}
+        className={scrollable ? classes.flexGrid : undefined}
       >
         {data.map((card, index) => (
-          <Box
+          <ItemComponent
             key={`${document.location.pathname}—${getCardTitle(card)}-${index}`}
             role="listitem"
-            className={scrollable ? classes.flexColumn : classes.column}
+            span={{ base: 6, md: 4, lg: 3, xl: 2, xxl: 2 }}
+            className={scrollable ? classes.flexColumn : undefined}
           >
             {(() => {
               switch (card.type) {
@@ -60,9 +64,9 @@ export const CardList: FC<CardListProps> = memo(
                   );
               }
             })()}
-          </Box>
+          </ItemComponent>
         ))}
-      </Box>
+      </ListComponent>
     );
   },
 );
