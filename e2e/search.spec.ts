@@ -1,12 +1,17 @@
 import { expect, test } from "@playwright/test";
 
-import { listVisibility, search, selectSearchType, selectedInstance } from "./utils";
+import {
+  listVisibility,
+  search,
+  selectSearchType,
+  selectedInstance,
+} from "./utils";
 
 test.describe.serial("search", () => {
   test("search an artist", async ({ page }) => {
     await page.goto("localhost:3000");
 
-    await selectedInstance(page, "invidious.fdn.fr");
+    await selectedInstance(page, "invidious.projectsegfau.lt");
 
     await search(page, "Eminem");
     await search(page, "Dubstep");

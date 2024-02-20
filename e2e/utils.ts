@@ -50,7 +50,9 @@ export const selectSearchType = async (
   //   page.getByRole("listbox").getByRole("option", { selected: true }),
   // ).toContainText(currentType);
   // await page.getByRole("listbox").getByRole("option", { name: type }).click();
-  await expect(page.locator('[role="option"][value="video"][aria-selected="true"]')).toContainText(currentType);
+  await expect(
+    page.locator('[role="option"][value="video"][aria-selected="true"]'),
+  ).toContainText(currentType);
   await page.locator(`[role="option"][value=${type}]`).click();
 };
 
@@ -73,13 +75,13 @@ export const selectedInstance = async (page: Page, instanceUri: string) => {
     page.getByRole("list", { name: "Invidious instances list" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("listitem", { name: "invidious.fdn.fr" }),
+    page.getByRole("listitem", { name: "invidious.projectsegfau.lt" }),
   ).toBeVisible();
   await page
-    .getByRole("listitem", { name: "invidious.fdn.fr" })
+    .getByRole("listitem", { name: "invidious.projectsegfau.lt" })
     .getByTestId("use")
     .click();
   await expect(
-    page.getByRole("listitem", { name: "invidious.fdn.fr" }),
+    page.getByRole("listitem", { name: "invidious.projectsegfau.lt" }),
   ).toHaveAttribute("aria-current", "true");
 };
