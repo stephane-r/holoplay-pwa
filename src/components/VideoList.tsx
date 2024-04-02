@@ -1,4 +1,3 @@
-import { Box } from "@mantine/core";
 import { type FC, memo } from "react";
 
 import type { Video as VideoType } from "../types/interfaces/Video";
