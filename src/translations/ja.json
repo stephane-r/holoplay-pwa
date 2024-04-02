@@ -261,7 +261,7 @@
   "favorite.tab.channels": "チャンネル",
   "favorite.tab.empty": "この分類のお気に入りなし",
   "genre.title": "ムードとジャンル",
-  "loading": "読み込み中..."
+  "loading": "読み込み中...",
   "modal.device.add.title": "新しい端末を追加",
   "modal.device.add.input.id.label": "識別情報",
   "modal.device.add.input.id.placeholder": "端末の識別情報",
@@ -274,7 +274,7 @@
   "modal.device.edit.notification.message": "端末情報を更新しました",
   "modal.device.delete.title": "端末の除去",
   "modal.device.delete.notification.title": "端末",
-  "modal.device.delete.notification.message": "端末を除去しました"
+  "modal.device.delete.notification.message": "端末を除去しました",
   "remote.device.text_one": "個の端末を利用可能",
   "remote.device.text_other": "個の端末を利用可能",
   "remote.device.button.tooltip": "端末",
