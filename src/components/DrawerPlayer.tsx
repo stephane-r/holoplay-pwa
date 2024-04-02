@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   Divider,
   Flex,
@@ -7,11 +8,13 @@ import {
   Space,
   Text,
   Title,
+  UnstyledButton,
 } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
-import { type FC, memo } from "react";
+import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useStableNavigate } from "../providers/Navigate";
 import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
 import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
 import type { CardVideo } from "../types/interfaces/Card";
@@ -73,7 +76,7 @@ export const DrawerPlayerVideo = memo(() => {
   return (
     <>
       <Flex justify="center" align="center" direction="column">
-        <VideoInformations hideDescription titleLineClamp={2} />
+        <VideoInformations />
         <Space h="md" />
         <ButtonDevicesAvailable variant="text" />
         <Space h="md" />
@@ -98,38 +101,34 @@ export const DrawerPlayerVideo = memo(() => {
   );
 });
 
-interface VideoInformationsProps {
-  titleLineClamp?: number;
-  hideDescription?: boolean;
-}
-const VideoInformations: FC<VideoInformationsProps> = memo(
-  ({ titleLineClamp = 1, hideDescription = false }) => {
-    const { video } = usePlayerVideo();
+const VideoInformations = memo(() => {
+  const { video } = usePlayerVideo();
   const [descriptionLineClamp, setDescriptionLineClamp] = useState<
     number | undefined
   >(1);
+  const navigate = useStableNavigate();
 
-    useDocumentTitle(`${video?.title as string} - HoloPlay`);
+  useDocumentTitle(`${video?.title as string} - HoloPlay`);
 
-    if (!video) {
-      return null;
-    }
+  if (!video) {
+    return null;
+  }
 
   const handleToggleDescription = () => {
     setDescriptionLineClamp(descriptionLineClamp ? undefined : 1);
   };
 
-    const image = video.videoThumbnails.find(
-      (thumbnail) => thumbnail.quality === "maxresdefault",
-    ) as VideoThumbnail;
+  const image = video.videoThumbnails.find(
+    (thumbnail) => thumbnail.quality === "maxresdefault",
+  ) as VideoThumbnail;
 
-    return (
-      <Box style={{ textAlign: "center", maxWidth: 400 }}>
-        <img src={image.url} alt={video.title} className={classes.thumbnail} />
-        <div>
-          <Text c="white" lineClamp={1}>
-            <strong>{video.title}</strong>
-          </Text>
+  return (
+    <Box style={{ textAlign: "center", maxWidth: 400 }}>
+      <img src={image.url} alt={video.title} className={classes.thumbnail} />
+      <div>
+        <Text c="white">
+          <strong>{video.title}</strong>
+        </Text>
         <UnstyledButton
           mah={120}
           style={{ overflow: "auto" }}
@@ -139,8 +138,14 @@ const VideoInformations: FC<VideoInformationsProps> = memo(
             {video.description}
           </Text>
         </UnstyledButton>
-        </div>
-      </Box>
-    );
-  },
-);
+        <Button
+          variant="subtle"
+          onClick={() => navigate(`/channels/${video.authorId}`)}
+          radius="md"
+        >
+          {video.author}
+        </Button>
+      </div>
+    </Box>
+  );
+});
