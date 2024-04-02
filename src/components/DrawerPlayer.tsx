@@ -105,12 +105,19 @@ interface VideoInformationsProps {
 const VideoInformations: FC<VideoInformationsProps> = memo(
   ({ titleLineClamp = 1, hideDescription = false }) => {
     const { video } = usePlayerVideo();
+  const [descriptionLineClamp, setDescriptionLineClamp] = useState<
+    number | undefined
+  >(1);
 
     useDocumentTitle(`${video?.title as string} - HoloPlay`);
 
     if (!video) {
       return null;
     }
+
+  const handleToggleDescription = () => {
+    setDescriptionLineClamp(descriptionLineClamp ? undefined : 1);
+  };
 
     const image = video.videoThumbnails.find(
       (thumbnail) => thumbnail.quality === "maxresdefault",
@@ -123,9 +130,15 @@ const VideoInformations: FC<VideoInformationsProps> = memo(
           <Text c="white" lineClamp={1}>
             <strong>{video.title}</strong>
           </Text>
-          <Text lineClamp={1} size="sm">
+        <UnstyledButton
+          mah={120}
+          style={{ overflow: "auto" }}
+          onClick={handleToggleDescription}
+        >
+          <Text lineClamp={descriptionLineClamp} size="sm" mt="xs">
             {video.description}
           </Text>
+        </UnstyledButton>
         </div>
       </Box>
     );
