@@ -11,11 +11,7 @@ interface VideoListProps {
 export const VideoList: FC<VideoListProps> = memo(({ videos }) => {
   if (!videos) return null;
 
-  return (
-    <Box>
-      {videos.map((video) => (
-        <Video key={`video-list-${video.videoId}`} video={video} />
-      ))}
-    </Box>
-  );
+  return videos.map((video) => (
+    <Video key={`video-list-${video.videoId}`} video={video} />
+  ));
 });
