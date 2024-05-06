@@ -36,7 +36,7 @@ export const CardList: FC<CardListProps> = memo(
           <ItemComponent
             key={`${document.location.pathname}—${getCardTitle(card)}-${index}`}
             role="listitem"
-            span={{ base: 6, md: 4, lg: 3, xl: 2, xxl: 2 }}
+            span={{ base: 12, sm: 6, md: 4, lg: 3, xl: 2 }}
             className={scrollable ? classes.flexColumn : undefined}
           >
             {(() => {

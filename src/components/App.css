@@ -27,4 +27,5 @@ html {
 .App-Content {
   overflow-y: auto;
   flex: 1;
+  max-height: 100vh;
 }

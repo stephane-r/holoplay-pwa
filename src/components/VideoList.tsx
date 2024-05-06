@@ -1,4 +1,3 @@
-import { Box } from "@mantine/core";
 import { type FC, memo } from "react";
 
 import type { Video as VideoType } from "../types/interfaces/Video";
@@ -11,11 +10,7 @@ interface VideoListProps {
 export const VideoList: FC<VideoListProps> = memo(({ videos }) => {
   if (!videos) return null;
 
-  return (
-    <Box>
-      {videos.map((video) => (
-        <Video key={`video-list-${video.videoId}`} video={video} />
-      ))}
-    </Box>
-  );
+  return videos.map((video) => (
+    <Video key={`video-list-${video.videoId}`} video={video} />
+  ));
 });

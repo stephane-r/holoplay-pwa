@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Box,
+  Button,
   Drawer,
   Flex,
   Menu,
@@ -19,6 +20,7 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useDevices } from "../hooks/useDevices";
+import { useStableNavigate } from "../providers/Navigate";
 import {
   usePlayerAudio,
   usePlayerState,
@@ -100,6 +102,7 @@ export const Player = memo(() => {
 
 const VideoInformations = memo(() => {
   const { video, thumbnailUrl } = usePlayerVideo();
+  const navigate = useStableNavigate();
 
   useDocumentTitle(video?.title as string);
 
@@ -118,12 +121,21 @@ const VideoInformations = memo(() => {
         className={classes.thumbnail}
       />
       <Box maw="100%" pr="lg">
-        <Text color="white" lineClamp={1} title={video.title}>
+        <Text c="white" lineClamp={1} title={video.title}>
           {video.title}
         </Text>
-        <Text color="white" size="sm" lineClamp={1}>
+        <Text c="white" size="sm" lineClamp={1}>
           {video.description}
         </Text>
+        <Button
+          variant="subtle"
+          color="white"
+          size="xs"
+          p={0}
+          onClick={() => navigate(`/channels/${video.authorId}`)}
+        >
+          {video.author}
+        </Button>
       </Box>
     </Flex>
   );

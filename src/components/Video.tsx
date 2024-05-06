@@ -45,7 +45,10 @@ export const Video: FC<VideoProps> = memo(({ video, withThumbnail = true }) => {
   };
 
   return (
-    <UnstyledButton onClick={() => handleClick()} style={{ width: "100%" }}>
+    <UnstyledButton
+      onClick={() => handleClick()}
+      style={{ width: "100%", maxWidth: "100%" }}
+    >
       <Flex
         align="center"
         gap="md"
@@ -68,9 +71,12 @@ export const Video: FC<VideoProps> = memo(({ video, withThumbnail = true }) => {
               />
             </Box>
           ) : null}
-          <Text size="sm" lineClamp={1}>
-            {isPlaying ? <strong>{video.title}</strong> : video.title}
-          </Text>
+          {/* Fixing possibility to have very large text without space */}
+          <Box maw="calc(100vw - 140px)" style={{ overflow: "hidden" }}>
+            <Text size="sm" lineClamp={1}>
+              {isPlaying ? <strong>{video.title}</strong> : video.title}
+            </Text>
+          </Box>
         </Flex>
         {isPlaying ? null : (
           <ActionIcon

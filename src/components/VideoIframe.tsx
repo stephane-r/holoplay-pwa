@@ -3,7 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconChevronRight, IconInfoCircle } from "@tabler/icons-react";
 import { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import videojs from "video.js";
-import Player from "video.js/dist/types/player";
+import type Player from "video.js/dist/types/player";
 import "video.js/dist/video-js.css";
 import "videojs-youtube";
 
