@@ -1,3 +1,4 @@
+import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 
 import { getLastVideoPlayed, getSettings } from "../database/utils";
@@ -61,6 +62,11 @@ export const usePlayVideo = () => {
           : { segments: null },
         getVideo(videoId),
       ]);
+
+      if (!data.url) {
+        throw new Error("No video url found");
+      }
+
       const videoThumbnail = data.video.videoThumbnails.find(
         (thumbnail) => thumbnail.quality === "sddefault",
       ) as VideoThumbnail;
@@ -68,8 +74,9 @@ export const usePlayVideo = () => {
       let videoThumbnailUrl = videoThumbnail.url;
 
       if (videoThumbnail.url.startsWith("/")) {
-        videoThumbnailUrl = `${getSettings().currentInstance
-          ?.uri}${videoThumbnailUrl}`;
+        videoThumbnailUrl = `${
+          getSettings().currentInstance?.uri
+        }${videoThumbnailUrl}`;
       }
 
       const colors = await colorExtractor
@@ -100,7 +107,12 @@ export const usePlayVideo = () => {
 
       setPreviousNextVideos(getPreviousAndNextVideoId(videosPlaylist, videoId));
     } catch (error) {
-      console.log(error);
+      showNotification({
+        title: "Error",
+        // @ts-ignore
+        message: error.message,
+        color: "red",
+      });
     } finally {
       setLoading(false);
     }
