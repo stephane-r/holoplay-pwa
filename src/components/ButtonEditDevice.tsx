@@ -1,20 +1,12 @@
-import {
-  ActionIcon,
-  Button,
-  Flex,
-  Modal,
-  Space,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Button, Flex, Modal, Space, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { IconEdit, IconPencil, IconTrash } from "@tabler/icons-react";
+import { IconEdit } from "@tabler/icons-react";
 import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { db } from "../database";
-import { useSetSettings, useSettings } from "../providers/Settings";
+import { useSetSettings } from "../providers/Settings";
 import type { RemoteDevice, Settings } from "../types/interfaces/Settings";
 import { Form } from "./Form";
 
