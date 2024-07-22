@@ -75,13 +75,13 @@ export const selectedInstance = async (page: Page, instanceUri: string) => {
     page.getByRole("list", { name: "Invidious instances list" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("listitem", { name: "invidious.projectsegfau.lt" }),
+    page.getByRole("listitem", { name: "invidious.fdn.fr" }),
   ).toBeVisible();
   await page
-    .getByRole("listitem", { name: "invidious.projectsegfau.lt" })
+    .getByRole("listitem", { name: "invidious.fdn.fr" })
     .getByTestId("use")
     .click();
   await expect(
-    page.getByRole("listitem", { name: "invidious.projectsegfau.lt" }),
+    page.getByRole("listitem", { name: "invidious.fdn.fr" }),
   ).toHaveAttribute("aria-current", "true");
 };

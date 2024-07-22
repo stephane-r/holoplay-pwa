@@ -136,23 +136,21 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
       });
     };
 
-    const onClick = () => {
+    const handleClick = () => {
       if (isFavorite) {
         return handleDelete();
       }
       return handleAdd();
     };
 
+    const Icon = isFavorite ? IconHeartFilled : IconHeart;
+
     if (render === "menu") {
       return (
         <Menu.Item
-          onClick={onClick}
+          onClick={handleClick}
           leftSection={
-            isFavorite ? (
-              <IconHeartFilled style={{ color: theme.colors.pink[8] }} />
-            ) : (
-              <IconHeart />
-            )
+            <Icon style={isFavorite ? { color: theme.colors.pink[8] } : {}} />
           }
         >
           Favorite
@@ -166,12 +164,12 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
         color={isFavorite ? "pink" : "gray"}
         radius="md"
         size={buttonSize}
-        onClick={onClick}
+        onClick={handleClick}
         aria-label={t(
           isFavorite ? "button.favorite.remove" : "button.favorite.add",
         )}
       >
-        <IconHeart color="pink" size={iconSize} stroke={1.5} />
+        <Icon color="pink" size={iconSize} stroke={1.5} />
       </ActionIcon>
     );
   },
