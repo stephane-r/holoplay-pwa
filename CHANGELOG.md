@@ -10,6 +10,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.12.3] - 2024-07-22
+### :sparkles: New Features
+- [`062818a`](https://github.com/stephane-r/holoplay-pwa/commit/062818a4398c1a6b4727a12172a17158ae79e1df) - **video**: throw error on invalid data *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`e45512a`](https://github.com/stephane-r/holoplay-pwa/commit/e45512aafa8ea88142c06ba3263878e77b95e7ec) - change favorite icon filled *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :bug: Bug Fixes
+- [`ea9dbd4`](https://github.com/stephane-r/holoplay-pwa/commit/ea9dbd45ff4af1633d7f9a259d35036ed1e72fbc) - **test**: change default instance url *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :recycle: Refactors
+- [`b73e592`](https://github.com/stephane-r/holoplay-pwa/commit/b73e592a71144a9fba4d8be9b09f048a822facc7) - remove useless import *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :wrench: Chores
+- [`71ed53c`](https://github.com/stephane-r/holoplay-pwa/commit/71ed53caa90dba06c25effa22c9cc5b1d711c90c) - update dependencies *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`c47b16e`](https://github.com/stephane-r/holoplay-pwa/commit/c47b16e71a2ab31a8e20f4806061891e769dbf42) - remove web-vitals dependency *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`c07af4e`](https://github.com/stephane-r/holoplay-pwa/commit/c07af4e9debb7551b9c674e4edf80fb5850b99aa) - upgrade dependencies *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`8c2818d`](https://github.com/stephane-r/holoplay-pwa/commit/8c2818db71d9e80940eb1ae7f8fb54bb54944ffe) - **ci**: add :latest tag on Docker images *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+
 ## [v1.12.2] - 2024-05-06
 ### :sparkles: New Features
 - [`6bb5477`](https://github.com/stephane-r/holoplay-pwa/commit/6bb5477e572e72b2be69a0a6a061848932cbd652) - **player**: toggle description on large screen *(commit by [@stephane-r](https://github.com/stephane-r))*
@@ -327,3 +345,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.12.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.11.0...v1.12.0
 [v1.12.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.0...v1.12.1
 [v1.12.2]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.1...v1.12.2
+[v1.12.3]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.2...v1.12.3
