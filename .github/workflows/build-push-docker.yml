@@ -55,4 +55,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: spout8301/holoplay:${{ steps.package-version.outputs.current-version }}
+          tags: spout8301/holoplay:latest,spout8301/holoplay:${{ steps.package-version.outputs.current-version }}
