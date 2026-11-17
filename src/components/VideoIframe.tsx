@@ -1,11 +1,11 @@
 import { ActionIcon, Box, CloseButton, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronRight, IconInfoCircle } from "@tabler/icons-react";
-import { memo, useCallback, useEffect, useMemo, useRef } from "react";
-import videojs from "video.js";
-import type Player from "video.js/dist/types/player";
-import "video.js/dist/video-js.css";
-import "videojs-youtube";
+import { memo, useCallback, useRef } from "react";
+import "@videojs/react/video/skin.css";
+import { YouTubeVideo } from "@videojs/react/media/youtube-video";
+import { VideoPlayer, VideoSkin } from "@videojs/react/video";
+import type { YouTubeAdapter } from "@videojs/youtube-video";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
@@ -34,32 +34,37 @@ export const VideoIframe = memo(() => {
       <ButtonClose />
       <Video
         loop={playerState.repeat}
-        src={`https://www.youtube-nocookie.com/embed/${
-          video.videoId
-        }&start=${Math.floor(playerState.currentTime as number)}`}
+        video={video}
+        startTime={playerState.currentTime as number}
       />
     </Box>
   );
 });
 
-const Video = ({ loop, src }: { loop: boolean; src: string }) => {
-  const videoRef = useRef();
-  const playerRef = useRef<Player>();
+type PlayingVideo = NonNullable<ReturnType<typeof usePlayerVideo>["video"]>;
+
+const Video = ({
+  loop,
+  video,
+  startTime,
+}: {
+  loop: boolean;
+  video: PlayingVideo;
+  startTime: number;
+}) => {
   const playerAudio = usePlayerAudio();
   const { videosIds } = usePreviousNextVideos();
   const { handlePlay: play } = usePlayVideo();
   const setPlayerMode = useSetPlayerMode();
+  const mediaRef = useRef<YouTubeAdapter>(null);
 
-  const onReady = useCallback(
-    (player: Player) => {
-      player.on("seeked", () => {
-        // @ts-ignore
-        const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-        audio.currentTime = Math.round(player.currentTime() as number);
-      });
-    },
-    [playerAudio],
-  );
+  const onSeeked = useCallback(() => {
+    // @ts-ignore
+    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+    if (audio && mediaRef.current) {
+      audio.currentTime = Math.round(mediaRef.current.currentTime);
+    }
+  }, [playerAudio]);
 
   const onEnded = useCallback(() => {
     // @ts-ignore
@@ -70,66 +75,22 @@ const Video = ({ loop, src }: { loop: boolean; src: string }) => {
     }
   }, [play, playerAudio, setPlayerMode, videosIds.nextVideoId]);
 
-  const options = useMemo(
-    () => ({
-      techOrder: ["youtube"],
-      autoplay: true,
-      controls: true,
-      responsive: true,
-      fluid: true,
-      liveui: true,
-      loop,
-      sources: [
-        {
-          src,
-          type: "video/youtube",
-        },
-      ],
-    }),
-    [loop, src],
-  );
-
-  useEffect(() => {
-    if (!playerRef.current) {
-      const videoElement = document.createElement("video-js");
-      videoElement.classList.add("vjs-big-play-centered");
-
-      if (!videoRef.current) {
-        return;
-      }
-
-      (videoRef.current as HTMLElement).appendChild(videoElement);
-
-      const player = (playerRef.current = videojs(videoElement, options, () => {
-        onReady(player);
-      }));
-
-      player.on("ended", () => {
-        onEnded();
-      });
-    } else {
-      const player = playerRef.current as any;
-      player.autoplay(options.autoplay);
-      player.src(options.sources);
-    }
-  }, [onEnded, onReady, options, videoRef]);
-
-  useEffect(() => {
-    const player = playerRef.current;
-
-    return () => {
-      if (player && !player.isDisposed()) {
-        player.dispose();
-        playerRef.current = undefined;
-      }
-    };
-  }, [playerRef]);
-
   return (
-    <div data-vjs-player>
-      {/* @ts-ignore */}
-      <div ref={videoRef} />
-    </div>
+    <VideoPlayer>
+      <VideoSkin className={classes.skin}>
+        <YouTubeVideo
+          mediaRef={mediaRef}
+          autoplay
+          loop={loop}
+          source={{
+            src: video.videoId,
+            engine: { youtube: { start: Math.floor(startTime) } },
+          }}
+          onSeeked={onSeeked}
+          onEnded={onEnded}
+        />
+      </VideoSkin>
+    </VideoPlayer>
   );
 };
 
