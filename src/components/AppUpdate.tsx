@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 import { useServiceWorker } from "../hooks/useServiceWorker";
 
 export const AppUpdate = memo(() => {
-  const { waitingWorker, showReload, reloadPage } = useServiceWorker();
+  const { showReload, reloadPage } = useServiceWorker();
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (showReload && waitingWorker) {
+    if (showReload) {
       notifications.show({
         title: t("app.update.title"),
         message: t("app.update.message"),
@@ -17,7 +17,7 @@ export const AppUpdate = memo(() => {
         onClick: reloadPage,
       });
     }
-  }, [reloadPage, showReload, waitingWorker, t]);
+  }, [reloadPage, showReload, t]);
 
   return null;
 });

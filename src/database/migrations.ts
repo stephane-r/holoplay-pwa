@@ -1,6 +1,12 @@
 import { db } from ".";
 import type { Migration } from "../types/interfaces/Migration";
 
+import migrateCustomInstance from "./05092023_migrate_custom_instance";
+import migrateRemoveCardImageUrlDomain from "./13102023_migrate_remove_card_image_url_domain";
+import migrateRemoveRecommendedVideosImageUrlDomain from "./13102023_migrate_remove_recommended_videos_image_url_domain";
+import migrateFormatStorageData from "./18102023_migrate_formate_storage_data";
+import migratePlaylistFavoriteCardsKey from "./19102023_migrate_playlist_favorite_cards_key";
+
 const migrations = db.queryAll("migrations") as Migration[];
 
 const saveMigration = (name: string) => {
@@ -16,7 +22,7 @@ export default (() => {
 
   if (!migrationsName.includes("05092023_migrate_custom_instance")) {
     try {
-      require("./05092023_migrate_custom_instance").default();
+      migrateCustomInstance();
       saveMigration("05092023_migrate_custom_instance");
     } catch {}
   }
@@ -25,7 +31,7 @@ export default (() => {
     !migrationsName.includes("13102023_migrate_remove_card_image_url_domain")
   ) {
     try {
-      require("./13102023_migrate_remove_card_image_url_domain").default();
+      migrateRemoveCardImageUrlDomain();
       saveMigration("13102023_migrate_remove_card_image_url_domain");
     } catch {}
   }
@@ -36,7 +42,7 @@ export default (() => {
     )
   ) {
     try {
-      require("./13102023_migrate_remove_recommended_videos_image_url_domain").default();
+      migrateRemoveRecommendedVideosImageUrlDomain();
       saveMigration(
         "13102023_migrate_remove_recommended_videos_image_url_domain",
       );
@@ -45,7 +51,7 @@ export default (() => {
 
   if (!migrationsName.includes("18102023_migrate_formate_storage_data")) {
     try {
-      require("./18102023_migrate_formate_storage_data").default();
+      migrateFormatStorageData();
       saveMigration("18102023_migrate_formate_storage_data");
     } catch {}
   }
@@ -54,7 +60,7 @@ export default (() => {
     !migrationsName.includes("19102023_migrate_playlist_favorite_cards_key")
   ) {
     try {
-      require("./19102023_migrate_playlist_favorite_cards_key").default();
+      migratePlaylistFavoriteCardsKey();
       saveMigration("19102023_migrate_playlist_favorite_cards_key");
     } catch {}
   }

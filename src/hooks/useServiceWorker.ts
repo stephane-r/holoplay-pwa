@@ -1,29 +1,23 @@
-import { useCallback, useEffect, useState } from "react";
-
-import * as serviceWorkerRegistration from "../serviceWorkerRegistration";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { registerSW } from "virtual:pwa-register";
 
 export const useServiceWorker = () => {
-  const [waitingWorker, setWaitingWorker] = useState<ServiceWorker | null>(
+  const [showReload, setShowReload] = useState<boolean>(false);
+  const updateSWRef = useRef<((reloadPage?: boolean) => Promise<void>) | null>(
     null,
   );
-  const [showReload, setShowReload] = useState<boolean>(false);
 
-  const onSWUpdate = useCallback((registration: ServiceWorkerRegistration) => {
-    setShowReload(true);
-    setWaitingWorker(registration.waiting);
+  useEffect(() => {
+    updateSWRef.current = registerSW({
+      immediate: true,
+      onNeedRefresh: () => setShowReload(true),
+    });
   }, []);
 
   const reloadPage = useCallback(() => {
-    waitingWorker?.postMessage({ type: "SKIP_WAITING" });
     setShowReload(false);
-    window.location.reload();
-  }, [waitingWorker]);
+    updateSWRef.current?.(true);
+  }, []);
 
-  useEffect(() => {
-    serviceWorkerRegistration.register({
-      onUpdate: onSWUpdate,
-    });
-  }, [onSWUpdate]);
-
-  return { showReload, waitingWorker, reloadPage };
+  return { showReload, reloadPage };
 };

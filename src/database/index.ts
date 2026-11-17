@@ -127,4 +127,4 @@ const initDb = () => {
 
 export const db = initDb();
 
-require("./migrations");
+import("./migrations");

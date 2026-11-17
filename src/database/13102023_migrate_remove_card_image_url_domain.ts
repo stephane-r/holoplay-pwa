@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { db } from ".";
-import { Playlist } from "../types/interfaces/Playlist";
+import type { Playlist } from "../types/interfaces/Playlist";
 
 const DOMAIN_REGEX =
   /^(?:https?:\/\/)?(?:[^@/\n]+@)?(?:www\.)?([^:/?\n]+\.+[^:/?\n]+)/gm;
