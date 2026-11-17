@@ -11,10 +11,9 @@ import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { useSetSettings } from "../providers/Settings";
+import { database } from "../services/database";
+import { useSettings } from "../providers/Settings";
 import type { Instance } from "../types/interfaces/Instance";
-import type { Settings } from "../types/interfaces/Settings";
 import { ButtonAddCustomInstance } from "./ButtonAddCustomInstance";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
@@ -42,9 +41,9 @@ export const ModalAddCustomInstance = memo(() => {
       domain: (value) => !value.match(URL_REGEX),
     },
   });
-  const setSettings = useSetSettings();
+  const settings = useSettings();
 
-  const handleSubmit = (instance: {
+  const handleSubmit = async (instance: {
     domain: string;
     type: string;
     isDefault: boolean;
@@ -54,26 +53,14 @@ export const ModalAddCustomInstance = memo(() => {
       type: instance.type,
       uri: `${instance.type}://${instance.domain}`,
       custom: true,
-    };
-    db.update("settings", { ID: 1 }, (data: Settings) => ({
+    } as Instance;
+    await database.updateSettings({
       defaultInstance: instance.isDefault
         ? customInstance
-        : data.defaultInstance,
+        : settings.defaultInstance,
       currentInstance: customInstance,
-      customInstances: [customInstance, ...(data.customInstances ?? [])],
-    }));
-    db.commit();
-    setSettings((previousState) => ({
-      ...previousState,
-      defaultInstance: instance.isDefault
-        ? (customInstance as Instance)
-        : previousState.defaultInstance,
-      currentInstance: customInstance as Instance,
-      customInstances: [
-        customInstance as Instance,
-        ...(previousState.customInstances ?? []),
-      ],
-    }));
+      customInstances: [customInstance, ...(settings.customInstances ?? [])],
+    });
 
     notifications.show({
       title: t("modal.instance.add.notification.title"),

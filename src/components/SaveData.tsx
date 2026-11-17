@@ -4,7 +4,7 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 
-import { getAllPlaylists } from "../database/utils";
+import { database } from "../services/database";
 
 export const SaveData = memo(() => {
   const { t } = useTranslation("translation", {
@@ -25,7 +25,7 @@ const saveData = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ data: getAllPlaylists() }),
+    body: JSON.stringify({ data: await database.getAllPlaylists() }),
   });
   const response = await request.json();
   return response;

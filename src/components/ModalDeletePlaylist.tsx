@@ -3,9 +3,7 @@ import { notifications } from "@mantine/notifications";
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { getPlaylists } from "../database/utils";
-import { useSetPlaylists } from "../providers/Playlist";
+import { database } from "../services/database";
 import type { CardPlaylist } from "../types/interfaces/Card";
 import { Modal } from "./Modal";
 
@@ -17,15 +15,10 @@ interface ModalDeletePlaylistProps {
 
 export const ModalDeletePlaylist: FC<ModalDeletePlaylistProps> = memo(
   ({ opened, onClose, playlist }) => {
-    const setPlaylists = useSetPlaylists();
     const { t } = useTranslation();
 
-    const handleDeletePlaylist = () => {
-      db.deleteRows("playlists", {
-        ID: playlist.ID,
-      });
-      db.commit();
-      setPlaylists(getPlaylists());
+    const handleDeletePlaylist = async () => {
+      await database.deletePlaylist(playlist.ID as number);
       notifications.show({
         title: t("modal.playlist.delete.notification.title"),
         message: `${playlist.title} ${t(

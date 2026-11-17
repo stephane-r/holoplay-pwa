@@ -3,12 +3,9 @@ import { notifications } from "@mantine/notifications";
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { getPlaylist, getPlaylists } from "../database/utils";
+import { database } from "../services/database";
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
-import { useSetPlaylists } from "../providers/Playlist";
 import type { CardVideo } from "../types/interfaces/Card";
-import type { Playlist } from "../types/interfaces/Playlist";
 import { Modal } from "./Modal";
 
 interface ModalDeleteFromPlaylistProps {
@@ -19,12 +16,11 @@ interface ModalDeleteFromPlaylistProps {
 
 export const ModalDeleteFromPlaylist: FC<ModalDeleteFromPlaylistProps> = memo(
   ({ opened, onClose, video }) => {
-    const setPlaylists = useSetPlaylists();
     const { playlistId } = useIsLocalPlaylist();
     const { t } = useTranslation();
 
-    const handleDeleteVideo = () => {
-      const playlist = getPlaylist(Number(playlistId));
+    const handleDeleteVideo = async () => {
+      const playlist = await database.getPlaylist(Number(playlistId));
 
       if (!playlist) {
         notifications.show({
@@ -35,22 +31,10 @@ export const ModalDeleteFromPlaylist: FC<ModalDeleteFromPlaylistProps> = memo(
         throw Error(t("Playlist not found") as string);
       }
 
-      const updatedVideos = (playlist.videos as CardVideo[]).filter(
-        (v) => v.videoId !== video.videoId,
+      await database.removeVideoFromPlaylist(
+        Number(playlistId),
+        video.videoId,
       );
-
-      db.update(
-        "playlists",
-        {
-          ID: playlistId,
-        },
-        (row: Playlist) => ({
-          ...row,
-          videos: updatedVideos,
-        }),
-      );
-      db.commit();
-      setPlaylists(getPlaylists());
       notifications.show({
         title: t("modal.video.delete.playlist.notification.title"),
         message: `${video.title} ${t(

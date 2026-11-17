@@ -1,9 +1,6 @@
 import { useLocation } from "react-router-dom";
 
-import {
-  getFavoritePlaylist,
-  getPlaylist as getLocalPlaylist,
-} from "../database/utils";
+import { database } from "../services/database";
 import { queryClient } from "../queryClient";
 import type { Playlist } from "../types/interfaces/Playlist";
 import type { Video } from "../types/interfaces/Video";
@@ -11,7 +8,7 @@ import type { Video } from "../types/interfaces/Video";
 export const useResolveVideosPlaylist = () => {
   const location = useLocation();
 
-  const getVideosPlaylist = () => {
+  const getVideosPlaylist = async () => {
     let videos: Video[] | null = null;
 
     if (location.pathname.includes("/playlists/")) {
@@ -19,7 +16,8 @@ export const useResolveVideosPlaylist = () => {
       const isLocalPlaylist = Number(playlistId);
 
       if (isLocalPlaylist) {
-        videos = getLocalPlaylist(Number(playlistId)).videos as Video[];
+        const localPlaylist = await database.getPlaylist(Number(playlistId));
+        videos = localPlaylist?.videos as Video[];
       } else {
         const remotePlaylist = queryClient.getQueriesData(
           `playlist-${playlistId}`,
@@ -35,7 +33,8 @@ export const useResolveVideosPlaylist = () => {
       videos = query.data;
     }
     if (location.pathname === "/favorites") {
-      videos = getFavoritePlaylist().cards.filter(
+      const favoritePlaylist = await database.getFavoritePlaylist();
+      videos = favoritePlaylist?.cards.filter(
         (card) => card.type === "video",
       ) as Video[];
     }

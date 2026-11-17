@@ -5,14 +5,7 @@ import useDigitInput from "react-digit-input";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 
-import {
-  getFavoritePlaylist,
-  importPlaylist,
-  importVideosToFavorites,
-} from "../database/utils";
-import { getPlaylists } from "../database/utils";
-import { useSetFavorite } from "../providers/Favorite";
-import { useSetPlaylists } from "../providers/Playlist";
+import { database } from "../services/database";
 import type { Card, CardPlaylist } from "../types/interfaces/Card";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
@@ -42,8 +35,6 @@ export const ModalSyncData: FC<ModalSyncDataProps> = memo(
       onChange,
     });
     const [enabled, setEnabled] = useState(false);
-    const setFavorite = useSetFavorite();
-    const setPlaylists = useSetPlaylists();
 
     const { isLoading } = useQuery("sync", async () => syncData(value), {
       enabled,
@@ -71,15 +62,11 @@ export const ModalSyncData: FC<ModalSyncDataProps> = memo(
       );
 
       if (favoritesPlaylist) {
-        importVideosToFavorites(favoritesPlaylist.videos as Card[]);
-        setFavorite(getFavoritePlaylist());
+        await database.importVideosToFavorites(favoritesPlaylist.videos as Card[]);
       }
 
       if (playlists.length > 0) {
-        playlists.map(async (playlist) => {
-          importPlaylist(playlist);
-          setPlaylists(getPlaylists());
-        });
+        await Promise.all(playlists.map((playlist) => database.importPlaylist(playlist)));
       }
 
       notifications.show({

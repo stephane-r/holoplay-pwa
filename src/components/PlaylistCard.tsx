@@ -12,11 +12,10 @@ import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
 import { type FC, memo } from "react";
 
-import { db } from "../database";
-import { getPlaylists } from "../database/utils";
+import { database } from "../services/database";
 import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
 import { useStableNavigate } from "../providers/Navigate";
-import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
+import { usePlaylists } from "../providers/Playlist";
 import type { CardPlaylist, CardVideo } from "../types/interfaces/Card";
 import { getThumbnailQuality } from "../utils/formatData";
 import { ButtonFavorite } from "./ButtonFavorite";
@@ -165,35 +164,30 @@ interface ButtonSaveToPlaylistProps {
 
 const ButtonSaveToPlaylist: FC<ButtonSaveToPlaylistProps> = memo(
   ({ playlist }) => {
-    const setPlaylists = useSetPlaylists();
     const playlists = usePlaylists();
 
     const isSavedPlaylist = playlists.find(
       (p) => p.playlistId === playlist.playlistId,
     );
 
-    const handleClick = () => {
+    const handleClick = async () => {
       if (isSavedPlaylist) {
-        deletePlaylist();
+        await deletePlaylist();
       } else {
-        savePlaylist();
+        await savePlaylist();
       }
-      db.commit();
-      setPlaylists(getPlaylists());
     };
 
-    const savePlaylist = () => {
-      db.insert("playlists", playlist);
+    const savePlaylist = async () => {
+      await database.saveRemotePlaylist(playlist);
       notifications.show({
         title: "Playlist saved",
         message: `${playlist.title} has been added to your playlists list`,
       });
     };
 
-    const deletePlaylist = () => {
-      db.deleteRows("playlists", {
-        playlistId: playlist.playlistId,
-      });
+    const deletePlaylist = async () => {
+      await database.deleteRemotePlaylist(playlist.playlistId as string);
       notifications.show({
         title: "Playlist deleted",
         message: `${playlist.title} has been deleted from your playlists list`,

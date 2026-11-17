@@ -9,9 +9,8 @@ import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { getFavoritePlaylist } from "../database/utils";
-import { useFavorite, useSetFavorite } from "../providers/Favorite";
+import { database } from "../services/database";
+import { useFavorite } from "../providers/Favorite";
 import { usePlayerVideo } from "../providers/Player";
 import type {
   Card,
@@ -20,10 +19,7 @@ import type {
   CardVideo,
 } from "../types/interfaces/Card";
 import type { Channel } from "../types/interfaces/Channel";
-import type {
-  FavoritePlaylist as Favorite,
-  Playlist,
-} from "../types/interfaces/Playlist";
+import type { Playlist } from "../types/interfaces/Playlist";
 import type { Video } from "../types/interfaces/Video";
 import {
   formatedCardChannel,
@@ -74,7 +70,6 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
     render = null,
   }) => {
     const favorite = useFavorite();
-    const setFavorite = useSetFavorite();
     const { video: currentVideo } = usePlayerVideo();
     const { t } = useTranslation();
     const theme = useMantineTheme();
@@ -89,17 +84,7 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
       (favCard) => getCardId(favCard) === getCardId(card),
     );
 
-    const updateAndCommit = (updatedFavoritePlaylist: Favorite) => {
-      db.update(
-        "playlists",
-        { title: "Favorites" },
-        () => updatedFavoritePlaylist,
-      );
-      db.commit();
-      setFavorite(getFavoritePlaylist());
-    };
-
-    const handleAdd = () => {
+    const handleAdd = async () => {
       const formatedCard = (() => {
         switch (card.type) {
           case "channel":
@@ -111,10 +96,7 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
         }
       })();
 
-      updateAndCommit({
-        ...favorite,
-        cards: [formatedCard, ...favorite.cards],
-      });
+      await database.setFavoriteCards([formatedCard, ...favorite.cards]);
 
       notifications.show({
         title: getCardTitle(card),
@@ -122,13 +104,12 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
       });
     };
 
-    const handleDelete = () => {
-      updateAndCommit({
-        ...favorite,
-        cards: favorite.cards.filter(
+    const handleDelete = async () => {
+      await database.setFavoriteCards(
+        favorite.cards.filter(
           (favCard) => getCardId(favCard) !== getCardId(card),
         ),
-      });
+      );
 
       notifications.show({
         title: getCardTitle(card),

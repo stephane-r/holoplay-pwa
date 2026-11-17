@@ -12,7 +12,7 @@ export const search = async ({
   sortBy: sort_by,
   ...params
 }: SearchParams): Promise<Card[]> => {
-  const instance = getCurrentInstance();
+  const instance = await getCurrentInstance();
   let uri = null;
 
   switch (params.service) {

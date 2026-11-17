@@ -5,9 +5,9 @@ import { IconEdit } from "@tabler/icons-react";
 import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { useSetSettings } from "../providers/Settings";
-import type { RemoteDevice, Settings } from "../types/interfaces/Settings";
+import { database } from "../services/database";
+import { useSettings } from "../providers/Settings";
+import type { RemoteDevice } from "../types/interfaces/Settings";
 import { Form } from "./Form";
 
 interface ButtonEditDeviceProps {
@@ -28,22 +28,17 @@ export const ButtonEditDevice: FC<ButtonEditDeviceProps> = memo(
         name: (value) => !value.length,
       },
     });
-    const setSettings = useSetSettings();
+    const settings = useSettings();
 
-    const handleSubmit = (formData: { id: string; name: string }) => {
+    const handleSubmit = async (formData: { id: string; name: string }) => {
       const device = {
         ...formData,
         createdAt: new Date().toISOString(),
-      };
+      } as RemoteDevice;
 
-      db.update("settings", { ID: 1 }, (data: Settings) => ({
-        devices: [device, ...(data.devices ?? [])],
-      }));
-      db.commit();
-      setSettings((previousState) => ({
-        ...previousState,
-        devices: [device as RemoteDevice, ...previousState.devices],
-      }));
+      await database.updateSettings({
+        devices: [device, ...(settings.devices ?? [])],
+      });
 
       notifications.show({
         message: `${t("modal.device.add.notification.message")}`,

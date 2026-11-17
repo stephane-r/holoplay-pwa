@@ -3,15 +3,13 @@ import { notifications } from "@mantine/notifications";
 import { format } from "date-fns";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLiveQuery } from "dexie-react-hooks";
 
-import { getAllPlaylists } from "../database/utils";
+import { database } from "../services/database";
 import { useSettings } from "../providers/Settings";
 import { generateAndDownloadFile } from "../utils/generateAndDownloadFile";
 import { ModalExportFilename } from "./ModalExportFilename";
 import { TransferList } from "./TransferList";
-
-const loadPlaylistData = (playlistsTitle: string[]) =>
-  getAllPlaylists().filter((p) => playlistsTitle.includes(p.title));
 
 export const ExportData = memo(() => {
   const [opened, setOpened] = useState(false);
@@ -19,19 +17,23 @@ export const ExportData = memo(() => {
     keyPrefix: "settings.data.export",
   });
   const [exportData, setExportData] = useState<string[]>([]);
-  const userData = useMemo(() => getAllPlaylists().map((p) => p.title), []);
+  const allPlaylists = useLiveQuery(() => database.getAllPlaylists(), []) ?? [];
+  const userData = useMemo(
+    () => allPlaylists.map((p) => p.title),
+    [allPlaylists],
+  );
 
   const handleDownloadFile = useCallback(
     (fileName: string) => {
       setOpened(false);
-      const playlists = loadPlaylistData(exportData);
+      const playlists = allPlaylists.filter((p) => exportData.includes(p.title));
       generateAndDownloadFile({ playlists }, fileName);
       notifications.show({
         title: t("notification.title"),
         message: t("notification.message"),
       });
     },
-    [exportData, t],
+    [allPlaylists, exportData, t],
   );
 
   const handleSubmit = useCallback((importData: string[]) => {

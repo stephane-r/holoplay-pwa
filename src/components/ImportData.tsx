@@ -20,15 +20,9 @@ import {
 import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import {
-  getFavoritePlaylist,
-  importPlaylist,
-  importVideosToFavorites,
-  updatePlaylistVideos,
-} from "../database/utils";
-import { getPlaylists } from "../database/utils";
-import { useFavorite, useSetFavorite } from "../providers/Favorite";
-import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
+import { database } from "../services/database";
+import { useFavorite } from "../providers/Favorite";
+import { usePlaylists } from "../providers/Playlist";
 import type { CardVideo } from "../types/interfaces/Card";
 import type { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
 import {
@@ -150,8 +144,6 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
   ({ data: importedFileData, onClear }) => {
     const currentFavoritePlaylist = useFavorite();
     const currentPlaylists = usePlaylists();
-    const setFavorite = useSetFavorite();
-    const setPlaylists = useSetPlaylists();
     const [loading, setLoading] = useState(false);
     const { t } = useTranslation("translation", {
       keyPrefix: "settings.data.import",
@@ -179,8 +171,7 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
           );
 
           if (newCards.length > 0) {
-            importVideosToFavorites(newCards);
-            setFavorite(getFavoritePlaylist());
+            await database.importVideosToFavorites(newCards);
           }
         }
 
@@ -196,28 +187,30 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
           ) as Playlist[];
 
           if (newPlaylists.length > 0) {
-            for (const playlist of newPlaylists) {
-              importPlaylist({
-                type: "playlist",
-                playlistId: playlist.playlistId ?? undefined,
-                ID: playlist.ID ?? undefined,
-                title: playlist.title,
-                videos: playlist.videos as CardVideo[],
-                videoCount: playlist.videos.length,
-              });
-            }
+            await Promise.all(
+              newPlaylists.map((playlist) =>
+                database.importPlaylist({
+                  type: "playlist",
+                  playlistId: playlist.playlistId ?? undefined,
+                  ID: playlist.ID ?? undefined,
+                  title: playlist.title,
+                  videos: playlist.videos as CardVideo[],
+                  videoCount: playlist.videos.length,
+                }),
+              ),
+            );
           }
 
           if (updatedPlaylists.length > 0) {
-            for (const playlist of updatedPlaylists) {
-              updatePlaylistVideos(
-                playlist.title,
-                playlist.videos as CardVideo[],
-              );
-            }
+            await Promise.all(
+              updatedPlaylists.map((playlist) =>
+                database.updatePlaylistVideos(
+                  playlist.title,
+                  playlist.videos as CardVideo[],
+                ),
+              ),
+            );
           }
-
-          setPlaylists(getPlaylists());
         }
 
         notifications.show({

@@ -2,10 +2,9 @@ import { Badge, Checkbox, Flex, Switch, Table } from "@mantine/core";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { useSetSettings, useSettings } from "../providers/Settings";
+import { database } from "../services/database";
+import { useSettings } from "../providers/Settings";
 import type { Instance } from "../types/interfaces/Instance";
-import type { Settings } from "../types/interfaces/Settings";
 import { ModalAddCustomInstance } from "./ModalAddCustomInstance";
 import { ModalDeleteCustomInstance } from "./ModalDeleteCustomInstance";
 
@@ -65,7 +64,6 @@ const TableRow = memo(
     lastCell?: boolean;
   }) => {
     const settings = useSettings();
-    const setSettings = useSetSettings();
     const { t } = useTranslation("translation", {
       keyPrefix: "settings.general",
     });
@@ -73,19 +71,11 @@ const TableRow = memo(
     const isCurrent = settings.currentInstance?.domain === instance.domain;
     const isDefault = settings.defaultInstance?.domain === instance.domain;
 
-    const handleInstanceChange = (
+    const handleInstanceChange = async (
       key: "currentInstance" | "defaultInstance",
       value: Instance | null,
     ) => {
-      db.update("settings", { ID: 1 }, (data: Settings) => ({
-        ...data,
-        [key]: value,
-      }));
-      db.commit();
-      setSettings((previousState) => ({
-        ...previousState,
-        [key]: value,
-      }));
+      await database.updateSettings({ [key]: value });
     };
 
     return (

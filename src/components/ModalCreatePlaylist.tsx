@@ -4,28 +4,22 @@ import { IconPlus } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { getPlaylists } from "../database/utils";
-import { useSetPlaylists } from "../providers/Playlist";
+import { database } from "../services/database";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
 export const ModalCreatePlaylist = memo(() => {
   const [opened, setOpened] = useState(false);
   const [playlistTitle, setPlaylistTitle] = useState("");
-  const setPlaylists = useSetPlaylists();
   const { t } = useTranslation();
 
-  const handleAddToPlaylist = () => {
-    db.insert("playlists", {
-      createdAt: new Date().toISOString(),
+  const handleAddToPlaylist = async () => {
+    await database.createPlaylist({
       title: playlistTitle,
       videos: [],
       videoCount: 0,
       type: "playlist",
     });
-    db.commit();
-    setPlaylists(getPlaylists());
     notifications.show({
       title: t("modal.create.playlist.notification.title"),
       message: `${playlistTitle} ${t(

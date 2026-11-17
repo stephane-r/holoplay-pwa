@@ -1,8 +1,6 @@
 import {
-  type Dispatch,
   type FC,
   type PropsWithChildren,
-  type SetStateAction,
   createContext,
   useCallback,
   useContext,
@@ -10,89 +8,89 @@ import {
   useState,
 } from "react";
 import { useQuery } from "react-query";
+import { useLiveQuery } from "dexie-react-hooks";
 
-import { db } from "../database";
-import { getSettings } from "../database/utils";
+import { database } from "../services/database";
 import {
   fetchInvidiousInstances,
   filterAndParseInstances,
 } from "../services/instances";
+import type { Instance } from "../types/interfaces/Instance";
 import type { RemoteDevice, Settings } from "../types/interfaces/Settings";
 import { stringValueIsEmpty } from "../utils/stringValueIsEmpty";
 
-const SettingsContext = createContext<null | {
-  settings: Settings;
-  setSettings: Dispatch<SetStateAction<Settings>>;
-}>(null);
-
-const INITIAL_SETTINGS = getSettings();
+const SettingsContext = createContext<null | { settings: Settings }>(null);
 
 export const SettingsProvider: FC<PropsWithChildren> = ({ children }) => {
-  const exportFileName = useMemo(
-    () =>
-      stringValueIsEmpty(INITIAL_SETTINGS.exportFileName as string)
-        ? null
-        : INITIAL_SETTINGS.exportFileName,
-    [],
-  );
-  const [settings, setSettings] = useState<Settings>({
-    ...INITIAL_SETTINGS,
-    exportFileName,
-    instances: [],
-  });
+  const row = useLiveQuery(() => database.getSettings());
+  const [instances, setInstances] = useState<Instance[]>([]);
 
   const handleSuccess = useCallback(
     (data: any) => {
-      if (settings.instances.length > 0) return;
+      if (!row || instances.length > 0) return;
 
-      const instances = filterAndParseInstances(data as any);
+      const parsedInstances = filterAndParseInstances(data as any);
 
       const currentInstance = (() => {
-        if (settings.defaultInstance) {
-          if (settings.defaultInstance.custom) {
-            return settings.defaultInstance;
+        if (row.defaultInstance) {
+          if (row.defaultInstance.custom) {
+            return row.defaultInstance;
           }
 
-          const isStillUp = instances.find(
-            (instance) => instance.domain === settings.defaultInstance?.domain,
+          const isStillUp = parsedInstances.find(
+            (instance) => instance.domain === row.defaultInstance?.domain,
           );
 
           // If the default instance is still up, use it
           // Otherwise, pick a random instance
           if (isStillUp) {
-            return settings.defaultInstance;
+            return row.defaultInstance;
           }
         }
 
-        return instances[generateRandomInteger(1, instances.length - 1)];
+        return parsedInstances[
+          generateRandomInteger(1, parsedInstances.length - 1)
+        ];
       })();
 
-      setSettings((previousState) => ({
-        ...previousState,
-        instances,
-        currentInstance,
-      }));
-
-      db.update("settings", { ID: 1 }, () => ({
-        currentInstance,
-      }));
-      db.commit();
+      setInstances(parsedInstances);
+      database.updateSettings({ currentInstance });
     },
-    [settings.defaultInstance, settings.instances.length],
+    [instances.length, row],
   );
 
   useQuery("instances", () => fetchInvidiousInstances(), {
     onSuccess: handleSuccess,
-    enabled: settings.instances.length === 0,
+    enabled: row !== undefined && instances.length === 0,
   });
 
-  const value = useMemo(
-    () => ({
-      settings,
-      setSettings,
-    }),
-    [settings, setSettings],
+  const exportFileName = useMemo(() => {
+    if (!row) return null;
+    return stringValueIsEmpty(row.exportFileName as string)
+      ? null
+      : row.exportFileName;
+  }, [row]);
+
+  const settings = useMemo(
+    () =>
+      row
+        ? ({
+            ...row,
+            exportFileName,
+            instances,
+          } as Settings)
+        : null,
+    [row, exportFileName, instances],
   );
+
+  const value = useMemo(
+    () => (settings ? { settings } : null),
+    [settings],
+  );
+
+  if (!value) {
+    return null;
+  }
 
   return (
     <SettingsContext.Provider value={value}>
@@ -103,10 +101,6 @@ export const SettingsProvider: FC<PropsWithChildren> = ({ children }) => {
 
 export const useSettings = () =>
   useContext(SettingsContext)?.settings as Settings;
-export const useSetSettings = () =>
-  useContext(SettingsContext)?.setSettings as Dispatch<
-    SetStateAction<Settings>
-  >;
 export const useRemoteDevices = () =>
   useContext(SettingsContext)?.settings.devices as RemoteDevice[];
 

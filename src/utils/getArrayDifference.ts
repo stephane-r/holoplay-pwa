@@ -1,4 +1,4 @@
-import { removeDuplicateVideoId } from "../database/utils";
+import { removeDuplicateVideoId } from "../services/database";
 import type { Card, CardVideo } from "../types/interfaces/Card";
 import type { Playlist } from "../types/interfaces/Playlist";
 

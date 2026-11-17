@@ -2,7 +2,7 @@ import { notifications } from "@mantine/notifications";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 
-import { getSettings } from "../database/utils";
+import { database } from "../services/database";
 import { usePlayerVideo } from "../providers/Player";
 import {
   type PingRemotePlayResponse,
@@ -17,11 +17,14 @@ export const useRemotePlay = () => {
   const { t } = useTranslation();
 
   useQuery("remote-request", () => pingRemotePlay(), {
-    onSuccess: (data: PingRemotePlayResponse | null) => {
+    onSuccess: async (data: PingRemotePlayResponse | null) => {
       if (!data || (data?.videoId === video?.videoId && !loading)) return;
 
       handlePlay(data.videoId);
-      clearRemoteDevice(getSettings().deviceId);
+      const settings = await database.getSettings();
+      if (settings) {
+        clearRemoteDevice(settings.deviceId);
+      }
       notifications.show({
         title: t("remote.device.receive.notification.title"),
         message: t("remote.device.receive.notification.message"),

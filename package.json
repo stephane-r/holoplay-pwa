@@ -39,6 +39,8 @@
     "@vitejs/plugin-react": "^6.3.0",
     "country-list": "^2.4.1",
     "date-fns": "^4.4.0",
+    "dexie": "^4.4.7",
+    "dexie-react-hooks": "^4.4.0",
     "hex-to-rgba": "^2.0.1",
     "i18next": "^27.1.5",
     "i18next-browser-languagedetector": "^8.3.1",

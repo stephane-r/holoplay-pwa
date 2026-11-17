@@ -1,7 +1,7 @@
 import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 
-import { getPlaylist as getLocalPlaylist } from "../database/utils";
+import { database } from "../services/database";
 import { getPlaylist as getRemotePlaylist } from "../services/playlist";
 import type { Video } from "../types/interfaces/Video";
 import { usePlayVideo } from "./usePlayVideo";
@@ -16,8 +16,11 @@ export const usePlayPlaylist = () => {
     try {
       const isLocalPlaylist = Number(playlistId);
       const data = isLocalPlaylist
-        ? getLocalPlaylist(playlistId as number)
+        ? await database.getPlaylist(playlistId as number)
         : await getRemotePlaylist(playlistId as string);
+      if (!data) {
+        throw new Error("Playlist not found");
+      }
       const [firstVideo] = data.videos as Video[];
 
       play(firstVideo.videoId, data.videos as Video[]);

@@ -12,12 +12,11 @@ import { IconEdit, IconPlus } from "@tabler/icons-react";
 import { type FC, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { useSetSettings, useSettings } from "../providers/Settings";
+import { database } from "../services/database";
+import { useSettings } from "../providers/Settings";
 import type {
   RemoteDevice,
   RemoteDeviceType,
-  Settings,
 } from "../types/interfaces/Settings";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
@@ -56,7 +55,6 @@ export const ButtonAddOrEditDevice: FC<ButtonAddOrEditDeviceProps> = memo(
       },
     });
     const settings = useSettings();
-    const setSettings = useSetSettings();
 
     const devices = useMemo(() => settings.devices, [settings.devices]);
     const isNewDevice = useMemo(() => !initialValues, [initialValues]);
@@ -68,7 +66,7 @@ export const ButtonAddOrEditDevice: FC<ButtonAddOrEditDeviceProps> = memo(
       return handleEdit(formData);
     };
 
-    const handleEdit = (formData: FormData) => {
+    const handleEdit = async (formData: FormData) => {
       const device = {
         ...formData,
         updatedAt: new Date().toISOString(),
@@ -81,14 +79,7 @@ export const ButtonAddOrEditDevice: FC<ButtonAddOrEditDeviceProps> = memo(
         return d;
       });
 
-      db.update("settings", { ID: 1 }, (data: Settings) => ({
-        devices: updatedDevices,
-      }));
-      db.commit();
-      setSettings((previousState) => ({
-        ...previousState,
-        devices: updatedDevices,
-      }));
+      await database.updateSettings({ devices: updatedDevices });
 
       notifications.show({
         message: `${t("modal.device.edit.notification.message")}`,
@@ -98,20 +89,15 @@ export const ButtonAddOrEditDevice: FC<ButtonAddOrEditDeviceProps> = memo(
       setOpened(false);
     };
 
-    const handleAdd = (formData: FormData) => {
+    const handleAdd = async (formData: FormData) => {
       const device = {
         ...formData,
         createdAt: new Date().toISOString(),
       } as RemoteDevice;
 
-      db.update("settings", { ID: 1 }, (data: Settings) => ({
-        devices: [device, ...(data.devices ?? [])],
-      }));
-      db.commit();
-      setSettings((previousState) => ({
-        ...previousState,
-        devices: [device, ...previousState.devices],
-      }));
+      await database.updateSettings({
+        devices: [device, ...(settings.devices ?? [])],
+      });
 
       notifications.show({
         message: `${t("modal.device.add.notification.message")}`,

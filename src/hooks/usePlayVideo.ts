@@ -1,7 +1,7 @@
 import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 
-import { getLastVideoPlayed, getSettings } from "../database/utils";
+import { database } from "../services/database";
 import { useSetHistory } from "../providers/History";
 import {
   initialPlayerState,
@@ -74,8 +74,9 @@ export const usePlayVideo = () => {
       let videoThumbnailUrl = videoThumbnail.url;
 
       if (videoThumbnail.url.startsWith("/")) {
+        const currentSettings = await database.getSettings();
         videoThumbnailUrl = `${
-          getSettings().currentInstance?.uri
+          currentSettings?.currentInstance?.uri
         }${videoThumbnailUrl}`;
       }
 
@@ -83,7 +84,8 @@ export const usePlayVideo = () => {
         .extractColor(videoThumbnailUrl)
         .catch(console.log);
 
-      if (getLastVideoPlayed()?.videoId !== videoId) {
+      const lastVideoPlayed = await database.getLastVideoPlayed();
+      if (lastVideoPlayed?.videoId !== videoId) {
         setHistory(data.video);
       }
 
@@ -101,7 +103,9 @@ export const usePlayVideo = () => {
       }));
 
       const videosPlaylist =
-        playerPlaylist ?? getVideosPlaylist() ?? data.video.recommendedVideos;
+        playerPlaylist ??
+        (await getVideosPlaylist()) ??
+        data.video.recommendedVideos;
 
       setPlayerPlaylist(videosPlaylist);
 
