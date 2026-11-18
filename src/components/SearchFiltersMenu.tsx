@@ -18,7 +18,14 @@ export const SearchFilters = memo(() => {
   const { t } = useTranslation();
 
   return (
-    <Menu width={250} position="bottom-end">
+    <Menu
+      width={250}
+      position="bottom-end"
+      // Mantine's z-index scale puts LoadingOverlay above Menu/Popover by
+      // default, so the search results' loader covered this dropdown
+      // whenever they overlapped (e.g. right after changing a filter).
+      zIndex="var(--mantine-z-index-max)"
+    >
       <Menu.Target>
         <ActionIcon
           aria-label="Open search filters"
