@@ -40,6 +40,10 @@ const ButtonSaveData = memo(() => {
 
   const { isLoading } = useQuery("save-data", async () => saveData(), {
     enabled,
+    // This is really a one-off "upload and get a backup code" action behind
+    // a static query key — always re-run it, don't let the global default
+    // staleTime return a cached code from a previous click.
+    staleTime: 0,
     onSuccess: (data) => {
       setCode(data.code);
       notifications.show({

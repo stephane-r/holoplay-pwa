@@ -38,6 +38,11 @@ export const ModalSyncData: FC<ModalSyncDataProps> = memo(
 
     const { isLoading } = useQuery("sync", async () => syncData(value), {
       enabled,
+      // Always re-run with the current `value`: this query key never
+      // changes even though the code being looked up does, so the global
+      // default staleTime would otherwise let a resubmission return a
+      // cached result for a different code.
+      staleTime: 0,
       onSuccess: (data) => {
         setEnabled(false);
         importData(data);
