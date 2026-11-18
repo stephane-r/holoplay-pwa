@@ -3,6 +3,7 @@ import { type FC, memo } from "react";
 
 import { useSettings } from "../providers/Settings";
 import type { Card as CardType } from "../types/interfaces/Card";
+import type { Video } from "../types/interfaces/Video";
 import { getCardTitle } from "./ButtonFavorite";
 import classes from "./CardList.module.css";
 import { ChannelCard } from "./ChannelCard";
@@ -25,6 +26,9 @@ export const CardList: FC<CardListProps> = memo(
 
     const ListComponent = scrollable ? Box : Grid;
     const ItemComponent = scrollable ? Box : Grid.Col;
+    const videoQueue = data.filter(
+      (card) => card.type !== "playlist" && card.type !== "channel",
+    ) as unknown as Video[];
 
     return (
       <ListComponent
@@ -60,6 +64,7 @@ export const CardList: FC<CardListProps> = memo(
                     <VideoCard
                       video={card}
                       currentInstanceUri={currentInstance?.uri ?? ""}
+                      queue={videoQueue}
                     />
                   );
               }

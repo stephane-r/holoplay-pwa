@@ -27,7 +27,7 @@ import {
   usePlayerUrl,
   usePlayerVideo,
 } from "../providers/Player";
-import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
+import { usePlaybackQueue } from "../services/playback/usePlaybackQueue";
 import { ButtonDevicesAvailable } from "./ButtonDevicesAvailable";
 import { ButtonDownload } from "./ButtonDownload";
 import { ButtonFavorite } from "./ButtonFavorite";
@@ -170,7 +170,7 @@ export const ButtonVolume = memo(() => {
 
 const PlayerPlaylist = memo(() => {
   const [opened, setOpened] = useState(false);
-  const videosPlaylist = usePlayerPlaylist();
+  const { queue: videosPlaylist } = usePlaybackQueue();
   const { t } = useTranslation();
 
   return (

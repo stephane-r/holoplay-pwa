@@ -22,9 +22,7 @@ import { MantineProvider } from "../providers/Mantine";
 import { StableNavigateProvider } from "../providers/Navigate";
 import { PlayerProvider } from "../providers/Player";
 import { PlayerModeProvider } from "../providers/PlayerMode";
-import { PlayerPlaylistProvider } from "../providers/PlayerPlaylist";
 import { PlaylistProvider } from "../providers/Playlist";
-import { PreviousNextTrackProvider } from "../providers/PreviousNextTrack";
 import { SearchProvider } from "../providers/Search";
 import { SettingsProvider } from "../providers/Settings";
 import { SpotlightProvider } from "../providers/Spotlight";
@@ -47,34 +45,30 @@ export const App = () => {
                 <FavoriteProvider>
                   <PlaylistProvider>
                     <PlayerProvider>
-                      <PreviousNextTrackProvider>
-                        <PlayerPlaylistProvider>
-                          <PlayerModeProvider>
-                            <HistoryProvider>
-                              <MantineProvider>
-                                <Notifications />
-                                <AppShell>
-                                  <SpotlightProvider />
-                                  <Flex className={`App ${userAgent.os.name}`}>
-                                    <NavigationContainer />
-                                    <HeaderMobileContainer />
-                                    <Box className="App-Content">
-                                      <HeaderDesktopContainer />
-                                      <Main>
-                                        <Outlet />
-                                      </Main>
-                                    </Box>
-                                    <DrawerPlayerContainer />
-                                    <PlayerContainer />
-                                    <MobileNavigationContainer />
-                                    <Scripts />
-                                  </Flex>
-                                </AppShell>
-                              </MantineProvider>
-                            </HistoryProvider>
-                          </PlayerModeProvider>
-                        </PlayerPlaylistProvider>
-                      </PreviousNextTrackProvider>
+                      <PlayerModeProvider>
+                        <HistoryProvider>
+                          <MantineProvider>
+                            <Notifications />
+                            <AppShell>
+                              <SpotlightProvider />
+                              <Flex className={`App ${userAgent.os.name}`}>
+                                <NavigationContainer />
+                                <HeaderMobileContainer />
+                                <Box className="App-Content">
+                                  <HeaderDesktopContainer />
+                                  <Main>
+                                    <Outlet />
+                                  </Main>
+                                </Box>
+                                <DrawerPlayerContainer />
+                                <PlayerContainer />
+                                <MobileNavigationContainer />
+                                <Scripts />
+                              </Flex>
+                            </AppShell>
+                          </MantineProvider>
+                        </HistoryProvider>
+                      </PlayerModeProvider>
                     </PlayerProvider>
                   </PlaylistProvider>
                 </FavoriteProvider>

@@ -1,7 +1,6 @@
 import { showNotification } from "@mantine/notifications";
 import { useState } from "react";
 
-import { database } from "../services/database";
 import { useSetHistory } from "../providers/History";
 import {
   initialPlayerState,
@@ -9,33 +8,17 @@ import {
   useSetPlayerUrl,
   useSetPlayerVideo,
 } from "../providers/Player";
-import { useSetPlayerPlaylist } from "../providers/PlayerPlaylist";
-import { useSetPreviousNextVideos } from "../providers/PreviousNextTrack";
 import { useSettings } from "../providers/Settings";
+import { database } from "../services/database";
+import { playbackQueue } from "../services/playback";
 import { getSponsorBlockSegments } from "../services/sponsor-block";
 import { getVideo } from "../services/video";
 import type { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { colorExtractor } from "../utils/colorExtractor";
-import { useResolveVideosPlaylist } from "./useResolveVideosPlaylist";
 
 const DEFAULT_PRIMARY_COLOR = {
   color: "#000",
   count: 1,
-};
-
-const getPreviousAndNextVideoId = (videos: Video[], videoId: string) => {
-  const currentVideoIndex = videos.findIndex(
-    (video) => video.videoId === videoId,
-  );
-  const previousVideoId = videos[currentVideoIndex - 1]?.videoId ?? null;
-  const nextVideoId = videos[currentVideoIndex + 1]?.videoId ?? null;
-
-  return {
-    videosIds: {
-      previousVideoId,
-      nextVideoId,
-    },
-  };
 };
 
 export const usePlayVideo = () => {
@@ -44,15 +27,9 @@ export const usePlayVideo = () => {
   const setPlayerUrl = useSetPlayerUrl();
   const setPlayerVideo = useSetPlayerVideo();
   const setPlayerState = useSetPlayerState();
-  const getVideosPlaylist = useResolveVideosPlaylist();
-  const setPlayerPlaylist = useSetPlayerPlaylist();
-  const setPreviousNextVideos = useSetPreviousNextVideos();
   const setHistory = useSetHistory();
 
-  const handlePlay = async (
-    videoId: string,
-    playerPlaylist: Video[] | null = null,
-  ) => {
+  const handlePlay = async (videoId: string, queue?: Video[]) => {
     setLoading(true);
 
     try {
@@ -102,14 +79,11 @@ export const usePlayVideo = () => {
         volume: previousState.volume,
       }));
 
-      const videosPlaylist =
-        playerPlaylist ??
-        (await getVideosPlaylist()) ??
-        data.video.recommendedVideos;
-
-      setPlayerPlaylist(videosPlaylist);
-
-      setPreviousNextVideos(getPreviousAndNextVideoId(videosPlaylist, videoId));
+      if (queue) {
+        playbackQueue.setQueue(queue, videoId);
+      } else if (!playbackQueue.setCurrentVideoId(videoId)) {
+        playbackQueue.setQueue(data.video.recommendedVideos, videoId);
+      }
     } catch (error) {
       showNotification({
         title: "Error",

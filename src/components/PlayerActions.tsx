@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlayerAudio, usePlayerState } from "../providers/Player";
 import { usePlayerMode } from "../providers/PlayerMode";
-import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
+import { usePlaybackQueue } from "../services/playback/usePlaybackQueue";
 
 interface PlayerActionsProps {
   showTrackPrevious?: boolean;
@@ -84,11 +84,11 @@ const ButtonPlayPause: FC<ButtonNextVideoProps> = memo(
 
 const ButtonPreviousVideo = memo(() => {
   const { handlePlay, loading } = usePlayVideo();
-  const { videosIds } = usePreviousNextVideos();
+  const { previousVideoId } = usePlaybackQueue();
   const { t } = useTranslation();
 
   const handlePlayPreviousVideo = () => {
-    handlePlay(videosIds.previousVideoId as string);
+    handlePlay(previousVideoId as string);
   };
 
   return (
@@ -96,7 +96,7 @@ const ButtonPreviousVideo = memo(() => {
       size="lg"
       radius="md"
       title={t("player.previous.video")}
-      disabled={!videosIds.previousVideoId}
+      disabled={!previousVideoId}
       onClick={handlePlayPreviousVideo}
       loading={loading}
     >
@@ -107,11 +107,11 @@ const ButtonPreviousVideo = memo(() => {
 
 const ButtonNextVideo = memo(() => {
   const { handlePlay, loading } = usePlayVideo();
-  const { videosIds } = usePreviousNextVideos();
+  const { nextVideoId } = usePlaybackQueue();
   const { t } = useTranslation();
 
   const handlePlayNextVideo = () => {
-    handlePlay(videosIds.nextVideoId as string);
+    handlePlay(nextVideoId as string);
   };
 
   return (
@@ -119,7 +119,7 @@ const ButtonNextVideo = memo(() => {
       size="lg"
       radius="md"
       title={t("player.next.video")}
-      disabled={!videosIds.nextVideoId}
+      disabled={!nextVideoId}
       onClick={handlePlayNextVideo}
       loading={loading}
     >

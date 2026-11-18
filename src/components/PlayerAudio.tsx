@@ -13,7 +13,7 @@ import {
   useSetPlayerState,
 } from "../providers/Player";
 import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
-import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
+import { usePlaybackQueue } from "../services/playback/usePlaybackQueue";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 
 export const PlayerAudio = memo(() => {
@@ -21,7 +21,7 @@ export const PlayerAudio = memo(() => {
   const playerUrl = usePlayerUrl();
   const setPlayerState = useSetPlayerState();
   const { handlePlay: play } = usePlayVideo();
-  const { videosIds } = usePreviousNextVideos();
+  const { nextVideoId } = usePlaybackQueue();
   const playerMode = usePlayerMode();
   const playerState = usePlayerState();
   const setPlayerMode = useSetPlayerMode();
@@ -59,8 +59,8 @@ export const PlayerAudio = memo(() => {
   const handleEnd = () => {
     // @ts-ignore
     const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    if (!audio.loop && videosIds.nextVideoId) {
-      play(videosIds.nextVideoId);
+    if (!audio.loop && nextVideoId) {
+      play(nextVideoId);
     }
   };
 

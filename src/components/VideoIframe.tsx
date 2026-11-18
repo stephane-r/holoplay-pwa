@@ -1,11 +1,11 @@
 import { ActionIcon, Box, CloseButton, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronRight, IconInfoCircle } from "@tabler/icons-react";
-import { memo, useCallback, useRef } from "react";
-import "@videojs/react/video/skin.css";
 import { YouTubeVideo } from "@videojs/react/media/youtube-video";
 import { VideoPlayer, VideoSkin } from "@videojs/react/video";
+import "@videojs/react/video/skin.css";
 import type { YouTubeAdapter } from "@videojs/youtube-video";
+import { memo, useCallback, useRef } from "react";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
@@ -14,8 +14,8 @@ import {
   usePlayerVideo,
 } from "../providers/Player";
 import { useSetPlayerMode } from "../providers/PlayerMode";
-import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility";
+import { usePlaybackQueue } from "../services/playback/usePlaybackQueue";
 import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 import classes from "./VideoIframe.module.css";
 
@@ -53,7 +53,7 @@ const Video = ({
   startTime: number;
 }) => {
   const playerAudio = usePlayerAudio();
-  const { videosIds } = usePreviousNextVideos();
+  const { nextVideoId } = usePlaybackQueue();
   const { handlePlay: play } = usePlayVideo();
   const setPlayerMode = useSetPlayerMode();
   const mediaRef = useRef<YouTubeAdapter>(null);
@@ -69,11 +69,11 @@ const Video = ({
   const onEnded = useCallback(() => {
     // @ts-ignore
     const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    if (!audio.loop && videosIds.nextVideoId) {
+    if (!audio.loop && nextVideoId) {
       setPlayerMode("audio");
-      play(videosIds.nextVideoId);
+      play(nextVideoId);
     }
-  }, [play, playerAudio, setPlayerMode, videosIds.nextVideoId]);
+  }, [play, playerAudio, setPlayerMode, nextVideoId]);
 
   return (
     <VideoPlayer>
