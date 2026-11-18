@@ -60,8 +60,13 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Reuses the same "Production" environment the old Vercel integration
+    # deployed to, so a successful Pages deployment here is what shows up
+    # as the latest "Production" status on the repo page — instead of a
+    # separate "github-pages" entry sitting next to Vercel's last (now
+    # permanently stale) deployment.
     environment:
-      name: github-pages
+      name: Production
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
