@@ -1,6 +1,6 @@
 import Dexie, { type EntityTable } from "dexie";
 
-import { getCardId } from "../../components/ButtonFavorite";
+import { getCardId } from "../../utils/card";
 import type { Card, CardPlaylist, CardVideo } from "../../types/interfaces/Card";
 import type {
   FavoritePlaylist,

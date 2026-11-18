@@ -10,15 +10,15 @@ import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { database } from "../services/database";
-import { useFavorite } from "../providers/Favorite";
+import { useFavorite, useIsFavorite } from "../providers/Favorite";
 import { usePlayerVideo } from "../providers/Player";
 import type { Card } from "../types/interfaces/Card";
+import { getCardId, getCardTitle } from "../utils/card";
 import {
   formatedCardChannel,
   formatedCardPlaylist,
   formatedCardVideo,
 } from "../utils/formatData";
-import { getPlaylistIdentity } from "../utils/playlistIdentity";
 
 interface ButtonFavoriteProps extends ActionIconProps {
   card?: Card;
@@ -26,26 +26,6 @@ interface ButtonFavoriteProps extends ActionIconProps {
   buttonSize?: number;
   render?: "menu";
 }
-
-export const getCardId = (item: Card) => {
-  switch (item.type) {
-    case "playlist":
-      return getPlaylistIdentity(item)?.id;
-    case "channel":
-      return item.authorId;
-    default:
-      return item.videoId;
-  }
-};
-
-export const getCardTitle = (item: Card) => {
-  switch (item.type) {
-    case "channel":
-      return item.author;
-    default:
-      return item.title;
-  }
-};
 
 export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
   ({
@@ -61,14 +41,11 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
     const theme = useMantineTheme();
 
     const card = parentCard ?? (currentVideo && formatedCardVideo(currentVideo));
+    const isFavorite = useIsFavorite(card);
 
     if (!card) {
       return null;
     }
-
-    const isFavorite = favorite.cards.find(
-      (favCard) => getCardId(favCard) === getCardId(card),
-    );
 
     const handleAdd = async () => {
       const formatedCard = (() => {

@@ -6,7 +6,7 @@ import { useScrollParent } from "../providers/ScrollParent";
 import { useSettings } from "../providers/Settings";
 import type { Card as CardType } from "../types/interfaces/Card";
 import type { Video } from "../types/interfaces/Video";
-import { getCardTitle } from "./ButtonFavorite";
+import { getCardTitle } from "../utils/card";
 import classes from "./CardList.module.css";
 import { ChannelCard } from "./ChannelCard";
 import { PlaylistCard } from "./PlaylistCard";
