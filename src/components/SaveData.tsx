@@ -1,10 +1,10 @@
 import { Alert, Box, Button, Text } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 
-import { getAllPlaylists } from "../database/utils";
+import { database } from "../services/database";
+import { notifyError, notifySuccess } from "../utils/notify";
 
 export const SaveData = memo(() => {
   const { t } = useTranslation("translation", {
@@ -25,7 +25,7 @@ const saveData = async () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ data: getAllPlaylists() }),
+    body: JSON.stringify({ data: await database.getAllPlaylists() }),
   });
   const response = await request.json();
   return response;
@@ -40,21 +40,23 @@ const ButtonSaveData = memo(() => {
 
   const { isLoading } = useQuery("save-data", async () => saveData(), {
     enabled,
+    // This is really a one-off "upload and get a backup code" action behind
+    // a static query key — always re-run it, don't let the global default
+    // staleTime return a cached code from a previous click.
+    staleTime: 0,
     onSuccess: (data) => {
       setCode(data.code);
-      notifications.show({
+      notifySuccess({
         title: t("notification.title"),
         message: t("notification.message"),
-        color: "green",
       });
       setEnabled(false);
     },
     retry: false,
     onError: () => {
-      notifications.show({
+      notifyError({
         title: t("notification.error.title"),
         message: t("notification.error.message"),
-        color: "red",
       });
       setEnabled(false);
     },

@@ -1,8 +1,7 @@
 import { Flex } from "@mantine/core";
-import memoizeOne from "memoize-one";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
-import { usePlayerState, usePlayerVideo } from "../providers/Player";
+import { usePlayerTime, usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
 import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 import classes from "./SponsorBlockBar.module.css";
@@ -11,23 +10,35 @@ interface RangeSponsorBlockSegment extends SponsorBlockSegment {
   percent: string;
 }
 
+// A plain gap filler inserted between two segments below — not a real
+// segment, so it has no UUID of its own (`segment.UUID` renders as falsy).
+interface SponsorBlockGap {
+  percent: string;
+  UUID?: undefined;
+}
+
 export const SponsorBlockBar = memo(() => {
   const settings = useSettings();
   const playerVideo = usePlayerVideo();
-  const playerState = usePlayerState();
+  const playerTime = usePlayerTime();
 
-  if (
-    !settings.sponsorBlock ||
-    !playerVideo.sponsorBlockSegments ||
-    !playerState.audioDuration
-  ) {
+  // Memoized per-component-instance (unlike the module-level memoize-one
+  // cache this replaced, which was shared — and could thrash — across
+  // every mounted SponsorBlockBar).
+  const segments = useMemo(() => {
+    if (!playerVideo.sponsorBlockSegments || !playerTime.audioDuration) {
+      return null;
+    }
+
+    return rangeSponsorBlockSegments(
+      playerVideo.sponsorBlockSegments,
+      playerTime.audioDuration,
+    );
+  }, [playerVideo.sponsorBlockSegments, playerTime.audioDuration]);
+
+  if (!settings.sponsorBlock || !segments) {
     return null;
   }
-
-  const segments = memoizedRangeSponsorBlockSegments(
-    playerVideo.sponsorBlockSegments,
-    playerState.audioDuration as number,
-  );
 
   return (
     <Flex className={classes.container}>
@@ -55,7 +66,7 @@ const getPercent = (from: number, to: number) => Math.round((100 * from) / to);
 const rangeSponsorBlockSegments = (
   segments: SponsorBlockSegment[],
   videoDuration: number,
-): RangeSponsorBlockSegment[] =>
+): (RangeSponsorBlockSegment | SponsorBlockGap)[] =>
   segments
     .map((segment) => {
       const from = getPercent(
@@ -69,19 +80,21 @@ const rangeSponsorBlockSegments = (
         percent: to - from + "%",
       };
     })
-    .reduce((acc: any[], dec) => {
+    .reduce((acc: (RangeSponsorBlockSegment | SponsorBlockGap)[], dec) => {
       if (acc.length === 0) {
         return [dec];
       }
+      // Always a RangeSponsorBlockSegment: every iteration's spread ends
+      // with `dec`, so the last entry is never the gap filler pushed below.
+      const previous = acc.at(-1) as RangeSponsorBlockSegment;
       return [
         ...acc,
         {
           percent:
             getPercent(dec.startTime, videoDuration) -
-            getPercent(acc.at(-1).endTime, videoDuration) +
+            getPercent(previous.endTime, videoDuration) +
             "%",
         },
         dec,
       ];
     }, []);
-const memoizedRangeSponsorBlockSegments = memoizeOne(rangeSponsorBlockSegments);

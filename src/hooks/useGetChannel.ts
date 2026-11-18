@@ -1,9 +1,9 @@
-import { notifications } from "@mantine/notifications";
 import { useEffect, useState } from "react";
 
 import { queryClient } from "../queryClient";
 import { getChannel } from "../services/channel";
 import type { Channel } from "../types/interfaces/Channel";
+import { notifyError } from "../utils/notify";
 
 export const useGetChannel = (authorId: string) => {
   const [channel, setChannel] = useState<Channel | null>(null);
@@ -14,11 +14,7 @@ export const useGetChannel = (authorId: string) => {
         .fetchQuery(`channel-${authorId}`, () => getChannel(authorId))
         .then((playlist) => setChannel(playlist))
         .catch((error) => {
-          notifications.show({
-            title: "Error",
-            message: error.message,
-            color: "red",
-          });
+          notifyError({ title: "Error", message: error.message });
         });
     };
 

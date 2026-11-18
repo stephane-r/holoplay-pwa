@@ -12,7 +12,7 @@ jobs:
       # Setup Node.js and build the project from outside Docker container. HoloPlay is an client only app, so we don't need to build it for other platforms.
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 26
       - run: npm i
       - run: npm run build
       - name: Cache build folder

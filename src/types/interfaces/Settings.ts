@@ -23,4 +23,7 @@ export interface Settings {
   analytics: boolean;
   exportFileName: string | null;
   exportLastDate: string | null;
+  // Missing on rows created before this field existed — read it through
+  // `useSettings()`, which falls back to 1, rather than straight off a row.
+  volume: number;
 }

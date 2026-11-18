@@ -6,39 +6,22 @@ import {
   type SetStateAction,
   createContext,
   useContext,
-  useMemo,
   useRef,
   useState,
 } from "react";
+import type ReactAudioPlayer from "react-audio-player";
 
 import { useRemotePlay } from "../hooks/useRemotePlay";
-import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
-import type { Video } from "../types/interfaces/Video";
-import type { ColorInfo } from "../utils/colorExtractor";
+import { initialPlayerVideoState } from "../services/playback";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
+import { useSettings } from "./Settings";
 
-interface PlayerVideo {
-  video: Video | null;
-  sponsorBlockSegments: SponsorBlockSegment[] | null;
-  thumbnailUrl: string | null;
-  primaryColor: ColorInfo | null;
-}
-
-const initialPlayerVideoState = {
-  video: null,
-  sponsorBlockSegments: null,
-  thumbnailUrl: null,
-  primaryColor: null,
-};
-
+// Rarely-changing playback controls — paused/muted/repeat/volume/loading
+// only flip on user action or when a new video starts loading.
 interface PlayerState {
   paused: boolean;
   muted: boolean;
   repeat: boolean;
-  audioDuration: number | null;
-  duration: string | null;
-  currentTime: number | null;
-  formatedCurrentTime: string | null;
-  percentage: number | null;
   volume: number;
   loading: boolean;
 }
@@ -47,78 +30,65 @@ export const initialPlayerState: PlayerState = {
   paused: false,
   muted: false,
   repeat: false,
+  volume: 1,
+  loading: true,
+};
+
+// Continuously-updating transport time — rewritten ~10x/second while audio
+// plays (PlayerAudio.tsx's handleListen). Kept in its own context so that
+// components only caring about controls (paused, volume, repeat...) don't
+// re-render on every tick.
+interface PlayerTime {
+  audioDuration: number | null;
+  duration: string | null;
+  currentTime: number | null;
+  formatedCurrentTime: string | null;
+  percentage: number | null;
+}
+
+export const initialPlayerTime: PlayerTime = {
   audioDuration: null,
   duration: null,
   currentTime: null,
   formatedCurrentTime: null,
   percentage: null,
-  volume: 1,
-  loading: true,
 };
 
-const PlayerAudioContext = createContext<MutableRefObject<null> | null>(null);
-const PlayerUrlContext = createContext<string | null>(null);
-const SetPlayerUrlContext = createContext<
-  Dispatch<SetStateAction<string | null>>
->(() => {});
-const PlayerVideoContext = createContext<PlayerVideo>(initialPlayerVideoState);
-const SetPlayerVideoContext = createContext<
-  Dispatch<SetStateAction<PlayerVideo>>
->(() => {});
+const PlayerAudioContext = createContext<MutableRefObject<
+  ReactAudioPlayer | null
+> | null>(null);
 const PlayerStateContext = createContext<PlayerState>(initialPlayerState);
 const SetPlayerStateContext = createContext<
   Dispatch<SetStateAction<PlayerState>>
 >(() => {});
+const PlayerTimeContext = createContext<PlayerTime>(initialPlayerTime);
+const SetPlayerTimeContext = createContext<
+  Dispatch<SetStateAction<PlayerTime>>
+>(() => {});
 
 export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [video, setVideo] = useState<PlayerVideo>(initialPlayerVideoState);
-  const [url, setUrl] = useState<string | null>(null);
-  const [playerStatus, setPlayerStatus] =
-    useState<PlayerState>(initialPlayerState);
-  const playerAudioRef = useRef(null);
-
-  const videoState = useMemo(
-    () => ({
-      video,
-      setVideo,
-    }),
-    [video],
-  );
-
-  const urlState = useMemo(
-    () => ({
-      url,
-      setUrl,
-    }),
-    [url],
-  );
-
-  const playerState = useMemo(
-    () => ({
-      playerStatus,
-      setPlayerStatus,
-    }),
-    [playerStatus],
-  );
+  // Volume is persisted (see PlayerAudio.tsx's handleVolumeChanged) — read
+  // the saved value once here instead of always starting back at 100%.
+  const settings = useSettings();
+  const [playerStatus, setPlayerStatus] = useState<PlayerState>(() => ({
+    ...initialPlayerState,
+    volume: settings.volume,
+  }));
+  const [playerTime, setPlayerTime] = useState<PlayerTime>(initialPlayerTime);
+  const playerAudioRef = useRef<ReactAudioPlayer | null>(null);
 
   return (
     <PlayerAudioContext.Provider value={playerAudioRef}>
-      <PlayerUrlContext.Provider value={urlState.url}>
-        <SetPlayerUrlContext.Provider value={urlState.setUrl}>
-          <PlayerVideoContext.Provider value={videoState.video}>
-            <SetPlayerVideoContext.Provider value={videoState.setVideo}>
-              <PlayerStateContext.Provider value={playerState.playerStatus}>
-                <SetPlayerStateContext.Provider
-                  value={playerState.setPlayerStatus}
-                >
-                  {children}
-                  <RemotePlayHook />
-                </SetPlayerStateContext.Provider>
-              </PlayerStateContext.Provider>
-            </SetPlayerVideoContext.Provider>
-          </PlayerVideoContext.Provider>
-        </SetPlayerUrlContext.Provider>
-      </PlayerUrlContext.Provider>
+      <PlayerStateContext.Provider value={playerStatus}>
+        <SetPlayerStateContext.Provider value={setPlayerStatus}>
+          <PlayerTimeContext.Provider value={playerTime}>
+            <SetPlayerTimeContext.Provider value={setPlayerTime}>
+              {children}
+              <RemotePlayHook />
+            </SetPlayerTimeContext.Provider>
+          </PlayerTimeContext.Provider>
+        </SetPlayerStateContext.Provider>
+      </PlayerStateContext.Provider>
     </PlayerAudioContext.Provider>
   );
 };
@@ -128,10 +98,11 @@ const RemotePlayHook = () => {
   return null;
 };
 
-export const usePlayerUrl = () => useContext(PlayerUrlContext);
-export const useSetPlayerUrl = () => useContext(SetPlayerUrlContext);
-export const usePlayerVideo = () => useContext(PlayerVideoContext);
-export const useSetPlayerVideo = () => useContext(SetPlayerVideoContext);
+export const usePlayerUrl = () => usePlaybackService().url;
+export const usePlayerVideo = () =>
+  usePlaybackService().video ?? initialPlayerVideoState;
 export const usePlayerAudio = () => useContext(PlayerAudioContext);
 export const usePlayerState = () => useContext(PlayerStateContext);
 export const useSetPlayerState = () => useContext(SetPlayerStateContext);
+export const usePlayerTime = () => useContext(PlayerTimeContext);
+export const useSetPlayerTime = () => useContext(SetPlayerTimeContext);

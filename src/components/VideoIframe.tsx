@@ -1,27 +1,29 @@
 import { ActionIcon, Box, CloseButton, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronRight, IconInfoCircle } from "@tabler/icons-react";
-import { memo, useCallback, useRef } from "react";
-import "@videojs/react/video/skin.css";
 import { YouTubeVideo } from "@videojs/react/media/youtube-video";
 import { VideoPlayer, VideoSkin } from "@videojs/react/video";
+import "@videojs/react/video/skin.css";
 import type { YouTubeAdapter } from "@videojs/youtube-video";
+import { memo, useCallback, useMemo, useRef } from "react";
 
+import { useAudioElement } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
-  usePlayerAudio,
   usePlayerState,
+  usePlayerTime,
   usePlayerVideo,
 } from "../providers/Player";
 import { useSetPlayerMode } from "../providers/PlayerMode";
-import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 import classes from "./VideoIframe.module.css";
 
 export const VideoIframe = memo(() => {
   const { video } = usePlayerVideo();
   const playerState = usePlayerState();
+  const playerTime = usePlayerTime();
 
   if (!video) {
     return null;
@@ -35,7 +37,7 @@ export const VideoIframe = memo(() => {
       <Video
         loop={playerState.repeat}
         video={video}
-        startTime={playerState.currentTime as number}
+        startTime={playerTime.currentTime as number}
       />
     </Box>
   );
@@ -52,28 +54,46 @@ const Video = ({
   video: PlayingVideo;
   startTime: number;
 }) => {
-  const playerAudio = usePlayerAudio();
-  const { videosIds } = usePreviousNextVideos();
+  const audioElement = useAudioElement();
+  const { nextVideoId } = usePlaybackService();
   const { handlePlay: play } = usePlayVideo();
   const setPlayerMode = useSetPlayerMode();
   const mediaRef = useRef<YouTubeAdapter>(null);
 
+  // Imperatively syncing a native <audio> element's playback position is the
+  // standard way to control it — it's a DOM escape hatch, not React-tracked
+  // state.
+  // eslint-disable-next-line react-hooks/immutability
   const onSeeked = useCallback(() => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    if (audio && mediaRef.current) {
-      audio.currentTime = Math.round(mediaRef.current.currentTime);
+    if (audioElement && mediaRef.current) {
+      // eslint-disable-next-line react-hooks/immutability
+      audioElement.currentTime = Math.round(mediaRef.current.currentTime);
     }
-  }, [playerAudio]);
+  }, [audioElement]);
 
   const onEnded = useCallback(() => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    if (!audio.loop && videosIds.nextVideoId) {
+    if (!audioElement) return;
+    if (!audioElement.loop && nextVideoId) {
       setPlayerMode("audio");
-      play(videosIds.nextVideoId);
+      play(nextVideoId);
     }
-  }, [play, playerAudio, setPlayerMode, videosIds.nextVideoId]);
+  }, [play, audioElement, setPlayerMode, nextVideoId]);
+
+  // Captured once per video, not re-derived on every playback tick: `startTime`
+  // (sourced from the audio element's continuously-updating currentTime) is
+  // only meant to resume position when a video starts, not to be tracked live.
+  // Omitting it from the deps intentionally "freezes" whatever value was in
+  // scope the moment `video.videoId` last changed — recomputing this object on
+  // every tick was causing the YouTube embed to re-derive its source and
+  // reload roughly 10x/second during playback.
+  const source = useMemo(
+    () => ({
+      src: video.videoId,
+      engine: { youtube: { start: Math.floor(startTime) } },
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [video.videoId],
+  );
 
   return (
     <VideoPlayer>
@@ -82,10 +102,7 @@ const Video = ({
           mediaRef={mediaRef}
           autoplay
           loop={loop}
-          source={{
-            src: video.videoId,
-            engine: { youtube: { start: Math.floor(startTime) } },
-          }}
+          source={source}
           onSeeked={onSeeked}
           onEnded={onEnded}
         />
@@ -96,14 +113,11 @@ const Video = ({
 
 const ButtonClose = memo(() => {
   const setPlayerMode = useSetPlayerMode();
-  const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
 
   const handleClick = () => {
     setPlayerMode("audio");
-
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    audio.play();
+    audioElement?.play();
   };
 
   return (

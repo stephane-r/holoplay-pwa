@@ -11,6 +11,6 @@ export const VideoList: FC<VideoListProps> = memo(({ videos }) => {
   if (!videos) return null;
 
   return videos.map((video) => (
-    <Video key={`video-list-${video.videoId}`} video={video} />
+    <Video key={`video-list-${video.videoId}`} video={video} queue={videos} />
   ));
 });

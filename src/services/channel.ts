@@ -6,7 +6,7 @@ import type { Video } from "../types/interfaces/Video";
 import { getCurrentInstance } from "../utils/getCurrentInstance";
 
 export const getChannel = async (authorId: string): Promise<Channel> => {
-  const apiUrl = getCurrentInstance().uri;
+  const apiUrl = (await getCurrentInstance()).uri;
   const request = await fetch(`${apiUrl}/api/v1/channels/${authorId}`);
   return request.json();
 };
@@ -20,7 +20,7 @@ export const getChannelVideos = async (
   authorId: string,
   continuation: string | null = null,
 ): Promise<VideosData> => {
-  const apiUrl = getCurrentInstance().uri;
+  const apiUrl = (await getCurrentInstance()).uri;
   const params = continuation
     ? {
         continuation,
@@ -49,7 +49,7 @@ export const getChannelPlaylists = async (
   authorId: string,
   continuation: string | null = null,
 ): Promise<PlaylistsData> => {
-  const apiUrl = getCurrentInstance().uri;
+  const apiUrl = (await getCurrentInstance()).uri;
   const params = continuation
     ? {
         continuation,

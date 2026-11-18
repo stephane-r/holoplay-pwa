@@ -1,18 +1,24 @@
 import { expect, test } from "@playwright/test";
 
-import { navigateTo, selectedInstance } from "./utils";
+import { navigateTo, search, selectedInstance } from "./utils";
 
 test("save card in favorites", async ({ page }) => {
   await page.goto("localhost:3000");
-  await selectedInstance(page, "invidious.fdn.fr");
+  await selectedInstance(page);
 
-  // Go to Trending page
-  await page.getByRole("button", { name: "Trending" }).click();
-  await expect(page.getByRole("heading", { name: "Trending" })).toBeVisible();
-  await expect(page.getByRole("list", { name: "Trending" })).toBeVisible();
+  // Trending is currently dominated entirely by livestreams (whatever's
+  // hyped at the moment), which never count as a "video" below — a search
+  // result for a well-established query is a much more stable source of a
+  // plain, non-live video.
+  await page.getByRole("button", { name: "Search", exact: true }).click();
+  await search(page, "Eminem");
 
-  // Toggle favorite button
-  await page.getByRole("button", { name: "Add to favorite" }).first().click();
+  const card = page
+    .getByRole("list", { name: "Search result list Eminem" })
+    .getByRole("listitem")
+    .first();
+  await expect(card).toBeVisible();
+  await card.getByRole("button", { name: "Add to favorite" }).click();
   await expect(
     page.getByRole("button", { name: "Remove from favorite" }),
   ).toBeVisible();

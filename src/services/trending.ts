@@ -7,7 +7,7 @@ import { getCurrentInstance } from "../utils/getCurrentInstance";
 export const getTrendings = async (
   params: TrendingFilters,
 ): Promise<CardVideo[]> => {
-  const apiUrl = getCurrentInstance().uri;
+  const apiUrl = (await getCurrentInstance()).uri;
   const request = await fetch(
     `${apiUrl}/api/v1/trending?${qs.stringify(params)}`,
   );

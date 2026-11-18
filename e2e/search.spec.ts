@@ -11,7 +11,7 @@ test.describe.serial("search", () => {
   test("search an artist", async ({ page }) => {
     await page.goto("localhost:3000");
 
-    await selectedInstance(page, "invidious.fdn.fr");
+    await selectedInstance(page);
 
     await search(page, "Eminem");
     await search(page, "Dubstep");

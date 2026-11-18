@@ -1,15 +1,7 @@
-import {
-  type FC,
-  type PropsWithChildren,
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { type FC, type PropsWithChildren, createContext, useCallback, useContext } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
 
-import { db } from "../database";
-import { getVideosHistory } from "../database/utils";
+import { database } from "../services/database";
 import type { CardVideo } from "../types/interfaces/Card";
 import type { Video } from "../types/interfaces/Video";
 import { formatedCardVideo } from "../utils/formatData";
@@ -18,25 +10,15 @@ const HistoryContext = createContext<CardVideo[]>([]);
 const SetHistoryContext = createContext<(video: Video) => void>(() => {});
 
 export const HistoryProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [history, setHistory] = useState<CardVideo[]>(getVideosHistory());
+  const history = useLiveQuery(() => database.getVideosHistory(), []) ?? [];
 
   const handleSetHistory = useCallback((video: Video) => {
-    db.insert("history", formatedCardVideo(video));
-    db.commit();
-    setHistory(getVideosHistory());
+    database.addToHistory(formatedCardVideo(video));
   }, []);
 
-  const value = useMemo(
-    () => ({
-      history,
-      setHistory: handleSetHistory,
-    }),
-    [history, handleSetHistory],
-  );
-
   return (
-    <HistoryContext.Provider value={value.history}>
-      <SetHistoryContext.Provider value={value.setHistory}>
+    <HistoryContext.Provider value={history}>
+      <SetHistoryContext.Provider value={handleSetHistory}>
         {children}
       </SetHistoryContext.Provider>
     </HistoryContext.Provider>

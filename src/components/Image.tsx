@@ -17,6 +17,7 @@ export const Image: FC<ImgHTMLAttributes<HTMLImageElement>> = memo(
           className={className}
         />
         <img
+          {...props}
           src={src}
           alt={alt}
           className={className}

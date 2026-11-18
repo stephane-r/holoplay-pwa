@@ -11,14 +11,15 @@ import {
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
 import { type FC, memo } from "react";
+import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { getPlaylists } from "../database/utils";
+import { database } from "../services/database";
 import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
 import { useStableNavigate } from "../providers/Navigate";
-import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
+import { usePlaylists } from "../providers/Playlist";
 import type { CardPlaylist, CardVideo } from "../types/interfaces/Card";
 import { getThumbnailQuality } from "../utils/formatData";
+import { getPlaylistIdentity } from "../utils/playlistIdentity";
 import { ButtonFavorite } from "./ButtonFavorite";
 import classes from "./PlaylistCard.module.css";
 import { PlaylistCardMenu } from "./PlaylistCardMenu";
@@ -31,13 +32,14 @@ interface PlaylistCardProps {
 export const PlaylistCard: FC<PlaylistCardProps> = memo(
   ({ playlist, currentInstanceUri }) => {
     const navigate = useStableNavigate();
+    const identity = getPlaylistIdentity(playlist);
 
     const goToPlaylist = () => {
-      navigate(`/playlists/${playlist.playlistId ?? playlist.ID}`);
+      navigate(`/playlists/${identity?.id}`);
     };
 
-    const isRemotePlaylist = Boolean(playlist.playlistId);
-    const isLocalPlaylist = Boolean(playlist.ID);
+    const isRemotePlaylist = identity?.origin === "remote";
+    const isLocalPlaylist = identity?.origin === "local";
     const hasVideos = Boolean(playlist.videos.length);
 
     return (
@@ -56,7 +58,7 @@ export const PlaylistCard: FC<PlaylistCardProps> = memo(
               videoCount={playlist.videoCount}
             />
           ) : null}
-          {playlist.ID ? <PlaylistCardMenu playlist={playlist} /> : null}
+          {isLocalPlaylist ? <PlaylistCardMenu playlist={playlist} /> : null}
         </Flex>
         <Title
           order={3}
@@ -93,12 +95,8 @@ export const PlaylistCard: FC<PlaylistCardProps> = memo(
             <strong>{playlist.videoCount} videos</strong>
           </Text>
           <Flex ml="auto" gap="xs">
-            {playlist.videos.length ? (
-              <ButtonPlay
-                playlistId={
-                  (playlist.ID as number) ?? (playlist.playlistId as string)
-                }
-              />
+            {playlist.videos.length && identity ? (
+              <ButtonPlay playlistId={identity.id} />
             ) : null}
             {!isLocalPlaylist ? (
               <ButtonSaveToPlaylist playlist={playlist} />
@@ -119,6 +117,7 @@ interface VideosThumbnailProps {
 
 const VideosThumbnail: FC<VideosThumbnailProps> = memo(
   ({ domain, videos, videoCount }) => {
+    const { t } = useTranslation();
     const displayVideos = videos.slice(-4);
     const restOfVideosCount = videoCount - displayVideos.length;
 
@@ -145,7 +144,9 @@ const VideosThumbnail: FC<VideosThumbnailProps> = memo(
         {restOfVideosCount > 0 ? (
           <Box className={classes.more}>
             <Tooltip
-              label={`${restOfVideosCount} more videos`}
+              label={t("playlist.card.more_videos", {
+                count: restOfVideosCount,
+              })}
               position="right"
             >
               <Text size="xs">
@@ -165,51 +166,51 @@ interface ButtonSaveToPlaylistProps {
 
 const ButtonSaveToPlaylist: FC<ButtonSaveToPlaylistProps> = memo(
   ({ playlist }) => {
-    const setPlaylists = useSetPlaylists();
+    const { t } = useTranslation();
     const playlists = usePlaylists();
 
     const isSavedPlaylist = playlists.find(
       (p) => p.playlistId === playlist.playlistId,
     );
 
-    const handleClick = () => {
+    const handleClick = async () => {
       if (isSavedPlaylist) {
-        deletePlaylist();
+        await deletePlaylist();
       } else {
-        savePlaylist();
+        await savePlaylist();
       }
-      db.commit();
-      setPlaylists(getPlaylists());
     };
 
-    const savePlaylist = () => {
-      db.insert("playlists", playlist);
+    const savePlaylist = async () => {
+      await database.saveRemotePlaylist(playlist);
       notifications.show({
-        title: "Playlist saved",
-        message: `${playlist.title} has been added to your playlists list`,
+        title: t("playlist.card.save.notification.title"),
+        message: t("playlist.card.save.notification.message", {
+          title: playlist.title,
+        }),
       });
     };
 
-    const deletePlaylist = () => {
-      db.deleteRows("playlists", {
-        playlistId: playlist.playlistId,
-      });
+    const deletePlaylist = async () => {
+      await database.deleteRemotePlaylist(playlist.playlistId as string);
       notifications.show({
-        title: "Playlist deleted",
-        message: `${playlist.title} has been deleted from your playlists list`,
+        title: t("playlist.card.delete.notification.title"),
+        message: t("playlist.card.delete.notification.message", {
+          title: playlist.title,
+        }),
       });
     };
+
+    const label = t(
+      isSavedPlaylist
+        ? "playlist.card.button.delete"
+        : "playlist.card.button.save",
+    );
 
     return (
-      <Tooltip
-        label={isSavedPlaylist ? "Delete from playlists" : "Save to playlists"}
-        position="left"
-        onClick={handleClick}
-      >
+      <Tooltip label={label} position="left" onClick={handleClick}>
         <ActionIcon
-          aria-label={
-            isSavedPlaylist ? "Delete from playlists" : "Save to playlists"
-          }
+          aria-label={label}
           variant={isSavedPlaylist ? "default" : "filled"}
           radius="md"
         >

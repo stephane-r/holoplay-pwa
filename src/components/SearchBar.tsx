@@ -5,8 +5,7 @@ import { IconSearch } from "@tabler/icons-react";
 import { memo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { getSearchHistory } from "../database/utils";
+import { database } from "../services/database";
 import { useSearchValues, useSetSearchValues } from "../providers/Search";
 import { Form } from "./Form";
 import classes from "./SearchBar.module.css";
@@ -37,21 +36,7 @@ export const SearchBar = memo(() => {
       ...searchValues,
       q: values.q,
     });
-    saveToSearchHistory(values.q);
-  };
-
-  const saveToSearchHistory = (term: string) => {
-    const searchHistory = getSearchHistory();
-
-    if (searchHistory[0]?.term === term) {
-      return;
-    }
-
-    db.insert("searchHistory", {
-      term,
-      createdAt: new Date().toISOString(),
-    });
-    db.commit();
+    database.addSearchTerm(values.q);
   };
 
   const handleSelect = (value: string) => {

@@ -51,7 +51,9 @@ export const formatedCardPlaylist = (
     title: playlist.title,
     type: playlist.type ?? "playlist",
     videoCount: playlist.videoCount,
-    // @ts-ignore
+    // @ts-expect-error -- Playlist.videos is typed as Card[] | Video[] to
+    // also cover the Favorites pseudo-playlist (which can hold mixed
+    // card types), but a real playlist's videos are always video-like.
     videos: playlist.videos.map(formatedCardVideo),
   };
 };

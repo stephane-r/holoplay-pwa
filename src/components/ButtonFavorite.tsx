@@ -9,61 +9,23 @@ import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { getFavoritePlaylist } from "../database/utils";
-import { useFavorite, useSetFavorite } from "../providers/Favorite";
+import { database } from "../services/database";
+import { useFavorite, useIsFavorite } from "../providers/Favorite";
 import { usePlayerVideo } from "../providers/Player";
-import type {
-  Card,
-  CardChannel,
-  CardPlaylist,
-  CardVideo,
-} from "../types/interfaces/Card";
-import type { Channel } from "../types/interfaces/Channel";
-import type {
-  FavoritePlaylist as Favorite,
-  Playlist,
-} from "../types/interfaces/Playlist";
-import type { Video } from "../types/interfaces/Video";
+import type { Card } from "../types/interfaces/Card";
+import { getCardId, getCardTitle } from "../utils/card";
 import {
   formatedCardChannel,
   formatedCardPlaylist,
   formatedCardVideo,
 } from "../utils/formatData";
 
-type ButtonFavoriteCard = Card | Video | Playlist | Channel;
-type FavoriteChannel = CardChannel | Channel;
-type FavoritePlaylist = CardPlaylist | Playlist;
-type FavoriteVideo = CardVideo | Video;
-
 interface ButtonFavoriteProps extends ActionIconProps {
-  card?: ButtonFavoriteCard;
+  card?: Card;
   iconSize?: number;
   buttonSize?: number;
   render?: "menu";
 }
-
-export const getCardId = (item: ButtonFavoriteCard) => {
-  if ((item as FavoritePlaylist)?.playlistId) {
-    return (item as FavoritePlaylist).playlistId;
-  }
-  if (
-    (item as FavoriteChannel)?.authorId &&
-    (item as FavoriteChannel).type === "channel"
-  ) {
-    return (item as FavoriteChannel).authorId;
-  }
-  return (item as FavoriteVideo)?.videoId;
-};
-
-export const getCardTitle = (item: ButtonFavoriteCard) => {
-  switch (item.type) {
-    case "channel":
-      return item.author;
-    default:
-      return item.title;
-  }
-};
 
 export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
   ({
@@ -74,47 +36,30 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
     render = null,
   }) => {
     const favorite = useFavorite();
-    const setFavorite = useSetFavorite();
     const { video: currentVideo } = usePlayerVideo();
     const { t } = useTranslation();
     const theme = useMantineTheme();
 
-    const card = parentCard ?? (currentVideo as Video);
+    const card = parentCard ?? (currentVideo && formatedCardVideo(currentVideo));
+    const isFavorite = useIsFavorite(card);
 
     if (!card) {
       return null;
     }
 
-    const isFavorite = favorite.cards.find(
-      (favCard) => getCardId(favCard) === getCardId(card),
-    );
-
-    const updateAndCommit = (updatedFavoritePlaylist: Favorite) => {
-      db.update(
-        "playlists",
-        { title: "Favorites" },
-        () => updatedFavoritePlaylist,
-      );
-      db.commit();
-      setFavorite(getFavoritePlaylist());
-    };
-
-    const handleAdd = () => {
+    const handleAdd = async () => {
       const formatedCard = (() => {
         switch (card.type) {
           case "channel":
-            return formatedCardChannel(card as FavoriteChannel);
+            return formatedCardChannel(card);
           case "playlist":
-            return formatedCardPlaylist(card as FavoritePlaylist);
+            return formatedCardPlaylist(card);
           default:
             return formatedCardVideo(card);
         }
       })();
 
-      updateAndCommit({
-        ...favorite,
-        cards: [formatedCard, ...favorite.cards],
-      });
+      await database.setFavoriteCards([formatedCard, ...favorite.cards]);
 
       notifications.show({
         title: getCardTitle(card),
@@ -122,13 +67,12 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
       });
     };
 
-    const handleDelete = () => {
-      updateAndCommit({
-        ...favorite,
-        cards: favorite.cards.filter(
+    const handleDelete = async () => {
+      await database.setFavoriteCards(
+        favorite.cards.filter(
           (favCard) => getCardId(favCard) !== getCardId(card),
         ),
-      });
+      );
 
       notifications.show({
         title: getCardTitle(card),
@@ -153,7 +97,7 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
             <Icon style={isFavorite ? { color: theme.colors.pink[8] } : {}} />
           }
         >
-          Favorite
+          {t(isFavorite ? "button.favorite.remove" : "button.favorite.add")}
         </Menu.Item>
       );
     }

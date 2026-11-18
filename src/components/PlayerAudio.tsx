@@ -1,41 +1,57 @@
 import { Box } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useTranslation } from "react-i18next";
 
+import { useAudioElement } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
+  initialPlayerState,
+  initialPlayerTime,
   usePlayerAudio,
   usePlayerState,
   usePlayerUrl,
   useSetPlayerState,
+  useSetPlayerTime,
 } from "../providers/Player";
 import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
-import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
+import { database } from "../services/database";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 
 export const PlayerAudio = memo(() => {
   const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
   const playerUrl = usePlayerUrl();
   const setPlayerState = useSetPlayerState();
+  const setPlayerTime = useSetPlayerTime();
   const { handlePlay: play } = usePlayVideo();
-  const { videosIds } = usePreviousNextVideos();
+  const { nextVideoId } = usePlaybackService();
   const playerMode = usePlayerMode();
   const playerState = usePlayerState();
   const setPlayerMode = useSetPlayerMode();
   const { t } = useTranslation();
 
+  useEffect(() => {
+    setPlayerState((previousState) => ({
+      ...initialPlayerState,
+      repeat: previousState.repeat,
+      volume: previousState.volume,
+    }));
+    setPlayerTime(initialPlayerTime);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playerUrl]);
+
   const handlePressSpace = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+    if (!audioElement) return;
 
     if (playerState.paused) {
-      audio.play();
+      audioElement.play();
       handlePlay();
     } else {
-      audio.pause();
+      audioElement.pause();
       handlePause();
     }
   };
@@ -57,31 +73,33 @@ export const PlayerAudio = memo(() => {
   };
 
   const handleEnd = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    if (!audio.loop && videosIds.nextVideoId) {
-      play(videosIds.nextVideoId);
+    if (!audioElement) return;
+    if (!audioElement.loop && nextVideoId) {
+      play(nextVideoId);
     }
   };
 
   const handleListen = (currentTime: number) => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    setPlayerState((previousState) => ({
-      ...previousState,
-      audioDuration: Math.round(audio.duration),
-      duration: displayTimeBySeconds(audio.duration),
+    if (!audioElement) return;
+    setPlayerTime({
+      audioDuration: Math.round(audioElement.duration),
+      duration: displayTimeBySeconds(audioElement.duration),
       currentTime: Math.round(currentTime),
-      formatedCurrentTime: displayTimeBySeconds(currentTime, audio.duration),
-      percentage: (100 * currentTime) / Number(audio.duration.toFixed(2)),
-    }));
+      formatedCurrentTime: displayTimeBySeconds(
+        currentTime,
+        audioElement.duration,
+      ),
+      percentage: (100 * currentTime) / Number(audioElement.duration.toFixed(2)),
+    });
   };
 
   const handleVolumeChanged = (event: Event) => {
+    const volume = (event.target as HTMLAudioElement).volume;
     setPlayerState((previousState) => ({
       ...previousState,
-      volume: (event.target as HTMLAudioElement).volume,
+      volume,
     }));
+    database.updateSettings({ volume });
   };
 
   const handleCanPlay = () => {

@@ -4,6 +4,7 @@ import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { CardPlaylist } from "../types/interfaces/Card";
+import { isLocalPlaylist } from "../utils/playlistIdentity";
 import { ModalDeletePlaylist } from "./ModalDeletePlaylist";
 import { ModalUpdatePlaylist } from "./ModalUpdatePlaylist";
 
@@ -39,7 +40,7 @@ export const PlaylistCardMenu: FC<PlaylistCardMenuProps> = memo(
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Label>{t("playlist.nemu.title")}</Menu.Label>
-            {!playlist.playlistId ? (
+            {isLocalPlaylist(playlist) ? (
               <Menu.Item
                 leftSection={<IconEdit size={14} />}
                 onClick={() => setModalUpdateOpened(true)}

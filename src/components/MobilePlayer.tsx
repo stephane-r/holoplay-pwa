@@ -15,8 +15,8 @@ import { IconChevronUp } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { usePlayerState, usePlayerVideo } from "../providers/Player";
-import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
+import { usePlayerTime, usePlayerVideo } from "../providers/Player";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { DrawerPlayerVideo } from "./DrawerPlayer";
 import classes from "./MobilePlayer.module.css";
 import { PlayerActions } from "./PlayerActions";
@@ -39,7 +39,7 @@ export const MobilePlayer = memo(() => {
 
 const ButtonOpenDrawer = memo(() => {
   const [isOpen, setOpen] = useState(false);
-  const videos = usePlayerPlaylist();
+  const { queue: videos } = usePlaybackService();
   const { t } = useTranslation();
   const { height } = useViewportSize();
 
@@ -90,12 +90,12 @@ const VideoInformations = memo(() => {
 });
 
 const PlayerProgress = memo(() => {
-  const playerState = usePlayerState();
+  const playerTime = usePlayerTime();
 
   return (
     <Slider
       label={null}
-      value={playerState.percentage as number}
+      value={playerTime.percentage as number}
       mt="0"
       mb="0"
       size="xs"

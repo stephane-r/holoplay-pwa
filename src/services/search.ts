@@ -12,8 +12,8 @@ export const search = async ({
   sortBy: sort_by,
   ...params
 }: SearchParams): Promise<Card[]> => {
-  const instance = getCurrentInstance();
-  let uri = null;
+  const instance = await getCurrentInstance();
+  let uri: string;
 
   switch (params.service) {
     case "invidious":

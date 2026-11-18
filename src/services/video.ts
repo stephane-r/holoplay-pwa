@@ -1,10 +1,11 @@
-import { getSettings } from "../database/utils";
+import { database } from "./database";
 import type { AdaptiveFormat, Video } from "../types/interfaces/Video";
 
 export const getVideo = async (
   videoId: string,
 ): Promise<{ video: Video; url: string }> => {
-  const { currentInstance } = getSettings();
+  const settings = await database.getSettings();
+  const currentInstance = settings?.currentInstance;
   const request = await fetch(
     `${currentInstance?.uri}/api/v1/videos/${videoId}`,
   );

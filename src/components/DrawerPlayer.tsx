@@ -16,9 +16,9 @@ import { useTranslation } from "react-i18next";
 
 import { useStableNavigate } from "../providers/Navigate";
 import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
-import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
-import type { CardVideo } from "../types/interfaces/Card";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import type { Video, VideoThumbnail } from "../types/interfaces/Video";
+import { formatedCardVideo } from "../utils/formatData";
 import { ButtonDevicesAvailable } from "./ButtonDevicesAvailable";
 import { ButtonDownload } from "./ButtonDownload";
 import { ButtonFavorite } from "./ButtonFavorite";
@@ -35,7 +35,7 @@ import { VideoList } from "./VideoList";
 
 export const DrawerPlayer = memo(() => {
   const playerUrl = usePlayerUrl();
-  const playerPlaylist = usePlayerPlaylist();
+  const { queue: playerPlaylist } = usePlaybackService();
   const { t } = useTranslation();
 
   const cardStyles = {
@@ -94,7 +94,10 @@ export const DrawerPlayerVideo = memo(() => {
         <Flex align="center" gap="xl">
           <ButtonRepeat iconSize={16} />
           <PlayerActions />
-          <ButtonFavorite card={video as CardVideo} variant="transparent" />
+          <ButtonFavorite
+            card={formatedCardVideo(video)}
+            variant="transparent"
+          />
         </Flex>
       </Flex>
     </>
