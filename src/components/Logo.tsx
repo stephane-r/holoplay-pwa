@@ -4,20 +4,22 @@ import { memo } from "react";
 import { useAppColorScheme } from "../hooks/useAppColorScheme";
 import { useStableNavigate } from "../providers/Navigate";
 
+const LOGO_MAP = {
+  dark: "logo-holoplay-white.png",
+  light: "logo-holoplay-blue.png"
+}
+
 export const Logo = memo(() => {
   const colorScheme = useAppColorScheme();
   const navigate = useStableNavigate();
 
-  const isDarkMode = colorScheme === "dark";
-  const imageSrc = isDarkMode
-    ? "/logo-holoplay-white.png"
-    : "/logo-holoplay-blue.png";
+  const imageSrc = `${import.meta.env.BASE_URL}${LOGO_MAP[colorScheme]}`;
 
   return (
     <UnstyledButton
       component="a"
       onClick={() => navigate("/")}
-      style={{ marginTop: 8 }}
+      mt={8}
     >
       <img src={imageSrc} width={40} alt="Logo HoloPlay" />
     </UnstyledButton>
