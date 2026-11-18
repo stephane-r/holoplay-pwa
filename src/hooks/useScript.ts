@@ -49,7 +49,10 @@ export const useScript = (
 
     const cachedScriptStatus = cachedScriptStatuses[src];
     if (cachedScriptStatus === "ready" || cachedScriptStatus === "error") {
-      // If the script is already cached, set its status immediately
+      // If the script is already cached, set its status immediately —
+      // reading a module-level cache, not the cascading-render pattern
+      // this rule is meant to catch.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStatus(cachedScriptStatus);
       return;
     }

@@ -11,6 +11,13 @@ interface RangeSponsorBlockSegment extends SponsorBlockSegment {
   percent: string;
 }
 
+// A plain gap filler inserted between two segments below — not a real
+// segment, so it has no UUID of its own (`segment.UUID` renders as falsy).
+interface SponsorBlockGap {
+  percent: string;
+  UUID?: undefined;
+}
+
 export const SponsorBlockBar = memo(() => {
   const settings = useSettings();
   const playerVideo = usePlayerVideo();
@@ -55,7 +62,7 @@ const getPercent = (from: number, to: number) => Math.round((100 * from) / to);
 const rangeSponsorBlockSegments = (
   segments: SponsorBlockSegment[],
   videoDuration: number,
-): RangeSponsorBlockSegment[] =>
+): (RangeSponsorBlockSegment | SponsorBlockGap)[] =>
   segments
     .map((segment) => {
       const from = getPercent(
@@ -69,16 +76,19 @@ const rangeSponsorBlockSegments = (
         percent: to - from + "%",
       };
     })
-    .reduce((acc: any[], dec) => {
+    .reduce((acc: (RangeSponsorBlockSegment | SponsorBlockGap)[], dec) => {
       if (acc.length === 0) {
         return [dec];
       }
+      // Always a RangeSponsorBlockSegment: every iteration's spread ends
+      // with `dec`, so the last entry is never the gap filler pushed below.
+      const previous = acc.at(-1) as RangeSponsorBlockSegment;
       return [
         ...acc,
         {
           percent:
             getPercent(dec.startTime, videoDuration) -
-            getPercent(acc.at(-1).endTime, videoDuration) +
+            getPercent(previous.endTime, videoDuration) +
             "%",
         },
         dec,

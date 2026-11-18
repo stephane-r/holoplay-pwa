@@ -7,7 +7,6 @@ interface Data {
 
 export const getSponsorBlockSegments = async (
   videoId: string,
-  categories?: string[],
 ): Promise<Data> => {
   const settings = await database.getSettings();
   const deviceId = settings?.deviceId;

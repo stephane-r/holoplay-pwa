@@ -1,4 +1,3 @@
-// @ts-ignore
 import { UAParser } from "ua-parser-js";
 
 const uaParser = new UAParser();

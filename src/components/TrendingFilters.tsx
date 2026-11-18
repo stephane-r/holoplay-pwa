@@ -1,5 +1,5 @@
 import { Select } from "@mantine/core";
-// @ts-ignore
+// @ts-expect-error -- country-list ships no type declarations.
 import { getCode, getName } from "country-list";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";

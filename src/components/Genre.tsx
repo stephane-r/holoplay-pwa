@@ -45,7 +45,6 @@ const Genre = memo(
       <Box role="listitem">
         <UnstyledButton
           onClick={handleClick}
-          // @ts-ignore
           ref={ref}
           className={classes.item}
           style={{

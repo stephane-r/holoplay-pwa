@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { usePlaylists } from "../providers/Playlist";
 import { queryClient } from "../queryClient";
@@ -9,37 +9,29 @@ import { isLocalPlaylistId } from "../utils/playlistIdentity";
 
 export const useGetPlaylist = (playlistId: string | number) => {
   const playlists = usePlaylists();
-  const [playlist, setPlaylist] = useState<Playlist | null>(null);
-
-  const getLocalPlaylist = useCallback(
-    (id: number) => {
-      setPlaylist(playlists.find((p) => p.ID === id) as Playlist);
-    },
-    [playlists],
-  );
+  const isLocal = isLocalPlaylistId(playlistId);
+  // Derived directly from the already-loaded `playlists` list — no fetch
+  // involved, so no need to round-trip it through an effect + state.
+  const localPlaylist = isLocal
+    ? ((playlists.find((p) => p.ID === Number(playlistId)) as Playlist) ??
+      null)
+    : null;
+  const [remotePlaylist, setRemotePlaylist] = useState<Playlist | null>(null);
 
   const getRemotePlaylist = (id: string) => {
     queryClient
       .fetchQuery(`playlist-${id}`, () => getPlaylist(id))
-      .then((playlist) => setPlaylist(playlist))
+      .then((playlist) => setRemotePlaylist(playlist))
       .catch((error) => {
         notifyError({ title: "Error", message: error.message });
       });
   };
 
   useEffect(() => {
-    const isLocal = isLocalPlaylistId(playlistId);
-
-    if (playlist && !isLocal) {
-      return;
-    }
-
-    if (isLocal) {
-      getLocalPlaylist(Number(playlistId));
-    } else {
+    if (!isLocal && !remotePlaylist) {
       getRemotePlaylist(playlistId as string);
     }
-  }, [playlistId, playlist, getLocalPlaylist]);
+  }, [playlistId, isLocal, remotePlaylist]);
 
-  return { playlist, getLocalPlaylist, getRemotePlaylist };
+  return { playlist: localPlaylist ?? remotePlaylist, getRemotePlaylist };
 };

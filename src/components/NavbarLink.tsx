@@ -5,7 +5,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { memo } from "react";
+import { type ComponentType, memo } from "react";
 import { useLocation } from "react-router-dom";
 
 import { useStableNavigate } from "../providers/Navigate";
@@ -23,7 +23,7 @@ export type RoutePath =
   | "/settings";
 
 interface NavbarLinkProps {
-  icon: any;
+  icon: ComponentType<{ stroke?: number }>;
   label: string;
   active?: boolean;
   onClick?(): void;

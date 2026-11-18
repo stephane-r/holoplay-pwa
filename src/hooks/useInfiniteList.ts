@@ -35,13 +35,17 @@ export const useInfiniteList = <TItem, TCursor = number>({
   const [hasNextPage, setHasNextPage] = useState(true);
   const [fetchTrigger, setFetchTrigger] = useState(enabled);
 
-  useEffect(() => {
+  // Reset when `resetKey` changes by adjusting state directly during render
+  // (React's documented pattern for this) rather than in an effect — it
+  // takes effect before the browser paints, with no extra render round-trip.
+  const [previousResetKey, setPreviousResetKey] = useState(resetKey);
+  if (resetKey !== previousResetKey) {
+    setPreviousResetKey(resetKey);
     setItems([]);
     setCursor(null);
     setHasNextPage(true);
     setFetchTrigger(enabled);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resetKey]);
+  }
 
   const { isFetching } = useQuery(
     [queryKey, cursor],
@@ -59,6 +63,11 @@ export const useInfiniteList = <TItem, TCursor = number>({
 
   useEffect(() => {
     if (inView && hasNextPage) {
+      // Edge-triggered on the sentinel entering view, not a continuous
+      // sync — `fetchTrigger` latches back to false in onSuccess above,
+      // so this only fires once per scroll-into-view, not every render
+      // while the sentinel stays in view.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFetchTrigger(true);
     }
   }, [inView, hasNextPage]);

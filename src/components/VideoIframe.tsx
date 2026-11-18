@@ -60,8 +60,13 @@ const Video = ({
   const setPlayerMode = useSetPlayerMode();
   const mediaRef = useRef<YouTubeAdapter>(null);
 
+  // Imperatively syncing a native <audio> element's playback position is the
+  // standard way to control it — it's a DOM escape hatch, not React-tracked
+  // state.
+  // eslint-disable-next-line react-hooks/immutability
   const onSeeked = useCallback(() => {
     if (audioElement && mediaRef.current) {
+      // eslint-disable-next-line react-hooks/immutability
       audioElement.currentTime = Math.round(mediaRef.current.currentTime);
     }
   }, [audioElement]);

@@ -13,7 +13,7 @@ export const search = async ({
   ...params
 }: SearchParams): Promise<Card[]> => {
   const instance = await getCurrentInstance();
-  let uri = null;
+  let uri: string;
 
   switch (params.service) {
     case "invidious":

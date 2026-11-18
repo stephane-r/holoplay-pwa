@@ -29,6 +29,10 @@ export const useSponsorBlock = () => {
   const handleSeek = useCallback(
     (currentTime: number) => {
       if (!audioElement) return;
+      // Imperatively syncing a native <audio> element's playback position is
+      // the standard way to control it — it's a DOM escape hatch, not
+      // React-tracked state.
+      // eslint-disable-next-line react-hooks/immutability
       audioElement.currentTime = currentTime;
     },
     [audioElement],

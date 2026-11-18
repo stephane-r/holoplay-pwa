@@ -6,6 +6,7 @@ import { CardList } from "../components/CardList";
 import { ModalCreatePlaylist } from "../components/ModalCreatePlaylist";
 import { PageHeader } from "../components/PageHeader";
 import { usePlaylists } from "../providers/Playlist";
+import { formatedCardPlaylist } from "../utils/formatData";
 
 export const PlaylistsPage = memo(() => {
   const { t } = useTranslation();
@@ -40,5 +41,10 @@ const PlaylistListContainer = memo(() => {
     );
   }
 
-  return <CardList label="Playlists list" data={playlists as any} />;
+  return (
+    <CardList
+      label="Playlists list"
+      data={playlists.map(formatedCardPlaylist)}
+    />
+  );
 });

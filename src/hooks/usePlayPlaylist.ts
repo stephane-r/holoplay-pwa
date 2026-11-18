@@ -24,7 +24,7 @@ export const usePlayPlaylist = () => {
       const [firstVideo] = data.videos as Video[];
 
       play(firstVideo.videoId, data.videos as Video[]);
-    } catch (error) {
+    } catch {
       notifyError({
         title: "Error",
         message: "An error occurred while trying to play the playlist",

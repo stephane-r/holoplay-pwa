@@ -12,6 +12,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import { database } from "../services/database";
 import {
+  type InvidiousInstanceEntry,
   fetchInvidiousInstances,
   filterAndParseInstances,
 } from "../services/instances";
@@ -26,10 +27,10 @@ export const SettingsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [instances, setInstances] = useState<Instance[]>([]);
 
   const handleSuccess = useCallback(
-    (data: any) => {
+    (data: InvidiousInstanceEntry[]) => {
       if (!row || instances.length > 0) return;
 
-      const parsedInstances = filterAndParseInstances(data as any);
+      const parsedInstances = filterAndParseInstances(data);
 
       const currentInstance = (() => {
         if (row.defaultInstance) {
