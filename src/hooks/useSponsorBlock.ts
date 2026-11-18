@@ -10,12 +10,17 @@ import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 const inRange = (num: number, min: number, max: number) =>
   num >= min && num <= max;
 
-const getNextSegment = (
+// Finds the segment `currentTime` currently falls inside, regardless of how
+// it got there — matches both continuous forward playback ticking into a
+// segment and the user dragging the seek bar directly into the middle of
+// one (which a previous version, matching only an "upcoming" segment by
+// startTime, missed).
+const getCurrentSegment = (
   currentTime: number,
   segments: SponsorBlockSegment[],
 ) => {
-  return segments.find(
-    (segment) => Math.round(segment.startTime) >= currentTime - 1,
+  return segments.find((segment) =>
+    inRange(currentTime, segment.startTime, segment.endTime),
   );
 };
 
@@ -34,22 +39,17 @@ export const useSponsorBlock = () => {
   );
 
   useEffect(() => {
-    if (playerVideo.sponsorBlockSegments && playerTime.currentTime) {
-      const nextSegment = getNextSegment(
-        playerTime.currentTime,
-        playerVideo.sponsorBlockSegments,
-      );
+    if (!playerVideo.sponsorBlockSegments || !playerTime.currentTime) {
+      return;
+    }
 
-      if (
-        nextSegment &&
-        inRange(
-          playerTime.currentTime,
-          nextSegment.startTime,
-          nextSegment.endTime,
-        )
-      ) {
-        handleSeek(nextSegment.endTime);
-      }
+    const segment = getCurrentSegment(
+      playerTime.currentTime,
+      playerVideo.sponsorBlockSegments,
+    );
+
+    if (segment) {
+      handleSeek(segment.endTime);
     }
   }, [
     playerVideo,
