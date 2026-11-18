@@ -14,6 +14,7 @@ import type ReactAudioPlayer from "react-audio-player";
 import { useRemotePlay } from "../hooks/useRemotePlay";
 import { initialPlayerVideoState } from "../services/playback";
 import { usePlaybackService } from "../services/playback/usePlaybackService";
+import { useSettings } from "./Settings";
 
 // Rarely-changing playback controls — paused/muted/repeat/volume/loading
 // only flip on user action or when a new video starts loading.
@@ -66,8 +67,13 @@ const SetPlayerTimeContext = createContext<
 >(() => {});
 
 export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [playerStatus, setPlayerStatus] =
-    useState<PlayerState>(initialPlayerState);
+  // Volume is persisted (see PlayerAudio.tsx's handleVolumeChanged) — read
+  // the saved value once here instead of always starting back at 100%.
+  const settings = useSettings();
+  const [playerStatus, setPlayerStatus] = useState<PlayerState>(() => ({
+    ...initialPlayerState,
+    volume: settings.volume,
+  }));
   const [playerTime, setPlayerTime] = useState<PlayerTime>(initialPlayerTime);
   const playerAudioRef = useRef<ReactAudioPlayer | null>(null);
 

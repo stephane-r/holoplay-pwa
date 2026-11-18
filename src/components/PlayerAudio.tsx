@@ -17,6 +17,7 @@ import {
   useSetPlayerTime,
 } from "../providers/Player";
 import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
+import { database } from "../services/database";
 import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 
@@ -93,10 +94,12 @@ export const PlayerAudio = memo(() => {
   };
 
   const handleVolumeChanged = (event: Event) => {
+    const volume = (event.target as HTMLAudioElement).volume;
     setPlayerState((previousState) => ({
       ...previousState,
-      volume: (event.target as HTMLAudioElement).volume,
+      volume,
     }));
+    database.updateSettings({ volume });
   };
 
   const handleCanPlay = () => {

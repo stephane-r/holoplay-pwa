@@ -85,6 +85,7 @@ export const SettingsProvider: FC<PropsWithChildren> = ({ children }) => {
             ...row,
             exportFileName,
             instances,
+            volume: row.volume ?? 1,
           } as Settings)
         : null,
     [row, exportFileName, instances],
