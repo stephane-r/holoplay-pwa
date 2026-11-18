@@ -47,58 +47,67 @@ const TrendingPage = lazy(() =>
   import("../pages/Trending").then((m) => ({ default: m.TrendingPage })),
 );
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />,
+      children: [
+        {
+          element: <DashboardPage />,
+          index: true,
+        },
+        {
+          path: "search",
+          element: <SearchPage />,
+        },
+        {
+          path: "trending",
+          element: <TrendingPage />,
+        },
+        {
+          path: "most-popular",
+          element: <PopularPage />,
+        },
+        {
+          path: "favorites",
+          element: <FavoritesPage />,
+        },
+        {
+          path: "playlists",
+          element: <PlaylistsPage />,
+        },
+        {
+          path: "settings",
+          element: <SettingsPage />,
+        },
+        {
+          path: "about",
+          element: <AboutPage />,
+        },
+        {
+          path: "history",
+          element: <HistoryPage />,
+        },
+        {
+          path: "playlists/:playlistId",
+          element: <PlaylistDetailPage />,
+        },
+        {
+          path: "channels/:authorId",
+          element: <ChannelDetailPage />,
+        },
+      ],
+    },
+  ],
   {
-    path: "/",
-    element: <App />,
-    children: [
-      {
-        element: <DashboardPage />,
-        index: true,
-      },
-      {
-        path: "search",
-        element: <SearchPage />,
-      },
-      {
-        path: "trending",
-        element: <TrendingPage />,
-      },
-      {
-        path: "most-popular",
-        element: <PopularPage />,
-      },
-      {
-        path: "favorites",
-        element: <FavoritesPage />,
-      },
-      {
-        path: "playlists",
-        element: <PlaylistsPage />,
-      },
-      {
-        path: "settings",
-        element: <SettingsPage />,
-      },
-      {
-        path: "about",
-        element: <AboutPage />,
-      },
-      {
-        path: "history",
-        element: <HistoryPage />,
-      },
-      {
-        path: "playlists/:playlistId",
-        element: <PlaylistDetailPage />,
-      },
-      {
-        path: "channels/:authorId",
-        element: <ChannelDetailPage />,
-      },
-    ],
+    // Matches Vite's `base` (root locally/Docker, "/holoplay-pwa/" on
+    // GitHub Pages) — without it, the router matches routes against the
+    // full pathname, which never starts with "/" alone under a subpath,
+    // and every route 404s.
+    basename: import.meta.env.BASE_URL,
   },
-]);
+);
 
 export const RouterProvider = () => {
   return <RRProvider router={router} />;
