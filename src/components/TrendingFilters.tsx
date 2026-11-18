@@ -22,7 +22,7 @@ export const TrendingFilters = memo(() => {
       <Select
         value={trendingFiltersValues.type}
         onChange={(value) =>
-          setTrendingFiltersValues({
+          setTrendingFiltersValues?.({
             ...trendingFiltersValues,
             type: value as TrendingFilterType,
           })
@@ -42,7 +42,7 @@ export const TrendingFilters = memo(() => {
             : null
         }
         onChange={(value) =>
-          setTrendingFiltersValues({
+          setTrendingFiltersValues?.({
             ...trendingFiltersValues,
             region: value as string,
           })

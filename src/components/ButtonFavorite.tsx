@@ -134,7 +134,7 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
             <Icon style={isFavorite ? { color: theme.colors.pink[8] } : {}} />
           }
         >
-          Favorite
+          {t(isFavorite ? "button.favorite.remove" : "button.favorite.add")}
         </Menu.Item>
       );
     }

@@ -11,6 +11,7 @@ import {
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
 import { type FC, memo } from "react";
+import { useTranslation } from "react-i18next";
 
 import { database } from "../services/database";
 import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
@@ -118,6 +119,7 @@ interface VideosThumbnailProps {
 
 const VideosThumbnail: FC<VideosThumbnailProps> = memo(
   ({ domain, videos, videoCount }) => {
+    const { t } = useTranslation();
     const displayVideos = videos.slice(-4);
     const restOfVideosCount = videoCount - displayVideos.length;
 
@@ -144,7 +146,9 @@ const VideosThumbnail: FC<VideosThumbnailProps> = memo(
         {restOfVideosCount > 0 ? (
           <Box className={classes.more}>
             <Tooltip
-              label={`${restOfVideosCount} more videos`}
+              label={t("playlist.card.more_videos", {
+                count: restOfVideosCount,
+              })}
               position="right"
             >
               <Text size="xs">
@@ -164,6 +168,7 @@ interface ButtonSaveToPlaylistProps {
 
 const ButtonSaveToPlaylist: FC<ButtonSaveToPlaylistProps> = memo(
   ({ playlist }) => {
+    const { t } = useTranslation();
     const playlists = usePlaylists();
 
     const isSavedPlaylist = playlists.find(
@@ -181,29 +186,33 @@ const ButtonSaveToPlaylist: FC<ButtonSaveToPlaylistProps> = memo(
     const savePlaylist = async () => {
       await database.saveRemotePlaylist(playlist);
       notifications.show({
-        title: "Playlist saved",
-        message: `${playlist.title} has been added to your playlists list`,
+        title: t("playlist.card.save.notification.title"),
+        message: t("playlist.card.save.notification.message", {
+          title: playlist.title,
+        }),
       });
     };
 
     const deletePlaylist = async () => {
       await database.deleteRemotePlaylist(playlist.playlistId as string);
       notifications.show({
-        title: "Playlist deleted",
-        message: `${playlist.title} has been deleted from your playlists list`,
+        title: t("playlist.card.delete.notification.title"),
+        message: t("playlist.card.delete.notification.message", {
+          title: playlist.title,
+        }),
       });
     };
 
+    const label = t(
+      isSavedPlaylist
+        ? "playlist.card.button.delete"
+        : "playlist.card.button.save",
+    );
+
     return (
-      <Tooltip
-        label={isSavedPlaylist ? "Delete from playlists" : "Save to playlists"}
-        position="left"
-        onClick={handleClick}
-      >
+      <Tooltip label={label} position="left" onClick={handleClick}>
         <ActionIcon
-          aria-label={
-            isSavedPlaylist ? "Delete from playlists" : "Save to playlists"
-          }
+          aria-label={label}
           variant={isSavedPlaylist ? "default" : "filled"}
           radius="md"
         >

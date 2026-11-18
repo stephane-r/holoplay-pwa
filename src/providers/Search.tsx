@@ -1,7 +1,9 @@
 import qs from "qs";
 import {
+  type Dispatch,
   type FC,
   type PropsWithChildren,
+  type SetStateAction,
   createContext,
   useContext,
   useMemo,
@@ -28,7 +30,9 @@ const initialState: Search = {
 };
 
 const SearchValueContext = createContext<Search>(initialState);
-const SetSearchValueContext = createContext<any>(null);
+const SetSearchValueContext = createContext<Dispatch<
+  SetStateAction<Search>
+> | null>(null);
 
 const getSearchParams = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -70,7 +74,7 @@ export const useSetSearchValues = () => {
   const navigate = useStableNavigate();
 
   const handleSetValue = (updatedValues: Search) => {
-    setValue(updatedValues);
+    setValue?.(updatedValues);
     navigate(`/search?${qs.stringify(updatedValues)}`);
   };
 
