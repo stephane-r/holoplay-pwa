@@ -5,6 +5,7 @@ import { usePlaylists } from "../providers/Playlist";
 import { queryClient } from "../queryClient";
 import { getPlaylist } from "../services/playlist";
 import type { Playlist } from "../types/interfaces/Playlist";
+import { isLocalPlaylistId } from "../utils/playlistIdentity";
 
 export const useGetPlaylist = (playlistId: string | number) => {
   const playlists = usePlaylists();
@@ -31,13 +32,13 @@ export const useGetPlaylist = (playlistId: string | number) => {
   };
 
   useEffect(() => {
-    const isLocalPlaylist = Number(playlistId);
+    const isLocal = isLocalPlaylistId(playlistId);
 
-    if (playlist && !isLocalPlaylist) {
+    if (playlist && !isLocal) {
       return;
     }
 
-    if (isLocalPlaylist) {
+    if (isLocal) {
       getLocalPlaylist(Number(playlistId));
     } else {
       getRemotePlaylist(playlistId as string);

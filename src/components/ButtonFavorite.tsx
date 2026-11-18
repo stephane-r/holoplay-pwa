@@ -18,6 +18,7 @@ import {
   formatedCardPlaylist,
   formatedCardVideo,
 } from "../utils/formatData";
+import { getPlaylistIdentity } from "../utils/playlistIdentity";
 
 interface ButtonFavoriteProps extends ActionIconProps {
   card?: Card;
@@ -29,7 +30,7 @@ interface ButtonFavoriteProps extends ActionIconProps {
 export const getCardId = (item: Card) => {
   switch (item.type) {
     case "playlist":
-      return item.playlistId;
+      return getPlaylistIdentity(item)?.id;
     case "channel":
       return item.authorId;
     default:

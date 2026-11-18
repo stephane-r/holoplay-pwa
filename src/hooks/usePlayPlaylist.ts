@@ -4,6 +4,7 @@ import { useState } from "react";
 import { database } from "../services/database";
 import { getPlaylist as getRemotePlaylist } from "../services/playlist";
 import type { Video } from "../types/interfaces/Video";
+import { isLocalPlaylistId } from "../utils/playlistIdentity";
 import { usePlayVideo } from "./usePlayVideo";
 
 export const usePlayPlaylist = () => {
@@ -14,8 +15,7 @@ export const usePlayPlaylist = () => {
     setLoading(true);
 
     try {
-      const isLocalPlaylist = Number(playlistId);
-      const data = isLocalPlaylist
+      const data = isLocalPlaylistId(playlistId)
         ? await database.getPlaylist(playlistId as number)
         : await getRemotePlaylist(playlistId as string);
       if (!data) {

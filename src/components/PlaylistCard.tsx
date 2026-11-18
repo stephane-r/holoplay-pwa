@@ -19,6 +19,7 @@ import { useStableNavigate } from "../providers/Navigate";
 import { usePlaylists } from "../providers/Playlist";
 import type { CardPlaylist, CardVideo } from "../types/interfaces/Card";
 import { getThumbnailQuality } from "../utils/formatData";
+import { getPlaylistIdentity } from "../utils/playlistIdentity";
 import { ButtonFavorite } from "./ButtonFavorite";
 import classes from "./PlaylistCard.module.css";
 import { PlaylistCardMenu } from "./PlaylistCardMenu";
@@ -31,13 +32,14 @@ interface PlaylistCardProps {
 export const PlaylistCard: FC<PlaylistCardProps> = memo(
   ({ playlist, currentInstanceUri }) => {
     const navigate = useStableNavigate();
+    const identity = getPlaylistIdentity(playlist);
 
     const goToPlaylist = () => {
-      navigate(`/playlists/${playlist.playlistId ?? playlist.ID}`);
+      navigate(`/playlists/${identity?.id}`);
     };
 
-    const isRemotePlaylist = Boolean(playlist.playlistId);
-    const isLocalPlaylist = Boolean(playlist.ID);
+    const isRemotePlaylist = identity?.origin === "remote";
+    const isLocalPlaylist = identity?.origin === "local";
     const hasVideos = Boolean(playlist.videos.length);
 
     return (
@@ -56,7 +58,7 @@ export const PlaylistCard: FC<PlaylistCardProps> = memo(
               videoCount={playlist.videoCount}
             />
           ) : null}
-          {playlist.ID ? <PlaylistCardMenu playlist={playlist} /> : null}
+          {isLocalPlaylist ? <PlaylistCardMenu playlist={playlist} /> : null}
         </Flex>
         <Title
           order={3}
@@ -93,12 +95,8 @@ export const PlaylistCard: FC<PlaylistCardProps> = memo(
             <strong>{playlist.videoCount} videos</strong>
           </Text>
           <Flex ml="auto" gap="xs">
-            {playlist.videos.length ? (
-              <ButtonPlay
-                playlistId={
-                  (playlist.ID as number) ?? (playlist.playlistId as string)
-                }
-              />
+            {playlist.videos.length && identity ? (
+              <ButtonPlay playlistId={identity.id} />
             ) : null}
             {!isLocalPlaylist ? (
               <ButtonSaveToPlaylist playlist={playlist} />

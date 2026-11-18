@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { database } from "../services/database";
 import { usePlaylists } from "../providers/Playlist";
 import type { CardVideo } from "../types/interfaces/Card";
+import { isLocalPlaylist } from "../utils/playlistIdentity";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
@@ -30,7 +31,7 @@ export const ModalAddToPlaylist: FC<ModalAddToPlaylistProps> = memo(
     >(null);
     const [newPlaylistTitle, setNewPlaylistTitle] = useState("");
     const playlists = usePlaylists();
-    const localPlaylist = playlists.filter((p) => !p.playlistId);
+    const localPlaylist = playlists.filter(isLocalPlaylist);
     const { t } = useTranslation();
 
     const playlistsIsEmpty = playlists.length === 0;
