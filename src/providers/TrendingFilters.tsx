@@ -25,7 +25,9 @@ const initialState: TrendingFilters = {
 
 const TrendingFiltersValuesContext =
   createContext<TrendingFilters>(initialState);
-const SetTrendingFiltersValuesContext = createContext<any>(null);
+const SetTrendingFiltersValuesContext = createContext<
+  ((updatedValues: TrendingFilters) => void) | null
+>(null);
 
 const getInitialParams = () => {
   const urlParams = new URLSearchParams(window.location.search);

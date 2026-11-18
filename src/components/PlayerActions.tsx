@@ -8,10 +8,11 @@ import {
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useToggleAudioPlayPause } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
-import { usePlayerAudio, usePlayerState } from "../providers/Player";
+import { usePlayerState } from "../providers/Player";
 import { usePlayerMode } from "../providers/PlayerMode";
-import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 
 interface PlayerActionsProps {
   showTrackPrevious?: boolean;
@@ -51,18 +52,7 @@ interface ButtonNextVideoProps extends ActionIconProps {
 const ButtonPlayPause: FC<ButtonNextVideoProps> = memo(
   ({ size, radius, iconSize }) => {
     const playerState = usePlayerState();
-    const playerAudio = usePlayerAudio();
-
-    const handlePlayPause = () => {
-      // @ts-ignore
-      const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    };
+    const handlePlayPause = useToggleAudioPlayPause();
 
     return (
       <ActionIcon
@@ -83,12 +73,12 @@ const ButtonPlayPause: FC<ButtonNextVideoProps> = memo(
 );
 
 const ButtonPreviousVideo = memo(() => {
-  const { handlePlay, loading } = usePlayVideo();
-  const { videosIds } = usePreviousNextVideos();
+  const { previousVideoId } = usePlaybackService();
+  const { handlePlay, loading } = usePlayVideo(previousVideoId ?? undefined);
   const { t } = useTranslation();
 
   const handlePlayPreviousVideo = () => {
-    handlePlay(videosIds.previousVideoId as string);
+    handlePlay(previousVideoId as string);
   };
 
   return (
@@ -96,7 +86,7 @@ const ButtonPreviousVideo = memo(() => {
       size="lg"
       radius="md"
       title={t("player.previous.video")}
-      disabled={!videosIds.previousVideoId}
+      disabled={!previousVideoId}
       onClick={handlePlayPreviousVideo}
       loading={loading}
     >
@@ -106,12 +96,12 @@ const ButtonPreviousVideo = memo(() => {
 });
 
 const ButtonNextVideo = memo(() => {
-  const { handlePlay, loading } = usePlayVideo();
-  const { videosIds } = usePreviousNextVideos();
+  const { nextVideoId } = usePlaybackService();
+  const { handlePlay, loading } = usePlayVideo(nextVideoId ?? undefined);
   const { t } = useTranslation();
 
   const handlePlayNextVideo = () => {
-    handlePlay(videosIds.nextVideoId as string);
+    handlePlay(nextVideoId as string);
   };
 
   return (
@@ -119,7 +109,7 @@ const ButtonNextVideo = memo(() => {
       size="lg"
       radius="md"
       title={t("player.next.video")}
-      disabled={!videosIds.nextVideoId}
+      disabled={!nextVideoId}
       onClick={handlePlayNextVideo}
       loading={loading}
     >

@@ -1,6 +1,4 @@
 import { Select } from "@mantine/core";
-// @ts-ignore
-import { getCode, getName } from "country-list";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -22,7 +20,7 @@ export const TrendingFilters = memo(() => {
       <Select
         value={trendingFiltersValues.type}
         onChange={(value) =>
-          setTrendingFiltersValues({
+          setTrendingFiltersValues?.({
             ...trendingFiltersValues,
             type: value as TrendingFilterType,
           })
@@ -38,11 +36,13 @@ export const TrendingFilters = memo(() => {
         searchable
         value={
           trendingFiltersValues.region
-            ? getCode(getName(trendingFiltersValues.region))
+            ? // The API stores region codes lowercased; `countriesCode`
+              // (the Select's `data`) uses uppercase ISO 3166 codes.
+              trendingFiltersValues.region.toUpperCase()
             : null
         }
         onChange={(value) =>
-          setTrendingFiltersValues({
+          setTrendingFiltersValues?.({
             ...trendingFiltersValues,
             region: value as string,
           })

@@ -1,59 +1,59 @@
 import { useCallback, useEffect } from "react";
 
-import {
-  usePlayerAudio,
-  usePlayerState,
-  usePlayerVideo,
-} from "../providers/Player";
+import { usePlayerTime, usePlayerVideo } from "../providers/Player";
 import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
+import { useAudioElement } from "./useAudioElement";
 
 const inRange = (num: number, min: number, max: number) =>
   num >= min && num <= max;
 
-const getNextSegment = (
+// Finds the segment `currentTime` currently falls inside, regardless of how
+// it got there — matches both continuous forward playback ticking into a
+// segment and the user dragging the seek bar directly into the middle of
+// one (which a previous version, matching only an "upcoming" segment by
+// startTime, missed).
+const getCurrentSegment = (
   currentTime: number,
   segments: SponsorBlockSegment[],
 ) => {
-  return segments.find(
-    (segment) => Math.round(segment.startTime) >= currentTime - 1,
+  return segments.find((segment) =>
+    inRange(currentTime, segment.startTime, segment.endTime),
   );
 };
 
 export const useSponsorBlock = () => {
   const playerVideo = usePlayerVideo();
-  const playerState = usePlayerState();
-  const playerAudio = usePlayerAudio();
+  const playerTime = usePlayerTime();
+  const audioElement = useAudioElement();
 
   const handleSeek = useCallback(
     (currentTime: number) => {
-      // @ts-ignore
-      const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-      audio.currentTime = currentTime;
+      if (!audioElement) return;
+      // Imperatively syncing a native <audio> element's playback position is
+      // the standard way to control it — it's a DOM escape hatch, not
+      // React-tracked state.
+      // eslint-disable-next-line react-hooks/immutability
+      audioElement.currentTime = currentTime;
     },
-    [playerAudio],
+    [audioElement],
   );
 
   useEffect(() => {
-    if (playerVideo.sponsorBlockSegments && playerState.currentTime) {
-      const nextSegment = getNextSegment(
-        playerState.currentTime,
-        playerVideo.sponsorBlockSegments,
-      );
+    if (!playerVideo.sponsorBlockSegments || !playerTime.currentTime) {
+      return;
+    }
 
-      if (
-        nextSegment &&
-        inRange(
-          playerState.currentTime,
-          nextSegment.startTime,
-          nextSegment.endTime,
-        )
-      ) {
-        handleSeek(nextSegment.endTime);
-      }
+    const segment = getCurrentSegment(
+      playerTime.currentTime,
+      playerVideo.sponsorBlockSegments,
+    );
+
+    if (segment) {
+      handleSeek(segment.endTime);
     }
   }, [
     playerVideo,
-    playerState.currentTime,
+    playerTime.currentTime,
     playerVideo.sponsorBlockSegments,
     handleSeek,
   ]);

@@ -18,9 +18,13 @@ export const navigateTo = async (
 };
 
 export const checkNotification = async (page: Page, value: RegExp) => {
-  await expect(page.getByRole("alert")).toContainText(value);
-  await page.getByRole("alert").getByRole("button").click();
-  await expect(page.getByRole("alert")).not.toBeVisible();
+  // Scoped by its expected text, not just role="alert" — Mantine's empty-
+  // state Alert (e.g. "playlists-empty") also has role="alert", and can be
+  // on screen at the same time as the actual notification toast.
+  const notification = page.getByRole("alert").filter({ hasText: value });
+  await expect(notification).toBeVisible();
+  await notification.getByRole("button").click();
+  await expect(notification).not.toBeVisible();
 };
 
 export const search = async (page: Page, value: string) => {
@@ -42,9 +46,11 @@ export const selectSearchType = async (
   await expect(
     page.getByRole("menu", { name: "Search filters" }),
   ).toBeVisible();
+  // Mantine's Select renders its input with role="combobox", not
+  // "textbox" (readonly, opens a listbox of options on click).
   await page
     .getByRole("menu", { name: "Search filters" })
-    .getByRole("textbox", { name: "Type filter" })
+    .getByRole("combobox", { name: "Type filter" })
     .click();
   // await expect(
   //   page.getByRole("listbox").getByRole("option", { selected: true }),
@@ -57,31 +63,33 @@ export const selectSearchType = async (
 };
 
 export const listVisibility = async (page: Page, label: string) => {
+  // A real search request to whichever public instance got picked — give it
+  // more room than the default 5s before calling it a failure.
   await expect(
     page.getByRole("heading", { name: `Search results : ${label}` }),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 10000 });
   await expect(
     page.getByRole("list", { name: `Search result list ${label}` }),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 10000 });
   await expect(
     page.getByRole("list", { name: `Search result list ${label}` }),
   ).not.toBeEmpty();
 };
 
-export const selectedInstance = async (page: Page, instanceUri: string) => {
+// Picks whichever instance the list happens to have first, rather than a
+// specific hardcoded domain — public Invidious instances come and go, so
+// pinning the test to one by name means it breaks the moment that instance
+// disappears (as happened to the previously hardcoded "invidious.fdn.fr").
+export const selectedInstance = async (page: Page) => {
   await navigateTo(page, "Settings", "Settings");
   await page.getByRole("button", { name: /General/ }).click();
-  await expect(
-    page.getByRole("list", { name: "Invidious instances list" }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("listitem", { name: "invidious.fdn.fr" }),
-  ).toBeVisible();
-  await page
-    .getByRole("listitem", { name: "invidious.fdn.fr" })
-    .getByTestId("use")
-    .click();
-  await expect(
-    page.getByRole("listitem", { name: "invidious.fdn.fr" }),
-  ).toHaveAttribute("aria-current", "true");
+  const instancesList = page.getByRole("list", {
+    name: "Invidious instances list",
+  });
+  await expect(instancesList).toBeVisible();
+
+  const firstInstance = instancesList.getByRole("listitem").first();
+  await expect(firstInstance).toBeVisible();
+  await firstInstance.getByTestId("use").click();
+  await expect(firstInstance).toHaveAttribute("aria-current", "true");
 };

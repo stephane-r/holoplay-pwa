@@ -19,15 +19,15 @@ import {
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useAudioElement } from "../hooks/useAudioElement";
 import { useDevices } from "../hooks/useDevices";
 import { useStableNavigate } from "../providers/Navigate";
 import {
-  usePlayerAudio,
   usePlayerState,
   usePlayerUrl,
   usePlayerVideo,
 } from "../providers/Player";
-import { usePlayerPlaylist } from "../providers/PlayerPlaylist";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { ButtonDevicesAvailable } from "./ButtonDevicesAvailable";
 import { ButtonDownload } from "./ButtonDownload";
 import { ButtonFavorite } from "./ButtonFavorite";
@@ -143,12 +143,11 @@ const VideoInformations = memo(() => {
 
 export const ButtonVolume = memo(() => {
   const playerState = usePlayerState();
-  const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
 
   const handleChangeEnd = (volume: number) => {
-    // @ts-ignorex
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    audio.volume = volume / 100;
+    if (!audioElement) return;
+    audioElement.volume = volume / 100;
   };
 
   return (
@@ -170,7 +169,7 @@ export const ButtonVolume = memo(() => {
 
 const PlayerPlaylist = memo(() => {
   const [opened, setOpened] = useState(false);
-  const videosPlaylist = usePlayerPlaylist();
+  const { queue: videosPlaylist } = usePlaybackService();
   const { t } = useTranslation();
 
   return (

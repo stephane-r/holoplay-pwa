@@ -11,11 +11,11 @@ import { notifications } from "@mantine/notifications";
 import { type FC, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { getPlaylists } from "../database/utils";
-import { usePlaylists, useSetPlaylists } from "../providers/Playlist";
+import { database } from "../services/database";
+import { usePlaylists } from "../providers/Playlist";
 import type { CardVideo } from "../types/interfaces/Card";
-import type { Playlist } from "../types/interfaces/Playlist";
+import { notifyError } from "../utils/notify";
+import { isLocalPlaylist } from "../utils/playlistIdentity";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
@@ -32,21 +32,18 @@ export const ModalAddToPlaylist: FC<ModalAddToPlaylistProps> = memo(
     >(null);
     const [newPlaylistTitle, setNewPlaylistTitle] = useState("");
     const playlists = usePlaylists();
-    const setPlaylists = useSetPlaylists();
-    const localPlaylist = playlists.filter((p) => !p.playlistId);
+    const localPlaylist = playlists.filter(isLocalPlaylist);
     const { t } = useTranslation();
 
     const playlistsIsEmpty = playlists.length === 0;
 
-    const handleAddToPlaylist = () => {
+    const handleAddToPlaylist = async () => {
       if (selectedPlaylistTitle) {
-        updatePlaylist();
+        await updatePlaylist();
       } else {
-        createNewPlaylist();
+        await createNewPlaylist();
       }
 
-      db.commit();
-      setPlaylists(getPlaylists());
       notifications.show({
         title: video.title,
         message: t("modal.video.playlist.add"),
@@ -55,35 +52,28 @@ export const ModalAddToPlaylist: FC<ModalAddToPlaylistProps> = memo(
       onClose();
     };
 
-    const updatePlaylist = () => {
+    const updatePlaylist = async () => {
       const selectedPlaylist = playlists.find(
         (playlist) => playlist.title === selectedPlaylistTitle,
       );
 
       if (!selectedPlaylist) {
-        notifications.show({
-          title: "Error",
+        notifyError({
+          title: t("error"),
           message: t("modal.video.playlist.add.error"),
-          color: "red",
         });
 
         throw new Error(t("modal.video.playlist.add.error") as string);
       }
 
-      db.update(
-        "playlists",
-        { title: selectedPlaylistTitle },
-        (playlist: Playlist) => ({
-          ...playlist,
-          videos: [video, ...playlist.videos],
-          videoCount: [video, ...playlist.videos].length,
-        }),
+      await database.addVideoToPlaylist(
+        selectedPlaylistTitle as string,
+        video,
       );
     };
 
     const createNewPlaylist = () => {
-      db.insert("playlists", {
-        createdAt: new Date().toISOString(),
+      return database.createPlaylist({
         title: newPlaylistTitle,
         videos: [video],
         videoCount: 1,

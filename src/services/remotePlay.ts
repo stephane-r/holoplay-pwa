@@ -1,4 +1,4 @@
-import { getSettings } from "../database/utils";
+import { database } from "./database";
 
 export interface PingRemotePlayResponse {
   deviceId: string;
@@ -6,9 +6,10 @@ export interface PingRemotePlayResponse {
 }
 
 export const pingRemotePlay = async (): Promise<PingRemotePlayResponse> => {
+  const settings = await database.getSettings();
   const request = await fetch(
     `${process.env.REACT_APP_API_URL}/api/remotePlay?deviceUuid=${
-      getSettings().deviceId
+      settings?.deviceId
     }`,
   );
   const { data } = await request.json();

@@ -10,6 +10,56 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.13.0] - 2026-11-18
+### :sparkles: New Features
+- [`4d3cfac`](https://github.com/stephane-r/holoplay-pwa/commit/4d3cfac0846a9e227caa058b17582043a2bf6933) - **database**: replace localStorage-backed storage with Dexie (IndexedDB) *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`4d8bbbc`](https://github.com/stephane-r/holoplay-pwa/commit/4d8bbbc12cc146b6a207329fab899b2c46a96ead) - **deploy**: replace Vercel with a manual GitHub Pages deployment *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :bug: Bug Fixes
+- [`9270145`](https://github.com/stephane-r/holoplay-pwa/commit/9270145749cc028e37bd4dda9ecfb6d779127a9f) - **player**: adjust PlayerProgress.tsx for Mantine v9's Text API *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`6de48d5`](https://github.com/stephane-r/holoplay-pwa/commit/6de48d586f1ec4d1e820ec621b208f50ea025842) - resolve image-color-extraction ESM/CJS interop crash under Vite *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`865d9f5`](https://github.com/stephane-r/holoplay-pwa/commit/865d9f5b5c982ff218b9ed50e3ef20d91f694b69) - **playback**: don't crash when a video has no "sddefault" thumbnail *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`3e2fa09`](https://github.com/stephane-r/holoplay-pwa/commit/3e2fa09abae04a923b5b4c7c3e41352eff2b9a10) - **search**: keep the URL in sync after the first search on /search *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`3fdff45`](https://github.com/stephane-r/holoplay-pwa/commit/3fdff4515b9f03951d745782d9b0ce0e3830712d) - **sponsor-block**: skip a segment when seeking directly into it *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`d3a5a3a`](https://github.com/stephane-r/holoplay-pwa/commit/d3a5a3a7634eb45ddff61e8af661ec6535ca9077) - **cards**: attach VirtuosoGrid to the real scroll container, not window *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`587fe74`](https://github.com/stephane-r/holoplay-pwa/commit/587fe74f0e668ac76fd206cfb262df480a2b1737) - **audit-tier1**: fix instance-picker crash, unprotected JSON.parse, and inconsistent mobile breakpoint *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`d146985`](https://github.com/stephane-r/holoplay-pwa/commit/d1469855ec636890fe926f9fb4611eaff08fafba) - **audit-tier2**: type context setters, i18n hardcoded strings, getArrayDifference casts *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`7e7dc9b`](https://github.com/stephane-r/holoplay-pwa/commit/7e7dc9bb2757f46f3bfd011576e73a64d0d26124) - **loading**: scope LoadingOverlay to its container instead of the whole viewport *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`ccdef2c`](https://github.com/stephane-r/holoplay-pwa/commit/ccdef2c6ac27643ec0a1ecdfae9b149c367039d0) - **player**: persist volume across page refreshes (GH issue [#86](https://github.com/stephane-r/holoplay-pwa/pull/86)) *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`b6ee0f8`](https://github.com/stephane-r/holoplay-pwa/commit/b6ee0f89a6b6bb8f14d67380271e3930441219dd) - **transfer-list**: label the two columns and explain the select-then-move step (GH issue [#93](https://github.com/stephane-r/holoplay-pwa/pull/93)) *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`bf6f86f`](https://github.com/stephane-r/holoplay-pwa/commit/bf6f86fe7b96a2fc569663e0b30cfc6dbd949350) - **instance**: accept bare hostnames for custom Invidious instances (GH issue [#95](https://github.com/stephane-r/holoplay-pwa/pull/95)) *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`29f4094`](https://github.com/stephane-r/holoplay-pwa/commit/29f4094824e7fc1e6f3aeb53b2ddd2ab565af45d) - **lint**: resolve all 35 ESLint errors blocking CI *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`58595bb`](https://github.com/stephane-r/holoplay-pwa/commit/58595bba4d7829bb0d11313f055a2efcad7d1da8) - **ci**: bump deprecated actions/* versions in code-quality workflow *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`aa672ab`](https://github.com/stephane-r/holoplay-pwa/commit/aa672ab4e6e955fcda6fe37fcbee879399401d8e) - **database**: seed default settings and Favorites playlist for new installs *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`ba84a23`](https://github.com/stephane-r/holoplay-pwa/commit/ba84a23e405666c7618594d93aa077c0d83e9ac3) - **e2e**: pick an available Invidious instance instead of a hardcoded one *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`9e6c02e`](https://github.com/stephane-r/holoplay-pwa/commit/9e6c02e85e8528b6a3aa3889f1e8826172aa022f) - stale pagination cache, missing listitem role, and e2e selector drift *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`6a5c4fa`](https://github.com/stephane-r/holoplay-pwa/commit/6a5c4fae92ad16642d24789418f978210a7f9877) - notification/empty-state alert ambiguity, wrong i18n key, flaky favorite source *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :zap: Performance Improvements
+- [`63c5307`](https://github.com/stephane-r/holoplay-pwa/commit/63c5307ee3411964ee2475ae0da4c1058f944936) - **player**: fix VideoIframe source churn and split PlayerState from PlayerTime *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`6b8c725`](https://github.com/stephane-r/holoplay-pwa/commit/6b8c72578c3b3417ed31060200f3191c687f93a4) - **query**: add a default staleTime so navigating back doesn't refetch *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`0ab234d`](https://github.com/stephane-r/holoplay-pwa/commit/0ab234dd8ee70035f6078ce9acf8c68b5fade002) - **cards**: virtualize CardList's grid with react-virtuoso *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`f8069c2`](https://github.com/stephane-r/holoplay-pwa/commit/f8069c2d70438a207ffa6b179577f98c323d0691) - **bundle**: code-split routes and the video.js player tree *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`7310d54`](https://github.com/stephane-r/holoplay-pwa/commit/7310d54da18a1f95d2ae0937d74ceb4395180fbb) - **favorite**: O(1) favorite lookup via a memoized Set instead of .find() *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :recycle: Refactors
+- [`eabe903`](https://github.com/stephane-r/holoplay-pwa/commit/eabe903181ee9d26d5a5f9ec85df92b67bd598b1) - **player**: replace playlist/prev-next contexts with a PlaybackQueueService *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`551fec5`](https://github.com/stephane-r/holoplay-pwa/commit/551fec54d12966abab9e8e22f4a549c29e4689fd) - **player**: centralize play orchestration into PlaybackService *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`72fb9cd`](https://github.com/stephane-r/holoplay-pwa/commit/72fb9cd0884b4c0fe743c3cf01e3cba0062bcd35) - **nav**: single source of truth for navigation items across all 3 surfaces *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`6ef9318`](https://github.com/stephane-r/holoplay-pwa/commit/6ef9318bb51946f2c30629a00b1fc6eceb2642fb) - **audio**: centralize the raw <audio> element access behind one hook *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`a4f92c0`](https://github.com/stephane-r/holoplay-pwa/commit/a4f92c0c4d25e649e88d7a9612ca1cb9441f6192) - **pagination**: unify SearchResult and ChannelDetail's infinite scroll *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`08f1244`](https://github.com/stephane-r/holoplay-pwa/commit/08f1244ec23bad02c6f765b257ec74a8e3bec66d) - **favorite**: drop the Card|Video|Playlist|Channel union in ButtonFavorite *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`60ebd67`](https://github.com/stephane-r/holoplay-pwa/commit/60ebd676677ae780b1be82786d4121911a3446bb) - **import-sync**: move ImportData/ModalSyncData orchestration into hooks *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`d71e211`](https://github.com/stephane-r/holoplay-pwa/commit/d71e211ffa50b3dfb564bb893463dbd6b87ebd3f) - **playlist**: centralize local-vs-remote detection into one helper *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`cbc7f1c`](https://github.com/stephane-r/holoplay-pwa/commit/cbc7f1ca7506b942dfbd537369e55854f6572730) - **notify**: consolidate notifications.show({color:"red"|"green"}) into helpers *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :wrench: Chores
+- [`b140665`](https://github.com/stephane-r/holoplay-pwa/commit/b14066561759eb769f1a94cf6f15d8b1f2450e22) - upgrade pinned Node.js version from 20 to 26 *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`514080b`](https://github.com/stephane-r/holoplay-pwa/commit/514080b2fc60824a0a12e1518fbec0fd4330ca04) - **database**: remove the legacy localStorageDB migration path *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`de78015`](https://github.com/stephane-r/holoplay-pwa/commit/de78015b7be088b9fcd1663999f692391a26441b) - **deps**: drop country-list, lodash, and memoize-one *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`7659da2`](https://github.com/stephane-r/holoplay-pwa/commit/7659da24465d37a3ec7f363787bb760fcaa11850) - **e2e**: capture a screenshot on every test failure *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+
 ## [v1.12.3] - 2024-07-22
 ### :sparkles: New Features
 - [`062818a`](https://github.com/stephane-r/holoplay-pwa/commit/062818a4398c1a6b4727a12172a17158ae79e1df) - **video**: throw error on invalid data *(commit by [@stephane-r](https://github.com/stephane-r))*
@@ -346,3 +396,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.12.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.0...v1.12.1
 [v1.12.2]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.1...v1.12.2
 [v1.12.3]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.2...v1.12.3
+[v1.13.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.3...v1.13.0

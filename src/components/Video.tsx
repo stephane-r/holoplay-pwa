@@ -10,8 +10,9 @@ import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
 import hexToRgba from "hex-to-rgba";
 import { type FC, memo } from "react";
 
+import { useAudioElement } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
-import { usePlayerAudio, usePlayerVideo } from "../providers/Player";
+import { usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
 import type { Video as VideoType } from "../types/interfaces/Video";
 import { getThumbnailQuality } from "../utils/formatData";
@@ -21,81 +22,82 @@ import classes from "./Video.module.css";
 interface VideoProps {
   video: VideoType;
   withThumbnail?: boolean;
+  queue?: VideoType[];
 }
 
-export const Video: FC<VideoProps> = memo(({ video, withThumbnail = true }) => {
-  const { video: playedVideo, primaryColor } = usePlayerVideo();
-  const { handlePlay, loading } = usePlayVideo();
-  const playerAudio = usePlayerAudio();
-  const { currentInstance } = useSettings();
+export const Video: FC<VideoProps> = memo(
+  ({ video, withThumbnail = true, queue }) => {
+    const { video: playedVideo, primaryColor } = usePlayerVideo();
+    const { handlePlay, loading } = usePlayVideo(video.videoId);
+    const audioElement = useAudioElement();
+    const { currentInstance } = useSettings();
 
-  const imageSrc =
-    video.thumbnail ?? getThumbnailQuality(video.videoThumbnails, "default");
+    const imageSrc =
+      video.thumbnail ?? getThumbnailQuality(video.videoThumbnails, "default");
 
-  const isPlaying = playedVideo?.videoId === video.videoId;
+    const isPlaying = playedVideo?.videoId === video.videoId;
 
-  const handleClick = () => {
-    if (isPlaying) {
-      // @ts-ignore
-      const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-      audio.pause();
-    } else {
-      handlePlay(video.videoId);
-    }
-  };
+    const handleClick = () => {
+      if (isPlaying) {
+        audioElement?.pause();
+      } else {
+        handlePlay(video.videoId, queue);
+      }
+    };
 
-  return (
-    <UnstyledButton
-      onClick={() => handleClick()}
-      style={{ width: "100%", maxWidth: "100%" }}
-    >
-      <Flex
-        align="center"
-        gap="md"
-        p="sm"
-        className={classes.container}
-        style={{
-          background: isPlaying
-            ? hexToRgba(primaryColor?.color as string, "0.6")
-            : undefined,
-        }}
+    return (
+      <UnstyledButton
+        onClick={() => handleClick()}
+        style={{ width: "100%", maxWidth: "100%" }}
       >
-        <LoadingOverlay visible={loading} />
-        <Flex align="center" style={{ flex: 1 }} gap="md">
-          {withThumbnail ? (
-            <Box className={classes.image}>
-              <VideoThumbnail
-                src={imageSrc}
-                domain={currentInstance?.uri}
-                title={video.title}
-              />
+        <Flex
+          align="center"
+          gap="md"
+          p="sm"
+          className={classes.container}
+          style={{
+            background: isPlaying
+              ? hexToRgba(primaryColor?.color as string, "0.6")
+              : undefined,
+          }}
+        >
+          <LoadingOverlay visible={loading} />
+          <Flex align="center" style={{ flex: 1 }} gap="md">
+            {withThumbnail ? (
+              <Box className={classes.image}>
+                <VideoThumbnail
+                  src={imageSrc}
+                  domain={currentInstance?.uri}
+                  title={video.title}
+                />
+              </Box>
+            ) : null}
+            {/* Fixing possibility to have very large text without space */}
+            <Box maw="calc(100vw - 140px)" style={{ overflow: "hidden" }}>
+              <Text size="sm" lineClamp={1}>
+                {isPlaying ? <strong>{video.title}</strong> : video.title}
+              </Text>
             </Box>
-          ) : null}
-          {/* Fixing possibility to have very large text without space */}
-          <Box maw="calc(100vw - 140px)" style={{ overflow: "hidden" }}>
-            <Text size="sm" lineClamp={1}>
-              {isPlaying ? <strong>{video.title}</strong> : video.title}
-            </Text>
-          </Box>
+          </Flex>
+          {isPlaying ? null : (
+            <ActionIcon
+              variant="filled"
+              radius="md"
+              size="lg"
+              title={isPlaying ? "Pause" : "Play"}
+            >
+              {isPlaying ? (
+                <IconPlayerPause size={16} />
+              ) : (
+                <IconPlayerPlay size={16} />
+              )}
+            </ActionIcon>
+          )}
         </Flex>
-        {isPlaying ? null : (
-          <ActionIcon
-            variant="filled"
-            radius="md"
-            size="lg"
-            title={isPlaying ? "Pause" : "Play"}
-          >
-            {isPlaying ? (
-              <IconPlayerPause size={16} />
-            ) : (
-              <IconPlayerPlay size={16} />
-            )}
-          </ActionIcon>
-        )}
-      </Flex>
-    </UnstyledButton>
-  );
-});
+      </UnstyledButton>
+    );
+  },
+);
 
 interface VideoThumbnailProps {
   src: string;

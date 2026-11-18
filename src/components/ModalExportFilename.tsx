@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { useSetSettings, useSettings } from "../providers/Settings";
+import { database } from "../services/database";
+import { useSettings } from "../providers/Settings";
 import { Modal } from "./Modal";
 
 const getDefaultExportFileName = () =>
@@ -20,25 +20,16 @@ export const ModalExportFilename: FC<ModalExportFilenameProps> = memo(
   ({ opened, onClose, onSubmit }) => {
     const { t } = useTranslation();
     const settings = useSettings();
-    const setSettings = useSetSettings();
     const [fileName, setFileName] = useState(
       settings.exportFileName ?? getDefaultExportFileName(),
     );
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
       if (fileName !== getDefaultExportFileName()) {
-        const settingsUpdated = {
+        await database.updateSettings({
           exportFileName: fileName,
           exportLastDate: new Date().toISOString(),
-        };
-        db.update("settings", { ID: 1 }, () => ({
-          ...settingsUpdated,
-        }));
-        db.commit();
-        setSettings((previousState) => ({
-          ...previousState,
-          ...settingsUpdated,
-        }));
+        });
       }
 
       return onSubmit(fileName);

@@ -1,4 +1,4 @@
-import { getSettings } from "../database/utils";
+import { database } from "./database";
 import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 
 interface Data {
@@ -7,9 +7,10 @@ interface Data {
 
 export const getSponsorBlockSegments = async (
   videoId: string,
-  categories?: string[],
 ): Promise<Data> => {
-  const { deviceId, sponsorBlockCategories } = getSettings();
+  const settings = await database.getSettings();
+  const deviceId = settings?.deviceId;
+  const sponsorBlockCategories = settings?.sponsorBlockCategories ?? [];
   const request = await fetch(
     `${
       process.env.REACT_APP_API_URL

@@ -1,15 +1,9 @@
-import { Divider, Space } from "@mantine/core";
-import { Box } from "@mantine/core";
-import {
-  IconHistory,
-  IconInfoCircle,
-  IconSettings,
-  IconTrendingUp,
-  IconUsers,
-} from "@tabler/icons-react";
+import { Box, Divider, Space } from "@mantine/core";
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { getNavigationItemsForSurface } from "../config/navigationItems";
+import { useTrendingUrl } from "../providers/TrendingFilters";
 import classes from "./MobileNavigation.module.css";
 import { MobileNavbarLink } from "./NavbarLink";
 
@@ -17,46 +11,47 @@ interface MobileNavigationProps {
   onClose: () => void;
 }
 
+const DRAWER_ITEMS = getNavigationItemsForSurface("mobileDrawer");
+
 export const MobileNavigation: FC<MobileNavigationProps> = memo(
   ({ onClose }) => {
     const { t } = useTranslation();
+    // Same reasoning as the desktop Navigation: Trending should preserve
+    // the current filters instead of resetting them.
+    const trendingUrl = useTrendingUrl();
+    const urlOverrides: Partial<Record<string, string>> = {
+      trending: trendingUrl,
+    };
 
     return (
       <Box className={classes.container} role="navigation">
         <Space h="xs" />
-        <MobileNavbarLink
-          icon={IconTrendingUp}
-          label={t("navigation.trending")}
-          onClose={onClose}
-          activePath="/trending"
-        />
-        <MobileNavbarLink
-          icon={IconUsers}
-          label={t("navigation.most-popular")}
-          onClose={onClose}
-          activePath="/most-popular"
-        />
-        <MobileNavbarLink
-          icon={IconHistory}
-          label={t("navigation.history")}
-          onClose={onClose}
-          activePath="/history"
-        />
+        {DRAWER_ITEMS.filter((item) => item.section === "primary").map(
+          (item) => (
+            <MobileNavbarLink
+              key={item.id}
+              icon={item.icon}
+              label={t(item.translationKey)}
+              onClose={onClose}
+              activePath={item.activePath}
+              url={urlOverrides[item.id]}
+            />
+          ),
+        )}
         <Space h="xs" />
         <Divider />
         <Space h="xs" />
-        <MobileNavbarLink
-          icon={IconSettings}
-          label={t("navigation.settings")}
-          onClose={onClose}
-          activePath="/settings"
-        />
-        <MobileNavbarLink
-          icon={IconInfoCircle}
-          label={t("navigation.about")}
-          onClose={onClose}
-          activePath="/about"
-        />
+        {DRAWER_ITEMS.filter((item) => item.section === "secondary").map(
+          (item) => (
+            <MobileNavbarLink
+              key={item.id}
+              icon={item.icon}
+              label={t(item.translationKey)}
+              onClose={onClose}
+              activePath={item.activePath}
+            />
+          ),
+        )}
         <Space h="xs" />
       </Box>
     );

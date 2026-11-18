@@ -9,9 +9,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 26
 
       - run: npm i
       - run: npm run lint
@@ -20,7 +20,7 @@ jobs:
 
       - name: Cache build folder
         id: cache-build
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         with:
           path: ${{ github.workspace }}/build
           key: ${{ github.sha }}-build
@@ -31,18 +31,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: actions/cache/restore@v3
+      - uses: actions/cache/restore@v4
         id: restore-build
         with:
           path: ${{ github.workspace }}/build
           key: ${{ github.sha }}-build
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 26
       - run: npm i
       - run: npx playwright install --with-deps
       - run: npx playwright test
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report

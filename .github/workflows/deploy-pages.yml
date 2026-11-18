@@ -1,0 +1,62 @@
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deployment at a time; don't cancel one that's in progress.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          # Pages serves this repo at /holoplay-pwa/, not the domain root —
+          # see vite.config.mts for why this has to change the asset base.
+          VITE_BASE_PATH: /holoplay-pwa/
+
+      # GitHub Pages has no server-side rewrites (unlike nginx's try_files
+      # for the Docker deployment), so a direct link or refresh on a
+      # client-side route (e.g. /search) 404s. Serving index.html as the
+      # 404 response is the standard workaround: the browser's address bar
+      # keeps the originally requested path, and React Router picks it up
+      # from there once the app loads.
+      - name: SPA fallback for client-side routes
+        run: cp build/index.html build/404.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

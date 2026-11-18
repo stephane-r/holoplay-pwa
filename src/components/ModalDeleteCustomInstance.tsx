@@ -3,10 +3,9 @@ import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { useSetSettings, useSettings } from "../providers/Settings";
+import { database } from "../services/database";
+import { useSettings } from "../providers/Settings";
 import type { CustomInstance } from "../types/interfaces/Instance";
-import type { Settings } from "../types/interfaces/Settings";
 import { ButtonDeleteCustomInstance } from "./ButtonDeleteustomInstance";
 import { Modal } from "./Modal";
 
@@ -17,20 +16,12 @@ export const ModalDeleteCustomInstance = memo(
       keyPrefix: "modal.instance.delete",
     });
     const settings = useSettings();
-    const setSettings = useSetSettings();
 
-    const handleDeletePlaylist = () => {
+    const handleDeletePlaylist = async () => {
       const customInstances = settings.customInstances.filter(
         (customInstance) => customInstance.domain !== instance.domain,
       );
-      db.update("settings", { ID: 1 }, (data: Settings) => ({
-        customInstances,
-      }));
-      db.commit();
-      setSettings((previousState) => ({
-        ...previousState,
-        customInstances,
-      }));
+      await database.updateSettings({ customInstances });
 
       notifications.show({
         title: t("notification.title"),

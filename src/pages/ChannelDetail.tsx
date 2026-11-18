@@ -1,15 +1,16 @@
 import { LoadingOverlay, Paper, Tabs } from "@mantine/core";
 import { IconPlaylist, IconVideo } from "@tabler/icons-react";
-import { type FC, memo, useEffect, useState } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { useInView } from "react-intersection-observer";
-import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
 import { CardList } from "../components/CardList";
 import { PageHeader } from "../components/PageHeader";
 import { useGetChannel } from "../hooks/useGetChannel";
+import { useInfiniteList } from "../hooks/useInfiniteList";
 import { getChannelPlaylists, getChannelVideos } from "../services/channel";
+import type { CardPlaylist, CardVideo } from "../types/interfaces/Card";
+import { formatedCardPlaylist, formatedCardVideo } from "../utils/formatData";
 
 export const ChannelDetailPage = memo(() => {
   return <PageContainer />;
@@ -47,99 +48,82 @@ const PageContainer = memo(() => {
   );
 });
 
-interface PaginateDataListFetcherResponse {
-  data: any;
-  continuation: string | null;
+interface PaginatedCardListProps {
+  items: (CardVideo | CardPlaylist)[];
+  isLoadingMore: boolean;
+  sentinelRef: (node: HTMLElement | null) => void;
 }
 
-interface PaginateDataListProps {
-  queryKey: string;
-  fetcher: () => Promise<PaginateDataListFetcherResponse>;
-  onSuccess?: (data: PaginateDataListFetcherResponse) => void;
-  hasNextPage?: boolean;
-}
-
-const PaginateDataList: FC<PaginateDataListProps> = memo(
-  ({ queryKey, fetcher, onSuccess, hasNextPage }) => {
-    const { ref, inView } = useInView();
-    const [page, setPage] = useState(1);
-    const [data, setData] = useState<any[]>([]);
-    const [enabled, setEnabled] = useState(true);
-
-    const { isFetching } = useQuery(`${queryKey}-${page}`, fetcher, {
-      onSuccess: (data) => {
-        setData((previousData) => [...previousData, ...data.data]);
-        setPage((page) => page + 1);
-        setEnabled(false);
-
-        if (onSuccess) {
-          onSuccess(data);
-        }
-      },
-      enabled,
-    });
-
-    useEffect(() => {
-      if (hasNextPage && inView) {
-        setEnabled(true);
-      }
-    }, [inView, hasNextPage]);
-
-    if (!data) {
-      return <LoadingOverlay visible />;
-    }
-
-    return (
-      <>
-        <CardList data={data} />
-        <button ref={ref} style={{ opacity: 0 }} />
-        {isFetching && page > 1 ? (
-          <Paper
-            h={100}
-            pos="relative"
-            radius="md"
-            style={{ overflow: "hidden" }}
-          >
-            <LoadingOverlay visible />
-          </Paper>
-        ) : null}
-      </>
-    );
-  },
+const PaginatedCardList = memo(
+  ({ items, isLoadingMore, sentinelRef }: PaginatedCardListProps) => (
+    <>
+      <CardList data={items} />
+      <button ref={sentinelRef} style={{ opacity: 0 }} />
+      {isLoadingMore ? (
+        <Paper
+          h={100}
+          pos="relative"
+          radius="md"
+          style={{ overflow: "hidden" }}
+        >
+          <LoadingOverlay visible />
+        </Paper>
+      ) : null}
+    </>
+  ),
 );
 
 const VideosTab = memo(() => {
   const { authorId } = useParams();
-  const [continuation, setContinuation] = useState<string | null>(null);
 
-  const handleSuccess = (data: { data: any; continuation: string | null }) => {
-    setContinuation(data.continuation);
-  };
+  const { items, isLoadingMore, sentinelRef } = useInfiniteList<
+    CardVideo,
+    string
+  >({
+    queryKey: `channels-${authorId}-videos`,
+    fetchPage: async (cursor) => {
+      const { data, continuation } = await getChannelVideos(
+        authorId as string,
+        cursor,
+      );
+      return { items: data.map(formatedCardVideo), nextCursor: continuation };
+    },
+  });
 
   return (
-    <PaginateDataList
-      queryKey={`channels-${authorId}-videos`}
-      fetcher={() => getChannelVideos(authorId as string, continuation)}
-      onSuccess={handleSuccess}
-      hasNextPage={Boolean(continuation)}
+    <PaginatedCardList
+      items={items}
+      isLoadingMore={isLoadingMore}
+      sentinelRef={sentinelRef}
     />
   );
 });
 
 const PlaylistsTab = memo(() => {
   const { authorId } = useParams();
-  const [continuation, setContinuation] = useState<string | null>(null);
 
-  const handleSuccess = (data: { data: any; continuation: string | null }) => {
-    setContinuation(data.continuation);
-  };
+  const { items, isLoadingMore, sentinelRef } = useInfiniteList<
+    CardPlaylist,
+    string
+  >({
+    queryKey: `channels-${authorId}-playlists`,
+    fetchPage: async (cursor) => {
+      const { data, continuation } = await getChannelPlaylists(
+        authorId as string,
+        cursor,
+      );
+      return {
+        items: data.map(formatedCardPlaylist),
+        nextCursor: continuation,
+      };
+    },
+  });
 
   return (
-    <PaginateDataList
-      queryKey={`channels-${authorId}-playlists`}
-      fetcher={() => getChannelPlaylists(authorId as string, continuation)}
-      onSuccess={handleSuccess}
-      hasNextPage={Boolean(continuation)}
+    <PaginatedCardList
+      items={items}
+      isLoadingMore={isLoadingMore}
+      sentinelRef={sentinelRef}
     />
   );
 });

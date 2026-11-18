@@ -17,13 +17,11 @@ import {
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useToggleAudioPlayPause } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
-import {
-  usePlayerAudio,
-  usePlayerState,
-  usePlayerVideo,
-} from "../providers/Player";
+import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import type { CardVideo } from "../types/interfaces/Card";
+import type { Video } from "../types/interfaces/Video";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 import { getThumbnailQuality } from "../utils/formatData";
 import { ButtonFavorite } from "./ButtonFavorite";
@@ -35,14 +33,15 @@ interface VideoCardProps {
   video: CardVideo;
   component?: "div" | "li";
   currentInstanceUri: string;
+  queue?: Video[];
 }
 
 export const isLiveStream = (video: CardVideo) =>
   video.type === "livestream" || video.liveNow || video.lengthSeconds === 0;
 
 export const VideoCard: FC<VideoCardProps> = memo(
-  ({ video, component = "div", currentInstanceUri }) => {
-    const { handlePlay, loading } = usePlayVideo();
+  ({ video, component = "div", currentInstanceUri, queue }) => {
+    const { handlePlay, loading } = usePlayVideo(video.videoId);
     const { t } = useTranslation();
 
     const image =
@@ -61,7 +60,7 @@ export const VideoCard: FC<VideoCardProps> = memo(
         <LoadingOverlay visible={loading} />
         <UnstyledButton
           style={{ width: "100%" }}
-          onClick={() => handlePlay(video.videoId)}
+          onClick={() => handlePlay(video.videoId, queue)}
         >
           <CardImage
             src={image}
@@ -93,7 +92,7 @@ export const VideoCard: FC<VideoCardProps> = memo(
         </UnstyledButton>
         <Group mt="xs" className={classes.cardActions}>
           <ButtonPlayPause
-            onClick={() => handlePlay(video.videoId)}
+            onClick={() => handlePlay(video.videoId, queue)}
             videoId={video.videoId}
           />
           <ButtonFavorite card={video} />
@@ -144,20 +143,9 @@ const ButtonPlay = memo(({ onClick }: { onClick: () => void }) => {
 });
 
 const ButtonAudioPlayPause = memo(() => {
-  const playerAudio = usePlayerAudio();
   const playerState = usePlayerState();
   const { t } = useTranslation();
-
-  const handlePlayPause = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  };
+  const handlePlayPause = useToggleAudioPlayPause();
 
   return (
     <ActionIcon
@@ -175,22 +163,11 @@ const ButtonAudioPlayPause = memo(() => {
 
 const CardPlaying = memo(({ videoId }: { videoId: string }) => {
   const { video } = usePlayerVideo();
-  const playerAudio = usePlayerAudio();
+  const handlePlayPause = useToggleAudioPlayPause();
 
   if (video?.videoId !== videoId) {
     return null;
   }
-
-  const handlePlayPause = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  };
 
   return (
     <UnstyledButton className={classes.buttonPlaying} onClick={handlePlayPause}>

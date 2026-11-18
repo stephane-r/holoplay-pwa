@@ -3,11 +3,8 @@ import { notifications } from "@mantine/notifications";
 import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { db } from "../database";
-import { getPlaylists } from "../database/utils";
-import { useSetPlaylists } from "../providers/Playlist";
+import { database } from "../services/database";
 import type { CardPlaylist } from "../types/interfaces/Card";
-import type { Playlist } from "../types/interfaces/Playlist";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
@@ -20,16 +17,10 @@ interface ModalUpdatePlaylistProps {
 export const ModalUpdatePlaylist: FC<ModalUpdatePlaylistProps> = memo(
   ({ opened, onClose, playlist }) => {
     const [playlistTitle, setPlaylistTitle] = useState(playlist.title);
-    const setPlaylists = useSetPlaylists();
     const { t } = useTranslation();
 
-    const handleUpdatePlaylist = () => {
-      db.update("playlists", { ID: playlist.ID }, (data: Playlist) => ({
-        ...data,
-        title: playlistTitle,
-      }));
-      db.commit();
-      setPlaylists(getPlaylists());
+    const handleUpdatePlaylist = async () => {
+      await database.updatePlaylistTitle(playlist.ID as number, playlistTitle);
       notifications.show({
         title: t("modal.playlist.update.notification.title"),
         message: `${playlistTitle} ${t(

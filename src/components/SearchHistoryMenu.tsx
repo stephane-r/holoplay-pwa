@@ -1,8 +1,9 @@
 import { Box, Button, Divider, Popover, Space } from "@mantine/core";
 import { IconHistory } from "@tabler/icons-react";
 import { type FC, type ReactNode } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
 
-import { getSearchHistory } from "../database/utils";
+import { database } from "../services/database";
 
 interface SearcHistoryMenuProps {
   opened: boolean;
@@ -15,7 +16,7 @@ export const SearcHistoryMenu: FC<SearcHistoryMenuProps> = ({
   onSelect,
   children,
 }) => {
-  const data = getSearchHistory();
+  const data = useLiveQuery(() => database.getSearchHistory(), []) ?? [];
 
   if (!data.length) {
     return <>{children}</>;

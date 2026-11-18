@@ -1,27 +1,29 @@
 import { ActionIcon, Box, CloseButton, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronRight, IconInfoCircle } from "@tabler/icons-react";
-import { memo, useCallback, useEffect, useMemo, useRef } from "react";
-import videojs from "video.js";
-import type Player from "video.js/dist/types/player";
-import "video.js/dist/video-js.css";
-import "videojs-youtube";
+import { YouTubeVideo } from "@videojs/react/media/youtube-video";
+import { VideoPlayer, VideoSkin } from "@videojs/react/video";
+import "@videojs/react/video/skin.css";
+import type { YouTubeAdapter } from "@videojs/youtube-video";
+import { memo, useCallback, useMemo, useRef } from "react";
 
+import { useAudioElement } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
-  usePlayerAudio,
   usePlayerState,
+  usePlayerTime,
   usePlayerVideo,
 } from "../providers/Player";
 import { useSetPlayerMode } from "../providers/PlayerMode";
-import { usePreviousNextVideos } from "../providers/PreviousNextTrack";
 import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 import classes from "./VideoIframe.module.css";
 
 export const VideoIframe = memo(() => {
   const { video } = usePlayerVideo();
   const playerState = usePlayerState();
+  const playerTime = usePlayerTime();
 
   if (!video) {
     return null;
@@ -34,115 +36,88 @@ export const VideoIframe = memo(() => {
       <ButtonClose />
       <Video
         loop={playerState.repeat}
-        src={`https://www.youtube-nocookie.com/embed/${
-          video.videoId
-        }&start=${Math.floor(playerState.currentTime as number)}`}
+        video={video}
+        startTime={playerTime.currentTime as number}
       />
     </Box>
   );
 });
 
-const Video = ({ loop, src }: { loop: boolean; src: string }) => {
-  const videoRef = useRef();
-  const playerRef = useRef<Player>();
-  const playerAudio = usePlayerAudio();
-  const { videosIds } = usePreviousNextVideos();
+type PlayingVideo = NonNullable<ReturnType<typeof usePlayerVideo>["video"]>;
+
+const Video = ({
+  loop,
+  video,
+  startTime,
+}: {
+  loop: boolean;
+  video: PlayingVideo;
+  startTime: number;
+}) => {
+  const audioElement = useAudioElement();
+  const { nextVideoId } = usePlaybackService();
   const { handlePlay: play } = usePlayVideo();
   const setPlayerMode = useSetPlayerMode();
+  const mediaRef = useRef<YouTubeAdapter>(null);
 
-  const onReady = useCallback(
-    (player: Player) => {
-      player.on("seeked", () => {
-        // @ts-ignore
-        const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-        audio.currentTime = Math.round(player.currentTime() as number);
-      });
-    },
-    [playerAudio],
-  );
+  // Imperatively syncing a native <audio> element's playback position is the
+  // standard way to control it — it's a DOM escape hatch, not React-tracked
+  // state.
+  // eslint-disable-next-line react-hooks/immutability
+  const onSeeked = useCallback(() => {
+    if (audioElement && mediaRef.current) {
+      // eslint-disable-next-line react-hooks/immutability
+      audioElement.currentTime = Math.round(mediaRef.current.currentTime);
+    }
+  }, [audioElement]);
 
   const onEnded = useCallback(() => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    if (!audio.loop && videosIds.nextVideoId) {
+    if (!audioElement) return;
+    if (!audioElement.loop && nextVideoId) {
       setPlayerMode("audio");
-      play(videosIds.nextVideoId);
+      play(nextVideoId);
     }
-  }, [play, playerAudio, setPlayerMode, videosIds.nextVideoId]);
+  }, [play, audioElement, setPlayerMode, nextVideoId]);
 
-  const options = useMemo(
+  // Captured once per video, not re-derived on every playback tick: `startTime`
+  // (sourced from the audio element's continuously-updating currentTime) is
+  // only meant to resume position when a video starts, not to be tracked live.
+  // Omitting it from the deps intentionally "freezes" whatever value was in
+  // scope the moment `video.videoId` last changed — recomputing this object on
+  // every tick was causing the YouTube embed to re-derive its source and
+  // reload roughly 10x/second during playback.
+  const source = useMemo(
     () => ({
-      techOrder: ["youtube"],
-      autoplay: true,
-      controls: true,
-      responsive: true,
-      fluid: true,
-      liveui: true,
-      loop,
-      sources: [
-        {
-          src,
-          type: "video/youtube",
-        },
-      ],
+      src: video.videoId,
+      engine: { youtube: { start: Math.floor(startTime) } },
     }),
-    [loop, src],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [video.videoId],
   );
 
-  useEffect(() => {
-    if (!playerRef.current) {
-      const videoElement = document.createElement("video-js");
-      videoElement.classList.add("vjs-big-play-centered");
-
-      if (!videoRef.current) {
-        return;
-      }
-
-      (videoRef.current as HTMLElement).appendChild(videoElement);
-
-      const player = (playerRef.current = videojs(videoElement, options, () => {
-        onReady(player);
-      }));
-
-      player.on("ended", () => {
-        onEnded();
-      });
-    } else {
-      const player = playerRef.current as any;
-      player.autoplay(options.autoplay);
-      player.src(options.sources);
-    }
-  }, [onEnded, onReady, options, videoRef]);
-
-  useEffect(() => {
-    const player = playerRef.current;
-
-    return () => {
-      if (player && !player.isDisposed()) {
-        player.dispose();
-        playerRef.current = undefined;
-      }
-    };
-  }, [playerRef]);
-
   return (
-    <div data-vjs-player>
-      {/* @ts-ignore */}
-      <div ref={videoRef} />
-    </div>
+    <VideoPlayer>
+      <VideoSkin className={classes.skin}>
+        <YouTubeVideo
+          mediaRef={mediaRef}
+          autoplay
+          loop={loop}
+          source={source}
+          onSeeked={onSeeked}
+          onEnded={onEnded}
+        />
+      </VideoSkin>
+    </VideoPlayer>
   );
 };
 
 const ButtonClose = memo(() => {
   const setPlayerMode = useSetPlayerMode();
-  const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
 
   const handleClick = () => {
     setPlayerMode("audio");
-
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    audio.play();
+    audioElement?.play();
   };
 
   return (

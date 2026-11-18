@@ -8,3 +8,31 @@
 .flexColumn {
   flex: 0 0 rem(277px);
 }
+
+.gridList {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(var(--mantine-spacing-md) * -0.5);
+}
+
+.gridItem {
+  box-sizing: border-box;
+  padding: calc(var(--mantine-spacing-md) * 0.5);
+  width: 100%;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    width: 50%;
+  }
+
+  @media (min-width: $mantine-breakpoint-md) {
+    width: 33.3333%;
+  }
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    width: 25%;
+  }
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    width: 16.6667%;
+  }
+}
