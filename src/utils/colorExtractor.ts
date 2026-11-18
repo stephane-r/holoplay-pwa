@@ -1,4 +1,4 @@
-import { ColorExtractor } from "image-color-extraction";
+import { ColorExtractor } from "image-color-extraction/lib/ColorExtractor";
 
 export type ColorInfo = {
   color: string;

@@ -15,7 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "es2022",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -23,6 +23,7 @@
     "verbatimModuleSyntax": true,
   },
   "include": [
-    "src"
+    "src",
+    "vite.config.mts"
   ]
 }

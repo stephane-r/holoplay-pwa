@@ -21,7 +21,7 @@ export const PlayerProgress = memo(() => {
 
   return (
     <Flex align="center" gap={isLarge ? "xl" : "md"} style={{ flex: 1 }}>
-      <Text size="xs" color="white">
+      <Text size="xs" c="white">
         {String(playerState.formatedCurrentTime ?? "00:00")}
       </Text>
       <Box pos="relative" style={{ flex: 1 }}>
@@ -33,7 +33,7 @@ export const PlayerProgress = memo(() => {
         />
         <SponsorBlockBar />
       </Box>
-      <Text size="xs" color="white">
+      <Text size="xs" c="white">
         {String(playerState.duration ?? "00:00")}
       </Text>
     </Flex>
