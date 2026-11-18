@@ -8,76 +8,36 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { Dropzone, type FileRejection } from "@mantine/dropzone";
+import { Dropzone } from "@mantine/dropzone";
 import "@mantine/dropzone/styles.css";
-import { notifications } from "@mantine/notifications";
 import {
   IconFileBarcode,
   IconFileX,
   IconInfoCircle,
   IconUpload,
 } from "@tabler/icons-react";
-import { type FC, memo, useState } from "react";
+import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { database } from "../services/database";
-import { useFavorite } from "../providers/Favorite";
-import { usePlaylists } from "../providers/Playlist";
-import type { CardVideo } from "../types/interfaces/Card";
-import type { FavoritePlaylist, Playlist } from "../types/interfaces/Playlist";
-import {
-  getArrayDifference,
-  getPlaylistId,
-  getUpdatedPlaylists,
-} from "../utils/getArrayDifference";
+import { useImportPlaylistsFile } from "../hooks/useImportPlaylistsFile";
+import { useImportSelectedPlaylists } from "../hooks/useImportSelectedPlaylists";
+import type { Playlist } from "../types/interfaces/Playlist";
 import { TransferList } from "./TransferList";
 
 export const ImportData = memo(() => {
   const theme = useMantineTheme();
   const { colorScheme } = useMantineColorScheme();
-  const [importedFileData, setImportedFileData] = useState<Playlist[] | null>(
-    null,
-  );
+  const { importedFileData, handleDrop, handleReject, clear } =
+    useImportPlaylistsFile();
   const { t } = useTranslation("translation", {
     keyPrefix: "settings.data.import",
   });
-
-  const handleDrop = (files: File[]) => {
-    const file = files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener("load", (event) => {
-      try {
-        const fileData = JSON.parse(event.target?.result as string);
-        setImportedFileData(fileData?.playlists ?? fileData);
-      } catch {
-        notifications.show({
-          title: t("notification.error.title"),
-          message: t("notification.error.message"),
-          color: "red",
-        });
-      }
-    });
-    reader.readAsText(file);
-  };
-
-  const handleReject = ([file]: FileRejection[]) => {
-    const [error] = file.errors;
-    notifications.show({
-      title: t("notification.error.title"),
-      message: error.message,
-      color: "red",
-    });
-  };
 
   return (
     <Box mt="lg">
       <AlertImportInfos />
       {importedFileData ? (
-        <TransferListContainer
-          data={importedFileData}
-          onClear={() => setImportedFileData(null)}
-        />
+        <TransferListContainer data={importedFileData} onClear={clear} />
       ) : (
         <Dropzone
           onDrop={handleDrop}
@@ -143,106 +103,20 @@ interface TransferListContainerProps {
   onClear(): void;
 }
 
-const loadPlaylistsFromFileData = (
-  playlists: Playlist[],
-  playlistsTitle: string[],
-) => playlists.filter((p) => playlistsTitle.includes(p.title));
-
 const TransferListContainer: FC<TransferListContainerProps> = memo(
-  ({ data: importedFileData, onClear }) => {
-    const currentFavoritePlaylist = useFavorite();
-    const currentPlaylists = usePlaylists();
-    const [loading, setLoading] = useState(false);
+  ({ data: importedFileData }) => {
+    const { loading, importSelected } =
+      useImportSelectedPlaylists(importedFileData);
     const { t } = useTranslation("translation", {
       keyPrefix: "settings.data.import",
     });
-
-    const handleSubmit = async (importData: string[]) => {
-      setLoading(true);
-
-      try {
-        const playlists = loadPlaylistsFromFileData(
-          importedFileData,
-          importData,
-        );
-        const importedFavoritePlaylist = playlists.find(
-          (p) => p.title === "Favorites",
-        ) as FavoritePlaylist;
-        const importedPlaylists = playlists.filter(
-          (p) => p.title !== "Favorites",
-        );
-
-        if (importedFavoritePlaylist) {
-          const newCards = getArrayDifference(
-            currentFavoritePlaylist.cards,
-            importedFavoritePlaylist.cards,
-          );
-
-          if (newCards.length > 0) {
-            await database.importVideosToFavorites(newCards);
-          }
-        }
-
-        if (importedPlaylists.length > 0) {
-          const newPlaylists = getArrayDifference(
-            currentPlaylists,
-            importedPlaylists,
-            getPlaylistId,
-          );
-          const updatedPlaylists = getUpdatedPlaylists(
-            currentPlaylists,
-            importedPlaylists,
-          ) as Playlist[];
-
-          if (newPlaylists.length > 0) {
-            await Promise.all(
-              newPlaylists.map((playlist) =>
-                database.importPlaylist({
-                  type: "playlist",
-                  playlistId: playlist.playlistId ?? undefined,
-                  ID: playlist.ID ?? undefined,
-                  title: playlist.title,
-                  videos: playlist.videos as CardVideo[],
-                  videoCount: playlist.videos.length,
-                }),
-              ),
-            );
-          }
-
-          if (updatedPlaylists.length > 0) {
-            await Promise.all(
-              updatedPlaylists.map((playlist) =>
-                database.updatePlaylistVideos(
-                  playlist.title,
-                  playlist.videos as CardVideo[],
-                ),
-              ),
-            );
-          }
-        }
-
-        notifications.show({
-          title: t("notification.title"),
-          message: t("notification.message"),
-        });
-      } catch (error) {
-        console.log(error);
-        notifications.show({
-          title: t("notification.error.title"),
-          message: t("notification.error.message"),
-          color: "red",
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
 
     return (
       <Box mt="lg" pos="relative">
         <LoadingOverlay visible={loading} />
         <TransferList
           data={importedFileData.map((p) => p.title)}
-          handleSubmit={handleSubmit}
+          handleSubmit={importSelected}
           buttonSubmitLabel={t("button.submit")}
         />
       </Box>
