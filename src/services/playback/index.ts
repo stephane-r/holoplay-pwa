@@ -4,9 +4,34 @@ import { database } from "../database";
 import { getSponsorBlockSegments } from "../sponsor-block";
 import { getVideo } from "../video";
 import type { SponsorBlockSegment } from "../../types/interfaces/SponsorBlock";
-import type { Video, VideoThumbnail } from "../../types/interfaces/Video";
+import type {
+  ThumbnailQualityTypes,
+  Video,
+  VideoThumbnail,
+} from "../../types/interfaces/Video";
 import { colorExtractor, type ColorInfo } from "../../utils/colorExtractor";
 import { formatedCardVideo } from "../../utils/formatData";
+
+// Not every video actually has every quality (short videos, some live
+// streams, and some instances can omit "sddefault"). Try a few reasonable
+// qualities in order before giving up, instead of assuming the first one
+// always exists.
+const THUMBNAIL_QUALITY_PRIORITY: ThumbnailQualityTypes[] = [
+  "sddefault",
+  "high",
+  "medium",
+  "default",
+];
+
+const pickThumbnail = (
+  thumbnails: VideoThumbnail[],
+): VideoThumbnail | undefined => {
+  for (const quality of THUMBNAIL_QUALITY_PRIORITY) {
+    const thumbnail = thumbnails.find((t) => t.quality === quality);
+    if (thumbnail) return thumbnail;
+  }
+  return thumbnails[0];
+};
 
 type Listener = () => void;
 
@@ -102,18 +127,16 @@ class PlaybackService {
         throw new Error("No video url found");
       }
 
-      const videoThumbnail = data.video.videoThumbnails.find(
-        (thumbnail) => thumbnail.quality === "sddefault",
-      ) as VideoThumbnail;
+      const videoThumbnail = pickThumbnail(data.video.videoThumbnails ?? []);
 
-      let videoThumbnailUrl = videoThumbnail.url;
-      if (videoThumbnail.url.startsWith("/")) {
+      let videoThumbnailUrl = videoThumbnail?.url ?? null;
+      if (videoThumbnailUrl?.startsWith("/")) {
         videoThumbnailUrl = `${settings?.currentInstance?.uri}${videoThumbnailUrl}`;
       }
 
-      const colors = await colorExtractor
-        .extractColor(videoThumbnailUrl)
-        .catch(console.log);
+      const colors = videoThumbnailUrl
+        ? await colorExtractor.extractColor(videoThumbnailUrl).catch(console.log)
+        : null;
 
       if (token !== this.playToken) return;
 
