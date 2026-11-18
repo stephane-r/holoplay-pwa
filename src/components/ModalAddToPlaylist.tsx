@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { database } from "../services/database";
 import { usePlaylists } from "../providers/Playlist";
 import type { CardVideo } from "../types/interfaces/Card";
+import { notifyError } from "../utils/notify";
 import { isLocalPlaylist } from "../utils/playlistIdentity";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
@@ -57,10 +58,9 @@ export const ModalAddToPlaylist: FC<ModalAddToPlaylistProps> = memo(
       );
 
       if (!selectedPlaylist) {
-        notifications.show({
-          title: "Error",
+        notifyError({
+          title: t("error"),
           message: t("modal.video.playlist.add.error"),
-          color: "red",
         });
 
         throw new Error(t("modal.video.playlist.add.error") as string);

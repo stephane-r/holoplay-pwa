@@ -7,7 +7,6 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
 import { type FC, memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,6 +17,7 @@ import type {
   RemoteDevice,
   RemoteDeviceType,
 } from "../types/interfaces/Settings";
+import { notifySuccess } from "../utils/notify";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
@@ -81,9 +81,8 @@ export const ButtonAddOrEditDevice: FC<ButtonAddOrEditDeviceProps> = memo(
 
       await database.updateSettings({ devices: updatedDevices });
 
-      notifications.show({
-        message: `${t("modal.device.edit.notification.message")}`,
-        color: "green",
+      notifySuccess({
+        message: t("modal.device.edit.notification.message"),
       });
 
       setOpened(false);
@@ -99,9 +98,8 @@ export const ButtonAddOrEditDevice: FC<ButtonAddOrEditDeviceProps> = memo(
         devices: [device, ...(settings.devices ?? [])],
       });
 
-      notifications.show({
-        message: `${t("modal.device.add.notification.message")}`,
-        color: "green",
+      notifySuccess({
+        message: t("modal.device.add.notification.message"),
       });
 
       form.reset();

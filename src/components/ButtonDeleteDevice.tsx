@@ -1,5 +1,4 @@
 import { ActionIcon, Button, Flex, Modal, Text } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 import { IconTrash } from "@tabler/icons-react";
 import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { database } from "../services/database";
 import { useSettings } from "../providers/Settings";
 import type { RemoteDevice } from "../types/interfaces/Settings";
+import { notifySuccess } from "../utils/notify";
 
 interface ButtonDeleteDeviceProps {
   device: RemoteDevice;
@@ -24,9 +24,8 @@ export const ButtonDeleteDevice: FC<ButtonDeleteDeviceProps> = memo(
       );
       await database.updateSettings({ devices });
 
-      notifications.show({
+      notifySuccess({
         message: t("modal.device.delete.notification.message"),
-        color: "green",
       });
 
       setOpened(false);

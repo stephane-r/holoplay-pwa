@@ -1,6 +1,5 @@
 import { Button, Flex, Modal, Space, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
 import { IconEdit } from "@tabler/icons-react";
 import { type FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { database } from "../services/database";
 import { useSettings } from "../providers/Settings";
 import type { RemoteDevice } from "../types/interfaces/Settings";
+import { notifySuccess } from "../utils/notify";
 import { Form } from "./Form";
 
 interface ButtonEditDeviceProps {
@@ -40,9 +40,8 @@ export const ButtonEditDevice: FC<ButtonEditDeviceProps> = memo(
         devices: [device, ...(settings.devices ?? [])],
       });
 
-      notifications.show({
-        message: `${t("modal.device.add.notification.message")}`,
-        color: "green",
+      notifySuccess({
+        message: t("modal.device.add.notification.message"),
       });
 
       form.reset();

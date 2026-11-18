@@ -12,6 +12,7 @@ import {
   getPlaylistId,
   getUpdatedPlaylists,
 } from "../utils/getArrayDifference";
+import { notifyError } from "../utils/notify";
 
 const loadPlaylistsFromFileData = (
   playlists: Playlist[],
@@ -100,10 +101,9 @@ export const useImportSelectedPlaylists = (importedFileData: Playlist[]) => {
       });
     } catch (error) {
       console.log(error);
-      notifications.show({
+      notifyError({
         title: t("notification.error.title"),
         message: t("notification.error.message"),
-        color: "red",
       });
     } finally {
       setLoading(false);

@@ -1,9 +1,9 @@
-import { notifications } from "@mantine/notifications";
 import { type FileRejection } from "@mantine/dropzone";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { Playlist } from "../types/interfaces/Playlist";
+import { notifyError } from "../utils/notify";
 
 // Parsing the dropped export file and holding its contents until the user
 // picks which playlists to import — split out of ImportData.tsx so that
@@ -25,10 +25,9 @@ export const useImportPlaylistsFile = () => {
         const fileData = JSON.parse(event.target?.result as string);
         setImportedFileData(fileData?.playlists ?? fileData);
       } catch {
-        notifications.show({
+        notifyError({
           title: t("notification.error.title"),
           message: t("notification.error.message"),
-          color: "red",
         });
       }
     });
@@ -37,11 +36,7 @@ export const useImportPlaylistsFile = () => {
 
   const handleReject = ([file]: FileRejection[]) => {
     const [error] = file.errors;
-    notifications.show({
-      title: t("notification.error.title"),
-      message: error.message,
-      color: "red",
-    });
+    notifyError({ title: t("notification.error.title"), message: error.message });
   };
 
   const clear = () => setImportedFileData(null);

@@ -1,5 +1,3 @@
-import { showNotification } from "@mantine/notifications";
-
 import { database } from "../database";
 import { getSponsorBlockSegments } from "../sponsor-block";
 import { getVideo } from "../video";
@@ -11,6 +9,7 @@ import type {
 } from "../../types/interfaces/Video";
 import { colorExtractor, type ColorInfo } from "../../utils/colorExtractor";
 import { formatedCardVideo } from "../../utils/formatData";
+import { notifyError } from "../../utils/notify";
 
 // Not every video actually has every quality (short videos, some live
 // streams, and some instances can omit "sddefault"). Try a few reasonable
@@ -166,11 +165,7 @@ class PlaybackService {
     } catch (error) {
       if (token !== this.playToken) return;
       this.commit({ loadingVideoId: null });
-      showNotification({
-        title: "Error",
-        message: (error as Error).message,
-        color: "red",
-      });
+      notifyError({ title: "Error", message: (error as Error).message });
     }
   };
 

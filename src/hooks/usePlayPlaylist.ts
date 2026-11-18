@@ -1,9 +1,9 @@
-import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 
 import { database } from "../services/database";
 import { getPlaylist as getRemotePlaylist } from "../services/playlist";
 import type { Video } from "../types/interfaces/Video";
+import { notifyError } from "../utils/notify";
 import { isLocalPlaylistId } from "../utils/playlistIdentity";
 import { usePlayVideo } from "./usePlayVideo";
 
@@ -25,10 +25,9 @@ export const usePlayPlaylist = () => {
 
       play(firstVideo.videoId, data.videos as Video[]);
     } catch (error) {
-      notifications.show({
+      notifyError({
         title: "Error",
         message: "An error occurred while trying to play the playlist",
-        color: "red",
       });
     } finally {
       setLoading(false);

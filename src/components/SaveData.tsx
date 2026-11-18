@@ -1,10 +1,10 @@
 import { Alert, Box, Button, Text } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 
 import { database } from "../services/database";
+import { notifyError, notifySuccess } from "../utils/notify";
 
 export const SaveData = memo(() => {
   const { t } = useTranslation("translation", {
@@ -46,19 +46,17 @@ const ButtonSaveData = memo(() => {
     staleTime: 0,
     onSuccess: (data) => {
       setCode(data.code);
-      notifications.show({
+      notifySuccess({
         title: t("notification.title"),
         message: t("notification.message"),
-        color: "green",
       });
       setEnabled(false);
     },
     retry: false,
     onError: () => {
-      notifications.show({
+      notifyError({
         title: t("notification.error.title"),
         message: t("notification.error.message"),
-        color: "red",
       });
       setEnabled(false);
     },

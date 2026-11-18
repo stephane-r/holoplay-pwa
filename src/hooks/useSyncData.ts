@@ -1,4 +1,3 @@
-import { notifications } from "@mantine/notifications";
 import { useState } from "react";
 import useDigitInput from "react-digit-input";
 import { useTranslation } from "react-i18next";
@@ -6,6 +5,7 @@ import { useQuery } from "react-query";
 
 import { database } from "../services/database";
 import type { Card, CardPlaylist } from "../types/interfaces/Card";
+import { notifyError, notifySuccess } from "../utils/notify";
 
 const syncData = async (code: string): Promise<CardPlaylist[]> => {
   const request = await fetch(
@@ -45,10 +45,9 @@ export const useSyncData = (onClose: () => void) => {
       );
     }
 
-    notifications.show({
+    notifySuccess({
       title: t("modal.sync.notification.success.title"),
       message: t("modal.sync.notification.success.message"),
-      color: "green",
     });
 
     onClose();
@@ -67,10 +66,9 @@ export const useSyncData = (onClose: () => void) => {
     },
     retry: false,
     onError: () => {
-      notifications.show({
+      notifyError({
         title: t("modal.sync.notification.error.title"),
         message: t("modal.sync.notification.error.message"),
-        color: "red",
       });
       setEnabled(false);
     },

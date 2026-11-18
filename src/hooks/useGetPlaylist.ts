@@ -1,10 +1,10 @@
-import { notifications } from "@mantine/notifications";
 import { useCallback, useEffect, useState } from "react";
 
 import { usePlaylists } from "../providers/Playlist";
 import { queryClient } from "../queryClient";
 import { getPlaylist } from "../services/playlist";
 import type { Playlist } from "../types/interfaces/Playlist";
+import { notifyError } from "../utils/notify";
 import { isLocalPlaylistId } from "../utils/playlistIdentity";
 
 export const useGetPlaylist = (playlistId: string | number) => {
@@ -23,11 +23,7 @@ export const useGetPlaylist = (playlistId: string | number) => {
       .fetchQuery(`playlist-${id}`, () => getPlaylist(id))
       .then((playlist) => setPlaylist(playlist))
       .catch((error) => {
-        notifications.show({
-          title: "Error",
-          message: error.message,
-          color: "red",
-        });
+        notifyError({ title: "Error", message: error.message });
       });
   };
 

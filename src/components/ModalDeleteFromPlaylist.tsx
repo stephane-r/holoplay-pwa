@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { database } from "../services/database";
 import { useIsLocalPlaylist } from "../hooks/useIsLocalPlaylist";
 import type { CardVideo } from "../types/interfaces/Card";
+import { notifyError } from "../utils/notify";
 import { Modal } from "./Modal";
 
 interface ModalDeleteFromPlaylistProps {
@@ -23,12 +24,11 @@ export const ModalDeleteFromPlaylist: FC<ModalDeleteFromPlaylistProps> = memo(
       const playlist = await database.getPlaylist(Number(playlistId));
 
       if (!playlist) {
-        notifications.show({
-          title: "Error",
-          message: t("Playlist not found"),
-          color: "red",
+        notifyError({
+          title: t("error"),
+          message: t("playlist.not.found"),
         });
-        throw Error(t("Playlist not found") as string);
+        throw Error(t("playlist.not.found") as string);
       }
 
       await database.removeVideoFromPlaylist(
