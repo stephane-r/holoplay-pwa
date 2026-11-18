@@ -1,18 +1,8 @@
 import { AppShell, Center, Stack } from "@mantine/core";
-import {
-  IconHeart,
-  IconHistory,
-  IconHome2,
-  IconInfoCircle,
-  IconMusic,
-  IconSearch,
-  IconSettings,
-  IconTrendingUp,
-  IconUsers,
-} from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { getNavigationItemsForSurface } from "../config/navigationItems";
 import { useSearchUrl } from "../hooks/useSearchUrl";
 import { useStableNavigate } from "../providers/Navigate";
 import { useTrendingUrl } from "../providers/TrendingFilters";
@@ -25,8 +15,21 @@ import { PlayerSpace } from "./Player";
 
 const NAVIGATION_WIDTH = 88;
 
+const DESKTOP_ITEMS = getNavigationItemsForSurface("desktop");
+
 export const Navigation = memo(() => {
   const { t } = useTranslation();
+  const navigate = useStableNavigate();
+  // Search and Trending navigate to a URL that carries the current
+  // query/filters rather than their bare `activePath` — called
+  // unconditionally here (not per-item) to keep every item's rendering
+  // uniform regardless of which one needs an override.
+  const searchUrl = useSearchUrl();
+  const trendingUrl = useTrendingUrl();
+  const urlOverrides: Partial<Record<string, string>> = {
+    search: searchUrl,
+    trending: trendingUrl,
+  };
 
   return (
     <AppShell.Navbar
@@ -39,82 +42,40 @@ export const Navigation = memo(() => {
       </Center>
       <AppShell.Section grow mt={24}>
         <Stack justify="center" gap="sm">
-          <NavbarLink
-            icon={IconHome2}
-            label={t("navigation.dashboard")}
-            activePath="/"
-          />
-          <SearchLink />
-          <TrendingLink />
-          <NavbarLink
-            icon={IconUsers}
-            label={t("navigation.most-popular")}
-            activePath="/most-popular"
-          />
-          <NavbarLink
-            icon={IconHeart}
-            label={t("navigation.favorites")}
-            activePath="/favorites"
-          />
-          <NavbarLink
-            icon={IconMusic}
-            label={t("navigation.playlists")}
-            activePath="/playlists"
-          />
-          <NavbarLink
-            icon={IconHistory}
-            label={t("navigation.history")}
-            activePath="/history"
-          />
+          {DESKTOP_ITEMS.filter((item) => item.section === "primary").map(
+            (item) => (
+              <NavbarLink
+                key={item.id}
+                icon={item.icon}
+                label={t(item.translationKey)}
+                activePath={item.activePath}
+                onClick={
+                  urlOverrides[item.id]
+                    ? () => navigate(urlOverrides[item.id] as string)
+                    : undefined
+                }
+              />
+            ),
+          )}
         </Stack>
       </AppShell.Section>
       <AppShell.Section>
         <Stack justify="center" gap="sm">
           <ButtonSyncData />
-          <NavbarLink
-            icon={IconInfoCircle}
-            label={t("navigation.about")}
-            activePath="/about"
-          />
-          <NavbarLink
-            icon={IconSettings}
-            label={t("navigation.settings")}
-            activePath="/settings"
-          />
+          {DESKTOP_ITEMS.filter((item) => item.section === "secondary").map(
+            (item) => (
+              <NavbarLink
+                key={item.id}
+                icon={item.icon}
+                label={t(item.translationKey)}
+                activePath={item.activePath}
+              />
+            ),
+          )}
           <AppVersion align="center" />
         </Stack>
         <PlayerSpace />
       </AppShell.Section>
     </AppShell.Navbar>
-  );
-});
-
-const SearchLink = memo(() => {
-  const navigate = useStableNavigate();
-  const url = useSearchUrl();
-  const { t } = useTranslation();
-
-  return (
-    <NavbarLink
-      icon={IconSearch}
-      label={t("navigation.search")}
-      onClick={() => navigate(url)}
-      activePath="/search"
-    />
-  );
-});
-
-const TrendingLink = memo(() => {
-  const navigate = useStableNavigate();
-  const url = useTrendingUrl();
-  const { t } = useTranslation();
-
-  return (
-    <NavbarLink
-      icon={IconTrendingUp}
-      label={t("navigation.trending")}
-      onClick={() => navigate(url)}
-      activePath="/trending"
-    />
   );
 });

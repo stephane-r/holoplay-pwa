@@ -1,49 +1,46 @@
 import { Box, Drawer, Flex } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  IconDotsVertical,
-  IconHeart,
-  IconHome2,
-  IconMusic,
-  IconSearch,
-} from "@tabler/icons-react";
+import { IconDotsVertical } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { getNavigationItemsForSurface } from "../config/navigationItems";
 import { useIsMobile } from "../hooks/useIsMobile";
+import { useSearchUrl } from "../hooks/useSearchUrl";
 import { MobileNavigation } from "../components/MobileNavigation";
 import { NavbarLink } from "../components/NavbarLink";
+import { useStableNavigate } from "../providers/Navigate";
 import classes from "./MobileNavigation.module.css";
+
+const MOBILE_BAR_ITEMS = getNavigationItemsForSurface("mobileBar");
 
 export const MobileNavigationContainer = memo(() => {
   const isMobile = useIsMobile();
   const { t } = useTranslation();
+  const navigate = useStableNavigate();
+  // Same reasoning as the desktop Navigation: Search should preserve the
+  // current query/filters instead of resetting to a blank search form.
+  const searchUrl = useSearchUrl();
+  const urlOverrides: Partial<Record<string, string>> = { search: searchUrl };
 
   if (!isMobile) return null;
 
   return (
     <Box className={classes.container}>
       <Flex h={60}>
-        <NavbarLink
-          label={t("navigation.dashboard")}
-          icon={IconHome2}
-          activePath="/"
-        />
-        <NavbarLink
-          label={t("navigation.search")}
-          icon={IconSearch}
-          activePath="/search"
-        />
-        <NavbarLink
-          label={t("navigation.favorites")}
-          icon={IconHeart}
-          activePath="/favorites"
-        />
-        <NavbarLink
-          label={t("navigation.playlists")}
-          icon={IconMusic}
-          activePath="/playlists"
-        />
+        {MOBILE_BAR_ITEMS.map((item) => (
+          <NavbarLink
+            key={item.id}
+            label={t(item.translationKey)}
+            icon={item.icon}
+            activePath={item.activePath}
+            onClick={
+              urlOverrides[item.id]
+                ? () => navigate(urlOverrides[item.id] as string)
+                : undefined
+            }
+          />
+        ))}
         <NavigationDrawer />
       </Flex>
     </Box>

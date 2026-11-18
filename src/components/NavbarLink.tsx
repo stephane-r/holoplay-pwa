@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 import { useStableNavigate } from "../providers/Navigate";
 import classes from "./NavbarLink.module.css";
 
-type RoutePath =
+export type RoutePath =
   | "/"
   | "/search"
   | "/favorites"
@@ -71,18 +71,24 @@ export const NavbarLink = memo(
 
 interface MobileNavbarLinkProps extends NavbarLinkProps {
   onClose: () => void;
+  // Where clicking actually navigates to, if different from `activePath`
+  // (e.g. a search/trending URL that carries the current query/filters).
+  // `activePath` still alone decides the active-highlight match.
+  url?: string;
 }
 
 export const MobileNavbarLink = memo(
-  ({ icon: Icon, label, activePath, onClose }: MobileNavbarLinkProps) => {
-    const link = useNavbarLink(activePath as RoutePath, onClose);
+  ({ icon: Icon, label, activePath, onClose, url }: MobileNavbarLinkProps) => {
+    const link = useNavbarLink(url ?? (activePath as RoutePath), onClose);
+    const location = useLocation();
+    const active = location.pathname === activePath;
 
     return (
       <NavLink
         leftSection={<Icon />}
         label={label}
         onClick={link.onClick}
-        active={link.active}
+        active={active}
       />
     );
   },
