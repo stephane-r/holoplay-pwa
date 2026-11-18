@@ -42,9 +42,11 @@ export const selectSearchType = async (
   await expect(
     page.getByRole("menu", { name: "Search filters" }),
   ).toBeVisible();
+  // Mantine's Select renders its input with role="combobox", not
+  // "textbox" (readonly, opens a listbox of options on click).
   await page
     .getByRole("menu", { name: "Search filters" })
-    .getByRole("textbox", { name: "Type filter" })
+    .getByRole("combobox", { name: "Type filter" })
     .click();
   // await expect(
   //   page.getByRole("listbox").getByRole("option", { selected: true }),
@@ -57,12 +59,14 @@ export const selectSearchType = async (
 };
 
 export const listVisibility = async (page: Page, label: string) => {
+  // A real search request to whichever public instance got picked — give it
+  // more room than the default 5s before calling it a failure.
   await expect(
     page.getByRole("heading", { name: `Search results : ${label}` }),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 10000 });
   await expect(
     page.getByRole("list", { name: `Search result list ${label}` }),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 10000 });
   await expect(
     page.getByRole("list", { name: `Search result list ${label}` }),
   ).not.toBeEmpty();

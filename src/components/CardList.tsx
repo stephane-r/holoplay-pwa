@@ -1,6 +1,6 @@
 import { Box } from "@mantine/core";
-import { type FC, memo } from "react";
-import { VirtuosoGrid } from "react-virtuoso";
+import { type FC, forwardRef, memo } from "react";
+import { type GridItemProps, VirtuosoGrid } from "react-virtuoso";
 
 import { useScrollParent } from "../providers/ScrollParent";
 import { useSettings } from "../providers/Settings";
@@ -98,9 +98,19 @@ export const CardList: FC<CardListProps> = memo(
           overscan={600}
           listClassName={classes.gridList}
           itemClassName={classes.gridItem}
+          components={{ Item: GridListItem }}
           itemContent={(index) => renderCard(data[index])}
         />
       </div>
     );
   },
+);
+
+// VirtuosoGrid's default item wrapper is a plain <div> with no ARIA role —
+// since the migration to virtualized rendering, that silently dropped the
+// `listitem` role each card needs to be found as part of the `role="list"`
+// container above (both by assistive tech and by the e2e suite's
+// `getByRole("listitem")` queries).
+const GridListItem = forwardRef<HTMLDivElement, GridItemProps>(
+  (props, ref) => <div ref={ref} role="listitem" {...props} />,
 );

@@ -47,26 +47,34 @@ export const useInfiniteList = <TItem, TCursor = number>({
     setFetchTrigger(enabled);
   }
 
-  const { isFetching } = useQuery(
+  const { data, isFetching } = useQuery(
     [queryKey, cursor],
     () => fetchPage(cursor),
-    {
-      enabled: enabled && fetchTrigger,
-      onSuccess: (result) => {
-        setItems((previous) => [...previous, ...result.items]);
-        setHasNextPage(result.nextCursor !== null);
-        setCursor(result.nextCursor);
-        setFetchTrigger(false);
-      },
-    },
+    { enabled: enabled && fetchTrigger },
   );
+
+  // Reacting to `data` (rather than an `onSuccess` callback) also covers
+  // react-query serving an already-cached page straight from cache —
+  // re-selecting a previous search term reuses the same query key, and
+  // `onSuccess` doesn't reliably re-fire for a cache hit with no actual
+  // fetch, which left `items` stuck empty after the reset above.
+  useEffect(() => {
+    if (!data) return;
+    // Synchronizing with react-query's own cache, not state derived from
+    // React itself — the exact case this rule means to allow.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setItems((previous) => [...previous, ...data.items]);
+    setHasNextPage(data.nextCursor !== null);
+    setCursor(data.nextCursor);
+    setFetchTrigger(false);
+  }, [data]);
 
   useEffect(() => {
     if (inView && hasNextPage) {
       // Edge-triggered on the sentinel entering view, not a continuous
-      // sync — `fetchTrigger` latches back to false in onSuccess above,
-      // so this only fires once per scroll-into-view, not every render
-      // while the sentinel stays in view.
+      // sync — `fetchTrigger` latches back to false in the effect above
+      // once data resolves, so this only fires once per scroll-into-view,
+      // not every render while the sentinel stays in view.
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setFetchTrigger(true);
     }

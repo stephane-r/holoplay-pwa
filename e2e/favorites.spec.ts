@@ -9,10 +9,20 @@ test("save card in favorites", async ({ page }) => {
   // Go to Trending page
   await page.getByRole("button", { name: "Trending" }).click();
   await expect(page.getByRole("heading", { name: "Trending" })).toBeVisible();
-  await expect(page.getByRole("list", { name: "Trending" })).toBeVisible();
+  await expect(page.getByRole("list", { name: "Trending" })).toBeVisible({
+    timeout: 10000,
+  });
 
-  // Toggle favorite button
-  await page.getByRole("button", { name: "Add to favorite" }).first().click();
+  // Toggle favorite button — skip live streams specifically (Trending
+  // currently tends to surface one at the very top): they don't count as
+  // a "video" below, and this test wants a plain video.
+  const nonLiveCard = page
+    .getByRole("list", { name: "Trending" })
+    .getByRole("listitem")
+    .filter({ hasNotText: "LIVE" })
+    .first();
+  await expect(nonLiveCard).toBeVisible();
+  await nonLiveCard.getByRole("button", { name: "Add to favorite" }).click();
   await expect(
     page.getByRole("button", { name: "Remove from favorite" }),
   ).toBeVisible();
