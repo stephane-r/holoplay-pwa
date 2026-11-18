@@ -2,6 +2,7 @@ import { Box } from "@mantine/core";
 import { type FC, memo } from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 
+import { useScrollParent } from "../providers/ScrollParent";
 import { useSettings } from "../providers/Settings";
 import type { Card as CardType } from "../types/interfaces/Card";
 import type { Video } from "../types/interfaces/Video";
@@ -20,6 +21,7 @@ interface CardListProps {
 export const CardList: FC<CardListProps> = memo(
   ({ label, data, scrollable = false }) => {
     const { currentInstance } = useSettings();
+    const scrollParent = useScrollParent();
 
     if (!data.length) {
       return null;
@@ -76,14 +78,22 @@ export const CardList: FC<CardListProps> = memo(
     // mounted — without this, screens with unbounded infinite-scroll data
     // (search results, a channel's full video list) kept every page ever
     // fetched mounted as real DOM/React nodes, growing without limit the
-    // longer the user scrolled. `useWindowScroll` keeps the page itself as
-    // the scroll container (as before) instead of nesting a new scrollbar,
-    // which also keeps the existing IntersectionObserver "load more" sentinels
-    // working unchanged.
+    // longer the user scrolled.
+    //
+    // `customScrollParent` (not `useWindowScroll`): this app's `body` has
+    // `overflow: hidden` and `.App-Content` is the element that actually
+    // scrolls (see App.css) — the window itself never does. With
+    // `useWindowScroll`, Virtuoso tracked `window.scrollY`, which never
+    // changes here, so it kept rendering the same near-top range of rows
+    // forever: scrolling the real container past that range showed a blank
+    // gap, which only looked "fixed" when a data refetch forced Virtuoso to
+    // recompute. `scrollParent` starts `null` until AppContent's ref fires;
+    // Virtuoso's own docs show this exact pattern (render once with no
+    // scroll parent, then re-render once the ref resolves).
     return (
       <div role="list" aria-label={label}>
         <VirtuosoGrid
-          useWindowScroll
+          customScrollParent={scrollParent ?? undefined}
           totalCount={data.length}
           overscan={600}
           listClassName={classes.gridList}
