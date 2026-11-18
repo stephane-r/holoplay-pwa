@@ -13,4 +13,12 @@
   max-height: 110%;
   border-radius: var(--mantine-radius-sm);
   transform: translate3d(-50%, -50%, 0);
+  transition: transform 150ms ease;
+}
+
+/* mantine-Card-root is a stable global class Mantine's Card always
+   applies — reliable to hook into from here regardless of which
+   CSS-module-scoped class names the card itself uses. */
+:global(.mantine-Card-root):hover .image {
+  transform: translate3d(-50%, -50%, 0) scale(1.05);
 }

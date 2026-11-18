@@ -4,6 +4,16 @@ body {
   overflow: hidden;
 }
 
+/* <button> defaults to cursor: default in every browser (unlike <a>,
+   which defaults to pointer), and Mantine's UnstyledButton — used
+   throughout for nav links, cards, etc. — doesn't add it back since it
+   deliberately strips all default button styling. Fixed globally here
+   instead of per component, since every current use is clickable and any
+   future one almost certainly will be too. */
+.mantine-UnstyledButton-root:not(:disabled) {
+  cursor: pointer;
+}
+
 html {
   height: -webkit-fill-available;
 }
