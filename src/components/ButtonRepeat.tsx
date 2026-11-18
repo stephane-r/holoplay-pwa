@@ -2,11 +2,8 @@ import { ActionIcon } from "@mantine/core";
 import { IconRepeat, IconRepeatOnce } from "@tabler/icons-react";
 import { type FC, memo } from "react";
 
-import {
-  usePlayerAudio,
-  usePlayerState,
-  useSetPlayerState,
-} from "../providers/Player";
+import { useAudioElement } from "../hooks/useAudioElement";
+import { usePlayerState, useSetPlayerState } from "../providers/Player";
 
 interface ButtonRepeatProps {
   iconSize?: number;
@@ -14,13 +11,13 @@ interface ButtonRepeatProps {
 
 export const ButtonRepeat: FC<ButtonRepeatProps> = memo(({ iconSize }) => {
   const playerState = usePlayerState();
-  const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
   const setPlayerState = useSetPlayerState();
 
   const handleClick = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    audio.loop = !playerState.repeat;
+    if (audioElement) {
+      audioElement.loop = !playerState.repeat;
+    }
 
     setPlayerState((previousState) => ({
       ...previousState,

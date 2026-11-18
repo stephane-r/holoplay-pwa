@@ -5,6 +5,7 @@ import { memo, useEffect } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useTranslation } from "react-i18next";
 
+import { useAudioElement } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
   initialPlayerState,
@@ -21,6 +22,7 @@ import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 
 export const PlayerAudio = memo(() => {
   const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
   const playerUrl = usePlayerUrl();
   const setPlayerState = useSetPlayerState();
   const setPlayerTime = useSetPlayerTime();
@@ -42,14 +44,13 @@ export const PlayerAudio = memo(() => {
   }, [playerUrl]);
 
   const handlePressSpace = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+    if (!audioElement) return;
 
     if (playerState.paused) {
-      audio.play();
+      audioElement.play();
       handlePlay();
     } else {
-      audio.pause();
+      audioElement.pause();
       handlePause();
     }
   };
@@ -71,22 +72,23 @@ export const PlayerAudio = memo(() => {
   };
 
   const handleEnd = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    if (!audio.loop && nextVideoId) {
+    if (!audioElement) return;
+    if (!audioElement.loop && nextVideoId) {
       play(nextVideoId);
     }
   };
 
   const handleListen = (currentTime: number) => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
+    if (!audioElement) return;
     setPlayerTime({
-      audioDuration: Math.round(audio.duration),
-      duration: displayTimeBySeconds(audio.duration),
+      audioDuration: Math.round(audioElement.duration),
+      duration: displayTimeBySeconds(audioElement.duration),
       currentTime: Math.round(currentTime),
-      formatedCurrentTime: displayTimeBySeconds(currentTime, audio.duration),
-      percentage: (100 * currentTime) / Number(audio.duration.toFixed(2)),
+      formatedCurrentTime: displayTimeBySeconds(
+        currentTime,
+        audioElement.duration,
+      ),
+      percentage: (100 * currentTime) / Number(audioElement.duration.toFixed(2)),
     });
   };
 

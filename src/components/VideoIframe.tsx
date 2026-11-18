@@ -7,9 +7,9 @@ import "@videojs/react/video/skin.css";
 import type { YouTubeAdapter } from "@videojs/youtube-video";
 import { memo, useCallback, useMemo, useRef } from "react";
 
+import { useAudioElement } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
-  usePlayerAudio,
   usePlayerState,
   usePlayerTime,
   usePlayerVideo,
@@ -54,28 +54,25 @@ const Video = ({
   video: PlayingVideo;
   startTime: number;
 }) => {
-  const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
   const { nextVideoId } = usePlaybackService();
   const { handlePlay: play } = usePlayVideo();
   const setPlayerMode = useSetPlayerMode();
   const mediaRef = useRef<YouTubeAdapter>(null);
 
   const onSeeked = useCallback(() => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    if (audio && mediaRef.current) {
-      audio.currentTime = Math.round(mediaRef.current.currentTime);
+    if (audioElement && mediaRef.current) {
+      audioElement.currentTime = Math.round(mediaRef.current.currentTime);
     }
-  }, [playerAudio]);
+  }, [audioElement]);
 
   const onEnded = useCallback(() => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    if (!audio.loop && nextVideoId) {
+    if (!audioElement) return;
+    if (!audioElement.loop && nextVideoId) {
       setPlayerMode("audio");
       play(nextVideoId);
     }
-  }, [play, playerAudio, setPlayerMode, nextVideoId]);
+  }, [play, audioElement, setPlayerMode, nextVideoId]);
 
   // Captured once per video, not re-derived on every playback tick: `startTime`
   // (sourced from the audio element's continuously-updating currentTime) is
@@ -111,14 +108,11 @@ const Video = ({
 
 const ButtonClose = memo(() => {
   const setPlayerMode = useSetPlayerMode();
-  const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
 
   const handleClick = () => {
     setPlayerMode("audio");
-
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    audio.play();
+    audioElement?.play();
   };
 
   return (

@@ -1,11 +1,8 @@
 import { useCallback, useEffect } from "react";
 
-import {
-  usePlayerAudio,
-  usePlayerTime,
-  usePlayerVideo,
-} from "../providers/Player";
+import { usePlayerTime, usePlayerVideo } from "../providers/Player";
 import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
+import { useAudioElement } from "./useAudioElement";
 
 const inRange = (num: number, min: number, max: number) =>
   num >= min && num <= max;
@@ -27,15 +24,14 @@ const getCurrentSegment = (
 export const useSponsorBlock = () => {
   const playerVideo = usePlayerVideo();
   const playerTime = usePlayerTime();
-  const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
 
   const handleSeek = useCallback(
     (currentTime: number) => {
-      // @ts-ignore
-      const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-      audio.currentTime = currentTime;
+      if (!audioElement) return;
+      audioElement.currentTime = currentTime;
     },
-    [playerAudio],
+    [audioElement],
   );
 
   useEffect(() => {

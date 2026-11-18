@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import type ReactAudioPlayer from "react-audio-player";
 
 import { useRemotePlay } from "../hooks/useRemotePlay";
 import { initialPlayerVideoState } from "../services/playback";
@@ -52,7 +53,9 @@ export const initialPlayerTime: PlayerTime = {
   percentage: null,
 };
 
-const PlayerAudioContext = createContext<MutableRefObject<null> | null>(null);
+const PlayerAudioContext = createContext<MutableRefObject<
+  ReactAudioPlayer | null
+> | null>(null);
 const PlayerStateContext = createContext<PlayerState>(initialPlayerState);
 const SetPlayerStateContext = createContext<
   Dispatch<SetStateAction<PlayerState>>
@@ -66,7 +69,7 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   const [playerStatus, setPlayerStatus] =
     useState<PlayerState>(initialPlayerState);
   const [playerTime, setPlayerTime] = useState<PlayerTime>(initialPlayerTime);
-  const playerAudioRef = useRef(null);
+  const playerAudioRef = useRef<ReactAudioPlayer | null>(null);
 
   return (
     <PlayerAudioContext.Provider value={playerAudioRef}>

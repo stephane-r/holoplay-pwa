@@ -17,12 +17,9 @@ import {
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useToggleAudioPlayPause } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
-import {
-  usePlayerAudio,
-  usePlayerState,
-  usePlayerVideo,
-} from "../providers/Player";
+import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import type { CardVideo } from "../types/interfaces/Card";
 import type { Video } from "../types/interfaces/Video";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
@@ -146,20 +143,9 @@ const ButtonPlay = memo(({ onClick }: { onClick: () => void }) => {
 });
 
 const ButtonAudioPlayPause = memo(() => {
-  const playerAudio = usePlayerAudio();
   const playerState = usePlayerState();
   const { t } = useTranslation();
-
-  const handlePlayPause = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  };
+  const handlePlayPause = useToggleAudioPlayPause();
 
   return (
     <ActionIcon
@@ -177,22 +163,11 @@ const ButtonAudioPlayPause = memo(() => {
 
 const CardPlaying = memo(({ videoId }: { videoId: string }) => {
   const { video } = usePlayerVideo();
-  const playerAudio = usePlayerAudio();
+  const handlePlayPause = useToggleAudioPlayPause();
 
   if (video?.videoId !== videoId) {
     return null;
   }
-
-  const handlePlayPause = () => {
-    // @ts-ignore
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  };
 
   return (
     <UnstyledButton className={classes.buttonPlaying} onClick={handlePlayPause}>

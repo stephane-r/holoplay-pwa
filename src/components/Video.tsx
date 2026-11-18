@@ -10,8 +10,9 @@ import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
 import hexToRgba from "hex-to-rgba";
 import { type FC, memo } from "react";
 
+import { useAudioElement } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
-import { usePlayerAudio, usePlayerVideo } from "../providers/Player";
+import { usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
 import type { Video as VideoType } from "../types/interfaces/Video";
 import { getThumbnailQuality } from "../utils/formatData";
@@ -28,7 +29,7 @@ export const Video: FC<VideoProps> = memo(
   ({ video, withThumbnail = true, queue }) => {
     const { video: playedVideo, primaryColor } = usePlayerVideo();
     const { handlePlay, loading } = usePlayVideo(video.videoId);
-    const playerAudio = usePlayerAudio();
+    const audioElement = useAudioElement();
     const { currentInstance } = useSettings();
 
     const imageSrc =
@@ -38,9 +39,7 @@ export const Video: FC<VideoProps> = memo(
 
     const handleClick = () => {
       if (isPlaying) {
-        // @ts-ignore
-        const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-        audio.pause();
+        audioElement?.pause();
       } else {
         handlePlay(video.videoId, queue);
       }

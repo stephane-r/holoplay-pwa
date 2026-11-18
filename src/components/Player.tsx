@@ -19,10 +19,10 @@ import {
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useAudioElement } from "../hooks/useAudioElement";
 import { useDevices } from "../hooks/useDevices";
 import { useStableNavigate } from "../providers/Navigate";
 import {
-  usePlayerAudio,
   usePlayerState,
   usePlayerUrl,
   usePlayerVideo,
@@ -143,12 +143,11 @@ const VideoInformations = memo(() => {
 
 export const ButtonVolume = memo(() => {
   const playerState = usePlayerState();
-  const playerAudio = usePlayerAudio();
+  const audioElement = useAudioElement();
 
   const handleChangeEnd = (volume: number) => {
-    // @ts-ignorex
-    const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    audio.volume = volume / 100;
+    if (!audioElement) return;
+    audioElement.volume = volume / 100;
   };
 
   return (

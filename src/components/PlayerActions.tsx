@@ -8,8 +8,9 @@ import {
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useToggleAudioPlayPause } from "../hooks/useAudioElement";
 import { usePlayVideo } from "../hooks/usePlayVideo";
-import { usePlayerAudio, usePlayerState } from "../providers/Player";
+import { usePlayerState } from "../providers/Player";
 import { usePlayerMode } from "../providers/PlayerMode";
 import { usePlaybackService } from "../services/playback/usePlaybackService";
 
@@ -51,18 +52,7 @@ interface ButtonNextVideoProps extends ActionIconProps {
 const ButtonPlayPause: FC<ButtonNextVideoProps> = memo(
   ({ size, radius, iconSize }) => {
     const playerState = usePlayerState();
-    const playerAudio = usePlayerAudio();
-
-    const handlePlayPause = () => {
-      // @ts-ignore
-      const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
-    };
+    const handlePlayPause = useToggleAudioPlayPause();
 
     return (
       <ActionIcon
