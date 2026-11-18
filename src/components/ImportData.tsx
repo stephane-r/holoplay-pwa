@@ -118,6 +118,8 @@ const TransferListContainer: FC<TransferListContainerProps> = memo(
           data={importedFileData.map((p) => p.title)}
           handleSubmit={importSelected}
           buttonSubmitLabel={t("button.submit")}
+          leftLabel={t("left")}
+          rightLabel={t("right")}
         />
       </Box>
     );

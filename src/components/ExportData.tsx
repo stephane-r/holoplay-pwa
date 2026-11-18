@@ -48,6 +48,8 @@ export const ExportData = memo(() => {
         data={userData}
         handleSubmit={handleSubmit}
         buttonSubmitLabel={t("button.submit")}
+        leftLabel={t("left")}
+        rightLabel={t("right")}
       />
       <ModalExportFilename
         opened={opened}

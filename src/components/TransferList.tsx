@@ -5,6 +5,7 @@ import {
   Combobox,
   Flex,
   Group,
+  Text,
   TextInput,
   useCombobox,
 } from "@mantine/core";
@@ -20,11 +21,14 @@ interface TransferListProps {
   data: string[];
   handleSubmit: (data: string[]) => void;
   buttonSubmitLabel: string;
+  leftLabel: string;
+  rightLabel: string;
 }
 
 export const TransferList: FC<TransferListProps> = memo(
-  ({ data: userData, handleSubmit, buttonSubmitLabel }) => {
+  ({ data: userData, handleSubmit, buttonSubmitLabel, leftLabel, rightLabel }) => {
     const [data, setData] = useState<TransferListData>([userData, []]);
+    const { t } = useTranslation();
 
     const handleTransfer = (transferFrom: number, options: string[]) => {
       setData((current) => {
@@ -44,14 +48,19 @@ export const TransferList: FC<TransferListProps> = memo(
 
     return (
       <>
+        <Text size="sm" c="dimmed" mb="xs">
+          {t("transfer.list.hint")}
+        </Text>
         <Flex className={classes.container}>
           <RenderList
             type="forward"
+            label={leftLabel}
             options={data[0]}
             onTransfer={(options) => handleTransfer(0, options)}
           />
           <RenderList
             type="backward"
+            label={rightLabel}
             options={data[1]}
             onTransfer={(options) => handleTransfer(1, options)}
           />
@@ -73,13 +82,12 @@ interface RenderListProps {
   options: string[];
   onTransfer(options: string[]): void;
   type: "forward" | "backward";
+  label: string;
 }
 
 const RenderList: FC<RenderListProps> = memo(
-  ({ options, onTransfer, type }) => {
-    const { t } = useTranslation("translation", {
-      keyPrefix: "settings.data.export",
-    });
+  ({ options, onTransfer, type, label }) => {
+    const { t } = useTranslation();
     const combobox = useCombobox();
     const [value, setValue] = useState<string[]>([]);
     const [search, setSearch] = useState("");
@@ -98,12 +106,15 @@ const RenderList: FC<RenderListProps> = memo(
 
     return (
       <div className={classes.renderList} data-type={type}>
+        <Text size="sm" fw={600} mb={4}>
+          {label}
+        </Text>
         <Combobox store={combobox} onOptionSubmit={handleValueSelect}>
           <Combobox.EventsTarget>
             <Group wrap="nowrap" gap={0} className={classes.controls}>
               <TextInput
                 leftSection={<Checkbox onChange={handleSelectAll} />}
-                placeholder={t("search.placeholder")}
+                placeholder={t("transfer.list.search.placeholder")}
                 classNames={{ input: classes.input }}
                 style={{ flex: 1 }}
                 value={search}
@@ -141,7 +152,9 @@ const RenderList: FC<RenderListProps> = memo(
                     />
                   ))
               ) : (
-                <Combobox.Empty>{t("search.nothing.found")}</Combobox.Empty>
+                <Combobox.Empty>
+                  {t("transfer.list.search.nothing.found")}
+                </Combobox.Empty>
               )}
             </Combobox.Options>
           </div>
