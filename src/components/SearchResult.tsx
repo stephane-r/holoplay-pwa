@@ -1,47 +1,32 @@
 import { Alert, LoadingOverlay, Paper } from "@mantine/core";
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { useInView } from "react-intersection-observer";
-import { useQuery } from "react-query";
 
+import { useInfiniteList } from "../hooks/useInfiniteList";
 import { useSearchValues } from "../providers/Search";
 import { search } from "../services/search";
 import type { Card } from "../types/interfaces/Card";
 import { CardList } from "./CardList";
 
 export const SearchResult = memo(() => {
-  const currentSearchValues = useSearchValues();
-  const [searchValues, setSearchValues] = useState(currentSearchValues);
-  const { ref, inView } = useInView();
-  const [page, setPage] = useState(1);
-  const [enabled, setEnabled] = useState(searchValues.q.length > 0);
-  const [cards, setCards] = useState<Card[]>([]);
+  const searchValues = useSearchValues();
   const { t } = useTranslation();
+  const resetKey = JSON.stringify(searchValues);
 
-  const { isFetching } = useQuery(
-    `search-${currentSearchValues.q}-${currentSearchValues.type}-${page}`,
-    async () => search({ ...currentSearchValues, page }),
-    {
-      onSuccess: (data) => {
-        setCards((previousVideos) => [...previousVideos, ...(data as Card[])]);
-        setPage((page) => page + 1);
-        setEnabled(false);
-      },
-      enabled,
+  const {
+    items: cards,
+    isLoadingMore,
+    sentinelRef,
+  } = useInfiniteList<Card, number>({
+    queryKey: `search-${resetKey}`,
+    resetKey,
+    enabled: searchValues.q.length > 0,
+    fetchPage: async (cursor) => {
+      const page = cursor ?? 1;
+      const items = await search({ ...searchValues, page });
+      return { items, nextCursor: page + 1 };
     },
-  );
-
-  useEffect(() => {
-    if (JSON.stringify(searchValues) !== JSON.stringify(currentSearchValues)) {
-      setSearchValues(currentSearchValues);
-      setCards([]);
-      setPage(1);
-      setEnabled(true);
-    }
-    if (inView) {
-      setEnabled(true);
-    }
-  }, [inView, currentSearchValues, searchValues]);
+  });
 
   if (searchValues.q.length === 0) {
     return (
@@ -58,8 +43,8 @@ export const SearchResult = memo(() => {
       ) : (
         <LoadingOverlay visible />
       )}
-      <button ref={ref} style={{ opacity: 0 }} />
-      {isFetching && page > 1 ? (
+      <button ref={sentinelRef} style={{ opacity: 0 }} />
+      {isLoadingMore ? (
         <Paper
           h={100}
           pos="relative"
