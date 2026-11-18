@@ -18,9 +18,13 @@ export const navigateTo = async (
 };
 
 export const checkNotification = async (page: Page, value: RegExp) => {
-  await expect(page.getByRole("alert")).toContainText(value);
-  await page.getByRole("alert").getByRole("button").click();
-  await expect(page.getByRole("alert")).not.toBeVisible();
+  // Scoped by its expected text, not just role="alert" — Mantine's empty-
+  // state Alert (e.g. "playlists-empty") also has role="alert", and can be
+  // on screen at the same time as the actual notification toast.
+  const notification = page.getByRole("alert").filter({ hasText: value });
+  await expect(notification).toBeVisible();
+  await notification.getByRole("button").click();
+  await expect(notification).not.toBeVisible();
 };
 
 export const search = async (page: Page, value: string) => {

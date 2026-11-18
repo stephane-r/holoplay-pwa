@@ -37,7 +37,7 @@ export const ModalCreatePlaylist = memo(() => {
         onClose={() => setOpened(false)}
         centered
         size="lg"
-        title={t("create.playlist.title")}
+        title={t("modal.create.playlist.title")}
       >
         <Form label="Form create playlist" onSubmit={handleAddToPlaylist}>
           <TextInput
@@ -56,7 +56,7 @@ export const ModalCreatePlaylist = memo(() => {
           </Flex>
         </Form>
       </Modal>
-      <Tooltip label={t("create.playlist.title")} position="left">
+      <Tooltip label={t("modal.create.playlist.title")} position="left">
         <ActionIcon
           aria-label="Open modal to create playlist"
           onClick={() => setOpened(true)}
