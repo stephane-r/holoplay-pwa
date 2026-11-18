@@ -10,6 +10,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.13.2] - 2026-11-18
+### :bug: Bug Fixes
+- [`954a70f`](https://github.com/stephane-r/holoplay-pwa/commit/954a70f8a629dfa012957ed23b179bb3089de2df) - **ci**: pass REACT_APP_API_URL/PLAUSIBLE_ANALYTICS into the Pages build *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`ece944c`](https://github.com/stephane-r/holoplay-pwa/commit/ece944c7e905c4062925c25cc00098b6394c4d46) - **ci**: deploy Pages under the "Production" environment *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+
 ## [v1.13.1] - 2026-11-18
 ### :bug: Bug Fixes
 - [`020e017`](https://github.com/stephane-r/holoplay-pwa/commit/020e017e31ef9d44e699b1ef77d5c0746eeb4ebd) - **router**: set basename so routing works under a subpath *(commit by [@stephane-r](https://github.com/stephane-r))*
@@ -403,3 +409,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.12.3]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.2...v1.12.3
 [v1.13.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.3...v1.13.0
 [v1.13.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.0...v1.13.1
+[v1.13.2]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.1...v1.13.2
