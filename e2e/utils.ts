@@ -68,20 +68,20 @@ export const listVisibility = async (page: Page, label: string) => {
   ).not.toBeEmpty();
 };
 
-export const selectedInstance = async (page: Page, instanceUri: string) => {
+// Picks whichever instance the list happens to have first, rather than a
+// specific hardcoded domain — public Invidious instances come and go, so
+// pinning the test to one by name means it breaks the moment that instance
+// disappears (as happened to the previously hardcoded "invidious.fdn.fr").
+export const selectedInstance = async (page: Page) => {
   await navigateTo(page, "Settings", "Settings");
   await page.getByRole("button", { name: /General/ }).click();
-  await expect(
-    page.getByRole("list", { name: "Invidious instances list" }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("listitem", { name: "invidious.fdn.fr" }),
-  ).toBeVisible();
-  await page
-    .getByRole("listitem", { name: "invidious.fdn.fr" })
-    .getByTestId("use")
-    .click();
-  await expect(
-    page.getByRole("listitem", { name: "invidious.fdn.fr" }),
-  ).toHaveAttribute("aria-current", "true");
+  const instancesList = page.getByRole("list", {
+    name: "Invidious instances list",
+  });
+  await expect(instancesList).toBeVisible();
+
+  const firstInstance = instancesList.getByRole("listitem").first();
+  await expect(firstInstance).toBeVisible();
+  await firstInstance.getByTestId("use").click();
+  await expect(firstInstance).toHaveAttribute("aria-current", "true");
 };
