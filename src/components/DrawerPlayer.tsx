@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 
 import { useStableNavigate } from "../providers/Navigate";
 import { usePlayerUrl, usePlayerVideo } from "../providers/Player";
-import { usePlaybackQueue } from "../services/playback/usePlaybackQueue";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import type { CardVideo } from "../types/interfaces/Card";
 import type { Video, VideoThumbnail } from "../types/interfaces/Video";
 import { ButtonDevicesAvailable } from "./ButtonDevicesAvailable";
@@ -35,7 +35,7 @@ import { VideoList } from "./VideoList";
 
 export const DrawerPlayer = memo(() => {
   const playerUrl = usePlayerUrl();
-  const { queue: playerPlaylist } = usePlaybackQueue();
+  const { queue: playerPlaylist } = usePlaybackService();
   const { t } = useTranslation();
 
   const cardStyles = {

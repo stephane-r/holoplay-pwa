@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import { usePlayerAudio, usePlayerState } from "../providers/Player";
 import { usePlayerMode } from "../providers/PlayerMode";
-import { usePlaybackQueue } from "../services/playback/usePlaybackQueue";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 
 interface PlayerActionsProps {
   showTrackPrevious?: boolean;
@@ -83,8 +83,8 @@ const ButtonPlayPause: FC<ButtonNextVideoProps> = memo(
 );
 
 const ButtonPreviousVideo = memo(() => {
-  const { handlePlay, loading } = usePlayVideo();
-  const { previousVideoId } = usePlaybackQueue();
+  const { previousVideoId } = usePlaybackService();
+  const { handlePlay, loading } = usePlayVideo(previousVideoId ?? undefined);
   const { t } = useTranslation();
 
   const handlePlayPreviousVideo = () => {
@@ -106,8 +106,8 @@ const ButtonPreviousVideo = memo(() => {
 });
 
 const ButtonNextVideo = memo(() => {
-  const { handlePlay, loading } = usePlayVideo();
-  const { nextVideoId } = usePlaybackQueue();
+  const { nextVideoId } = usePlaybackService();
+  const { handlePlay, loading } = usePlayVideo(nextVideoId ?? undefined);
   const { t } = useTranslation();
 
   const handlePlayNextVideo = () => {

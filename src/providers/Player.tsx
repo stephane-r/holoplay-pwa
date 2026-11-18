@@ -12,23 +12,8 @@ import {
 } from "react";
 
 import { useRemotePlay } from "../hooks/useRemotePlay";
-import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
-import type { Video } from "../types/interfaces/Video";
-import type { ColorInfo } from "../utils/colorExtractor";
-
-interface PlayerVideo {
-  video: Video | null;
-  sponsorBlockSegments: SponsorBlockSegment[] | null;
-  thumbnailUrl: string | null;
-  primaryColor: ColorInfo | null;
-}
-
-const initialPlayerVideoState = {
-  video: null,
-  sponsorBlockSegments: null,
-  thumbnailUrl: null,
-  primaryColor: null,
-};
+import { initialPlayerVideoState } from "../services/playback";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 
 interface PlayerState {
   paused: boolean;
@@ -57,41 +42,15 @@ export const initialPlayerState: PlayerState = {
 };
 
 const PlayerAudioContext = createContext<MutableRefObject<null> | null>(null);
-const PlayerUrlContext = createContext<string | null>(null);
-const SetPlayerUrlContext = createContext<
-  Dispatch<SetStateAction<string | null>>
->(() => {});
-const PlayerVideoContext = createContext<PlayerVideo>(initialPlayerVideoState);
-const SetPlayerVideoContext = createContext<
-  Dispatch<SetStateAction<PlayerVideo>>
->(() => {});
 const PlayerStateContext = createContext<PlayerState>(initialPlayerState);
 const SetPlayerStateContext = createContext<
   Dispatch<SetStateAction<PlayerState>>
 >(() => {});
 
 export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [video, setVideo] = useState<PlayerVideo>(initialPlayerVideoState);
-  const [url, setUrl] = useState<string | null>(null);
   const [playerStatus, setPlayerStatus] =
     useState<PlayerState>(initialPlayerState);
   const playerAudioRef = useRef(null);
-
-  const videoState = useMemo(
-    () => ({
-      video,
-      setVideo,
-    }),
-    [video],
-  );
-
-  const urlState = useMemo(
-    () => ({
-      url,
-      setUrl,
-    }),
-    [url],
-  );
 
   const playerState = useMemo(
     () => ({
@@ -103,22 +62,12 @@ export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <PlayerAudioContext.Provider value={playerAudioRef}>
-      <PlayerUrlContext.Provider value={urlState.url}>
-        <SetPlayerUrlContext.Provider value={urlState.setUrl}>
-          <PlayerVideoContext.Provider value={videoState.video}>
-            <SetPlayerVideoContext.Provider value={videoState.setVideo}>
-              <PlayerStateContext.Provider value={playerState.playerStatus}>
-                <SetPlayerStateContext.Provider
-                  value={playerState.setPlayerStatus}
-                >
-                  {children}
-                  <RemotePlayHook />
-                </SetPlayerStateContext.Provider>
-              </PlayerStateContext.Provider>
-            </SetPlayerVideoContext.Provider>
-          </PlayerVideoContext.Provider>
-        </SetPlayerUrlContext.Provider>
-      </PlayerUrlContext.Provider>
+      <PlayerStateContext.Provider value={playerState.playerStatus}>
+        <SetPlayerStateContext.Provider value={playerState.setPlayerStatus}>
+          {children}
+          <RemotePlayHook />
+        </SetPlayerStateContext.Provider>
+      </PlayerStateContext.Provider>
     </PlayerAudioContext.Provider>
   );
 };
@@ -128,10 +77,9 @@ const RemotePlayHook = () => {
   return null;
 };
 
-export const usePlayerUrl = () => useContext(PlayerUrlContext);
-export const useSetPlayerUrl = () => useContext(SetPlayerUrlContext);
-export const usePlayerVideo = () => useContext(PlayerVideoContext);
-export const useSetPlayerVideo = () => useContext(SetPlayerVideoContext);
+export const usePlayerUrl = () => usePlaybackService().url;
+export const usePlayerVideo = () =>
+  usePlaybackService().video ?? initialPlayerVideoState;
 export const usePlayerAudio = () => useContext(PlayerAudioContext);
 export const usePlayerState = () => useContext(PlayerStateContext);
 export const useSetPlayerState = () => useContext(SetPlayerStateContext);

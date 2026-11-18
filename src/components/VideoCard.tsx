@@ -44,7 +44,7 @@ export const isLiveStream = (video: CardVideo) =>
 
 export const VideoCard: FC<VideoCardProps> = memo(
   ({ video, component = "div", currentInstanceUri, queue }) => {
-    const { handlePlay, loading } = usePlayVideo();
+    const { handlePlay, loading } = usePlayVideo(video.videoId);
     const { t } = useTranslation();
 
     const image =

@@ -15,7 +15,7 @@ import {
 } from "../providers/Player";
 import { useSetPlayerMode } from "../providers/PlayerMode";
 import { useSetVideoIframeVisibility } from "../providers/VideoIframeVisibility";
-import { usePlaybackQueue } from "../services/playback/usePlaybackQueue";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { ModalVideoIframeInformation } from "./ModalVideoIframeInformation";
 import classes from "./VideoIframe.module.css";
 
@@ -53,7 +53,7 @@ const Video = ({
   startTime: number;
 }) => {
   const playerAudio = usePlayerAudio();
-  const { nextVideoId } = usePlaybackQueue();
+  const { nextVideoId } = usePlaybackService();
   const { handlePlay: play } = usePlayVideo();
   const setPlayerMode = useSetPlayerMode();
   const mediaRef = useRef<YouTubeAdapter>(null);

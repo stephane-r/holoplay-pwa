@@ -1,24 +1,58 @@
-import type { Video } from "../../types/interfaces/Video";
+import { showNotification } from "@mantine/notifications";
+
+import { database } from "../database";
+import { getSponsorBlockSegments } from "../sponsor-block";
+import { getVideo } from "../video";
+import type { SponsorBlockSegment } from "../../types/interfaces/SponsorBlock";
+import type { Video, VideoThumbnail } from "../../types/interfaces/Video";
+import { colorExtractor, type ColorInfo } from "../../utils/colorExtractor";
+import { formatedCardVideo } from "../../utils/formatData";
 
 type Listener = () => void;
 
-interface QueueSnapshot {
+export interface PlayerVideo {
+  video: Video | null;
+  sponsorBlockSegments: SponsorBlockSegment[] | null;
+  thumbnailUrl: string | null;
+  primaryColor: ColorInfo | null;
+}
+
+export const initialPlayerVideoState: PlayerVideo = {
+  video: null,
+  sponsorBlockSegments: null,
+  thumbnailUrl: null,
+  primaryColor: null,
+};
+
+const DEFAULT_PRIMARY_COLOR = {
+  color: "#000",
+  count: 1,
+};
+
+interface PlaybackSnapshot {
   queue: Video[];
   currentVideoId: string | null;
   previousVideoId: string | null;
   nextVideoId: string | null;
+  loadingVideoId: string | null;
+  video: PlayerVideo | null;
+  url: string | null;
 }
 
-const EMPTY_SNAPSHOT: QueueSnapshot = {
+const EMPTY_SNAPSHOT: PlaybackSnapshot = {
   queue: [],
   currentVideoId: null,
   previousVideoId: null,
   nextVideoId: null,
+  loadingVideoId: null,
+  video: null,
+  url: null,
 };
 
-class PlaybackQueueService {
-  private snapshot: QueueSnapshot = EMPTY_SNAPSHOT;
+class PlaybackService {
+  private snapshot: PlaybackSnapshot = EMPTY_SNAPSHOT;
   private listeners = new Set<Listener>();
+  private playToken = 0;
 
   subscribe = (listener: Listener) => {
     this.listeners.add(listener);
@@ -32,37 +66,103 @@ class PlaybackQueueService {
    * specific list (search results, a playlist, a channel's videos, etc).
    */
   setQueue(queue: Video[], currentVideoId: string) {
-    this.commit(queue, currentVideoId);
-  }
-
-  /**
-   * Move within the existing queue (Next/Previous, or "ended" auto-advance) —
-   * does not touch the queue itself. Returns false if `videoId` isn't
-   * actually in the current queue, so the caller can fall back (see
-   * usePlayVideo).
-   */
-  setCurrentVideoId(videoId: string): boolean {
-    if (!this.snapshot.queue.some((video) => video.videoId === videoId)) {
-      return false;
-    }
-    this.commit(this.snapshot.queue, videoId);
-    return true;
+    this.commit({ queue, currentVideoId });
   }
 
   isInQueue(videoId: string) {
     return this.snapshot.queue.some((video) => video.videoId === videoId);
   }
 
-  private commit(queue: Video[], currentVideoId: string) {
-    const index = queue.findIndex((video) => video.videoId === currentVideoId);
+  /**
+   * Fetch and load a video, then commit it as the current one. If `queue` is
+   * given, it replaces the current queue outright; otherwise, if `videoId`
+   * is already in the current queue, playback just moves position within
+   * it; failing that, falls back to the video's own recommendations.
+   *
+   * A monotonic token ensures a newer call always wins over a slower, older
+   * one still in flight — fixes the out-of-order-response race where two
+   * overlapping play() calls could otherwise let a stale response overwrite
+   * a newer one.
+   */
+  play = async (videoId: string, queue?: Video[]) => {
+    const token = ++this.playToken;
+    this.commit({ loadingVideoId: videoId });
+
+    try {
+      const settings = await database.getSettings();
+      const [sponsorBlockSegments, data] = await Promise.all([
+        settings?.sponsorBlock
+          ? getSponsorBlockSegments(videoId)
+          : { segments: null },
+        getVideo(videoId),
+      ]);
+
+      if (token !== this.playToken) return;
+      if (!data.url) {
+        throw new Error("No video url found");
+      }
+
+      const videoThumbnail = data.video.videoThumbnails.find(
+        (thumbnail) => thumbnail.quality === "sddefault",
+      ) as VideoThumbnail;
+
+      let videoThumbnailUrl = videoThumbnail.url;
+      if (videoThumbnail.url.startsWith("/")) {
+        videoThumbnailUrl = `${settings?.currentInstance?.uri}${videoThumbnailUrl}`;
+      }
+
+      const colors = await colorExtractor
+        .extractColor(videoThumbnailUrl)
+        .catch(console.log);
+
+      if (token !== this.playToken) return;
+
+      const lastVideoPlayed = await database.getLastVideoPlayed();
+      if (lastVideoPlayed?.videoId !== videoId) {
+        database.addToHistory(formatedCardVideo(data.video));
+      }
+
+      const resolvedQueue =
+        queue ??
+        (this.isInQueue(videoId)
+          ? this.snapshot.queue
+          : data.video.recommendedVideos);
+
+      this.commit({
+        queue: resolvedQueue,
+        currentVideoId: videoId,
+        loadingVideoId: null,
+        video: {
+          video: data.video,
+          thumbnailUrl: videoThumbnailUrl,
+          primaryColor: colors ? colors[0] : DEFAULT_PRIMARY_COLOR,
+          sponsorBlockSegments: sponsorBlockSegments.segments,
+        },
+        url: data.url,
+      });
+    } catch (error) {
+      if (token !== this.playToken) return;
+      this.commit({ loadingVideoId: null });
+      showNotification({
+        title: "Error",
+        message: (error as Error).message,
+        color: "red",
+      });
+    }
+  };
+
+  private commit(partial: Partial<PlaybackSnapshot>) {
+    const merged = { ...this.snapshot, ...partial };
+    const index = merged.queue.findIndex(
+      (video) => video.videoId === merged.currentVideoId,
+    );
     this.snapshot = {
-      queue,
-      currentVideoId,
-      previousVideoId: queue[index - 1]?.videoId ?? null,
-      nextVideoId: queue[index + 1]?.videoId ?? null,
+      ...merged,
+      previousVideoId: merged.queue[index - 1]?.videoId ?? null,
+      nextVideoId: merged.queue[index + 1]?.videoId ?? null,
     };
     this.listeners.forEach((listener) => listener());
   }
 }
 
-export const playbackQueue = new PlaybackQueueService();
+export const playbackService = new PlaybackService();

@@ -27,7 +27,7 @@ interface VideoProps {
 export const Video: FC<VideoProps> = memo(
   ({ video, withThumbnail = true, queue }) => {
     const { video: playedVideo, primaryColor } = usePlayerVideo();
-    const { handlePlay, loading } = usePlayVideo();
+    const { handlePlay, loading } = usePlayVideo(video.videoId);
     const playerAudio = usePlayerAudio();
     const { currentInstance } = useSettings();
 

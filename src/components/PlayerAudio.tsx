@@ -1,19 +1,20 @@
 import { Box } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useTranslation } from "react-i18next";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
+  initialPlayerState,
   usePlayerAudio,
   usePlayerState,
   usePlayerUrl,
   useSetPlayerState,
 } from "../providers/Player";
 import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
-import { usePlaybackQueue } from "../services/playback/usePlaybackQueue";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
 
 export const PlayerAudio = memo(() => {
@@ -21,11 +22,20 @@ export const PlayerAudio = memo(() => {
   const playerUrl = usePlayerUrl();
   const setPlayerState = useSetPlayerState();
   const { handlePlay: play } = usePlayVideo();
-  const { nextVideoId } = usePlaybackQueue();
+  const { nextVideoId } = usePlaybackService();
   const playerMode = usePlayerMode();
   const playerState = usePlayerState();
   const setPlayerMode = useSetPlayerMode();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    setPlayerState((previousState) => ({
+      ...initialPlayerState,
+      repeat: previousState.repeat,
+      volume: previousState.volume,
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playerUrl]);
 
   const handlePressSpace = () => {
     // @ts-ignore

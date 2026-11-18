@@ -16,7 +16,7 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { usePlayerState, usePlayerVideo } from "../providers/Player";
-import { usePlaybackQueue } from "../services/playback/usePlaybackQueue";
+import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { DrawerPlayerVideo } from "./DrawerPlayer";
 import classes from "./MobilePlayer.module.css";
 import { PlayerActions } from "./PlayerActions";
@@ -39,7 +39,7 @@ export const MobilePlayer = memo(() => {
 
 const ButtonOpenDrawer = memo(() => {
   const [isOpen, setOpen] = useState(false);
-  const { queue: videos } = usePlaybackQueue();
+  const { queue: videos } = usePlaybackService();
   const { t } = useTranslation();
   const { height } = useViewportSize();
 
