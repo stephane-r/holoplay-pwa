@@ -47,8 +47,16 @@ export const ImportData = memo(() => {
     const reader = new FileReader();
 
     reader.addEventListener("load", (event) => {
-      const fileData = JSON.parse(event.target?.result as string);
-      setImportedFileData(fileData?.playlists ?? fileData);
+      try {
+        const fileData = JSON.parse(event.target?.result as string);
+        setImportedFileData(fileData?.playlists ?? fileData);
+      } catch {
+        notifications.show({
+          title: t("notification.error.title"),
+          message: t("notification.error.message"),
+          color: "red",
+        });
+      }
     });
     reader.readAsText(file);
   };

@@ -1,10 +1,10 @@
-import { Box, useMantineTheme } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
+import { Box } from "@mantine/core";
 import { Suspense, lazy, memo } from "react";
 
 import { MobilePlayer } from "../components/MobilePlayer";
 import { Player } from "../components/Player";
 import { PlayerAudio } from "../components/PlayerAudio";
+import { useIsMobile } from "../hooks/useIsMobile";
 import { usePlayerUrl } from "../providers/Player";
 import { usePlayerMode } from "../providers/PlayerMode";
 import { useSettings } from "../providers/Settings";
@@ -17,8 +17,7 @@ const VideoPlayerContainer = lazy(() =>
 );
 
 export const PlayerContainer = memo(() => {
-  const theme = useMantineTheme();
-  const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
+  const isMobile = useIsMobile();
   const playerUrl = usePlayerUrl();
   const playerMode = usePlayerMode();
   const settings = useSettings();
@@ -33,7 +32,7 @@ export const PlayerContainer = memo(() => {
           <VideoPlayerContainer />
         </Suspense>
       ) : null}
-      {matches ? <MobilePlayer /> : <Player />}
+      {isMobile ? <MobilePlayer /> : <Player />}
     </Box>
   );
 });

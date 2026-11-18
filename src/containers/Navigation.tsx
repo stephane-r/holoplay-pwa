@@ -1,14 +1,12 @@
-import { useMantineTheme } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import { memo } from "react";
 
 import { Navigation } from "../components/Navigation";
+import { useIsDesktop } from "../hooks/useIsMobile";
 
 export const NavigationContainer = memo(() => {
-  const theme = useMantineTheme();
-  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.md})`);
+  const isDesktop = useIsDesktop();
 
-  if (!matches) {
+  if (!isDesktop) {
     return null;
   }
 

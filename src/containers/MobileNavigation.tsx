@@ -1,5 +1,5 @@
-import { Box, Drawer, Flex, useMantineTheme } from "@mantine/core";
-import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { Box, Drawer, Flex } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import {
   IconDotsVertical,
   IconHeart,
@@ -10,16 +10,16 @@ import {
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useIsMobile } from "../hooks/useIsMobile";
 import { MobileNavigation } from "../components/MobileNavigation";
 import { NavbarLink } from "../components/NavbarLink";
 import classes from "./MobileNavigation.module.css";
 
 export const MobileNavigationContainer = memo(() => {
-  const theme = useMantineTheme();
-  const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md})`);
+  const isMobile = useIsMobile();
   const { t } = useTranslation();
 
-  if (!matches) return null;
+  if (!isMobile) return null;
 
   return (
     <Box className={classes.container}>

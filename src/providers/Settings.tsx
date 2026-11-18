@@ -48,8 +48,15 @@ export const SettingsProvider: FC<PropsWithChildren> = ({ children }) => {
           }
         }
 
+        // No usable instance came back (e.g. the public instance list is
+        // down or every entry got filtered out) — keep whatever instance is
+        // already set rather than wiping it to `undefined`.
+        if (parsedInstances.length === 0) {
+          return row.currentInstance;
+        }
+
         return parsedInstances[
-          generateRandomInteger(1, parsedInstances.length - 1)
+          generateRandomInteger(0, parsedInstances.length - 1)
         ];
       })();
 
