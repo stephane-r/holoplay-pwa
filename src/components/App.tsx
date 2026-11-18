@@ -1,9 +1,10 @@
-import { AppShell, Box, Flex } from "@mantine/core";
+import { AppShell, Box, Flex, LoadingOverlay } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/core/styles/global.css";
 import { Notifications } from "@mantine/notifications";
 import "@mantine/notifications/styles.css";
 import i18n from "i18next";
+import { Suspense } from "react";
 import { I18nextProvider } from "react-i18next";
 import { QueryClientProvider } from "react-query";
 import { Outlet } from "react-router-dom";
@@ -57,7 +58,9 @@ export const App = () => {
                                 <Box className="App-Content">
                                   <HeaderDesktopContainer />
                                   <Main>
-                                    <Outlet />
+                                    <Suspense fallback={<LoadingOverlay visible />}>
+                                      <Outlet />
+                                    </Suspense>
                                   </Main>
                                 </Box>
                                 <DrawerPlayerContainer />
