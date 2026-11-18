@@ -28,6 +28,11 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+
+    /* A screenshot at the moment of failure, viewable straight from the
+       downloaded HTML report — no trace viewer needed just to see what the
+       page looked like. */
+    screenshot: "only-on-failure",
   },
 
   /* Configure projects for major browsers */
