@@ -5,6 +5,13 @@ import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   return {
+    // Defaults to root ("/"), which is what the Docker/nginx deployment and
+    // local dev both expect. GitHub Pages serves this repo at a subpath
+    // (stephane-r.github.io/holoplay-pwa/) instead of the domain root, so
+    // its deploy workflow builds with VITE_BASE_PATH=/holoplay-pwa/ to
+    // prefix every asset URL accordingly — without this, every asset 404s
+    // under a subpath since Vite emits root-absolute paths by default.
+    base: env.VITE_BASE_PATH || "/",
     plugins: [
       react(),
       VitePWA({
