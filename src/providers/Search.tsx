@@ -71,10 +71,7 @@ export const useSetSearchValues = () => {
 
   const handleSetValue = (updatedValues: Search) => {
     setValue(updatedValues);
-
-    if (document.location.pathname !== "/search") {
-      navigate(`/search?${qs.stringify(updatedValues)}`);
-    }
+    navigate(`/search?${qs.stringify(updatedValues)}`);
   };
 
   return handleSetValue;
