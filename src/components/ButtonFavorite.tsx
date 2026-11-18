@@ -12,47 +12,32 @@ import { useTranslation } from "react-i18next";
 import { database } from "../services/database";
 import { useFavorite } from "../providers/Favorite";
 import { usePlayerVideo } from "../providers/Player";
-import type {
-  Card,
-  CardChannel,
-  CardPlaylist,
-  CardVideo,
-} from "../types/interfaces/Card";
-import type { Channel } from "../types/interfaces/Channel";
-import type { Playlist } from "../types/interfaces/Playlist";
-import type { Video } from "../types/interfaces/Video";
+import type { Card } from "../types/interfaces/Card";
 import {
   formatedCardChannel,
   formatedCardPlaylist,
   formatedCardVideo,
 } from "../utils/formatData";
 
-type ButtonFavoriteCard = Card | Video | Playlist | Channel;
-type FavoriteChannel = CardChannel | Channel;
-type FavoritePlaylist = CardPlaylist | Playlist;
-type FavoriteVideo = CardVideo | Video;
-
 interface ButtonFavoriteProps extends ActionIconProps {
-  card?: ButtonFavoriteCard;
+  card?: Card;
   iconSize?: number;
   buttonSize?: number;
   render?: "menu";
 }
 
-export const getCardId = (item: ButtonFavoriteCard) => {
-  if ((item as FavoritePlaylist)?.playlistId) {
-    return (item as FavoritePlaylist).playlistId;
+export const getCardId = (item: Card) => {
+  switch (item.type) {
+    case "playlist":
+      return item.playlistId;
+    case "channel":
+      return item.authorId;
+    default:
+      return item.videoId;
   }
-  if (
-    (item as FavoriteChannel)?.authorId &&
-    (item as FavoriteChannel).type === "channel"
-  ) {
-    return (item as FavoriteChannel).authorId;
-  }
-  return (item as FavoriteVideo)?.videoId;
 };
 
-export const getCardTitle = (item: ButtonFavoriteCard) => {
+export const getCardTitle = (item: Card) => {
   switch (item.type) {
     case "channel":
       return item.author;
@@ -74,7 +59,7 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
     const { t } = useTranslation();
     const theme = useMantineTheme();
 
-    const card = parentCard ?? (currentVideo as Video);
+    const card = parentCard ?? (currentVideo && formatedCardVideo(currentVideo));
 
     if (!card) {
       return null;
@@ -88,9 +73,9 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
       const formatedCard = (() => {
         switch (card.type) {
           case "channel":
-            return formatedCardChannel(card as FavoriteChannel);
+            return formatedCardChannel(card);
           case "playlist":
-            return formatedCardPlaylist(card as FavoritePlaylist);
+            return formatedCardPlaylist(card);
           default:
             return formatedCardVideo(card);
         }
