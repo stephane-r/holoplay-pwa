@@ -18,9 +18,14 @@ import { ButtonAddCustomInstance } from "./ButtonAddCustomInstance";
 import { Form } from "./Form";
 import { Modal } from "./Modal";
 
+// The domain-name alternative deliberately has no TLD requirement (unlike a
+// typical "URL validator" regex) — a self-hosted/internal instance is
+// commonly reached by a bare hostname with no dot at all (a Docker service
+// name like `invidious`, a LAN hostname, `localhost`), which a
+// TLD-requiring pattern rejects outright (GH issue #95).
 const URL_REGEX = new RegExp(
   "^(https?:\\/\\/)?" + // Protocol
-    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // Domain name
+    "(([a-z\\d]([a-z\\d-]*[a-z\\d])?)(\\.([a-z\\d]([a-z\\d-]*[a-z\\d])?))*|" + // Domain name or bare hostname
     "((\\d{1,3}\\.){3}\\d{1,3}))" + // Ip (v4) address
     "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // Port and path
     "(\\?[;&a-z\\d%_.~+=-]*)?" + // Query string
