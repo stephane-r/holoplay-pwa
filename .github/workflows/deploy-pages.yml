@@ -17,10 +17,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     # REACT_APP_API_URL/REACT_APP_PLAUSIBLE_ANALYTICS live in the
-    # "Production" environment's variables (name is case-sensitive) — only
-    # a job that declares this environment can read them via the `vars`
-    # context below.
-    environment: Production
+    # "github-pages" environment's variables — only a job that declares
+    # this environment can read them via the `vars` context below.
+    # Deliberately not "Production" (Vercel's old environment): that one
+    # enforces the repo's branch protection rules, which blocks dispatching
+    # this workflow from anything but "main". "github-pages" is GitHub's
+    # own Pages-managed environment and isn't subject to that restriction.
+    environment: github-pages
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,13 +63,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    # Reuses the same "Production" environment the old Vercel integration
-    # deployed to, so a successful Pages deployment here is what shows up
-    # as the latest "Production" status on the repo page — instead of a
-    # separate "github-pages" entry sitting next to Vercel's last (now
-    # permanently stale) deployment.
     environment:
-      name: Production
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
