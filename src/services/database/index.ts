@@ -1,6 +1,8 @@
 import Dexie, { type EntityTable } from "dexie";
+import { v4 as uuidv4 } from "uuid";
 
 import { getCardId } from "../../utils/card";
+import { sponsorBlockCategoriesValues } from "../../utils/sponsorBlockCategories";
 import type { Card, CardPlaylist, CardVideo } from "../../types/interfaces/Card";
 import type {
   FavoritePlaylist,
@@ -13,7 +15,9 @@ const SETTINGS_ID = 1;
 const HISTORY_LIMIT = 200;
 const SEARCH_HISTORY_LIMIT = 20;
 
-type SettingsRow = Settings & { ID: number };
+// `instances` isn't persisted — SettingsProvider populates it at runtime
+// from the fetched Invidious instance list, not from this row.
+type SettingsRow = Omit<Settings, "instances"> & { ID: number };
 // `videos` is retyped to `unknown[]` here (instead of `Playlist`'s own
 // `Card[] | Video[]`) because `Video.recommendedVideos: Video[]` is
 // self-referential, which makes Dexie's deep dot-path update typings
@@ -48,6 +52,43 @@ class DatabaseService extends Dexie {
       history: "++ID, videoId",
       searchHistory: "++ID",
     });
+    // Dexie only fires this once, the first time this database is created
+    // (a brand-new IndexedDB, never a version upgrade) — the one place a
+    // fresh install needs a seeded settings row and a Favorites playlist.
+    // Without it, `getSettings()`/`getFavoritePlaylist()` never resolve a
+    // row, and anything gated on them (the whole app, via SettingsProvider)
+    // never renders.
+    this.on("populate", () => this.populate());
+  }
+
+  private populate() {
+    this.settings.add({
+      ID: SETTINGS_ID,
+      currentInstance: null,
+      defaultInstance: null,
+      customInstances: [],
+      devices: [],
+      videoMode: true,
+      deviceId: uuidv4(),
+      sponsorBlock: true,
+      sponsorBlockCategories: sponsorBlockCategoriesValues.map(
+        (category) => category.value,
+      ),
+      analytics: true,
+      exportFileName: "",
+      exportLastDate: "",
+      volume: 1,
+    } as SettingsRow);
+
+    this.playlists.add({
+      createdAt: new Date().toISOString(),
+      type: "playlist",
+      title: "Favorites",
+      cards: [],
+      videos: [],
+      videoCount: 0,
+      playlistThumbnail: "",
+    } as unknown as PlaylistRow);
   }
 
   // --- settings ---

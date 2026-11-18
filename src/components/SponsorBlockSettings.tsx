@@ -4,41 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { database } from "../services/database";
 import { useSettings } from "../providers/Settings";
-
-export const sponsorBlockCategoriesValues = [
-  {
-    value: "sponsor",
-    label: "Sponsor",
-  },
-  {
-    value: "intro",
-    label: "Intro",
-  },
-  {
-    value: "outro",
-    label: "Outro",
-  },
-  {
-    value: "interaction",
-    label: "Interaction",
-  },
-  {
-    value: "selfpromo",
-    label: "Self Promotion",
-  },
-  {
-    value: "music_offtopic",
-    label: "Music/Offtopic",
-  },
-  {
-    value: "preview",
-    label: "Preview",
-  },
-  {
-    value: "filler",
-    label: "Filler",
-  },
-];
+import { sponsorBlockCategoriesValues } from "../utils/sponsorBlockCategories";
 
 export const SponsorBlockSettings = memo(() => {
   const settings = useSettings();
