@@ -1,6 +1,5 @@
 import { Flex } from "@mantine/core";
-import memoizeOne from "memoize-one";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 import { usePlayerTime, usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
@@ -23,18 +22,23 @@ export const SponsorBlockBar = memo(() => {
   const playerVideo = usePlayerVideo();
   const playerTime = usePlayerTime();
 
-  if (
-    !settings.sponsorBlock ||
-    !playerVideo.sponsorBlockSegments ||
-    !playerTime.audioDuration
-  ) {
+  // Memoized per-component-instance (unlike the module-level memoize-one
+  // cache this replaced, which was shared — and could thrash — across
+  // every mounted SponsorBlockBar).
+  const segments = useMemo(() => {
+    if (!playerVideo.sponsorBlockSegments || !playerTime.audioDuration) {
+      return null;
+    }
+
+    return rangeSponsorBlockSegments(
+      playerVideo.sponsorBlockSegments,
+      playerTime.audioDuration,
+    );
+  }, [playerVideo.sponsorBlockSegments, playerTime.audioDuration]);
+
+  if (!settings.sponsorBlock || !segments) {
     return null;
   }
-
-  const segments = memoizedRangeSponsorBlockSegments(
-    playerVideo.sponsorBlockSegments,
-    playerTime.audioDuration as number,
-  );
 
   return (
     <Flex className={classes.container}>
@@ -94,4 +98,3 @@ const rangeSponsorBlockSegments = (
         dec,
       ];
     }, []);
-const memoizedRangeSponsorBlockSegments = memoizeOne(rangeSponsorBlockSegments);
