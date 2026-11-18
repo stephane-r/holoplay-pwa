@@ -60,9 +60,11 @@ export const App = () => {
                                   <AppContent>
                                     <HeaderDesktopContainer />
                                     <Main>
-                                      <Suspense fallback={<LoadingOverlay visible />}>
-                                        <Outlet />
-                                      </Suspense>
+                                      <Box pos="relative" mih={200}>
+                                        <Suspense fallback={<LoadingOverlay visible />}>
+                                          <Outlet />
+                                        </Suspense>
+                                      </Box>
                                     </Main>
                                   </AppContent>
                                   <DrawerPlayerContainer />

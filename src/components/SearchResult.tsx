@@ -37,7 +37,7 @@ export const SearchResult = memo(() => {
   }
 
   return (
-    <Paper>
+    <Paper pos="relative" mih={cards.length === 0 ? 300 : undefined}>
       {cards.length > 0 ? (
         <CardList label={`Search result list ${searchValues.q}`} data={cards} />
       ) : (
