@@ -19,6 +19,10 @@
   );
 }
 
+.thumbnailButton[data-playing="true"] {
+  cursor: default;
+}
+
 .cardActions {
   margin-top: rem(14px);
   justify-content: flex-end;
@@ -60,9 +64,8 @@
   right: 0;
   bottom: 0;
   z-index: 2;
-  /* Blocks clicks on the thumbnail while this card is already playing —
-     overrides the card's own pointer cursor so hovering it doesn't
-     suggest clicking it would do something. */
+  /* Blocks clicks on the thumbnail button while this card is already
+     playing (see .thumbnailButton for the matching cursor). */
   cursor: default;
 }
 
