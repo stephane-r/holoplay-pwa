@@ -3,12 +3,12 @@ import { memo } from "react";
 
 import { useDevices } from "../hooks/useDevices";
 import { useSponsorBlock } from "../hooks/useSponsorBlock";
-import { usePlayerAudio, usePlayerState } from "../providers/Player";
+import { usePlayerAudio, usePlayerTime } from "../providers/Player";
 import { SponsorBlockBar } from "./SponsorBlockBar";
 
 export const PlayerProgress = memo(() => {
   const playerAudio = usePlayerAudio();
-  const playerState = usePlayerState();
+  const playerTime = usePlayerTime();
   const { isLarge } = useDevices();
 
   useSponsorBlock();
@@ -22,19 +22,19 @@ export const PlayerProgress = memo(() => {
   return (
     <Flex align="center" gap={isLarge ? "xl" : "md"} style={{ flex: 1 }}>
       <Text size="xs" c="white">
-        {String(playerState.formatedCurrentTime ?? "00:00")}
+        {String(playerTime.formatedCurrentTime ?? "00:00")}
       </Text>
       <Box pos="relative" style={{ flex: 1 }}>
         <Slider
           label={null}
-          value={playerState.percentage as number}
+          value={playerTime.percentage as number}
           onChangeEnd={handleChangeEnd}
           size="xs"
         />
         <SponsorBlockBar />
       </Box>
       <Text size="xs" c="white">
-        {String(playerState.duration ?? "00:00")}
+        {String(playerTime.duration ?? "00:00")}
       </Text>
     </Flex>
   );

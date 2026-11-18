@@ -8,10 +8,12 @@ import { useTranslation } from "react-i18next";
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
   initialPlayerState,
+  initialPlayerTime,
   usePlayerAudio,
   usePlayerState,
   usePlayerUrl,
   useSetPlayerState,
+  useSetPlayerTime,
 } from "../providers/Player";
 import { usePlayerMode, useSetPlayerMode } from "../providers/PlayerMode";
 import { usePlaybackService } from "../services/playback/usePlaybackService";
@@ -21,6 +23,7 @@ export const PlayerAudio = memo(() => {
   const playerAudio = usePlayerAudio();
   const playerUrl = usePlayerUrl();
   const setPlayerState = useSetPlayerState();
+  const setPlayerTime = useSetPlayerTime();
   const { handlePlay: play } = usePlayVideo();
   const { nextVideoId } = usePlaybackService();
   const playerMode = usePlayerMode();
@@ -34,6 +37,7 @@ export const PlayerAudio = memo(() => {
       repeat: previousState.repeat,
       volume: previousState.volume,
     }));
+    setPlayerTime(initialPlayerTime);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerUrl]);
 
@@ -77,14 +81,13 @@ export const PlayerAudio = memo(() => {
   const handleListen = (currentTime: number) => {
     // @ts-ignore
     const audio = playerAudio?.current?.audioEl.current as HTMLAudioElement;
-    setPlayerState((previousState) => ({
-      ...previousState,
+    setPlayerTime({
       audioDuration: Math.round(audio.duration),
       duration: displayTimeBySeconds(audio.duration),
       currentTime: Math.round(currentTime),
       formatedCurrentTime: displayTimeBySeconds(currentTime, audio.duration),
       percentage: (100 * currentTime) / Number(audio.duration.toFixed(2)),
-    }));
+    });
   };
 
   const handleVolumeChanged = (event: Event) => {

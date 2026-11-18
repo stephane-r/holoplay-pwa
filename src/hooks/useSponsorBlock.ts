@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 
 import {
   usePlayerAudio,
-  usePlayerState,
+  usePlayerTime,
   usePlayerVideo,
 } from "../providers/Player";
 import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
@@ -21,7 +21,7 @@ const getNextSegment = (
 
 export const useSponsorBlock = () => {
   const playerVideo = usePlayerVideo();
-  const playerState = usePlayerState();
+  const playerTime = usePlayerTime();
   const playerAudio = usePlayerAudio();
 
   const handleSeek = useCallback(
@@ -34,16 +34,16 @@ export const useSponsorBlock = () => {
   );
 
   useEffect(() => {
-    if (playerVideo.sponsorBlockSegments && playerState.currentTime) {
+    if (playerVideo.sponsorBlockSegments && playerTime.currentTime) {
       const nextSegment = getNextSegment(
-        playerState.currentTime,
+        playerTime.currentTime,
         playerVideo.sponsorBlockSegments,
       );
 
       if (
         nextSegment &&
         inRange(
-          playerState.currentTime,
+          playerTime.currentTime,
           nextSegment.startTime,
           nextSegment.endTime,
         )
@@ -53,7 +53,7 @@ export const useSponsorBlock = () => {
     }
   }, [
     playerVideo,
-    playerState.currentTime,
+    playerTime.currentTime,
     playerVideo.sponsorBlockSegments,
     handleSeek,
   ]);

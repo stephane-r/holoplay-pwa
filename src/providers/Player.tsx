@@ -6,7 +6,6 @@ import {
   type SetStateAction,
   createContext,
   useContext,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -15,15 +14,12 @@ import { useRemotePlay } from "../hooks/useRemotePlay";
 import { initialPlayerVideoState } from "../services/playback";
 import { usePlaybackService } from "../services/playback/usePlaybackService";
 
+// Rarely-changing playback controls — paused/muted/repeat/volume/loading
+// only flip on user action or when a new video starts loading.
 interface PlayerState {
   paused: boolean;
   muted: boolean;
   repeat: boolean;
-  audioDuration: number | null;
-  duration: string | null;
-  currentTime: number | null;
-  formatedCurrentTime: string | null;
-  percentage: number | null;
   volume: number;
   loading: boolean;
 }
@@ -32,13 +28,28 @@ export const initialPlayerState: PlayerState = {
   paused: false,
   muted: false,
   repeat: false,
+  volume: 1,
+  loading: true,
+};
+
+// Continuously-updating transport time — rewritten ~10x/second while audio
+// plays (PlayerAudio.tsx's handleListen). Kept in its own context so that
+// components only caring about controls (paused, volume, repeat...) don't
+// re-render on every tick.
+interface PlayerTime {
+  audioDuration: number | null;
+  duration: string | null;
+  currentTime: number | null;
+  formatedCurrentTime: string | null;
+  percentage: number | null;
+}
+
+export const initialPlayerTime: PlayerTime = {
   audioDuration: null,
   duration: null,
   currentTime: null,
   formatedCurrentTime: null,
   percentage: null,
-  volume: 1,
-  loading: true,
 };
 
 const PlayerAudioContext = createContext<MutableRefObject<null> | null>(null);
@@ -46,26 +57,27 @@ const PlayerStateContext = createContext<PlayerState>(initialPlayerState);
 const SetPlayerStateContext = createContext<
   Dispatch<SetStateAction<PlayerState>>
 >(() => {});
+const PlayerTimeContext = createContext<PlayerTime>(initialPlayerTime);
+const SetPlayerTimeContext = createContext<
+  Dispatch<SetStateAction<PlayerTime>>
+>(() => {});
 
 export const PlayerProvider: FC<PropsWithChildren> = ({ children }) => {
   const [playerStatus, setPlayerStatus] =
     useState<PlayerState>(initialPlayerState);
+  const [playerTime, setPlayerTime] = useState<PlayerTime>(initialPlayerTime);
   const playerAudioRef = useRef(null);
-
-  const playerState = useMemo(
-    () => ({
-      playerStatus,
-      setPlayerStatus,
-    }),
-    [playerStatus],
-  );
 
   return (
     <PlayerAudioContext.Provider value={playerAudioRef}>
-      <PlayerStateContext.Provider value={playerState.playerStatus}>
-        <SetPlayerStateContext.Provider value={playerState.setPlayerStatus}>
-          {children}
-          <RemotePlayHook />
+      <PlayerStateContext.Provider value={playerStatus}>
+        <SetPlayerStateContext.Provider value={setPlayerStatus}>
+          <PlayerTimeContext.Provider value={playerTime}>
+            <SetPlayerTimeContext.Provider value={setPlayerTime}>
+              {children}
+              <RemotePlayHook />
+            </SetPlayerTimeContext.Provider>
+          </PlayerTimeContext.Provider>
         </SetPlayerStateContext.Provider>
       </PlayerStateContext.Provider>
     </PlayerAudioContext.Provider>
@@ -83,3 +95,5 @@ export const usePlayerVideo = () =>
 export const usePlayerAudio = () => useContext(PlayerAudioContext);
 export const usePlayerState = () => useContext(PlayerStateContext);
 export const useSetPlayerState = () => useContext(SetPlayerStateContext);
+export const usePlayerTime = () => useContext(PlayerTimeContext);
+export const useSetPlayerTime = () => useContext(SetPlayerTimeContext);

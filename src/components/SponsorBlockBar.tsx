@@ -2,7 +2,7 @@ import { Flex } from "@mantine/core";
 import memoizeOne from "memoize-one";
 import { memo } from "react";
 
-import { usePlayerState, usePlayerVideo } from "../providers/Player";
+import { usePlayerTime, usePlayerVideo } from "../providers/Player";
 import { useSettings } from "../providers/Settings";
 import type { SponsorBlockSegment } from "../types/interfaces/SponsorBlock";
 import classes from "./SponsorBlockBar.module.css";
@@ -14,19 +14,19 @@ interface RangeSponsorBlockSegment extends SponsorBlockSegment {
 export const SponsorBlockBar = memo(() => {
   const settings = useSettings();
   const playerVideo = usePlayerVideo();
-  const playerState = usePlayerState();
+  const playerTime = usePlayerTime();
 
   if (
     !settings.sponsorBlock ||
     !playerVideo.sponsorBlockSegments ||
-    !playerState.audioDuration
+    !playerTime.audioDuration
   ) {
     return null;
   }
 
   const segments = memoizedRangeSponsorBlockSegments(
     playerVideo.sponsorBlockSegments,
-    playerState.audioDuration as number,
+    playerTime.audioDuration as number,
   );
 
   return (

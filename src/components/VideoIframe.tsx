@@ -5,12 +5,13 @@ import { YouTubeVideo } from "@videojs/react/media/youtube-video";
 import { VideoPlayer, VideoSkin } from "@videojs/react/video";
 import "@videojs/react/video/skin.css";
 import type { YouTubeAdapter } from "@videojs/youtube-video";
-import { memo, useCallback, useRef } from "react";
+import { memo, useCallback, useMemo, useRef } from "react";
 
 import { usePlayVideo } from "../hooks/usePlayVideo";
 import {
   usePlayerAudio,
   usePlayerState,
+  usePlayerTime,
   usePlayerVideo,
 } from "../providers/Player";
 import { useSetPlayerMode } from "../providers/PlayerMode";
@@ -22,6 +23,7 @@ import classes from "./VideoIframe.module.css";
 export const VideoIframe = memo(() => {
   const { video } = usePlayerVideo();
   const playerState = usePlayerState();
+  const playerTime = usePlayerTime();
 
   if (!video) {
     return null;
@@ -35,7 +37,7 @@ export const VideoIframe = memo(() => {
       <Video
         loop={playerState.repeat}
         video={video}
-        startTime={playerState.currentTime as number}
+        startTime={playerTime.currentTime as number}
       />
     </Box>
   );
@@ -75,6 +77,22 @@ const Video = ({
     }
   }, [play, playerAudio, setPlayerMode, nextVideoId]);
 
+  // Captured once per video, not re-derived on every playback tick: `startTime`
+  // (sourced from the audio element's continuously-updating currentTime) is
+  // only meant to resume position when a video starts, not to be tracked live.
+  // Omitting it from the deps intentionally "freezes" whatever value was in
+  // scope the moment `video.videoId` last changed — recomputing this object on
+  // every tick was causing the YouTube embed to re-derive its source and
+  // reload roughly 10x/second during playback.
+  const source = useMemo(
+    () => ({
+      src: video.videoId,
+      engine: { youtube: { start: Math.floor(startTime) } },
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [video.videoId],
+  );
+
   return (
     <VideoPlayer>
       <VideoSkin className={classes.skin}>
@@ -82,10 +100,7 @@ const Video = ({
           mediaRef={mediaRef}
           autoplay
           loop={loop}
-          source={{
-            src: video.videoId,
-            engine: { youtube: { start: Math.floor(startTime) } },
-          }}
+          source={source}
           onSeeked={onSeeked}
           onEnded={onEnded}
         />
