@@ -23,6 +23,10 @@ import { usePlayerState, usePlayerVideo } from "../providers/Player";
 import type { CardVideo } from "../types/interfaces/Card";
 import type { Video } from "../types/interfaces/Video";
 import { displayTimeBySeconds } from "../utils/displayTimeBySeconds";
+import {
+  displayPublishedDate,
+  displayViewCount,
+} from "../utils/displayVideoMetadata";
 import { getThumbnailQuality } from "../utils/formatData";
 import { ButtonFavorite } from "./ButtonFavorite";
 import classes from "./Card.module.css";
@@ -43,9 +47,19 @@ export const VideoCard: FC<VideoCardProps> = memo(
   ({ video, component = "div", currentInstanceUri, queue }) => {
     const { handlePlay, loading } = usePlayVideo(video.videoId);
     const { video: currentVideo } = usePlayerVideo();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const isPlaying = currentVideo?.videoId === video.videoId;
+    const metadata = [
+      video.viewCount
+        ? displayViewCount(video.viewCount, i18n.language)
+        : null,
+      video.published
+        ? displayPublishedDate(video.published, i18n.language)
+        : null,
+    ]
+      .filter(Boolean)
+      .join(" - ");
     const image =
       video.thumbnail ??
       getThumbnailQuality(video.videoThumbnails ?? [], "maxresdefault");
@@ -92,6 +106,11 @@ export const VideoCard: FC<VideoCardProps> = memo(
             >
               {video.title}
             </Text>
+            {metadata ? (
+              <Text size="xs" c="dimmed">
+                {metadata}
+              </Text>
+            ) : null}
           </Group>
         </UnstyledButton>
         <Group mt="xs" className={classes.cardActions}>

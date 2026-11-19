@@ -10,6 +10,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.13.4] - 2026-11-19
+### :sparkles: New Features
+- [`99c978c`](https://github.com/stephane-r/holoplay-pwa/commit/99c978c6a99791d8feca05d705b499aa5c99a997) - show view count and publish date on video cards *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+### :bug: Bug Fixes
+- [`3728545`](https://github.com/stephane-r/holoplay-pwa/commit/372854546ff1183c3b0e37e2aac850093cae425e) - **pwa**: poll for service worker updates while the app stays open *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+
 ## [v1.13.3] - 2026-11-19
 ### :bug: Bug Fixes
 - [`9bc9cc6`](https://github.com/stephane-r/holoplay-pwa/commit/9bc9cc69c38869dff0d929a391b9c55ece326c23) - **ci**: run code-quality on pull requests only, not on every push *(commit by [@stephane-r](https://github.com/stephane-r))*
@@ -421,3 +429,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.13.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.0...v1.13.1
 [v1.13.2]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.1...v1.13.2
 [v1.13.3]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.2...v1.13.3
+[v1.13.4]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.3...v1.13.4
