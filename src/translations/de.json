@@ -210,6 +210,8 @@
   "search.filter.duration.medium": "Mittel",
   "search.result.alert.title": "Oh, warte",
   "search.result.alert.message": "Um Ergebnisse zu sehen, musst du in der Suchleiste Schlüssel hinzufügen",
+  "list.empty.title": "Nichts zu sehen",
+  "list.empty.message": "Keine Ergebnisse gefunden",
   "is.empty": "ist leer",
   "playlists.empty.alert.title": "Aber warum?",
   "playlists.empty.alert.message": "Du hast keine Playlist",

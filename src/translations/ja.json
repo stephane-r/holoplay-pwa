@@ -230,6 +230,8 @@
   "search.filter.duration.medium": "中間",
   "search.result.alert.title": "おっと",
   "search.result.alert.message": "結果を表示するには、検索バーに語句を入力してください",
+  "list.empty.title": "何もありません",
+  "list.empty.message": "結果が見つかりませんでした",
   "is.empty": "には中身がありません",
   "playlists.empty.alert.title": "まだ",
   "playlists.empty.alert.message": "再生リストはまだありません",

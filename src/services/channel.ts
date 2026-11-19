@@ -8,7 +8,19 @@ import { getCurrentInstance } from "../utils/getCurrentInstance";
 export const getChannel = async (authorId: string): Promise<Channel> => {
   const apiUrl = (await getCurrentInstance()).uri;
   const request = await fetch(`${apiUrl}/api/v1/channels/${authorId}`);
-  return request.json();
+  const data = await request.json();
+
+  // Invidious responds with `{ error: "..." }` (and a non-2xx status) for
+  // an invalid/unavailable channel rather than a Channel object — reading
+  // it as one anyway silently produced a channel with every field
+  // `undefined` instead of surfacing what actually went wrong.
+  if (!request.ok) {
+    throw new Error(
+      data.error ?? `Failed to load channel (${request.status})`,
+    );
+  }
+
+  return data;
 };
 
 interface VideosData {
@@ -29,10 +41,13 @@ export const getChannelVideos = async (
   const request = await fetch(
     `${apiUrl}/api/v1/channels/${authorId}/videos?${qs.stringify(params)}`,
   );
-  const data: {
-    videos: Video[];
-    continuation: string | null;
-  } = await request.json();
+  const data = await request.json();
+
+  if (!request.ok) {
+    throw new Error(
+      data.error ?? `Failed to load channel videos (${request.status})`,
+    );
+  }
 
   return {
     data: data.videos,
@@ -58,10 +73,13 @@ export const getChannelPlaylists = async (
   const request = await fetch(
     `${apiUrl}/api/v1/channels/${authorId}/playlists?${qs.stringify(params)}`,
   );
-  const data: {
-    playlists: Playlist[];
-    continuation: string | null;
-  } = await request.json();
+  const data = await request.json();
+
+  if (!request.ok) {
+    throw new Error(
+      data.error ?? `Failed to load channel playlists (${request.status})`,
+    );
+  }
 
   return {
     data: data.playlists,

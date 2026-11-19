@@ -47,10 +47,26 @@ export const useInfiniteList = <TItem, TCursor = number>({
     setFetchTrigger(enabled);
   }
 
-  const { data, isFetching } = useQuery(
+  const { data, error, isFetching } = useQuery(
     [queryKey, cursor],
     () => fetchPage(cursor),
-    { enabled: enabled && fetchTrigger },
+    {
+      enabled: enabled && fetchTrigger,
+      // react-query's default retries 3x with exponential backoff (up to
+      // ~7s) before giving up — fine for a transient network blip, but it
+      // meant a genuinely broken page (an invalid channel/video id, a dead
+      // instance) sat there with no error shown for several seconds for no
+      // benefit: retrying won't make an invalid id valid. The one exception
+      // is "No current instance": on a fresh app boot, SettingsProvider
+      // still has to fetch the public instance list and auto-pick one
+      // before `getCurrentInstance()` can succeed, so the very first
+      // request can race that — worth a few quick retries, unlike every
+      // other error here.
+      retry: (failureCount, error) =>
+        (error as Error).message === "No current instance" &&
+        failureCount < 5,
+      retryDelay: 200,
+    },
   );
 
   // Reacting to `data` (rather than an `onSuccess` callback) also covers
@@ -70,6 +86,16 @@ export const useInfiniteList = <TItem, TCursor = number>({
   }, [data]);
 
   useEffect(() => {
+    if (!error) return;
+    // Mirrors the success path above: without this, a failed fetch left
+    // `fetchTrigger` stuck `true` (it's only ever cleared on success),
+    // so the sentinel re-entering view kept trying to fetch the same
+    // already-failed page forever instead of surfacing the error below.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFetchTrigger(false);
+  }, [error]);
+
+  useEffect(() => {
     if (inView && hasNextPage) {
       // Edge-triggered on the sentinel entering view, not a continuous
       // sync — `fetchTrigger` latches back to false in the effect above
@@ -82,6 +108,7 @@ export const useInfiniteList = <TItem, TCursor = number>({
 
   return {
     items,
+    error: error as Error | null,
     isFetching,
     hasNextPage,
     sentinelRef,

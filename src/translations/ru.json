@@ -197,6 +197,8 @@
   "search.filter.duration.medium": "Средние",
   "search.result.alert.title": "О, подождите",
   "search.result.alert.message": "Для отображения результатов вам нужно добавить ключи в строку поиска",
+  "list.empty.title": "Здесь ничего нет",
+  "list.empty.message": "Результаты не найдены",
   "is.empty": "пусто",
   "playlists.empty.alert.title": "Но почему?",
   "playlists.empty.alert.message": "У вас нет плейлиста",
