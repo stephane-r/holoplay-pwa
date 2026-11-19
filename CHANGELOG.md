@@ -10,6 +10,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.13.3] - 2026-11-19
+### :bug: Bug Fixes
+- [`9bc9cc6`](https://github.com/stephane-r/holoplay-pwa/commit/9bc9cc69c38869dff0d929a391b9c55ece326c23) - **ci**: run code-quality on pull requests only, not on every push *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`fcdbc7b`](https://github.com/stephane-r/holoplay-pwa/commit/fcdbc7b2ad8f4965ff70b0822fed6a2529da4c00) - **ci**: revert deploy job to the github-pages environment *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`9bbc68e`](https://github.com/stephane-r/holoplay-pwa/commit/9bbc68e5b7b82169247fc1e73708d0d9f8794f03) - logo under subpath, PWA start_url, search filters, card/nav cursor *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`aefa1d7`](https://github.com/stephane-r/holoplay-pwa/commit/aefa1d73ce8d991a192dd4f9cf4f0552ea010c96) - consistent card hover across all 3 card types, filters menu z-index *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`939bde6`](https://github.com/stephane-r/holoplay-pwa/commit/939bde6d7bf73e0fd9552a87ab7d2c550b025d2b) - genre click fills the search bar, playing card cursor on the button *(commit by [@stephane-r](https://github.com/stephane-r))*
+- [`1f50707`](https://github.com/stephane-r/holoplay-pwa/commit/1f50707ace4b0f2cbc1ef772d6332e366af138e5) - search history menu z-index, don't steal focus when a query exists *(commit by [@stephane-r](https://github.com/stephane-r))*
+
+
 ## [v1.13.2] - 2026-11-18
 ### :bug: Bug Fixes
 - [`954a70f`](https://github.com/stephane-r/holoplay-pwa/commit/954a70f8a629dfa012957ed23b179bb3089de2df) - **ci**: pass REACT_APP_API_URL/PLAUSIBLE_ANALYTICS into the Pages build *(commit by [@stephane-r](https://github.com/stephane-r))*
@@ -410,3 +420,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.13.0]: https://github.com/stephane-r/holoplay-pwa/compare/v1.12.3...v1.13.0
 [v1.13.1]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.0...v1.13.1
 [v1.13.2]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.1...v1.13.2
+[v1.13.3]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.2...v1.13.3
