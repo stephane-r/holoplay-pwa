@@ -23,7 +23,14 @@ export const SearcHistoryMenu: FC<SearcHistoryMenuProps> = ({
   }
 
   return (
-    <Popover opened={opened} width="target">
+    <Popover
+      opened={opened}
+      width="target"
+      // Mantine's z-index scale puts LoadingOverlay above Menu/Popover by
+      // default, so the search results' loader covered this dropdown
+      // whenever they overlapped (same issue as SearchFiltersMenu).
+      zIndex="var(--mantine-z-index-max)"
+    >
       <Popover.Target>{children}</Popover.Target>
       <Popover.Dropdown
         data-testid="Search history submenu"
