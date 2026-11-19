@@ -42,10 +42,19 @@ const useSearchInputFocus = () => {
 };
 
 const SearchResultContainer = memo(() => {
+  const searchValues = useSearchValues();
   const focusSearchInput = useSearchInputFocus();
 
   useEffect(() => {
-    focusSearchInput();
+    // Only grab focus for a fresh, empty search — if a query is already
+    // set (e.g. landing here from a genre tile, search history, or a
+    // shared link), the user already has something to look at and
+    // doesn't need the keyboard focus yanked onto an input they didn't
+    // ask to type into.
+    if (!searchValues.q) {
+      focusSearchInput();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focusSearchInput]);
 
   return (
