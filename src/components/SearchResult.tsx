@@ -15,6 +15,8 @@ export const SearchResult = memo(() => {
 
   const {
     items: cards,
+    error,
+    isFetching,
     isLoadingMore,
     sentinelRef,
   } = useInfiniteList<Card, number>({
@@ -32,6 +34,24 @@ export const SearchResult = memo(() => {
     return (
       <Alert title={t("search.result.alert.title")} color="blue" radius="md">
         {t("search.result.alert.message")}
+      </Alert>
+    );
+  }
+
+  if (cards.length === 0 && error) {
+    return (
+      <Alert title="Error" color="red" radius="md">
+        {error.message}
+      </Alert>
+    );
+  }
+
+  // The search itself succeeded but turned up nothing — distinct from
+  // still loading the first page, which the branch below already covers.
+  if (cards.length === 0 && !isFetching) {
+    return (
+      <Alert title={t("list.empty.title")} color="blue" radius="md">
+        {t("list.empty.message")}
       </Alert>
     );
   }

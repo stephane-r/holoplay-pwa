@@ -230,6 +230,8 @@
   "search.filter.duration.medium": "Medium",
   "search.result.alert.title": "Oh, wait",
   "search.result.alert.message": "For show result, you need to add keys in search bar",
+  "list.empty.title": "Nothing here",
+  "list.empty.message": "No results found",
   "is.empty": "is empty",
   "playlists.empty.alert.title": "But, why?",
   "playlists.empty.alert.message": "You have no playlist",

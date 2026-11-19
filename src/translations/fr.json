@@ -230,6 +230,8 @@
   "search.filter.duration.medium": "Moyenne",
   "search.result.alert.title": "Oh, attendez",
   "search.result.alert.message": "Pour effectuer une recherche, vous devez renseigner quelque chose dans la barre de recherche",
+  "list.empty.title": "Rien à afficher",
+  "list.empty.message": "Aucun résultat trouvé",
   "is.empty": "est vide",
   "playlists.empty.alert.title": "Mais, pourquoi ?",
   "playlists.empty.alert.message": "Vous n'avez pas encore créé de playlist",
