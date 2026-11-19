@@ -26,8 +26,12 @@ export const useGetChannel = (authorId: string) => {
     queryClient
       .fetchQuery(`channel-${authorId}`, () => getChannel(authorId), {
         // An invalid/unavailable channel id won't become valid by
-        // retrying — see useInfiniteList for the same reasoning.
-        retry: false,
+        // retrying — see useInfiniteList for the same reasoning, including
+        // the "No current instance" exception.
+        retry: (failureCount, error) =>
+          (error as Error).message === "No current instance" &&
+          failureCount < 5,
+        retryDelay: 200,
       })
       .then(setChannel)
       .catch(setError);

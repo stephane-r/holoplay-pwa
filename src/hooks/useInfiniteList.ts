@@ -52,12 +52,20 @@ export const useInfiniteList = <TItem, TCursor = number>({
     () => fetchPage(cursor),
     {
       enabled: enabled && fetchTrigger,
-      // react-query's default retries 3x with backoff before giving up —
-      // fine for a transient network blip, but it meant a genuinely broken
-      // page (an invalid channel/video id, a dead instance) sat there with
-      // no error shown for several seconds for no benefit: retrying won't
-      // make an invalid id valid.
-      retry: false,
+      // react-query's default retries 3x with exponential backoff (up to
+      // ~7s) before giving up — fine for a transient network blip, but it
+      // meant a genuinely broken page (an invalid channel/video id, a dead
+      // instance) sat there with no error shown for several seconds for no
+      // benefit: retrying won't make an invalid id valid. The one exception
+      // is "No current instance": on a fresh app boot, SettingsProvider
+      // still has to fetch the public instance list and auto-pick one
+      // before `getCurrentInstance()` can succeed, so the very first
+      // request can race that — worth a few quick retries, unlike every
+      // other error here.
+      retry: (failureCount, error) =>
+        (error as Error).message === "No current instance" &&
+        failureCount < 5,
+      retryDelay: 200,
     },
   );
 
