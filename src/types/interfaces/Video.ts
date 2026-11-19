@@ -57,5 +57,6 @@ export interface Video {
   liveNow: boolean;
   likeCount: number;
   viewCount: number;
+  published?: number;
   lengthSeconds: number;
 }

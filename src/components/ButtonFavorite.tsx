@@ -4,7 +4,6 @@ import {
   Menu,
   useMantineTheme,
 } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,7 +12,7 @@ import { database } from "../services/database";
 import { useFavorite, useIsFavorite } from "../providers/Favorite";
 import { usePlayerVideo } from "../providers/Player";
 import type { Card } from "../types/interfaces/Card";
-import { getCardId, getCardTitle } from "../utils/card";
+import { getCardId } from "../utils/card";
 import {
   formatedCardChannel,
   formatedCardPlaylist,
@@ -60,11 +59,6 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
       })();
 
       await database.setFavoriteCards([formatedCard, ...favorite.cards]);
-
-      notifications.show({
-        title: getCardTitle(card),
-        message: t("favorite.add.success.message"),
-      });
     };
 
     const handleDelete = async () => {
@@ -73,11 +67,6 @@ export const ButtonFavorite: FC<ButtonFavoriteProps> = memo(
           (favCard) => getCardId(favCard) !== getCardId(card),
         ),
       );
-
-      notifications.show({
-        title: getCardTitle(card),
-        message: t("favorite.remove.success.message"),
-      });
     };
 
     const handleClick = () => {

@@ -87,5 +87,7 @@ export const formatedCardVideo = (video: CardVideo | Video): CardVideo => {
     liveNow: video.liveNow,
     lengthSeconds: video.lengthSeconds,
     type: video.type as CardVideoTypes,
+    viewCount: video.viewCount,
+    published: video.published,
   };
 };
