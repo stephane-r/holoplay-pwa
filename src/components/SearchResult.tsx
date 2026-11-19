@@ -6,6 +6,7 @@ import { useInfiniteList } from "../hooks/useInfiniteList";
 import { useSearchValues } from "../providers/Search";
 import { search } from "../services/search";
 import type { Card } from "../types/interfaces/Card";
+import { ActiveSearchFilters } from "./ActiveSearchFilters";
 import { CardList } from "./CardList";
 
 export const SearchResult = memo(() => {
@@ -37,28 +38,34 @@ export const SearchResult = memo(() => {
   }
 
   return (
-    <Paper
-      pos="relative"
-      mih={cards.length === 0 ? 300 : undefined}
-      radius="md"
-      style={{ overflow: "hidden" }}
-    >
-      {cards.length > 0 ? (
-        <CardList label={`Search result list ${searchValues.q}`} data={cards} />
-      ) : (
-        <LoadingOverlay visible />
-      )}
-      <button ref={sentinelRef} style={{ opacity: 0 }} />
-      {isLoadingMore ? (
-        <Paper
-          h={100}
-          pos="relative"
-          radius="md"
-          style={{ overflow: "hidden" }}
-        >
+    <>
+      <ActiveSearchFilters />
+      <Paper
+        pos="relative"
+        mih={cards.length === 0 ? 300 : undefined}
+        radius="md"
+        style={{ overflow: "hidden" }}
+      >
+        {cards.length > 0 ? (
+          <CardList
+            label={`Search result list ${searchValues.q}`}
+            data={cards}
+          />
+        ) : (
           <LoadingOverlay visible />
-        </Paper>
-      ) : null}
-    </Paper>
+        )}
+        <button ref={sentinelRef} style={{ opacity: 0 }} />
+        {isLoadingMore ? (
+          <Paper
+            h={100}
+            pos="relative"
+            radius="md"
+            style={{ overflow: "hidden" }}
+          >
+            <LoadingOverlay visible />
+          </Paper>
+        ) : null}
+      </Paper>
+    </>
   );
 });

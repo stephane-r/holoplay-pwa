@@ -11,6 +11,13 @@ import type {
   SearchSortBy,
   SearchTypes,
 } from "../types/interfaces/Search";
+import {
+  SEARCH_DURATION_OPTIONS,
+  SEARCH_SERVICE_OPTIONS,
+  SEARCH_SORT_OPTIONS,
+  SEARCH_TIME_OPTIONS,
+  SEARCH_TYPE_OPTIONS,
+} from "../utils/searchFilters";
 
 export const SearchFilters = memo(() => {
   const setSearchValues = useSetSearchValues();
@@ -43,16 +50,10 @@ export const SearchFilters = memo(() => {
           <SegmentedControl
             fullWidth
             value={searchValues.service}
-            data={[
-              {
-                value: "invidious",
-                label: t("search.filter.service.invidious"),
-              },
-              {
-                value: "youtube_music",
-                label: t("search.filter.service.youtubeMusic"),
-              },
-            ]}
+            data={SEARCH_SERVICE_OPTIONS.map((option) => ({
+              value: option.value,
+              label: t(option.labelKey),
+            }))}
             onChange={(value) => {
               setSearchValues({
                 ...searchValues,
@@ -67,12 +68,10 @@ export const SearchFilters = memo(() => {
             aria-label="Type filter"
             comboboxProps={{ withinPortal: false }}
             value={searchValues.type}
-            data={[
-              { value: "video", label: t("search.filter.type.videos") },
-              { value: "playlist", label: t("search.filter.type.playlists") },
-              { value: "channel", label: t("search.filter.type.channel") },
-              { value: "all", label: t("search.filter.type.all") },
-            ]}
+            data={SEARCH_TYPE_OPTIONS.map((option) => ({
+              value: option.value,
+              label: t(option.labelKey),
+            }))}
             onChange={(value) =>
               setSearchValues({
                 ...searchValues,
@@ -86,24 +85,10 @@ export const SearchFilters = memo(() => {
           <Select
             comboboxProps={{ withinPortal: false }}
             value={searchValues.sortBy}
-            data={[
-              {
-                value: "relevance",
-                label: t("search.filter.sort.relevance") as string,
-              },
-              {
-                value: "rating",
-                label: t("search.filter.sort.rating") as string,
-              },
-              {
-                value: "upload_date",
-                label: t("search.filter.sort.upload-date") as string,
-              },
-              {
-                value: "view_count",
-                label: t("search.filter.sort.view-count") as string,
-              },
-            ]}
+            data={SEARCH_SORT_OPTIONS.map((option) => ({
+              value: option.value,
+              label: t(option.labelKey),
+            }))}
             onChange={(value) =>
               setSearchValues({
                 ...searchValues,
@@ -117,20 +102,10 @@ export const SearchFilters = memo(() => {
           <Select
             comboboxProps={{ withinPortal: false }}
             value={searchValues.time}
-            data={[
-              { value: "all", label: t("search.filter.time.all") as string },
-              { value: "hour", label: t("search.filter.time.hour") as string },
-              {
-                value: "today",
-                label: t("search.filter.time.today") as string,
-              },
-              { value: "week", label: t("search.filter.time.week") as string },
-              {
-                value: "month",
-                label: t("search.filter.time.month") as string,
-              },
-              { value: "year", label: t("search.filter.time.year") as string },
-            ]}
+            data={SEARCH_TIME_OPTIONS.map((option) => ({
+              value: option.value,
+              label: t(option.labelKey),
+            }))}
             onChange={(value) =>
               setSearchValues({
                 ...searchValues,
@@ -144,24 +119,10 @@ export const SearchFilters = memo(() => {
           <Select
             comboboxProps={{ withinPortal: false }}
             value={searchValues.duration}
-            data={[
-              {
-                value: "all",
-                label: t("search.filter.duration.all") as string,
-              },
-              {
-                value: "short",
-                label: t("search.filter.duration.short") as string,
-              },
-              {
-                value: "long",
-                label: t("search.filter.duration.long") as string,
-              },
-              {
-                value: "medium",
-                label: t("search.filter.duration.medium") as string,
-              },
-            ]}
+            data={SEARCH_DURATION_OPTIONS.map((option) => ({
+              value: option.value,
+              label: t(option.labelKey),
+            }))}
             onChange={(value) =>
               setSearchValues({
                 ...searchValues,
