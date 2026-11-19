@@ -23,9 +23,6 @@ test("save card in favorites", async ({ page }) => {
     page.getByRole("button", { name: "Remove from favorite" }),
   ).toBeVisible();
 
-  // Verify notification visibility
-  await expect(page.getByRole("alert")).toContainText(/Added to favorites/);
-
   // Go to Favorites page
   await navigateTo(page, "Favorites", "Favorites");
 

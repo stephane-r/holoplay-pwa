@@ -10,6 +10,8 @@ export interface CardVideo {
   liveNow: boolean;
   lengthSeconds: number;
   videoThumbnails?: Thumbnail[];
+  viewCount?: number;
+  published?: number;
 }
 
 export interface CardChannel {
