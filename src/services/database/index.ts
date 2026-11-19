@@ -134,10 +134,15 @@ class DatabaseService extends Dexie {
   }
 
   importPlaylist(playlist: Partial<Playlist> & { title: string }) {
-    return this.playlists.put({
+    // Drop the source device's own `ID`: reusing it would overwrite
+    // whatever local playlist already happens to have that auto-increment
+    // key instead of creating a new row.
+    const rest = { ...playlist };
+    delete rest.ID;
+    return this.playlists.add({
       createdAt: new Date().toISOString(),
       type: "playlist",
-      ...playlist,
+      ...rest,
     } as PlaylistRow);
   }
 
