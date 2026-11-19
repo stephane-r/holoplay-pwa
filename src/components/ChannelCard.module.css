@@ -1,8 +1,24 @@
 .card {
+  cursor: pointer;
+  transition:
+    box-shadow 100ms ease,
+    background-color 100ms ease;
+
   [data-mantine-color-scheme="light"] & {
     background: var(--mantine-color-gray-0);
   }
   [data-mantine-color-scheme="dark"] & {
     background: var(--mantine-color-dark-6);
+  }
+
+  &:hover {
+    box-shadow: var(--mantine-shadow-md);
+
+    [data-mantine-color-scheme="light"] & {
+      background: var(--mantine-color-gray-1);
+    }
+    [data-mantine-color-scheme="dark"] & {
+      background: var(--mantine-color-dark-5);
+    }
   }
 }

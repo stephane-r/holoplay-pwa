@@ -42,8 +42,10 @@ export const isLiveStream = (video: CardVideo) =>
 export const VideoCard: FC<VideoCardProps> = memo(
   ({ video, component = "div", currentInstanceUri, queue }) => {
     const { handlePlay, loading } = usePlayVideo(video.videoId);
+    const { video: currentVideo } = usePlayerVideo();
     const { t } = useTranslation();
 
+    const isPlaying = currentVideo?.videoId === video.videoId;
     const image =
       video.thumbnail ??
       getThumbnailQuality(video.videoThumbnails ?? [], "maxresdefault");
@@ -59,6 +61,8 @@ export const VideoCard: FC<VideoCardProps> = memo(
         <HackedCardPress videoId={video.videoId} />
         <LoadingOverlay visible={loading} />
         <UnstyledButton
+          className={classes.thumbnailButton}
+          data-playing={isPlaying}
           style={{ width: "100%" }}
           onClick={() => handlePlay(video.videoId, queue)}
         >

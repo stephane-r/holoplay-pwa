@@ -4,8 +4,8 @@
   "name": "HoloPlay",
   "description": "Funny web app with a focus on privacy by using Invidious API",
   "display": "standalone",
-  "scope": "/",
-  "start_url": "/",
+  "scope": ".",
+  "start_url": ".",
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "icons": [

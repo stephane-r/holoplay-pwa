@@ -5,6 +5,22 @@
   );
   border-radius: var(--mantine-radius-md);
   padding: var(--mantine-spacing-sm) !important;
+  cursor: pointer;
+  transition:
+    box-shadow 100ms ease,
+    background-color 100ms ease;
+}
+
+.card:hover {
+  box-shadow: var(--mantine-shadow-md);
+  background: light-dark(
+    var(--mantine-color-gray-1),
+    var(--mantine-color-dark-5)
+  );
+}
+
+.thumbnailButton[data-playing="true"] {
+  cursor: default;
 }
 
 .cardActions {
@@ -48,6 +64,9 @@
   right: 0;
   bottom: 0;
   z-index: 2;
+  /* Blocks clicks on the thumbnail button while this card is already
+     playing (see .thumbnailButton for the matching cursor). */
+  cursor: default;
 }
 
 .buttonPlaying {

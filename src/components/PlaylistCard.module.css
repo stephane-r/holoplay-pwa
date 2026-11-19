@@ -6,6 +6,22 @@
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
   border-radius: var(--mantine-radius-md);
   padding: rem(24px) !important;
+  cursor: pointer;
+  transition:
+    box-shadow 100ms ease,
+    background-color 100ms ease;
+}
+
+.card:hover {
+  box-shadow: var(--mantine-shadow-md);
+  background: light-dark(
+    var(--mantine-color-gray-1),
+    var(--mantine-color-dark-5)
+  );
+}
+
+.card:hover .video {
+  transform: scale(1.05);
 }
 
 .video {
@@ -16,6 +32,7 @@
   height: rem(28px);
   border-radius: var(--mantine-radius-sm);
   margin-bottom: var(--mantine-spacing-sm);
+  transition: transform 150ms ease;
 }
 
 .more {

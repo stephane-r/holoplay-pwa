@@ -2,7 +2,7 @@ import { Flex, Kbd, TextInput, useMantineTheme } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMediaQuery, useOs } from "@mantine/hooks";
 import { IconSearch } from "@tabler/icons-react";
-import { memo, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { database } from "../services/database";
@@ -29,6 +29,15 @@ export const SearchBar = memo(() => {
       q: (value) => value.length === 0,
     },
   });
+
+  // `initialValues` only applies on mount — when the query changes from
+  // outside this input (e.g. clicking a genre tile on the dashboard, which
+  // navigates here with a new `q`), the form's own value never picked it
+  // up, leaving the input showing empty despite a search having happened.
+  useEffect(() => {
+    form.setFieldValue("q", searchValues.q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchValues.q]);
 
   const handleSubmit = (values: { q: string }) => {
     inputRef.current?.blur();

@@ -18,7 +18,14 @@ export const SearchFilters = memo(() => {
   const { t } = useTranslation();
 
   return (
-    <Menu width={250} position="bottom-end">
+    <Menu
+      width={250}
+      position="bottom-end"
+      // Mantine's z-index scale puts LoadingOverlay above Menu/Popover by
+      // default, so the search results' loader covered this dropdown
+      // whenever they overlapped (e.g. right after changing a filter).
+      zIndex="var(--mantine-z-index-max)"
+    >
       <Menu.Target>
         <ActionIcon
           aria-label="Open search filters"
@@ -58,6 +65,7 @@ export const SearchFilters = memo(() => {
         <Box p="xs" pt={4}>
           <Select
             aria-label="Type filter"
+            comboboxProps={{ withinPortal: false }}
             value={searchValues.type}
             data={[
               { value: "video", label: t("search.filter.type.videos") },
@@ -76,6 +84,7 @@ export const SearchFilters = memo(() => {
         <Menu.Label>{t("search.filter.sort.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <Select
+            comboboxProps={{ withinPortal: false }}
             value={searchValues.sortBy}
             data={[
               {
@@ -106,6 +115,7 @@ export const SearchFilters = memo(() => {
         <Menu.Label>{t("search.filter.time.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <Select
+            comboboxProps={{ withinPortal: false }}
             value={searchValues.time}
             data={[
               { value: "all", label: t("search.filter.time.all") as string },
@@ -132,6 +142,7 @@ export const SearchFilters = memo(() => {
         <Menu.Label>{t("search.filter.duration.label")}</Menu.Label>
         <Box p="xs" pt={4}>
           <Select
+            comboboxProps={{ withinPortal: false }}
             value={searchValues.duration}
             data={[
               {
