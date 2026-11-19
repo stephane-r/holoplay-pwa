@@ -29,7 +29,12 @@ export const ChannelCard: FC<ChannelCardProps> = memo(
     const { t } = useTranslation();
 
     const goToChannel = () => {
-      navigate(`/channels/${channel.authorId}`);
+      // Carries the name along so the channel page can show its title
+      // immediately, instead of waiting on its own channel-info request
+      // just for that — see ChannelDetail.tsx.
+      navigate(
+        `/channels/${channel.authorId}?title=${encodeURIComponent(channel.author)}`,
+      );
     };
 
     const imageSrc =

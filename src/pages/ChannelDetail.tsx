@@ -1,8 +1,8 @@
-import { LoadingOverlay, Paper, Tabs } from "@mantine/core";
+import { Alert, LoadingOverlay, Paper, Tabs } from "@mantine/core";
 import { IconPlaylist, IconVideo } from "@tabler/icons-react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 import { CardList } from "../components/CardList";
 import { PageHeader } from "../components/PageHeader";
@@ -18,16 +18,23 @@ export const ChannelDetailPage = memo(() => {
 
 const PageContainer = memo(() => {
   const { authorId } = useParams();
-  const { channel } = useGetChannel(authorId as string);
+  // The channel name comes along as a query param from wherever this page
+  // is linked from (ChannelCard, Player, DrawerPlayer — all already have
+  // it in hand) so the title shows immediately, without waiting on
+  // useGetChannel's own request — which also means the tabs below no
+  // longer need to wait for it either: videos/playlists only ever needed
+  // `authorId`, and used to sit blocked behind a title-only request.
+  const [searchParams] = useSearchParams();
+  const { channel, error } = useGetChannel(authorId as string);
+  // Falls back to the error message only once there's truly nothing else
+  // to show (no title param and the channel's own request also failed).
+  const title =
+    searchParams.get("title") ?? channel?.author ?? error?.message ?? "";
   const { t } = useTranslation();
-
-  if (!channel) {
-    return <LoadingOverlay visible />;
-  }
 
   return (
     <>
-      <PageHeader title={channel.author} canGoBack />
+      <PageHeader title={title} canGoBack />
       <Tabs defaultValue="videos">
         <Tabs.List mb="lg">
           <Tabs.Tab leftSection={<IconVideo size={18} />} value="videos">
@@ -50,49 +57,99 @@ const PageContainer = memo(() => {
 
 interface PaginatedCardListProps {
   items: (CardVideo | CardPlaylist)[];
+  error: Error | null;
+  isFetching: boolean;
   isLoadingMore: boolean;
   sentinelRef: (node: HTMLElement | null) => void;
 }
 
 const PaginatedCardList = memo(
-  ({ items, isLoadingMore, sentinelRef }: PaginatedCardListProps) => (
-    <>
-      <CardList data={items} />
-      <button ref={sentinelRef} style={{ opacity: 0 }} />
-      {isLoadingMore ? (
+  ({
+    items,
+    error,
+    isFetching,
+    isLoadingMore,
+    sentinelRef,
+  }: PaginatedCardListProps) => {
+    const { t } = useTranslation();
+
+    // The first page's own request can take a while, and CardList renders
+    // nothing at all for an empty list — without this, the tab just sat
+    // there blank until it resolved (or forever, if the request failed).
+    if (items.length === 0 && isFetching) {
+      return (
         <Paper
-          h={100}
+          mih={300}
           pos="relative"
           radius="md"
           style={{ overflow: "hidden" }}
         >
           <LoadingOverlay visible />
         </Paper>
-      ) : null}
-    </>
-  ),
+      );
+    }
+
+    if (items.length === 0 && error) {
+      return (
+        <Alert title="Error" color="red" radius="md">
+          {error.message}
+        </Alert>
+      );
+    }
+
+    // The request succeeded but the channel genuinely has no videos/
+    // playlists (e.g. its /playlists endpoint returning an empty array) —
+    // distinct from the loading/error cases above, which already returned.
+    if (items.length === 0) {
+      return (
+        <Alert title={t("list.empty.title")} color="blue" radius="md">
+          {t("list.empty.message")}
+        </Alert>
+      );
+    }
+
+    return (
+      <>
+        <CardList data={items} />
+        <button ref={sentinelRef} style={{ opacity: 0 }} />
+        {isLoadingMore ? (
+          <Paper
+            h={100}
+            pos="relative"
+            radius="md"
+            style={{ overflow: "hidden" }}
+          >
+            <LoadingOverlay visible />
+          </Paper>
+        ) : null}
+      </>
+    );
+  },
 );
 
 const VideosTab = memo(() => {
   const { authorId } = useParams();
 
-  const { items, isLoadingMore, sentinelRef } = useInfiniteList<
-    CardVideo,
-    string
-  >({
-    queryKey: `channels-${authorId}-videos`,
-    fetchPage: async (cursor) => {
-      const { data, continuation } = await getChannelVideos(
-        authorId as string,
-        cursor,
-      );
-      return { items: data.map(formatedCardVideo), nextCursor: continuation };
-    },
-  });
+  const { items, error, isFetching, isLoadingMore, sentinelRef } =
+    useInfiniteList<CardVideo, string>({
+      queryKey: `channels-${authorId}-videos`,
+      fetchPage: async (cursor) => {
+        const { data, continuation } = await getChannelVideos(
+          authorId as string,
+          cursor,
+        );
+        return {
+          items: data.map(formatedCardVideo),
+          nextCursor: continuation,
+        };
+      },
+    });
 
   return (
     <PaginatedCardList
       items={items}
+      error={error}
+      isFetching={isFetching}
       isLoadingMore={isLoadingMore}
       sentinelRef={sentinelRef}
     />
@@ -102,26 +159,26 @@ const VideosTab = memo(() => {
 const PlaylistsTab = memo(() => {
   const { authorId } = useParams();
 
-  const { items, isLoadingMore, sentinelRef } = useInfiniteList<
-    CardPlaylist,
-    string
-  >({
-    queryKey: `channels-${authorId}-playlists`,
-    fetchPage: async (cursor) => {
-      const { data, continuation } = await getChannelPlaylists(
-        authorId as string,
-        cursor,
-      );
-      return {
-        items: data.map(formatedCardPlaylist),
-        nextCursor: continuation,
-      };
-    },
-  });
+  const { items, error, isFetching, isLoadingMore, sentinelRef } =
+    useInfiniteList<CardPlaylist, string>({
+      queryKey: `channels-${authorId}-playlists`,
+      fetchPage: async (cursor) => {
+        const { data, continuation } = await getChannelPlaylists(
+          authorId as string,
+          cursor,
+        );
+        return {
+          items: data.map(formatedCardPlaylist),
+          nextCursor: continuation,
+        };
+      },
+    });
 
   return (
     <PaginatedCardList
       items={items}
+      error={error}
+      isFetching={isFetching}
       isLoadingMore={isLoadingMore}
       sentinelRef={sentinelRef}
     />

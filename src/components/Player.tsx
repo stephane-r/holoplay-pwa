@@ -132,7 +132,11 @@ const VideoInformations = memo(() => {
           color="white"
           size="xs"
           p={0}
-          onClick={() => navigate(`/channels/${video.authorId}`)}
+          onClick={() =>
+            navigate(
+              `/channels/${video.authorId}?title=${encodeURIComponent(video.author)}`,
+            )
+          }
         >
           {video.author}
         </Button>
