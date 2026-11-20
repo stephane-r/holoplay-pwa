@@ -133,12 +133,32 @@ class DatabaseService extends Dexie {
     });
   }
 
-  importPlaylist(playlist: Partial<Playlist> & { title: string }) {
+  async importPlaylist(playlist: Partial<Playlist> & { title: string }) {
     // Drop the source device's own `ID`: reusing it would overwrite
     // whatever local playlist already happens to have that auto-increment
     // key instead of creating a new row.
     const rest = { ...playlist };
     delete rest.ID;
+
+    // A playlist with the same name already exists locally (synced from
+    // another device, or just coincidentally named the same) — merge videos
+    // into it instead of creating a duplicate playlist.
+    const existing = await this.playlists
+      .where("title")
+      .equals(playlist.title)
+      .first();
+
+    if (existing) {
+      const videos = removeDuplicateVideoId([
+        ...((rest.videos ?? []) as Card[]),
+        ...((existing.videos ?? []) as Card[]),
+      ]);
+      return this.playlists.update(existing.ID, {
+        videos,
+        videoCount: videos.length,
+      } as Partial<PlaylistRow>);
+    }
+
     return this.playlists.add({
       createdAt: new Date().toISOString(),
       type: "playlist",
