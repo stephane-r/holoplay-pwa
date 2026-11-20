@@ -10,6 +10,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.13.6] - 2026-11-20
+### :sparkles: New Features
+- [`87900d0`](https://github.com/stephane-r/holoplay-pwa/commit/87900d094e18e8a9c05d8346429e146ecd0355f6) - video chapters — jump to or loop a chapter *(PR [#111](https://github.com/stephane-r/holoplay-pwa/pull/111) by [@stephane-r](https://github.com/stephane-r))*
+- [`61e0a24`](https://github.com/stephane-r/holoplay-pwa/commit/61e0a2454cadf11feb32d242b918705678985a74) - update some icons *(PR [#113](https://github.com/stephane-r/holoplay-pwa/pull/113) by [@stephane-r](https://github.com/stephane-r))*
+
+### :bug: Bug Fixes
+- [`387ccc0`](https://github.com/stephane-r/holoplay-pwa/commit/387ccc0c1acfd6f51cbf1561fdc389198ed087e1) - sync data import (favorites, duplicate playlists, silent failures) *(PR [#110](https://github.com/stephane-r/holoplay-pwa/pull/110) by [@stephane-r](https://github.com/stephane-r))*
+- [`44477b2`](https://github.com/stephane-r/holoplay-pwa/commit/44477b23b845c36dc019b895f4ae6b65f8a3b10d) - merge imported playlists into an existing one with the same name *(PR [#112](https://github.com/stephane-r/holoplay-pwa/pull/112) by [@stephane-r](https://github.com/stephane-r))*
+
+
 ## [v1.13.5] - 2026-11-19
 ### :bug: Bug Fixes
 - [`8b351bb`](https://github.com/stephane-r/holoplay-pwa/commit/8b351bba150714891b151c84fae9236afd8925a5) - channel loaders/errors, global loader radius, parallel channel load *(commit by [@stephane-r](https://github.com/stephane-r))*
@@ -437,3 +447,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [v1.13.3]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.2...v1.13.3
 [v1.13.4]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.3...v1.13.4
 [v1.13.5]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.4...v1.13.5
+[v1.13.6]: https://github.com/stephane-r/holoplay-pwa/compare/v1.13.5...v1.13.6
