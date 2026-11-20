@@ -142,6 +142,151 @@ test("sync playlists and favorites to another device via backup code", async ({
   await deviceB.close();
 });
 
+// Regression test: importing a playlist whose name already exists locally
+// used to create a second, duplicate playlist instead of merging into the
+// existing one (database.importPlaylist in src/services/database/index.ts).
+test("importing a playlist with an existing name merges videos instead of duplicating it", async ({
+  browser,
+}) => {
+  test.setTimeout(120_000);
+
+  const deviceA = await browser.newContext();
+  const pageA = await deviceA.newPage();
+  await pageA.goto("localhost:3000");
+  await selectedInstance(pageA);
+
+  await navigateTo(pageA, "Playlists", "Playlists");
+  await pageA
+    .getByRole("button", { name: "Open modal to create playlist" })
+    .click();
+  await pageA
+    .getByRole("form", { name: "Form create playlist" })
+    .getByPlaceholder("My awesome title")
+    .fill(PLAYLIST_TITLE);
+  await pageA
+    .getByRole("form", { name: "Form create playlist" })
+    .getByRole("button", { name: "Create playlist" })
+    .click();
+  await checkNotification(pageA, /has been created/);
+
+  await navigateTo(pageA, "Trending", "Trending");
+  await expect(pageA.getByRole("list", { name: "Trending" })).toBeVisible({
+    timeout: 10000,
+  });
+  await pageA
+    .getByRole("listitem")
+    .first()
+    .getByRole("button", { name: "Card menu" })
+    .click();
+  await pageA
+    .getByRole("menu")
+    .getByRole("menuitem", { name: "Add to playlist" })
+    .click();
+  await pageA
+    .getByRole("form", { name: "Form add to playlist" })
+    .getByPlaceholder("Your playlist")
+    .click();
+  await pageA.locator(`[value="${PLAYLIST_TITLE}"]`).click();
+  await pageA
+    .getByRole("form", { name: "Form add to playlist" })
+    .getByRole("button", { name: "Add to playlist" })
+    .click();
+  await checkNotification(pageA, /Added to playlist/);
+
+  await navigateTo(pageA, "Settings", "Settings");
+  await pageA
+    .getByRole("button", { name: /Import, export or save your data/ })
+    .click();
+  await pageA
+    .getByRole("radiogroup")
+    .getByText("Save", { exact: true })
+    .click();
+  await pageA
+    .getByRole("button", { name: "Save playlists and favorites" })
+    .click();
+  await checkNotification(pageA, /Your data has been saved/);
+  const rawCode = await pageA
+    .getByRole("alert", { name: "Code" })
+    .locator("strong")
+    .textContent();
+  const code = (rawCode ?? "").replace(/\D/g, "");
+
+  // Device B already has its own playlist under the exact same name, with a
+  // different video in it.
+  const deviceB = await browser.newContext();
+  const pageB = await deviceB.newPage();
+  await pageB.goto("localhost:3000");
+  await selectedInstance(pageB);
+
+  await navigateTo(pageB, "Playlists", "Playlists");
+  await pageB
+    .getByRole("button", { name: "Open modal to create playlist" })
+    .click();
+  await pageB
+    .getByRole("form", { name: "Form create playlist" })
+    .getByPlaceholder("My awesome title")
+    .fill(PLAYLIST_TITLE);
+  await pageB
+    .getByRole("form", { name: "Form create playlist" })
+    .getByRole("button", { name: "Create playlist" })
+    .click();
+  await checkNotification(pageB, /has been created/);
+
+  await pageB.getByRole("button", { name: "Search", exact: true }).click();
+  await search(pageB, "Eminem");
+  const searchCard = pageB
+    .getByRole("list", { name: "Search result list Eminem" })
+    .getByRole("listitem")
+    .first();
+  await expect(searchCard).toBeVisible({ timeout: 10000 });
+  await searchCard.getByRole("button", { name: "Card menu" }).click();
+  await pageB
+    .getByRole("menu")
+    .getByRole("menuitem", { name: "Add to playlist" })
+    .click();
+  await pageB
+    .getByRole("form", { name: "Form add to playlist" })
+    .getByPlaceholder("Your playlist")
+    .click();
+  await pageB.locator(`[value="${PLAYLIST_TITLE}"]`).click();
+  await pageB
+    .getByRole("form", { name: "Form add to playlist" })
+    .getByRole("button", { name: "Add to playlist" })
+    .click();
+  await checkNotification(pageB, /Added to playlist/);
+
+  await navigateTo(pageB, "Playlists", "Playlists");
+  await expect(
+    pageB.getByRole("list", { name: "Playlists list" }).getByRole("listitem"),
+  ).toHaveCount(1);
+  await expect(pageB.getByRole("listitem")).toContainText("1 videos");
+
+  // --- Sync device A's playlist of the same name into device B ---
+  await pageB
+    .getByRole("navigation", { name: "App navigation" })
+    .getByRole("button", { name: "Sync data" })
+    .click();
+  const dialog = pageB.getByRole("dialog", { name: "Sync data" });
+  const boxes = dialog.getByRole("textbox");
+  for (let i = 0; i < 6; i++) {
+    await boxes.nth(i).fill(code[i]);
+  }
+  await dialog.getByRole("button", { name: "Sync my data" }).click();
+  await checkNotification(pageB, /Your data has been synchronized/);
+  await expect(dialog).not.toBeVisible();
+
+  // Still exactly one playlist under that name — merged, not duplicated —
+  // now holding both videos.
+  await navigateTo(pageB, "Playlists", "Playlists");
+  await expect(
+    pageB.getByRole("list", { name: "Playlists list" }).getByRole("listitem"),
+  ).toHaveCount(1);
+  await expect(pageB.getByRole("listitem")).toContainText("2 videos");
+
+  await deviceA.close();
+  await deviceB.close();
+});
+
 // Diagnostic: unlike the test above (which navigates to a fresh route after
 // import, so a plain re-mount would show correct data even if live updates
 // were broken), this one stays on the Favorites page the whole time and
