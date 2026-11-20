@@ -34,9 +34,14 @@ import { ButtonFavorite } from "./ButtonFavorite";
 import { ButtonPlayerModeVideo } from "./ButtonPlayerModeVideo";
 import { ButtonRepeat } from "./ButtonRepeat";
 import { ButtonShare } from "./ButtonShare";
+import { ChapterList } from "./ChapterList";
 import classes from "./Player.module.css";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
+import {
+  PlayerDrawerViewToggle,
+  type PlayerDrawerView,
+} from "./PlayerDrawerViewToggle";
 import { PlayerLoadingOverlay } from "./PlayerLoadingOverlay";
 import { PlayerProgress } from "./PlayerProgress";
 import { VerticalSlider } from "./VerticalSlider";
@@ -173,8 +178,12 @@ export const ButtonVolume = memo(() => {
 
 const PlayerPlaylist = memo(() => {
   const [opened, setOpened] = useState(false);
+  const [view, setView] = useState<PlayerDrawerView>("queue");
   const { queue: videosPlaylist } = usePlaybackService();
+  const { video } = usePlayerVideo();
   const { t } = useTranslation();
+
+  const chapters = video?.chapters ?? [];
 
   return (
     <>
@@ -186,8 +195,18 @@ const PlayerPlaylist = memo(() => {
         position="right"
         size="xl"
       >
+        {chapters.length > 0 ? (
+          <>
+            <PlayerDrawerViewToggle value={view} onChange={setView} />
+            <Space h="md" />
+          </>
+        ) : null}
         <ScrollArea style={{ height: "calc(100vh - 80px)" }}>
-          <VideoList videos={videosPlaylist} />
+          {view === "chapters" ? (
+            <ChapterList chapters={chapters} />
+          ) : (
+            <VideoList videos={videosPlaylist} />
+          )}
         </ScrollArea>
       </Drawer>
       <ActionIcon color="transparent" onClick={() => setOpened(true)}>

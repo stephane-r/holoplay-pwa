@@ -60,6 +60,7 @@ If you want add more feature, PM, MR or PR are welcome :)
 - **Internationalization : 🏴󠁧󠁢󠁥󠁮󠁧󠁿 English, 🇫🇷 French, 🇯🇵 Japanese, 🇷🇺 Russian and 🇩🇪 German**
 - **Respect your privacy**
 - **Sponsor Block**
+- **Video chapters: jump to or loop a chapter**
 - **Responsive**
 - **Dark Theme**
 - **Background mode with PWA installation**

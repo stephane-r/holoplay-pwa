@@ -17,10 +17,15 @@ import { useTranslation } from "react-i18next";
 
 import { usePlayerTime, usePlayerVideo } from "../providers/Player";
 import { usePlaybackService } from "../services/playback/usePlaybackService";
+import { ChapterList } from "./ChapterList";
 import { DrawerPlayerVideo } from "./DrawerPlayer";
 import classes from "./MobilePlayer.module.css";
 import { PlayerActions } from "./PlayerActions";
 import { PlayerBackground } from "./PlayerBackground";
+import {
+  PlayerDrawerViewToggle,
+  type PlayerDrawerView,
+} from "./PlayerDrawerViewToggle";
 import { VideoList } from "./VideoList";
 
 export const MobilePlayer = memo(() => {
@@ -39,9 +44,13 @@ export const MobilePlayer = memo(() => {
 
 const ButtonOpenDrawer = memo(() => {
   const [isOpen, setOpen] = useState(false);
+  const [view, setView] = useState<PlayerDrawerView>("queue");
   const { queue: videos } = usePlaybackService();
+  const { video } = usePlayerVideo();
   const { t } = useTranslation();
   const { height } = useViewportSize();
+
+  const chapters = video?.chapters ?? [];
 
   return (
     <>
@@ -64,9 +73,17 @@ const ButtonOpenDrawer = memo(() => {
           <Space h="xl" />
           <Divider />
           <Space h="xl" />
-          <Title order={3}>{t("player.queue")}</Title>
+          {chapters.length > 0 ? (
+            <PlayerDrawerViewToggle value={view} onChange={setView} />
+          ) : (
+            <Title order={3}>{t("player.queue")}</Title>
+          )}
           <Space h="xl" />
-          <VideoList videos={videos} />
+          {view === "chapters" ? (
+            <ChapterList chapters={chapters} />
+          ) : (
+            <VideoList videos={videos} />
+          )}
         </ScrollArea>
       </Drawer>
     </>

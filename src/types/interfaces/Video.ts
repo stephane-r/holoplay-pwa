@@ -1,3 +1,5 @@
+import type { Chapter } from "./Chapter";
+
 export type ThumbnailQualityTypes =
   | "maxres"
   | "maxresdefault"
@@ -59,4 +61,8 @@ export interface Video {
   viewCount: number;
   published?: number;
   lengthSeconds: number;
+  // Not an Invidious API field — derived client-side from `description` by
+  // `getVideo` (see src/utils/chapters.ts), since Invidious doesn't expose
+  // structured chapters (github.com/iv-org/invidious/pull/4111, unmerged).
+  chapters: Chapter[];
 }

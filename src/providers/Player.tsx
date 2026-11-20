@@ -14,6 +14,7 @@ import type ReactAudioPlayer from "react-audio-player";
 import { useRemotePlay } from "../hooks/useRemotePlay";
 import { initialPlayerVideoState } from "../services/playback";
 import { usePlaybackService } from "../services/playback/usePlaybackService";
+import type { Chapter } from "../types/interfaces/Chapter";
 import { useSettings } from "./Settings";
 
 // Rarely-changing playback controls — paused/muted/repeat/volume/loading
@@ -24,6 +25,9 @@ interface PlayerState {
   repeat: boolean;
   volume: number;
   loading: boolean;
+  // The chapter currently being looped (re-seeked to its start once past its
+  // end — see useChapterLoop), or null when no chapter is looping.
+  loopingChapter: Chapter | null;
 }
 
 export const initialPlayerState: PlayerState = {
@@ -32,6 +36,7 @@ export const initialPlayerState: PlayerState = {
   repeat: false,
   volume: 1,
   loading: true,
+  loopingChapter: null,
 };
 
 // Continuously-updating transport time — rewritten ~10x/second while audio
