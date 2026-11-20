@@ -1,7 +1,7 @@
 import { Box } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
 import { showNotification } from "@mantine/notifications";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useRef } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useTranslation } from "react-i18next";
 
@@ -28,17 +28,28 @@ export const PlayerAudio = memo(() => {
   const setPlayerState = useSetPlayerState();
   const setPlayerTime = useSetPlayerTime();
   const { handlePlay: play } = usePlayVideo();
-  const { nextVideoId } = usePlaybackService();
+  const { nextVideoId, currentVideoId } = usePlaybackService();
   const playerMode = usePlayerMode();
   const playerState = usePlayerState();
   const setPlayerMode = useSetPlayerMode();
   const { t } = useTranslation();
 
+  // `playerUrl` changes on more than just an actual video switch — e.g. a
+  // re-fetched signed URL for the SAME video (which happens coming back to
+  // the app after a while). Only a real video change should drop
+  // `loopingChapter`, whose boundaries are meaningless for a different
+  // video; a same-video URL refresh should leave it alone.
+  const previousVideoIdRef = useRef(currentVideoId);
+
   useEffect(() => {
+    const isNewVideo = previousVideoIdRef.current !== currentVideoId;
+    previousVideoIdRef.current = currentVideoId;
+
     setPlayerState((previousState) => ({
       ...initialPlayerState,
       repeat: previousState.repeat,
       volume: previousState.volume,
+      loopingChapter: isNewVideo ? null : previousState.loopingChapter,
     }));
     setPlayerTime(initialPlayerTime);
     // eslint-disable-next-line react-hooks/exhaustive-deps
