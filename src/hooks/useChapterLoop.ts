@@ -1,11 +1,6 @@
 import { useCallback, useEffect } from "react";
 
-import {
-  usePlayerState,
-  usePlayerTime,
-  usePlayerVideo,
-  useSetPlayerState,
-} from "../providers/Player";
+import { usePlayerState, usePlayerTime } from "../providers/Player";
 import { useAudioElement } from "./useAudioElement";
 
 // Same mechanics as useSponsorBlock: a currentTime-driven effect, seeking
@@ -14,11 +9,15 @@ import { useAudioElement } from "./useAudioElement";
 // end — self-correcting, since the seek itself brings currentTime back
 // under chapter.endTime, so the effect won't refire until it climbs back up
 // to it on the next loop.
+//
+// Clearing `loopingChapter` when the video actually changes is handled in
+// PlayerAudio.tsx (next to the rest of the per-video state reset), not
+// here — this hook can mount/unmount independently of any real video
+// change (e.g. the mobile/desktop player bars each mount their own copy),
+// so resetting state on this hook's own mount would clear it too eagerly.
 export const useChapterLoop = () => {
   const playerState = usePlayerState();
-  const setPlayerState = useSetPlayerState();
   const playerTime = usePlayerTime();
-  const { video } = usePlayerVideo();
   const audioElement = useAudioElement();
 
   const handleSeek = useCallback(
@@ -29,15 +28,6 @@ export const useChapterLoop = () => {
     },
     [audioElement],
   );
-
-  // A chapter's start/end only make sense for the video that defined them —
-  // clear any active loop when the video changes instead of carrying stale
-  // boundaries into an unrelated video.
-  useEffect(() => {
-    setPlayerState((state) =>
-      state.loopingChapter ? { ...state, loopingChapter: null } : state,
-    );
-  }, [video?.videoId, setPlayerState]);
 
   useEffect(() => {
     const chapter = playerState.loopingChapter;

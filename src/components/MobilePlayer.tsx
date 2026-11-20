@@ -15,6 +15,7 @@ import { IconChevronUp } from "@tabler/icons-react";
 import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useChapterLoop } from "../hooks/useChapterLoop";
 import { usePlayerTime, usePlayerVideo } from "../providers/Player";
 import { usePlaybackService } from "../services/playback/usePlaybackService";
 import { ChapterList } from "./ChapterList";
@@ -108,6 +109,8 @@ const VideoInformations = memo(() => {
 
 const PlayerProgress = memo(() => {
   const playerTime = usePlayerTime();
+
+  useChapterLoop();
 
   return (
     <Slider
