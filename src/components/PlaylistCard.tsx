@@ -9,14 +9,18 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconCheck, IconPlayerPlay, IconPlus } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconDotsVertical,
+  IconPlayerPlay,
+} from "@tabler/icons-react";
 import { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { database } from "../services/database";
 import { usePlayPlaylist } from "../hooks/usePlayPlaylist";
 import { useStableNavigate } from "../providers/Navigate";
 import { usePlaylists } from "../providers/Playlist";
+import { database } from "../services/database";
 import type { CardPlaylist, CardVideo } from "../types/interfaces/Card";
 import { getThumbnailQuality } from "../utils/formatData";
 import { getPlaylistIdentity } from "../utils/playlistIdentity";
@@ -214,7 +218,11 @@ const ButtonSaveToPlaylist: FC<ButtonSaveToPlaylistProps> = memo(
           variant={isSavedPlaylist ? "default" : "filled"}
           radius="md"
         >
-          {isSavedPlaylist ? <IconCheck size={16} /> : <IconPlus size={16} />}
+          {isSavedPlaylist ? (
+            <IconCheck size={16} />
+          ) : (
+            <IconDotsVertical size={16} />
+          )}
         </ActionIcon>
       </Tooltip>
     );

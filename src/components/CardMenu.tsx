@@ -1,7 +1,7 @@
 import { ActionIcon, Menu } from "@mantine/core";
 import {
+  IconDotsVertical,
   IconDownload,
-  IconPlayerPlay,
   IconPlus,
   IconShare,
   IconTrash,
@@ -31,7 +31,7 @@ export const CardMenu: FC<CardMenuProps> = memo(({ card }) => {
       <Menu aria-label="Card menu" shadow="md" width={200}>
         <Menu.Target>
           <ActionIcon variant="default" radius="md" size={36}>
-            <IconPlus size={18} stroke={1.5} />
+            <IconDotsVertical size={18} stroke={1.5} />
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
@@ -50,7 +50,7 @@ export const CardMenu: FC<CardMenuProps> = memo(({ card }) => {
               ) : (
                 <Menu.Item
                   onClick={() => setAddToPlaylistModalOpened(true)}
-                  leftSection={<IconPlayerPlay size={14} />}
+                  leftSection={<IconPlus size={14} />}
                   aria-label={t("menu.video.add.playlist")}
                 >
                   {t("menu.video.add.playlist")}
