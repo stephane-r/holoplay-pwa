@@ -1,5 +1,6 @@
 import { database } from "./database";
 import type { AdaptiveFormat, Video } from "../types/interfaces/Video";
+import { parseChapters } from "../utils/chapters";
 
 export const getVideo = async (
   videoId: string,
@@ -22,6 +23,11 @@ export const getVideo = async (
   }
 
   const video = data as Video;
+  video.chapters = parseChapters(
+    video.description,
+    video.descriptionHtml,
+    video.lengthSeconds,
+  );
   const adaptiveFormat = video.adaptiveFormats?.find(
     (format) => format.type.match(/webm/i) || format.type.match(/audio/i),
   ) as AdaptiveFormat;

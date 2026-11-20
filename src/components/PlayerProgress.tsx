@@ -2,6 +2,7 @@ import { Box, Flex, Slider, Text } from "@mantine/core";
 import { memo } from "react";
 
 import { useAudioElement } from "../hooks/useAudioElement";
+import { useChapterLoop } from "../hooks/useChapterLoop";
 import { useDevices } from "../hooks/useDevices";
 import { useSponsorBlock } from "../hooks/useSponsorBlock";
 import { usePlayerTime } from "../providers/Player";
@@ -13,6 +14,7 @@ export const PlayerProgress = memo(() => {
   const { isLarge } = useDevices();
 
   useSponsorBlock();
+  useChapterLoop();
 
   const handleChangeEnd = (currentTime: number) => {
     if (!audioElement) return;

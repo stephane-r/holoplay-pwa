@@ -40,6 +40,8 @@ export interface CardPlaylist {
   title: string;
   videoCount: number;
   videos: CardVideo[];
+  // Only populated on the "Favorites" entry — see FavoritePlaylist.
+  cards?: Card[];
 }
 
 export type Card = CardVideo | CardPlaylist | CardChannel;
